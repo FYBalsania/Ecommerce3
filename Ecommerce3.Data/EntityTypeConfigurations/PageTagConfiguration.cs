@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ecommerce3.Data.EntityTypeConfigurations;
 
-public class KVPListItemConfiguration : IEntityTypeConfiguration<KVPListItem>
+public class PageTagConfiguration : IEntityTypeConfiguration<PageTag>
 {
-    public void Configure(EntityTypeBuilder<KVPListItem> builder)
+    public void Configure(EntityTypeBuilder<PageTag> builder)
     {
-        
     }
 }

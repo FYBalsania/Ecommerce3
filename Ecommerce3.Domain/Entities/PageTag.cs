@@ -1,12 +1,9 @@
 namespace Ecommerce3.Domain.Entities;
 
-public class ProductGroupProductAttribute : ICreatable, IUpdatable, IDeletable
+public sealed class PageTag  : Entity, ICreatable, IUpdatable, IDeletable
 {
-    public int ProductGroupId { get; private set; }
-    public int ProductAttributeId { get; private set; }
-    public int ProductAttributeSortOrder { get; private set; }
-    public int ProductAttributeValueId { get; private set; }
-    public int ProductAttributeValueSortOrder { get; private set; }
+    private readonly List<Page> _pages = [];
+    public string Tag { get; set; }
     public int CreatedBy { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
@@ -16,4 +13,5 @@ public class ProductGroupProductAttribute : ICreatable, IUpdatable, IDeletable
     public int? DeletedBy { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
+    public IReadOnlyCollection<Page> Pages => _pages;
 }

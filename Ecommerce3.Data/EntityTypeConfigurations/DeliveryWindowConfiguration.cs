@@ -10,7 +10,7 @@ public class DeliveryWindowConfiguration : IEntityTypeConfiguration<DeliveryWind
     public void Configure(EntityTypeBuilder<DeliveryWindow> builder)
     {
         //Table.
-        builder.ToTable("DeliveryWindow");
+        builder.ToTable(nameof(DeliveryWindow));
 
         //PK
         builder.HasKey(x => x.Id);

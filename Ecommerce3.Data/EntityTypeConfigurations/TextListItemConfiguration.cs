@@ -11,7 +11,7 @@ public class TextListItemConfiguration : IEntityTypeConfiguration<TextListItem>
     public void Configure(EntityTypeBuilder<TextListItem> builder)
     {
         //Table.
-        builder.ToTable("TextListItem");
+        builder.ToTable(nameof(TextListItem));
         
         //PK
         builder.HasKey(x => x.Id);
@@ -22,7 +22,7 @@ public class TextListItemConfiguration : IEntityTypeConfiguration<TextListItem>
             .HasValue<ProductTextListItem>(nameof(ProductTextListItem));
         
         //Properties.
-        builder.Property(x => x.Type).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(2);
+        builder.Property(x => x.Type).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);
         builder.Property(x => x.TextListItemType).HasConversion<string>().HasColumnOrder(3);
         builder.Property(x => x.Text).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(4);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(5);

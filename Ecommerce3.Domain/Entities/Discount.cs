@@ -4,14 +4,14 @@ namespace Ecommerce3.Domain.Entities;
 
 public class Discount : Entity, ICreatable, IUpdatable, IDeletable
 {
-    public DiscountScope Scope { get; private set; }
+    public string Scope { get; private set; }
     public string Code { get; private set; }
     public string Name { get; private set; }
     public DateTime StartAt { get; private set; }
     public DateTime EndAt { get; private set; }
     public decimal? MinOrderValue { get; private set; }
     public DiscountType Type { get; private set; }
-    public decimal? Percentage { get; private set; }
+    public decimal? Percent { get; private set; }
     public decimal? MaxDiscountAmount { get; private set; }
     public decimal? Amount { get; private set; }
     public bool IsActive { get; private set; }  

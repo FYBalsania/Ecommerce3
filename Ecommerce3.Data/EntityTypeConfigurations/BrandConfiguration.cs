@@ -10,7 +10,7 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
     public void Configure(EntityTypeBuilder<Brand> builder)
     {
         //Table.
-        builder.ToTable("Brand");
+        builder.ToTable(nameof(Brand));
 
         //PK
         builder.HasKey(x => x.Id);

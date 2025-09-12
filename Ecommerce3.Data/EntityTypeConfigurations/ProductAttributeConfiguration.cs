@@ -10,7 +10,7 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
     public void Configure(EntityTypeBuilder<ProductAttribute> builder)
     {
         //Table.
-        builder.ToTable("ProductAttribute");
+        builder.ToTable(nameof(ProductAttribute));
 
         //PK
         builder.HasKey(x => x.Id);
