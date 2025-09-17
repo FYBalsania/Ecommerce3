@@ -6,7 +6,7 @@ public sealed class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
 {
     private readonly List<PageTag> _tags = [];
     public string Path { get; private set; }
-    public string PageTitle { get; private set; }
+    public string Title { get; private set; }
     public string MetaTitle { get; private set; }
     public string MetaDescription { get; private set; }
     public string MetaKeywords { get; private set; }
@@ -24,7 +24,7 @@ public sealed class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
     public string? BreadcrumbsJson { get; private set; }
     public string? HreflangMapJson { get; private set; }
     public decimal SitemapPriority { get; private set; }
-    public SiteMapFrequency SitemapFrequency { get; private set; }
+    public string SitemapFrequency { get; private set; }
     public string? RedirectFromJson { get; private set; }
     public bool IsIndexed { get; private set; }
     public string? HeaderScripts { get; private set; }
