@@ -27,7 +27,7 @@ public sealed class Product : EntityWithImages
     public string? MetaDescription { get; private set; }
     public string? MetaKeywords { get; private set; }
     public string H1 { get; private set; }
-    public int BrandId { get; private set; }
+    public int? BrandId { get; private set; }
     public int? ProductGroupId { get; private set; }
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }

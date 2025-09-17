@@ -4,11 +4,15 @@ public sealed class CustomerAddress : Entity, ICreatable, IUpdatable, IDeletable
 {
     public int CustomerId { get; private set; }
     public string? Type { get; private set; }
+    public string? FullName { get; private set; }
+    public string? PhoneNumber  { get; private set; }
+    public string? CompanyName  { get; private set; }
     public string AddressLine1 { get; private set; }
     public string? AddressLine2 { get; private set; }
-    public string? Landmark { get; private set; }
-    public string PostalCode { get; private set; }
     public string City { get; private set; }
+    public string StateOrProvince  { get; private set; }
+    public string PostalCode { get; private set; }
+    public string? Landmark { get; private set; }
     public int CreatedBy { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }

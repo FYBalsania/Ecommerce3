@@ -70,7 +70,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         //Relations.
         builder.HasMany(x => x.Images)
             .WithOne()
-            .HasForeignKey(x => x.BrandId)
+            .HasForeignKey(x => x.PageId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(x => x.Tags)
             .WithMany(x => x.Pages);

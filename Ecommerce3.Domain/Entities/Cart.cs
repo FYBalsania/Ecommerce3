@@ -3,7 +3,7 @@ using Ecommerce3.Domain.Extensions;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Cart : Entity, ICreatable, IUpdatable, IDeletable
+public sealed class Cart : Entity, ICreatable, IUpdatable
 {
     private readonly List<CartLine> _lines = [];
     public int? CustomerId { get; private set; }
@@ -11,15 +11,13 @@ public sealed class Cart : Entity, ICreatable, IUpdatable, IDeletable
     public decimal SubTotal { get; private set; }
     public decimal Discount { get; private set; }
     public decimal Total { get; private set; }
+    public int? SalesOrderId { get; private set; }
     public int CreatedBy { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
-    public int? DeletedBy { get; private set; }
-    public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
     public IReadOnlyCollection<CartLine> Lines => _lines;
 
     private Cart()
