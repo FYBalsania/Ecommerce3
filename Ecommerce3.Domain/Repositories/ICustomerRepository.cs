@@ -5,7 +5,7 @@ namespace Ecommerce3.Domain.Repositories;
 
 public interface ICustomerRepository : IRepository<Customer>
 {
-    public Task<(IEnumerable<CustomerListItem> ListItems, int Count)?> GetCustomerListItemsAsync(string? firstName,
+    public Task<(IEnumerable<Customer> ListItems, int Count)?> GetCustomersAsync(string? firstName,
         string? lastName, string? companyName, string? emailAddress, string? phoneNumber, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
 

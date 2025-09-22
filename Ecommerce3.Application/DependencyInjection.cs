@@ -8,7 +8,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddAutoMapper(typeof(Mappings.BrandProfile).Assembly);
         services.AddScoped<IBrandService, BrandService>();
+        
         
         return services;
     }

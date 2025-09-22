@@ -10,6 +10,6 @@ public interface IProductGroupRepository : IRepository<ProductGroup>
     public Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken);
     public Task<bool> ExistsBySlugAsync(string slug, CancellationToken cancellationToken);
 
-    public Task<(IReadOnlyCollection<ProductGroupListItem> ListItems, int Count)> GetProductGroupListItemsAsync(
+    public Task<(IReadOnlyCollection<ProductGroup> ListItems, int Count)> GetProductGroupsAsync(
         string? name, int pageNumber, int pageSize, CancellationToken cancellationToken);
 }

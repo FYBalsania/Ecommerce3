@@ -5,7 +5,7 @@ namespace Ecommerce3.Domain.Repositories;
 
 public interface IDiscountRepository : IRepository<Discount>
 {
-    public Task<(IEnumerable<DiscountListItem> ListItems, int Count)> GetDiscountListItemsAsync(string? scope,
+    public Task<(IEnumerable<Discount> ListItems, int Count)> GetDiscountsAsync(string? scope,
         string? code, string? name, int pageNumber, int pageSize, CancellationToken cancellationToken);
 
     public Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken);

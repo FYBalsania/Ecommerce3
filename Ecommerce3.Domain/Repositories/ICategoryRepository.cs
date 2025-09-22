@@ -5,7 +5,7 @@ namespace Ecommerce3.Domain.Repositories;
 
 public interface ICategoryRepository : IRepository<Category>
 {
-    public Task<(IEnumerable<CategoryListItem> ListItems, int Count)> GetCategoryListItemsByNameAsync(string? name, int parentId,
+    public Task<(IEnumerable<Category> ListItems, int Count)> GetCategoriesAsync(string? name, int parentId,
         int pageNumber, int pageSize, CancellationToken cancellationToken);
 
     public Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken);

@@ -5,8 +5,9 @@ namespace Ecommerce3.Infrastructure.Entities;
 
 public class AppUser : IdentityUser<int>, IUser
 {
-    public string FirstName { get; }
-    public string LastName { get; }
+    public required string FirstName { get; init; }
+    public string? LastName { get; init; }
+    public string FullName => FirstName + (string.IsNullOrWhiteSpace(LastName) ? "" : " " + LastName);
     public int CreatedBy { get; }
     public DateTime CreatedAt { get; }
     public string CreatedByIp { get; }

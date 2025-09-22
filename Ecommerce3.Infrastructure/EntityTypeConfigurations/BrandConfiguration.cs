@@ -57,17 +57,20 @@ public class BrandConfiguration: IEntityTypeConfiguration<Brand>
             .WithOne()
             .HasForeignKey(x => x.BrandId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne<AppUser>()
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne<AppUser>()
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

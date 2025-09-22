@@ -17,12 +17,15 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     public bool IsActive { get; private set; }
     public int SortOrder { get; private set; }
     public int CreatedBy { get; private set; }
+    public IUser CreatedByUser {get; private set;}
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
+    public IUser? UpdatedByUser { get; private set; }   
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
+    public IUser? DeletedByUser { get; private set; }  
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
 
@@ -35,6 +38,8 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
         string? fullDescription, bool isActive, int sortOrder, int createdBy, string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
+        
         ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
         ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
         ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
