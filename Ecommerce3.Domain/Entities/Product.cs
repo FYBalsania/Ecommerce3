@@ -10,6 +10,7 @@ public sealed class Product : EntityWithImages
     private readonly List<ProductQnA> _qnas = [];
     private readonly List<ProductReview> _reviews = [];
     private readonly List<ProductProductAttribute> _attributes = [];
+    private readonly List<string> _facets = [];
     
     public string SKUCode { get; private set; }
     public string? GTIN { get; private set; }
@@ -61,4 +62,5 @@ public sealed class Product : EntityWithImages
     public IReadOnlyList<ProductQnA> QnAs => _qnas;
     public IReadOnlyList<ProductReview> Reviews => _reviews;
     public IReadOnlyList<ProductProductAttribute> Attributes => _attributes;
+    public IReadOnlyList<string> Facets => _facets;
 }
