@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ecommerce3.Infrastructure.EntityTypeConfigurations;
 
-public class BrandConfiguration: IEntityTypeConfiguration<Brand>
+public class BrandConfiguration : IEntityTypeConfiguration<Brand>
 {
     public void Configure(EntityTypeBuilder<Brand> builder)
     {
         //Table.
         builder.ToTable(nameof(Brand));
-
+        
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
@@ -40,9 +40,6 @@ public class BrandConfiguration: IEntityTypeConfiguration<Brand>
         builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
-        
-        //Navigation.
-        builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Indexes.
         builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"UK_{nameof(Brand)}_{nameof(Brand.Name)}");
@@ -51,23 +48,26 @@ public class BrandConfiguration: IEntityTypeConfiguration<Brand>
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.SortOrder)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.DeletedAt)}");
+        
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
-        //relations.
+        //Relations.
         builder.HasMany(x => x.Images)
             .WithOne()
             .HasForeignKey(x => x.BrandId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne(x => (AppUser)x.CreatedByUser)
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .IsRequired(false)

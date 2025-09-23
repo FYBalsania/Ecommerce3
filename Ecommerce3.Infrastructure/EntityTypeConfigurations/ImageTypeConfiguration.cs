@@ -39,15 +39,15 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.DeletedAt)}");
         
         //Relations.
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

@@ -20,7 +20,9 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         // Always call base first to apply Identity's default config.
         base.OnModelCreating(builder);
 
+        // Apply entity configurations.
         builder.ApplyConfiguration(new BrandConfiguration());
+        builder.ApplyConfiguration(new ImageTypeConfiguration());
 
         // Rename Identity tables
         builder.Entity<Role>().ToTable("Role");
