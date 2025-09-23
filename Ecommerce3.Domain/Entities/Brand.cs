@@ -17,15 +17,15 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     public bool IsActive { get; private set; }
     public int SortOrder { get; private set; }
     public int CreatedBy { get; private set; }
-    public IUser CreatedByUser {get; private set;}
+    public IUser CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
-    public IUser? UpdatedByUser { get; private set; }   
+    public IUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
-    public IUser? DeletedByUser { get; private set; }  
+    public IUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
 
@@ -39,7 +39,7 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
         ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
-        
+
         ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
         ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
         ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
@@ -65,5 +65,38 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
         CreatedBy = createdBy;
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
+    }
+
+    public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
+        string? anchorTitle, string metaTitle, string? metaDescription, string? metaKeywords, string h1,
+        string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int updatedBy,
+        DateTime updatedAt, string updatedByIp)
+    {
+        if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
+            AnchorText == anchorText && AnchorTitle == anchorTitle && MetaTitle == metaTitle &&
+            MetaDescription == metaDescription && MetaKeywords == metaKeywords && H1 == h1 &&
+            ShortDescription == shortDescription && FullDescription == fullDescription && IsActive == isActive &&
+            SortOrder == sortOrder)
+            return false;
+
+        Name = name;
+        Slug = slug;
+        Display = display;
+        Breadcrumb = breadcrumb;
+        AnchorText = anchorText;
+        AnchorTitle = anchorTitle;
+        MetaTitle = metaTitle;
+        MetaDescription = metaDescription;
+        MetaKeywords = metaKeywords;
+        H1 = h1;
+        ShortDescription = shortDescription;
+        FullDescription = fullDescription;
+        IsActive = isActive;
+        SortOrder = sortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+
+        return true;
     }
 }

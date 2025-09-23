@@ -3,8 +3,10 @@ using Ecommerce3.Application.Commands;
 
 namespace Ecommerce3.Admin.ViewModels;
 
-public sealed class AddBrandViewModel
+public class EditBrandViewModel
 {
+    public int Id { get; set; }
+    
     [Required(ErrorMessage = $"{nameof(Name)} is required.")]
     [Range(1, 256, ErrorMessage = $"{nameof(Name)} must be between 1 and 256 characters.")]
     public string Name { get; set; }
@@ -53,10 +55,11 @@ public sealed class AddBrandViewModel
     [Required(ErrorMessage = $"{nameof(SortOrder)} is required.")]
     public int SortOrder { get; set; }
 
-    public AddBrandCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public UpdateBrandCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        return new AddBrandCommand()
+        return new UpdateBrandCommand()
         {
+            Id = Id,
             Name = Name,
             Slug = Slug,
             Display = Display,
@@ -71,9 +74,9 @@ public sealed class AddBrandViewModel
             FullDescription = FullDescription,
             IsActive = IsActive,
             SortOrder = SortOrder,
-            CreatedBy = createdBy,
-            CreatedAt = createdAt,
-            CreatedByIp = createdByIp,
+            UpdatedBy = updatedBy,
+            UpdatedAt = updatedAt,
+            UpdatedByIp = updatedByIp,
         };
     }
 }
