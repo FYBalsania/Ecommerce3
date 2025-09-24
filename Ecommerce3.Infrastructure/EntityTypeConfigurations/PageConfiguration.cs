@@ -11,11 +11,14 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
     {
         //Table.
         builder.ToTable(nameof(Page));
-        
+
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
-        
+
+        //Filters
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+
         //Properties.
         builder.Property(x => x.Path).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
         builder.Property(x => x.Title).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(3);
@@ -54,11 +57,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
-        
-        //Navigation.
-        builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.Tags).HasField("_tags").UsePropertyAccessMode(PropertyAccessMode.Field);
-        
+
         //Indexes.
         builder.HasIndex(x => x.Path).IsUnique().HasDatabaseName($"UK_{nameof(Page)}_{nameof(Page.Path)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Page)}_{nameof(Page.CreatedAt)}");
@@ -66,23 +65,21 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(Page)}_{nameof(Page.IsActive)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Page)}_{nameof(Page.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Page)}_{nameof(Page.DeletedAt)}");
-        
+
         //Relations.
         builder.HasMany(x => x.Images)
-            .WithOne()
+            .WithOne(x => x.Page)
             .HasForeignKey(x => x.PageId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasMany(x => x.Tags)
-            .WithMany(x => x.Pages);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

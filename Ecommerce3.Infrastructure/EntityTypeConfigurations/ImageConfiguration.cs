@@ -15,6 +15,9 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
+        
+        //Filters
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
         builder.Property(x => x.OgFileName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
@@ -60,39 +63,39 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.DeletedAt)}");
 
         //Relations
-        builder.HasOne<ImageType>()
+        builder.HasOne(x => x.ImageType)
             .WithMany()
             .HasForeignKey(x => x.ImageTypeId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<Brand>()
-            .WithMany()
+        builder.HasOne(x => x.Brand)
+            .WithMany(x => x.Images)
             .HasForeignKey(x => x.BrandId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<Product>()
-            .WithMany()
+        builder.HasOne(x => x.Product)
+            .WithMany(x => x.Images)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<Category>()
-            .WithMany()
+        builder.HasOne(x => x.Category)
+            .WithMany(x => x.Images)
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<Page>()
-            .WithMany()
+        builder.HasOne(x => x.Page)
+            .WithMany(x => x.Images)
             .HasForeignKey(x => x.PageId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<ProductGroup>()
-            .WithMany()
+        builder.HasOne(x => x.ProductGroup)
+            .WithMany(x => x.Images)
             .HasForeignKey(x => x.ProductGroupId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

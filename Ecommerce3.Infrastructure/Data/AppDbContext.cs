@@ -22,27 +22,34 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
 
         // Apply entity configurations.
         builder.ApplyConfiguration(new BrandConfiguration());
+        builder.ApplyConfiguration(new CartConfiguration());
+        builder.ApplyConfiguration(new CartLineConfiguration());
+        builder.ApplyConfiguration(new CategoryConfiguration());
+        builder.ApplyConfiguration(new CategoryKVPListItemConfiguration());
+        builder.ApplyConfiguration(new CustomerAddressConfiguration());
+        builder.ApplyConfiguration(new CustomerConfiguration());
+        builder.ApplyConfiguration(new DeliveryWindowConfiguration());
+        
+        builder.ApplyConfiguration(new ImageConfiguration());
         builder.ApplyConfiguration(new ImageTypeConfiguration());
+        builder.ApplyConfiguration(new KVPListItemConfiguration());
+        builder.ApplyConfiguration(new PageConfiguration());
+        builder.ApplyConfiguration(new ProductAttributeColourValueConfiguration());
         builder.ApplyConfiguration(new ProductAttributeConfiguration());
         builder.ApplyConfiguration(new ProductAttributeValueConfiguration());
-        builder.ApplyConfiguration(new ProductAttributeColourValueConfiguration());
-        builder.ApplyConfiguration(new CustomerConfiguration());
-        builder.ApplyConfiguration(new CustomerAddressConfiguration());
-        builder.ApplyConfiguration(new DeliveryWindowConfiguration());
+        builder.ApplyConfiguration(new ProductCategoryConfiguration());
+        builder.ApplyConfiguration(new ProductConfiguration());
+        
         builder.ApplyConfiguration(new ProductGroupConfiguration());
         builder.ApplyConfiguration(new ProductGroupProductAttributeConfiguration());
-        builder.ApplyConfiguration(new KVPListItemConfiguration());
-        builder.ApplyConfiguration(new CategoryKVPListItemConfiguration());
         builder.ApplyConfiguration(new ProductKVPListItemConfiguration());
-        builder.ApplyConfiguration(new CategoryConfiguration());
-        
-        builder.ApplyConfiguration(new TextListItemConfiguration());
-        builder.ApplyConfiguration(new ProductTextListItemConfiguration());
-        builder.ApplyConfiguration(new ProductCategoryConfiguration());
+        builder.ApplyConfiguration(new ProductProductAttributeConfiguration());
         builder.ApplyConfiguration(new ProductQnAConfiguration());
         builder.ApplyConfiguration(new ProductReviewConfiguration());
-        builder.ApplyConfiguration(new ProductProductAttributeConfiguration());
-        builder.ApplyConfiguration(new ProductConfiguration());
+        builder.ApplyConfiguration(new ProductTextListItemConfiguration());
+        
+        builder.ApplyConfiguration(new TextListItemConfiguration());
+     
 
         // Rename Identity tables.
         builder.Entity<Role>().ToTable("Role");

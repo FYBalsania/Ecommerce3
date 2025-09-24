@@ -54,7 +54,7 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
 
         //Relations.
         builder.HasMany(x => x.Images)
-            .WithOne()
+            .WithOne(x => x.Brand)
             .HasForeignKey(x => x.BrandId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => (AppUser?)x.CreatedByUser)

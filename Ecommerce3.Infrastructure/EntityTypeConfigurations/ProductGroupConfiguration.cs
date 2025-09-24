@@ -61,7 +61,7 @@ public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
         
         //Relations.
         builder.HasMany(x => x.Images)
-            .WithOne()
+            .WithOne(x => x.ProductGroup)
             .HasForeignKey(x => x.ProductGroupId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(x => x.Attributes)

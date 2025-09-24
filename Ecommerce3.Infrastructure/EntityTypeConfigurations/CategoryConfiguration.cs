@@ -65,7 +65,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasForeignKey(x => x.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(x => x.Images)
-            .WithOne()
+            .WithOne(x => x.Category)
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(x => x.KVPListItems)

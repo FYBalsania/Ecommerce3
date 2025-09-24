@@ -121,7 +121,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         //Relations.
         builder.HasMany(x => x.Images)
-            .WithOne()
+            .WithOne(x => x.Product)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.Brand)
