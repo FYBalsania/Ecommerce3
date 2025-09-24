@@ -15,6 +15,9 @@ public class DiscountProductConfiguration : IEntityTypeConfiguration<DiscountPro
         //PK
         builder.HasKey(x => new { x.DiscountId, x.ProductId, x.DeletedAt });
         
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+        
         //Properties.
         builder.Property(x => x.DiscountId).HasColumnType("integer").HasColumnOrder(1);
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
@@ -26,19 +29,19 @@ public class DiscountProductConfiguration : IEntityTypeConfiguration<DiscountPro
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
         
         //Relations.
-        builder.HasOne<Discount>()
+        builder.HasOne(x => x.Discount)
             .WithMany()
             .HasForeignKey(x => x.DiscountId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<Product>()
+        builder.HasOne(x => x.Product)
             .WithMany()
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x =>  (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

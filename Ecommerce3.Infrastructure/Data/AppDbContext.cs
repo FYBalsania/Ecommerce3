@@ -29,7 +29,8 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new CustomerAddressConfiguration());
         builder.ApplyConfiguration(new CustomerConfiguration());
         builder.ApplyConfiguration(new DeliveryWindowConfiguration());
-        
+        builder.ApplyConfiguration(new DiscountConfiguration());
+        builder.ApplyConfiguration(new DiscountProductConfiguration());
         builder.ApplyConfiguration(new ImageConfiguration());
         builder.ApplyConfiguration(new ImageTypeConfiguration());
         builder.ApplyConfiguration(new KVPListItemConfiguration());
@@ -39,7 +40,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new ProductAttributeValueConfiguration());
         builder.ApplyConfiguration(new ProductCategoryConfiguration());
         builder.ApplyConfiguration(new ProductConfiguration());
-        
+        builder.ApplyConfiguration(new ProductDiscountConfiguration());
         builder.ApplyConfiguration(new ProductGroupConfiguration());
         builder.ApplyConfiguration(new ProductGroupProductAttributeConfiguration());
         builder.ApplyConfiguration(new ProductKVPListItemConfiguration());
@@ -47,10 +48,11 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new ProductQnAConfiguration());
         builder.ApplyConfiguration(new ProductReviewConfiguration());
         builder.ApplyConfiguration(new ProductTextListItemConfiguration());
-        
+        // builder.ApplyConfiguration(new SalesOrderConfiguration());
+        // builder.ApplyConfiguration(new SalesOrderLineConfiguration());
+        builder.ApplyConfiguration(new ShippingDiscountConfiguration());
         builder.ApplyConfiguration(new TextListItemConfiguration());
-     
-
+        
         // Rename Identity tables.
         builder.Entity<Role>().ToTable("Role");
         builder.Entity<IdentityUserRole<int>>().ToTable("AppUserRole");

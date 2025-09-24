@@ -18,7 +18,7 @@ public class ProductTextListItemConfiguration : IEntityTypeConfiguration<Product
 
         //relations.
         builder.HasOne(x => x.Product)
-            .WithMany()
+            .WithMany(x => x.TextListItems)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
     }

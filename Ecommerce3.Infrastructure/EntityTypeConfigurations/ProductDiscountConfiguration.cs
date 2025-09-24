@@ -8,9 +8,6 @@ public class ProductDiscountConfiguration : IEntityTypeConfiguration<ProductDisc
 {
     public void Configure(EntityTypeBuilder<ProductDiscount> builder)
     {
-        //Navigation.
-        builder.Navigation(x => x.Products).HasField("_products").UsePropertyAccessMode(PropertyAccessMode.Field);
-
         //Relation.
         builder.HasMany(x => x.Products)
             .WithOne()
