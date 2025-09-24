@@ -23,8 +23,28 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         // Apply entity configurations.
         builder.ApplyConfiguration(new BrandConfiguration());
         builder.ApplyConfiguration(new ImageTypeConfiguration());
+        builder.ApplyConfiguration(new ProductAttributeConfiguration());
+        builder.ApplyConfiguration(new ProductAttributeValueConfiguration());
+        builder.ApplyConfiguration(new ProductAttributeColourValueConfiguration());
+        builder.ApplyConfiguration(new CustomerConfiguration());
+        builder.ApplyConfiguration(new CustomerAddressConfiguration());
+        builder.ApplyConfiguration(new DeliveryWindowConfiguration());
+        builder.ApplyConfiguration(new ProductGroupConfiguration());
+        builder.ApplyConfiguration(new ProductGroupProductAttributeConfiguration());
+        builder.ApplyConfiguration(new KVPListItemConfiguration());
+        builder.ApplyConfiguration(new CategoryKVPListItemConfiguration());
+        builder.ApplyConfiguration(new ProductKVPListItemConfiguration());
+        builder.ApplyConfiguration(new CategoryConfiguration());
+        
+        builder.ApplyConfiguration(new TextListItemConfiguration());
+        builder.ApplyConfiguration(new ProductTextListItemConfiguration());
+        builder.ApplyConfiguration(new ProductCategoryConfiguration());
+        builder.ApplyConfiguration(new ProductQnAConfiguration());
+        builder.ApplyConfiguration(new ProductReviewConfiguration());
+        builder.ApplyConfiguration(new ProductProductAttributeConfiguration());
+        builder.ApplyConfiguration(new ProductConfiguration());
 
-        // Rename Identity tables
+        // Rename Identity tables.
         builder.Entity<Role>().ToTable("Role");
         builder.Entity<IdentityUserRole<int>>().ToTable("AppUserRole");
         builder.Entity<IdentityUserClaim<int>>().ToTable("AppUserClaim");

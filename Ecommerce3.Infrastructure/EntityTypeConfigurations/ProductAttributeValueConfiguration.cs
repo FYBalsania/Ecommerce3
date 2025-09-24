@@ -17,13 +17,13 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Discriminator.
-        builder.HasDiscriminator(x => x.Type)
+        builder.HasDiscriminator(x => x.Discriminator)
             .HasValue<ProductAttributeValue>(nameof(ProductAttributeValue))
             .HasValue<ProductAttributeColourValue>(nameof(ProductAttributeColourValue));
 
         //Properties.
         builder.Property(x => x.ProductAttributeId).HasColumnType("integer").HasColumnOrder(2);
-        builder.Property(x => x.Type).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
+        builder.Property(x => x.Discriminator).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
         builder.Property(x => x.Value).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
         builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
         builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(6);
@@ -41,10 +41,13 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
         builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Indexes.
-        builder.HasIndex(x => x.Type)
-            .HasDatabaseName($"IX_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.Type)}");
+        builder.HasIndex(x => x.Discriminator)
+            .HasDatabaseName($"IX_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.Discriminator)}");
         builder.HasIndex(x => new { x.ProductAttributeId, x.Value })
             .IsUnique()
             .HasDatabaseName($"UK_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.ProductAttributeId)}_{nameof(ProductAttributeValue.Value)}");
@@ -54,19 +57,19 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
             .HasDatabaseName($"IX_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.ProductAttributeId)}_{nameof(ProductAttributeValue.SortOrder)}_{nameof(ProductAttributeValue.Value)}");
 
         //Relations.
-        builder.HasOne<ProductAttribute>()
-            .WithMany()
+        builder.HasOne(x => x.ProductAttribute)
+            .WithMany(x => x.Values)
             .HasForeignKey(x => x.ProductAttributeId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

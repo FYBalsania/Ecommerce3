@@ -35,23 +35,26 @@ public class DeliveryWindowConfiguration : IEntityTypeConfiguration<DeliveryWind
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
         
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+        
         //Indexes.
         builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"UK_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.Name)}");
         builder.HasIndex(x => new { x.Name, x.SortOrder, x.IsActive})
             .HasDatabaseName($"IX_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.Name)}_{nameof(DeliveryWindow.SortOrder)}_{nameof(DeliveryWindow.IsActive)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.CreatedAt)}");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.DeletedAt)}");
         
         //Relations.
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

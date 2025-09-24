@@ -2,7 +2,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Product : EntityWithImages
+public sealed class Product : EntityWithImages, ICreatable, IUpdatable, IDeletable
 {
     private readonly List<ProductCategory> _categories = [];
     private readonly List<ProductTextListItem> _textListItems = [];
@@ -12,7 +12,7 @@ public sealed class Product : EntityWithImages
     private readonly List<ProductProductAttribute> _attributes = [];
     private readonly List<string> _facets = [];
     
-    public string SKUCode { get; private set; }
+    public string SKU { get; private set; }
     public string? GTIN { get; private set; }
     public string? MPN { get; private set; }
     public string? MFC { get; private set; }
@@ -29,7 +29,9 @@ public sealed class Product : EntityWithImages
     public string? MetaKeywords { get; private set; }
     public string H1 { get; private set; }
     public int? BrandId { get; private set; }
+    public Brand? Brand { get; private set; }
     public int? ProductGroupId { get; private set; }
+    public ProductGroup? ProductGroup { get; private set; }
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }
     public bool AllowReviews { get; private set; }
@@ -45,6 +47,7 @@ public sealed class Product : EntityWithImages
     public decimal AdditionalShippingCharge { get; private set; }
     public decimal WeightKgs { get; private set; }
     public int DeliveryWindowId { get; private set; }
+    public DeliveryWindow DeliveryWindow { get; private set; }
     public int MinOrderQuantity { get; private set; }
     public int? MaxOrderQuantity { get; private set; }
     public bool Featured { get; private set; }
@@ -55,12 +58,29 @@ public sealed class Product : EntityWithImages
     public ProductStatus Status { get; private set; }
     public string? RedirectUrl { get; private set; }
     public int SortOrder { get; private set; }
+    public int CreatedBy { get; }
+    public IAppUser? CreatedByUser { get; }
+    public DateTime CreatedAt { get; }
+    public string CreatedByIp { get; }
+    public int? UpdatedBy { get; }
+    public IAppUser? UpdatedByUser { get; }
+    public DateTime? UpdatedAt { get; }
+    public string? UpdatedByIp { get; }
+    public int? DeletedBy { get; }
+    public IAppUser? DeletedByUser { get; }
+    public DateTime? DeletedAt { get; }
+    public string? DeletedByIp { get; }
     
     public IReadOnlyList<ProductCategory> Categories => _categories;
     public IReadOnlyList<ProductTextListItem> TextListItems => _textListItems;
-    public IReadOnlyList<ProductKVPListItem> Faqs => _kvpListItems;
+    public IReadOnlyList<ProductKVPListItem> KVPListItems => _kvpListItems;
     public IReadOnlyList<ProductQnA> QnAs => _qnas;
     public IReadOnlyList<ProductReview> Reviews => _reviews;
     public IReadOnlyList<ProductProductAttribute> Attributes => _attributes;
-    public IReadOnlyList<string> Facets => _facets;
+    public IReadOnlyList<string> Facets => _facets.AsReadOnly();
+    
+    private Product()
+    {
+    }
+
 }

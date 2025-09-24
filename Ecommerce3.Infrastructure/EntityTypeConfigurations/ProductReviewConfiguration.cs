@@ -15,11 +15,14 @@ public class ProductReviewConfiguration : IEntityTypeConfiguration<ProductReview
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
+        
+        //Filters
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
         builder.Property(x => x.Rating).HasColumnType("decimal(18,2)").HasColumnOrder(3);
-        builder.Property(x => x.Review).HasColumnType("text").HasColumnOrder(4);
+        builder.Property(x => x.Review).HasMaxLength(18432).HasColumnType("varchar(18432)").HasColumnOrder(4);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(5);
         builder.Property(x => x.Approver).HasColumnType("integer").HasColumnOrder(6);
         builder.Property(x => x.ApprovedOn).HasColumnType("timestamp").HasColumnOrder(7);
@@ -39,27 +42,27 @@ public class ProductReviewConfiguration : IEntityTypeConfiguration<ProductReview
             .HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.SortOrder)}");
         builder.HasIndex(x => x.ApprovedOn)
             .HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.ApprovedOn)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.CreatedAt)}");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.DeletedAt)}");
         
         //Relations
-        builder.HasOne<Product>()
-            .WithMany()
+        builder.HasOne(x=>x.Product)
+            .WithMany(x=>x.Reviews)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.ApproverUser)
             .WithMany()
             .HasForeignKey(x => x.Approver)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

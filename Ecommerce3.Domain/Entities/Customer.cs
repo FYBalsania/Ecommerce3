@@ -1,6 +1,6 @@
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Customer : Entity, ICreatable, IUpdatable, IDeletable
+public sealed class Customer : Entity
 {
     private readonly List<CustomerAddress> _addresses = [];
     public string FirstName { get; private set; }
@@ -12,16 +12,16 @@ public sealed class Customer : Entity, ICreatable, IUpdatable, IDeletable
     public bool IsEmailVerified { get; private set; }
     public string? PasswordResetToken { get; private set; }
     public DateTime? PasswordResetTokenExpiry { get; private set; }
-    public int CreatedBy { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
-    public int? UpdatedBy { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
-    public int? DeletedBy { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
     public IReadOnlyList<CustomerAddress> Addresses => _addresses;
+    
+    private readonly List<CustomerHistory> _history = [];
+    public IReadOnlyList<CustomerHistory> History => _history.AsReadOnly();
 
     private Customer()
     {
@@ -44,7 +44,6 @@ public sealed class Customer : Entity, ICreatable, IUpdatable, IDeletable
         PhoneNumber = phoneNumber;
         Password = password;
         IsEmailVerified = false;
-        CreatedBy = this.Id;
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }

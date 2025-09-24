@@ -12,12 +12,12 @@ public class ProductTextListItemConfiguration : IEntityTypeConfiguration<Product
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(6);
 
         //indexes.
-        builder.HasIndex(x => new { x.ProductId, x.TextListItemType, x.SortOrder })
+        builder.HasIndex(x => new { x.ProductId,  x.Type, x.SortOrder })
             .HasDatabaseName(
-                $"IX_{nameof(ProductTextListItem.ProductId)}_{nameof(TextListItem.TextListItemType)}_{nameof(TextListItem.SortOrder)}");
+                $"IX_{nameof(ProductTextListItem.ProductId)}_{nameof(TextListItem.Type)}_{nameof(TextListItem.SortOrder)}");
 
         //relations.
-        builder.HasOne<Product>()
+        builder.HasOne(x => x.Product)
             .WithMany()
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);

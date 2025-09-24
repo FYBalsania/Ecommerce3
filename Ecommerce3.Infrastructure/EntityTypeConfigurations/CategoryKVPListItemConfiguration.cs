@@ -9,7 +9,7 @@ public class CategoryKVPListItemConfiguration : IEntityTypeConfiguration<Categor
     public void Configure(EntityTypeBuilder<CategoryKVPListItem> builder)
     {
         //Properties.
-        builder.Property(x => x.CategoryId).HasColumnType("integer").HasColumnOrder(6);
+        builder.Property(x => x.CategoryId).HasColumnType("integer").HasColumnOrder(7);
 
         //Indexes.
         builder.HasIndex(x => new { x.CategoryId, x.Type })
@@ -17,8 +17,8 @@ public class CategoryKVPListItemConfiguration : IEntityTypeConfiguration<Categor
                 $"IX_{nameof(CategoryKVPListItem)}_{nameof(CategoryKVPListItem.CategoryId)}_{nameof(CategoryKVPListItem.Type)}");
         
         //Relations.
-        builder.HasOne<Category>()
-            .WithMany()
+        builder.HasOne(x => x.Category)
+            .WithMany(x => x.KVPListItems)
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
     }

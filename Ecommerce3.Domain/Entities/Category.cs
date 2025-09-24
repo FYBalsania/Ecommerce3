@@ -4,7 +4,7 @@ namespace Ecommerce3.Domain.Entities;
 
 public sealed class Category : EntityWithImages, ICreatable, IUpdatable, IDeletable
 {
-    private readonly List<CategoryKVPListItem> _KVPListItems = [];
+    private readonly List<CategoryKVPListItem> _kvpListItems = [];
     public string Name { get; private set; }
     public string Slug { get; private set; }
     public string Display { get; private set; }
@@ -17,24 +17,27 @@ public sealed class Category : EntityWithImages, ICreatable, IUpdatable, IDeleta
     public string? MetaKeywords { get; private set; }
     public string H1 { get; private set; }
     public int? ParentId { get; private set; }
+    public Category? Parent { get; private set; }
     public string Path { get; private set; }
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }
     public bool IsActive { get; private set; }
     public int SortOrder { get; private set; }
     public int CreatedBy { get; private set; }
+    public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
+    public IAppUser? UpdatedByUser { get; private set; } 
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
+    public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
-    public IReadOnlyList<CategoryKVPListItem> KVPListItems => _KVPListItems;
-
+    public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
     public IReadOnlyList<CategoryKVPListItem> GetKVPListItemsByType(KVPListItemType type) =>
-        _KVPListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
+        _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
 
     private Category()
     {

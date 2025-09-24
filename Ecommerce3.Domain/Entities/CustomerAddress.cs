@@ -1,8 +1,9 @@
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class CustomerAddress : Entity, ICreatable, IUpdatable, IDeletable
+public sealed class CustomerAddress : Entity
 {
     public int CustomerId { get; private set; }
+    public Customer? Customer { get; private set; }
     public string? Type { get; private set; }
     public string? FullName { get; private set; }
     public string? PhoneNumber  { get; private set; }
@@ -13,15 +14,15 @@ public sealed class CustomerAddress : Entity, ICreatable, IUpdatable, IDeletable
     public string StateOrProvince  { get; private set; }
     public string PostalCode { get; private set; }
     public string? Landmark { get; private set; }
-    public int CreatedBy { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string CreatedByIp { get; private set; }
-    public int? UpdatedBy { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
-    public int? DeletedBy { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
+    
+    private readonly List<CustomerAddressHistory> _history = [];
+    public IReadOnlyList<CustomerAddressHistory> History => _history;
 
     private CustomerAddress()
     {
@@ -42,7 +43,6 @@ public sealed class CustomerAddress : Entity, ICreatable, IUpdatable, IDeletable
         Landmark = landmark;
         PostalCode = postalCode;
         City = city;
-        CreatedBy = customerId;
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }

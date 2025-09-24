@@ -9,7 +9,7 @@ public class ProductKVPListItemConfiguration : IEntityTypeConfiguration<ProductK
     public void Configure(EntityTypeBuilder<ProductKVPListItem> builder)
     {
         //Properties.
-        builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(7);
+        builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(8);
 
         //Indexes.
         builder.HasIndex(x => new { x.ProductId, x.Type })
@@ -17,8 +17,8 @@ public class ProductKVPListItemConfiguration : IEntityTypeConfiguration<ProductK
                 $"IX_{nameof(ProductKVPListItem)}_{nameof(ProductKVPListItem.ProductId)}_{nameof(ProductKVPListItem.Type)}");
         
         //Relations
-        builder.HasOne<Product>()
-            .WithMany()
+        builder.HasOne(x => x.Product)
+            .WithMany(x => x.KVPListItems)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
     }

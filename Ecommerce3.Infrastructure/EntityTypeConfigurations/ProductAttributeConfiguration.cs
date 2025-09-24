@@ -33,6 +33,9 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
         
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+        
         //Navigation.
         builder.Navigation(x => x.Values).HasField("_values").UsePropertyAccessMode(PropertyAccessMode.Field);
         
@@ -49,15 +52,19 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
             .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.DeletedAt)}");
         
         //Relations.
-        builder.HasOne<AppUser>()
+        builder.HasMany(x => x.Values)
+            .WithOne(x => x.ProductAttribute)
+            .HasForeignKey(x => x.ProductAttributeId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

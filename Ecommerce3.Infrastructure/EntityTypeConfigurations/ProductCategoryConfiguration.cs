@@ -15,6 +15,9 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
         //Key
         builder.HasKey(x => new { x.ProductId, x.CategoryId }).HasName(
             $"PK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}");
+        
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(1);
@@ -40,23 +43,23 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
             .HasDatabaseName($"IX_{nameof(ProductCategory)}_{nameof(ProductCategory.DeletedAt)}");
 
         //Relations
-        builder.HasOne<Product>()
-            .WithMany()
+        builder.HasOne(x => x.Product)
+            .WithMany(x => x.Categories)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<Category>()
+        builder.HasOne(x => x.Category)
             .WithMany()
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

@@ -31,6 +31,9 @@ public sealed class ProductGroupProductAttributeConfiguration : IEntityTypeConfi
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+        
         //Indexes.
         builder.HasIndex(x => x.CreatedAt)
             .HasDatabaseName(
@@ -40,24 +43,27 @@ public sealed class ProductGroupProductAttributeConfiguration : IEntityTypeConfi
                 $"IX_{nameof(ProductGroupProductAttribute)}_{nameof(ProductGroupProductAttribute.DeletedAt)}");
         
         //Relations.
-        builder.HasOne<ProductGroup>()
+        builder.HasOne(x => x.ProductGroup)
+            .WithMany(x => x.Attributes)
+            .HasForeignKey(x => x.ProductGroupId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.ProductAttribute)
             .WithMany()
-            .HasForeignKey(x => x.ProductGroupId);
-        builder.HasOne<ProductAttribute>()
+            .HasForeignKey(x => x.ProductAttributeId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.ProductAttributeValue)
             .WithMany()
-            .HasForeignKey(x => x.ProductAttributeId);
-        builder.HasOne<ProductAttributeValue>()
-            .WithMany()
-            .HasForeignKey(x => x.ProductAttributeValueId);
-        builder.HasOne<AppUser>()
+            .HasForeignKey(x => x.ProductAttributeValueId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
             .WithMany()
             .HasForeignKey(x => x.UpdatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne<AppUser>()
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
             .WithMany()
             .HasForeignKey(x => x.DeletedBy)
             .OnDelete(DeleteBehavior.Restrict);

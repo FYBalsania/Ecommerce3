@@ -30,6 +30,9 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
         builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Indexes.
         builder.HasIndex(x => new { x.Entity, x.Type })
