@@ -5,12 +5,12 @@ namespace Ecommerce3.Domain.Entities;
 public sealed class SalesOrderLine : Entity, IDeletable
 {
     public int SalesOrderId { get; private set; }
-    public SalesOrder? SalesOrder { get; private set; }   
+    public SalesOrder? SalesOrder { get; private set; }
     public int? CartLineId { get; private set; }
-    public CartLine? CartLine { get; private set; }  
+    public CartLine? CartLine { get; private set; }
     public int ProductId { get; private set; }
-    public Product? Product { get; private set; } 
-    public ProductReference ProductReference  { get; private set; }
+    public Product? Product { get; private set; }
+    public ProductReference ProductReference { get; private set; }
     public int Quantity { get; private set; }
     public decimal Price { get; private set; }
     public decimal Total { get; private set; }
@@ -26,8 +26,10 @@ public sealed class SalesOrderLine : Entity, IDeletable
     public Customer? UpdatedByCustomer { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
-    public int? DeletedBy { get; }
-    public IAppUser? DeletedByUser { get; }
-    public DateTime? DeletedAt { get; }
-    public string? DeletedByIp { get; }
+    public int? DeletedBy { get; private set; }
+    public IAppUser? DeletedByUser { get; private set; }
+    public DateTime? DeletedAt { get; private set; }
+    public string? DeletedByIp { get; private set; }
+    
+    private SalesOrderLine(){}
 }

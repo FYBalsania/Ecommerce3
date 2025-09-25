@@ -48,8 +48,8 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new ProductQnAConfiguration());
         builder.ApplyConfiguration(new ProductReviewConfiguration());
         builder.ApplyConfiguration(new ProductTextListItemConfiguration());
-        // builder.ApplyConfiguration(new SalesOrderConfiguration());
-        // builder.ApplyConfiguration(new SalesOrderLineConfiguration());
+        builder.ApplyConfiguration(new SalesOrderConfiguration());
+        builder.ApplyConfiguration(new SalesOrderLineConfiguration());
         builder.ApplyConfiguration(new ShippingDiscountConfiguration());
         builder.ApplyConfiguration(new TextListItemConfiguration());
         

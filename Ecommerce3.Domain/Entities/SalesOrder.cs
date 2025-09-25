@@ -17,7 +17,7 @@ public sealed class SalesOrder : Entity, IDeletable
     public CustomerAddress? BillingAddress { get; private set; }
     public CustomerAddressReference BillingAddressReference { get; private set; }
     public int ShippingCustomerAddressId { get; private set; }
-    public CustomerAddress? ShippingAddress { get; private set; }   
+    public CustomerAddress? ShippingAddress { get; private set; }
     public CustomerAddressReference ShippingAddressReference { get; private set; }
     public decimal SubTotal { get; private set; }
     public decimal Discount { get; private set; }
@@ -38,9 +38,11 @@ public sealed class SalesOrder : Entity, IDeletable
     public Customer? UpdatedByCustomer { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public string? UpdatedByIp { get; private set; }
-    public int? DeletedBy { get; }
-    public IAppUser? DeletedByUser { get; }
-    public DateTime? DeletedAt { get; }
-    public string? DeletedByIp { get; }
+    public int? DeletedBy { get; private set; }
+    public IAppUser? DeletedByUser { get; private set; }
+    public DateTime? DeletedAt { get; private set; }
+    public string? DeletedByIp { get; private set; }
     public IReadOnlyList<SalesOrderLine> Lines => _lines;
+    
+    private SalesOrder(){}
 }
