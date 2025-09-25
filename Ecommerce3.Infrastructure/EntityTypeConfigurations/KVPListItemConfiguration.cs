@@ -18,7 +18,8 @@ public class KVPListItemConfiguration : IEntityTypeConfiguration<KVPListItem>
 
         //Discriminator.
         builder.HasDiscriminator(x => x.Discriminator)
-            .HasValue<CategoryKVPListItem>(nameof(CategoryKVPListItem));
+            .HasValue<CategoryKVPListItem>(nameof(CategoryKVPListItem))
+            .HasValue<ProductKVPListItem>(nameof(ProductKVPListItem));
 
         //Properties.
         builder.Property(x => x.Discriminator).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);

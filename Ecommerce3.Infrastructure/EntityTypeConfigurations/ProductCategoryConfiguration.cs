@@ -13,9 +13,9 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
         builder.ToTable(nameof(ProductCategory));
 
         //Key
-        builder.HasKey(x => new { x.ProductId, x.CategoryId }).HasName(
-            $"PK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}");
-        
+        builder.HasKey(x => new { x.ProductId, x.CategoryId, x.DeletedAt }).HasName(
+            $"PK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}_{nameof(ProductCategory.DeletedAt)}");
+
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
 

@@ -2,7 +2,7 @@ namespace Ecommerce3.Domain.Models;
 
 public record ProductReference(
     int Id,
-    string SKUCode,
+    string SKU,
     string? GTIN,
     string? MPN,
     string? MFC,
@@ -11,6 +11,8 @@ public record ProductReference(
     string Name,
     string Slug,
     string Display,
+    string ShortDescription,
+    string? FullDescription,
     decimal Price,
     decimal? OldPrice,
     decimal? CostPrice,

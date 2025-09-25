@@ -118,6 +118,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.DeletedAt)}");
 
         //Navigations.
+        builder.Navigation(x => x.Categories).HasField("_categories").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.TextListItems).HasField("_textListItems").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.QnAs).HasField("_qnas").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.Reviews).HasField("_reviews").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.Attributes).HasField("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Relations.
         builder.HasMany(x => x.Images)

@@ -18,6 +18,9 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
         
         //Filters
         builder.HasQueryFilter(x => x.DeletedAt == null);
+        
+        //Navigation Properties.
+        builder.Navigation(x => x.Lines).HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
         builder.Property(x => x.CustomerId).HasColumnType("integer").HasColumnOrder(2);

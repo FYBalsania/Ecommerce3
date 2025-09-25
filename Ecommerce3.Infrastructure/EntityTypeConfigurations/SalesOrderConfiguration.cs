@@ -19,17 +19,17 @@ public class SalesOrderConfiguration : IEntityTypeConfiguration<SalesOrder>
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
+        
+        //Navigation Properties.
+        builder.Navigation(x => x.Lines).HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
         builder.Property(x => x.Number).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(2);
         builder.Property(x => x.Dated).HasColumnType("timestamp").HasColumnOrder(3);
         builder.Property(x => x.CartId).HasColumnType("integer").HasColumnOrder(4);
         builder.Property(x => x.CustomerId).HasColumnType("integer").HasColumnOrder(5);
-        builder.Property(x => x.CustomerReference).HasColumnType("jsonb").HasColumnOrder(6);
         builder.Property(x => x.BillingCustomerAddressId).HasColumnType("integer").HasColumnOrder(7);
-        builder.Property(x => x.BillingAddressReference).HasColumnType("jsonb").HasColumnOrder(8);
         builder.Property(x => x.ShippingCustomerAddressId).HasColumnType("integer").HasColumnOrder(9);
-        builder.Property(x => x.ShippingAddressReference).HasColumnType("jsonb").HasColumnOrder(10);
         builder.Property(x => x.SubTotal).HasColumnType("decimal(18,2)").HasColumnOrder(11);
         builder.Property(x => x.Discount).HasColumnType("decimal(18,2)").HasColumnOrder(12);
         builder.Property(x => x.ShippingCharge).HasColumnType("decimal(18,2)").HasColumnOrder(13);
@@ -52,6 +52,50 @@ public class SalesOrderConfiguration : IEntityTypeConfiguration<SalesOrder>
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(59);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(60);
 
+        //Owned Types.
+        builder.OwnsOne(x => x.CustomerReference, nb =>
+        {
+            nb.ToJson();
+            nb.Property(x => x.Id).HasColumnType("integer").HasColumnOrder(1);
+            nb.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
+            nb.Property(x => x.LastName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
+            nb.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
+            nb.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(5);
+            nb.Property(x => x.IsEmailVerified).HasColumnType("boolean").HasColumnOrder(6);
+        });
+
+        builder.OwnsOne(x => x.BillingAddressReference, nb =>
+        {
+            nb.ToJson();
+            nb.Property(x => x.Id).HasColumnType("integer").HasColumnOrder(1);
+            nb.Property(x => x.Type).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
+            nb.Property(x => x.FullName).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(3);
+            nb.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(4);
+            nb.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
+            nb.Property(x => x.AddressLine1).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(6);
+            nb.Property(x => x.AddressLine2).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(7);
+            nb.Property(x => x.City).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(8);
+            nb.Property(x => x.StateOrProvince).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(9);
+            nb.Property(x => x.PostalCode).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(10);
+            nb.Property(x => x.Landmark).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(11);
+        });
+        
+        builder.OwnsOne(x => x.ShippingAddressReference, nb =>
+        {
+            nb.ToJson();
+            nb.Property(x => x.Id).HasColumnType("integer").HasColumnOrder(1);
+            nb.Property(x => x.Type).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
+            nb.Property(x => x.FullName).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(3);
+            nb.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(4);
+            nb.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
+            nb.Property(x => x.AddressLine1).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(6);
+            nb.Property(x => x.AddressLine2).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(7);
+            nb.Property(x => x.City).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(8);
+            nb.Property(x => x.StateOrProvince).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(9);
+            nb.Property(x => x.PostalCode).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(10);
+            nb.Property(x => x.Landmark).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(11);
+        });
+
         //Indexes
         builder.HasIndex(x => x.Number).IsUnique()
             .HasDatabaseName($"UK_{nameof(SalesOrder)}_{nameof(SalesOrder.Number)}");
@@ -65,12 +109,6 @@ public class SalesOrderConfiguration : IEntityTypeConfiguration<SalesOrder>
             .HasDatabaseName($"{nameof(SalesOrder)}_{nameof(SalesOrder.ShippingStatus)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(SalesOrder)}_{nameof(SalesOrder.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(SalesOrder)}_{nameof(SalesOrder.DeletedAt)}");
-        builder.HasIndex(x => x.CustomerReference).HasMethod("gin")
-            .HasDatabaseName($"GIN_{nameof(SalesOrder)}_{nameof(SalesOrder.CustomerReference)}");
-        builder.HasIndex(x => x.BillingAddressReference).HasMethod("gin")
-            .HasDatabaseName($"GIN_{nameof(SalesOrder)}_{nameof(SalesOrder.BillingAddressReference)}");
-        builder.HasIndex(x => x.ShippingAddressReference).HasMethod("gin")
-            .HasDatabaseName($"GIN_{nameof(SalesOrder)}_{nameof(SalesOrder.ShippingAddressReference)}");
 
         //Relations.
         builder.HasMany(x => x.Lines)

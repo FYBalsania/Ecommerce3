@@ -21,6 +21,9 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
             .HasValue<Discount>(nameof(Discount))
             .HasValue<ShippingDiscount>(nameof(ShippingDiscount))
             .HasValue<ProductDiscount>(nameof(ProductDiscount));
+        
+        //Filters
+        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
         builder.Property(x => x.Scope).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);

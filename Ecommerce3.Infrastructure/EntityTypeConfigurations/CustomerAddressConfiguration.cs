@@ -16,6 +16,12 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+
+        //Navigation Properties.
+        builder.Navigation(x => x.History).HasField("_history").UsePropertyAccessMode(PropertyAccessMode.Field);
+
         //Properties.
         builder.Property(x => x.CustomerId).HasColumnType("integer").HasColumnOrder(2);
         builder.Property(x => x.Type).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
@@ -34,12 +40,9 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
         builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
-        
-        //Filters.
-        builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Owned collections.
-        builder.OwnsMany<CustomerAddressHistory>(x => x.History, nb =>
+        builder.OwnsMany(x => x.History, nb =>
         {
             nb.ToJson();
             nb.Property(x => x.Type).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(1);
@@ -55,7 +58,6 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
             nb.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(11);
             nb.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(12);
         });
-        builder.Navigation(x => x.History).HasField("_history").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Indexes.
         builder.HasIndex(x => x.PostalCode)
@@ -69,7 +71,7 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
             .HasDatabaseName($"IX_{nameof(CustomerAddress)}_{nameof(CustomerAddress.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt)
             .HasDatabaseName($"IX_{nameof(CustomerAddress)}_{nameof(CustomerAddress.DeletedAt)}");
-
+        
         //Relations.
         builder.HasOne(x => x.Customer)
             .WithMany(x => x.Addresses)

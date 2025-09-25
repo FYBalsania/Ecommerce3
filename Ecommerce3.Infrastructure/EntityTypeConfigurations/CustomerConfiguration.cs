@@ -15,6 +15,9 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
+        
+        //Navigation Properties.
+        builder.Navigation(x => x.History).HasField("_history").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
         builder.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
@@ -34,7 +37,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Owned collections.
-        builder.OwnsMany<CustomerHistory>(x => x.History, nb =>
+        builder.OwnsMany(x => x.History, nb =>
         {
             nb.ToJson();
             nb.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(1);
@@ -44,7 +47,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             nb.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(5);
             nb.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(6);
         });
-        builder.Navigation(x => x.History).HasField("_history").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Indexes.
         builder.HasIndex(x => x.FirstName).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.FirstName)}");
