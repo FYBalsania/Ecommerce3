@@ -404,73 +404,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Page",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Path = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Title = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    MetaTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    MetaDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
-                    MetaKeywords = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: false),
-                    MetaRobots = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                    CanonicalUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
-                    OgTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    OgDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
-                    OgImageUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
-                    OgType = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
-                    TwitterCard = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
-                    ContentHtml = table.Column<string>(type: "text", nullable: true),
-                    H1 = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Summary = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
-                    SchemaJsonLd = table.Column<string>(type: "text", nullable: true),
-                    BreadcrumbsJson = table.Column<string>(type: "text", nullable: true),
-                    HreflangMapJson = table.Column<string>(type: "text", nullable: true),
-                    SitemapPriority = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    SitemapFrequency = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
-                    RedirectFromJson = table.Column<string>(type: "text", nullable: true),
-                    IsIndexed = table.Column<bool>(type: "boolean", nullable: false),
-                    HeaderScripts = table.Column<string>(type: "text", nullable: true),
-                    FooterScripts = table.Column<string>(type: "text", nullable: true),
-                    Language = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
-                    Region = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
-                    SeoScore = table.Column<int>(type: "integer", nullable: true),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Page", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Page_AspNetUsers_CreatedBy",
-                        column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Page_AspNetUsers_DeletedBy",
-                        column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Page_AspNetUsers_UpdatedBy",
-                        column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductAttribute",
                 columns: table => new
                 {
@@ -1117,97 +1050,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OgFileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    FileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    FileExtension = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
-                    ImageTypeId = table.Column<int>(type: "integer", nullable: false),
-                    Size = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
-                    AltText = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Title = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Loading = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
-                    Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    LinkTarget = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    BrandId = table.Column<int>(type: "integer", nullable: true),
-                    ProductId = table.Column<int>(type: "integer", nullable: true),
-                    CategoryId = table.Column<int>(type: "integer", nullable: true),
-                    PageId = table.Column<int>(type: "integer", nullable: true),
-                    ProductGroupId = table.Column<int>(type: "integer", nullable: true),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Image", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_CreatedBy",
-                        column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_DeletedBy",
-                        column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_UpdatedBy",
-                        column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_Brand_BrandId",
-                        column: x => x.BrandId,
-                        principalTable: "Brand",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_ImageType_ImageTypeId",
-                        column: x => x.ImageTypeId,
-                        principalTable: "ImageType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_Page_PageId",
-                        column: x => x.PageId,
-                        principalTable: "Page",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_ProductGroup_ProductGroupId",
-                        column: x => x.ProductGroupId,
-                        principalTable: "ProductGroup",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Image_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "KVPListItem",
                 columns: table => new
                 {
@@ -1259,6 +1101,102 @@ namespace Ecommerce3.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_KVPListItem_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Page",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Discriminator = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    Path = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    Title = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    MetaTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    MetaDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
+                    MetaKeywords = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: false),
+                    MetaRobots = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    CanonicalUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
+                    OgTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    OgDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
+                    OgImageUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
+                    OgType = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
+                    TwitterCard = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
+                    ContentHtml = table.Column<string>(type: "text", nullable: true),
+                    H1 = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Summary = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
+                    SchemaJsonLd = table.Column<string>(type: "text", nullable: true),
+                    BreadcrumbsJson = table.Column<string>(type: "text", nullable: true),
+                    HreflangMapJson = table.Column<string>(type: "text", nullable: true),
+                    SitemapPriority = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    SitemapFrequency = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
+                    RedirectFromJson = table.Column<string>(type: "text", nullable: true),
+                    IsIndexed = table.Column<bool>(type: "boolean", nullable: false),
+                    HeaderScripts = table.Column<string>(type: "text", nullable: true),
+                    FooterScripts = table.Column<string>(type: "text", nullable: true),
+                    Language = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    Region = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
+                    SeoScore = table.Column<int>(type: "integer", nullable: true),
+                    BrandId = table.Column<int>(type: "integer", nullable: true),
+                    CategoryId = table.Column<int>(type: "integer", nullable: true),
+                    ProductId = table.Column<int>(type: "integer", nullable: true),
+                    ProductGroupId = table.Column<int>(type: "integer", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Page", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Page_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_AspNetUsers_DeletedBy",
+                        column: x => x.DeletedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_AspNetUsers_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_Brand_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brand",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_ProductGroup_ProductGroupId",
+                        column: x => x.ProductGroupId,
+                        principalTable: "ProductGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
@@ -1627,6 +1565,97 @@ namespace Ecommerce3.Infrastructure.Migrations
                         name: "FK_SalesOrderLine_SalesOrder_SalesOrderId",
                         column: x => x.SalesOrderId,
                         principalTable: "SalesOrder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Image",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OgFileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    FileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    FileExtension = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    ImageTypeId = table.Column<int>(type: "integer", nullable: false),
+                    Size = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    AltText = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    Title = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    Loading = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    LinkTarget = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
+                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    BrandId = table.Column<int>(type: "integer", nullable: true),
+                    ProductId = table.Column<int>(type: "integer", nullable: true),
+                    CategoryId = table.Column<int>(type: "integer", nullable: true),
+                    PageId = table.Column<int>(type: "integer", nullable: true),
+                    ProductGroupId = table.Column<int>(type: "integer", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Image_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_AspNetUsers_DeletedBy",
+                        column: x => x.DeletedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_AspNetUsers_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_Brand_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brand",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_ImageType_ImageTypeId",
+                        column: x => x.ImageTypeId,
+                        principalTable: "ImageType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_Page_PageId",
+                        column: x => x.PageId,
+                        principalTable: "Page",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_ProductGroup_ProductGroupId",
+                        column: x => x.ProductGroupId,
+                        principalTable: "ProductGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -2135,6 +2164,18 @@ namespace Ecommerce3.Infrastructure.Migrations
                 columns: new[] { "ProductId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Page_BrandId",
+                table: "Page",
+                column: "BrandId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Page_CategoryId",
+                table: "Page",
+                column: "CategoryId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Page_CreatedAt",
                 table: "Page",
                 column: "CreatedAt");
@@ -2165,14 +2206,44 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "IsIndexed");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Page_ProductGroupId",
+                table: "Page",
+                column: "ProductGroupId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Page_ProductId",
+                table: "Page",
+                column: "ProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Page_UpdatedBy",
                 table: "Page",
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "UK_Page_BrandId_CategoryId_DeletedAt",
+                table: "Page",
+                columns: new[] { "BrandId", "CategoryId", "DeletedAt" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "UK_Page_Path",
                 table: "Page",
                 column: "Path",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_ProductGroupPage_ProductGroupId_DeletedAt",
+                table: "Page",
+                columns: new[] { "ProductGroupId", "DeletedAt" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_ProductPage_ProductId_DeletedAt",
+                table: "Page",
+                columns: new[] { "ProductId", "DeletedAt" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2857,9 +2928,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "Page");
 
             migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
                 name: "ProductAttributeValue");
 
             migrationBuilder.DropTable(
@@ -2870,6 +2938,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SalesOrder");
+
+            migrationBuilder.DropTable(
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "ProductAttribute");

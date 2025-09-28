@@ -21,11 +21,14 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         base.OnModelCreating(builder);
 
         // Apply entity configurations.
+        builder.ApplyConfiguration(new BrandCategoryPageConfiguration());
         builder.ApplyConfiguration(new BrandConfiguration());
+        builder.ApplyConfiguration(new BrandPageConfiguration());
         builder.ApplyConfiguration(new CartConfiguration());
         builder.ApplyConfiguration(new CartLineConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new CategoryKVPListItemConfiguration());
+        builder.ApplyConfiguration(new CategoryPageConfiguration());
         builder.ApplyConfiguration(new CustomerAddressConfiguration());
         builder.ApplyConfiguration(new CustomerConfiguration());
         builder.ApplyConfiguration(new DeliveryWindowConfiguration());
@@ -42,8 +45,10 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new ProductConfiguration());
         builder.ApplyConfiguration(new ProductDiscountConfiguration());
         builder.ApplyConfiguration(new ProductGroupConfiguration());
+        builder.ApplyConfiguration(new ProductGroupPageConfiguration());
         builder.ApplyConfiguration(new ProductGroupProductAttributeConfiguration());
         builder.ApplyConfiguration(new ProductKVPListItemConfiguration());
+        builder.ApplyConfiguration(new ProductPageConfiguration());
         builder.ApplyConfiguration(new ProductProductAttributeConfiguration());
         builder.ApplyConfiguration(new ProductQnAConfiguration());
         builder.ApplyConfiguration(new ProductReviewConfiguration());

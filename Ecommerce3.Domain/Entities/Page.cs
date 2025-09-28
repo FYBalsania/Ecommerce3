@@ -2,9 +2,10 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
+public class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
 {
-    public string Path { get; private set; }
+    public string Discriminator { get; private set; }
+    public string? Path { get; private set; }
     public string Title { get; private set; }
     public string MetaTitle { get; private set; }
     public string MetaDescription { get; private set; }
@@ -32,6 +33,10 @@ public sealed class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
     public string? Region { get; private set; }
     public int? SeoScore { get; private set; }
     public bool IsActive { get; private set; }
+    public int? BrandId { get; private set; }
+    public int? CategoryId { get; private set; }
+    public int? ProductId { get; private set; }
+    public int? ProductGroupId { get; private set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }

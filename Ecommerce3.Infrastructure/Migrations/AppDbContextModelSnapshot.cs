@@ -1424,19 +1424,29 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("integer")
+                        .HasColumnName("BrandId")
+                        .HasColumnOrder(39);
+
                     b.Property<string>("BreadcrumbsJson")
                         .HasColumnType("text")
-                        .HasColumnOrder(18);
+                        .HasColumnOrder(28);
 
                     b.Property<string>("CanonicalUrl")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(18);
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CategoryId")
+                        .HasColumnOrder(40);
 
                     b.Property<string>("ContentHtml")
                         .HasColumnType("text")
-                        .HasColumnOrder(14);
+                        .HasColumnOrder(24);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1465,135 +1475,150 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)")
+                        .HasColumnOrder(11);
+
                     b.Property<string>("FooterScripts")
                         .HasColumnType("text")
-                        .HasColumnOrder(25);
+                        .HasColumnOrder(35);
 
                     b.Property<string>("H1")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(15);
+                        .HasColumnOrder(25);
 
                     b.Property<string>("HeaderScripts")
                         .HasColumnType("text")
-                        .HasColumnOrder(24);
+                        .HasColumnOrder(34);
 
                     b.Property<string>("HreflangMapJson")
                         .HasColumnType("text")
-                        .HasColumnOrder(19);
+                        .HasColumnOrder(29);
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(29);
+                        .HasColumnOrder(43);
 
                     b.Property<bool>("IsIndexed")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(23);
+                        .HasColumnOrder(33);
 
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(26);
+                        .HasColumnOrder(36);
 
                     b.Property<string>("MetaDescription")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(15);
 
                     b.Property<string>("MetaKeywords")
                         .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(16);
 
                     b.Property<string>("MetaRobots")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(17);
 
                     b.Property<string>("MetaTitle")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(14);
 
                     b.Property<string>("OgDescription")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(20);
 
                     b.Property<string>("OgImageUrl")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(21);
 
                     b.Property<string>("OgTitle")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(19);
 
                     b.Property<string>("OgType")
                         .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnOrder(12);
+                        .HasColumnOrder(22);
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(12);
+
+                    b.Property<int?>("ProductGroupId")
+                        .HasColumnType("integer")
+                        .HasColumnName("ProductGroupId")
+                        .HasColumnOrder(42);
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnName("ProductId")
+                        .HasColumnOrder(41);
 
                     b.Property<string>("RedirectFromJson")
                         .HasColumnType("text")
-                        .HasColumnOrder(22);
+                        .HasColumnOrder(32);
 
                     b.Property<string>("Region")
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(27);
+                        .HasColumnOrder(37);
 
                     b.Property<string>("SchemaJsonLd")
                         .HasColumnType("text")
-                        .HasColumnOrder(17);
+                        .HasColumnOrder(27);
 
                     b.Property<int?>("SeoScore")
                         .HasColumnType("integer")
-                        .HasColumnOrder(28);
+                        .HasColumnOrder(38);
 
                     b.Property<string>("SitemapFrequency")
                         .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnOrder(21);
+                        .HasColumnOrder(31);
 
                     b.Property<decimal>("SitemapPriority")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(20);
+                        .HasColumnOrder(30);
 
                     b.Property<string>("Summary")
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(16);
+                        .HasColumnOrder(26);
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(13);
 
                     b.Property<string>("TwitterCard")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)")
-                        .HasColumnOrder(13);
+                        .HasColumnOrder(23);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -1632,7 +1657,15 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("UpdatedBy");
 
+                    b.HasIndex("BrandId", "CategoryId", "DeletedAt")
+                        .IsUnique()
+                        .HasDatabaseName("UK_Page_BrandId_CategoryId_DeletedAt");
+
                     b.ToTable("Page", (string)null);
+
+                    b.HasDiscriminator().HasValue("Page");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Product", b =>
@@ -3448,6 +3481,67 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ProductKVPListItem");
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandCategoryPage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Page");
+
+                    b.HasIndex("BrandId")
+                        .IsUnique();
+
+                    b.HasIndex("CategoryId")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("BrandCategoryPage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandPage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Page");
+
+                    b.HasIndex("BrandId")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("BrandPage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.CategoryPage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Page");
+
+                    b.HasIndex("CategoryId")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("CategoryPage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductGroupPage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Page");
+
+                    b.HasIndex("ProductGroupId")
+                        .IsUnique();
+
+                    b.HasIndex("ProductGroupId", "DeletedAt")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ProductGroupPage_ProductGroupId_DeletedAt");
+
+                    b.HasDiscriminator().HasValue("ProductGroupPage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductPage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Page");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
+                    b.HasIndex("ProductId", "DeletedAt")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ProductPage_ProductId_DeletedAt");
+
+                    b.HasDiscriminator().HasValue("ProductPage");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductAttributeColourValue", b =>
                 {
                     b.HasBaseType("Ecommerce3.Domain.Entities.ProductAttributeValue");
@@ -4893,6 +4987,63 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandCategoryPage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.BrandCategoryPage", "BrandId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Ecommerce3.Domain.Entities.Category", "Category")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.BrandCategoryPage", "CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandPage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.BrandPage", "BrandId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.CategoryPage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Category", "Category")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.CategoryPage", "CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductGroupPage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.ProductGroup", "ProductGroup")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.ProductGroupPage", "ProductGroupId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ProductGroup");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductPage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Product", "Product")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.ProductPage", "ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Product");
                 });
