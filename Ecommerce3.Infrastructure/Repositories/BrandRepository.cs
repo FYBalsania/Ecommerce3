@@ -42,12 +42,6 @@ internal class BrandRepository : Repository<Brand>, IBrandRepository
         return (brands, total);
     }
 
-    public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken)
-        => await _dbContext.Brands.AnyAsync(x => x.Name == name, cancellationToken);
-
-    public async Task<bool> ExistsBySlugAsync(string slug, CancellationToken cancellationToken)
-        => await _dbContext.Brands.AnyAsync(x => x.Slug == slug, cancellationToken);
-
     public async Task<Brand?> GetByIdAsync(int id, BrandInclude[] includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
@@ -69,9 +63,23 @@ internal class BrandRepository : Repository<Brand>, IBrandRepository
         return await query.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<bool> ExistsByNameAsync(string name, int excludeId, CancellationToken cancellationToken)
-        => await _dbContext.Brands.AnyAsync(x => x.Name == name && x.Id != excludeId, cancellationToken);
+    public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = GetQuery([], false);
 
-    public async Task<bool> ExistsBySlugAsync(string slug, int excludeId, CancellationToken cancellationToken)
-        => await _dbContext.Brands.AnyAsync(x => x.Slug == slug && x.Id != excludeId, cancellationToken);
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
+
+        return await query.AnyAsync(x => x.Name == name, cancellationToken);
+    }
+
+    public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = GetQuery([], false);
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
+
+        return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
+    }
 }

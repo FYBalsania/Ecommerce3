@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class Repository<T> : IRepository<T> where T : Entity
+internal abstract class Repository<T> : IRepository<T> where T : Entity
 {
-    private readonly AppDbContext _dbContext;
-    public Repository(AppDbContext dbContext) => _dbContext = dbContext;
+    protected readonly AppDbContext _dbContext;
+    protected Repository(AppDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<T?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
         => trackChanges

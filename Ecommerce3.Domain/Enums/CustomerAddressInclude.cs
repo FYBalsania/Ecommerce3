@@ -1,6 +1,7 @@
 namespace Ecommerce3.Domain.Enums;
 
+[Flags]
 public enum CustomerAddressInclude
 {
-    Customer
+    Customer = 1 << 0,
 }

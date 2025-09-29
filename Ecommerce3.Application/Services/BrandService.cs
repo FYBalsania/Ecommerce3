@@ -34,10 +34,10 @@ public sealed class BrandService : IBrandService
 
     public async Task AddBrandAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _brandRepository.ExistsByNameAsync(command.Name, cancellationToken);
+        var exists = await _brandRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
 
-        exists = await _brandRepository.ExistsBySlugAsync(command.Slug, cancellationToken);
+        exists = await _brandRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
         var brand = new Brand(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
@@ -64,7 +64,7 @@ public sealed class BrandService : IBrandService
         exists = await _brandRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
-        var brand = await _brandRepository.GetByIdAsync(command.Id, [],true, cancellationToken);
+        var brand = await _brandRepository.GetByIdAsync(command.Id, [], true, cancellationToken);
         if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
 
         var updated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,

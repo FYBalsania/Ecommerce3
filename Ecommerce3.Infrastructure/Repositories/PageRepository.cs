@@ -1,5 +1,5 @@
 using Ecommerce3.Domain.Entities;
-using Ecommerce3.Domain.Models;
+using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
 
@@ -11,18 +11,26 @@ internal class PageRepository : Repository<Page>, IPageRepository
 
     public PageRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
 
-    public Task<(IEnumerable<Page> ListItems, int Count)?> GetPagesAsync(string? path, string? title,
-        int pageNumber, string? canonicalUrl, int? seoScore, int pageSize, CancellationToken cancellationToken)
+    public async Task<(IEnumerable<Page> ListItems, int Count)?> GetPagesAsync(string? path, string? title,
+        string? canonicalUrl, int? seoScore, PageInclude[] includes, bool trackChanges, int pageNumber, int pageSize,
+        CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> ExistsByPathAsync(string path, CancellationToken cancellationToken)
+    public async Task<bool> ExistsByPathAsync(string path, int? excludeId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Page?> GetByPathAsync(string path, CancellationToken cancellationToken)
+    public async Task<Page?> GetByPathAsync(string path, PageInclude[] includes, bool trackChanges,
+        CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Page?> GetByIdAsync(int id, PageInclude[] includes, bool trackChanges,
+        CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
