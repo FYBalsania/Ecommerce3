@@ -3,6 +3,7 @@ namespace Ecommerce3.Domain.Enums;
 [Flags]
 public enum CategoryInclude
 {
+    None = 0,
     Images = 1 << 0,
     Parent = 1 << 1,
     CreatedByUser = 1 << 2,

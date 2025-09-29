@@ -3,6 +3,7 @@ namespace Ecommerce3.Domain.Enums;
 [Flags]
 public enum CartInclude
 {
+    None = 0,
     Lines = 1 << 0,
     Customer = 1 << 1,
     CreatedByUser = 1 << 2,

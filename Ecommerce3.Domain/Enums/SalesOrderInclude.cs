@@ -3,6 +3,7 @@ namespace Ecommerce3.Domain.Enums;
 [Flags]
 public enum SalesOrderInclude
 {
+    None = 0,
     Lines = 1 << 0,
     Cart = 1 << 1,
     Customer = 1 << 2,

@@ -25,7 +25,7 @@ public sealed class BrandService : IBrandService
     public async Task<(IEnumerable<BrandListItemDTO> ListItems, int Count)> GetBrandListItemsAsync(string? name,
         int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var result = await _brandRepository.GetBrandsAsync(name, [BrandInclude.CreatedUser], pageNumber, pageSize,
+        var result = await _brandRepository.GetBrandsAsync(name, BrandInclude.CreatedUser, pageNumber, pageSize,
             cancellationToken);
         var brands = _mapper.Map<IEnumerable<BrandListItemDTO>>(result.Brands);
 
@@ -50,7 +50,7 @@ public sealed class BrandService : IBrandService
 
     public async Task<BrandDTO?> GetBrandAsync(int id, CancellationToken cancellationToken)
     {
-        var brand = await _brandRepository.GetByIdAsync(id, [], false, cancellationToken);
+        var brand = await _brandRepository.GetByIdAsync(id, BrandInclude.None, false, cancellationToken);
         if (brand == null) return null;
 
         return _mapper.Map<BrandDTO>(brand);
@@ -64,7 +64,7 @@ public sealed class BrandService : IBrandService
         exists = await _brandRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
-        var brand = await _brandRepository.GetByIdAsync(command.Id, [], true, cancellationToken);
+        var brand = await _brandRepository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
         if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
 
         var updated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,

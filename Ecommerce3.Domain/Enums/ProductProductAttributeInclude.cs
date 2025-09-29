@@ -3,6 +3,7 @@ namespace Ecommerce3.Domain.Enums;
 [Flags]
 public enum ProductProductAttributeInclude
 {
+    None = 0,
     Product = 1 << 0,
     ProductAttribute = 1 << 1,
     ProductAttributeValue = 1 << 2,

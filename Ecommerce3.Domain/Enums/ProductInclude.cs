@@ -3,6 +3,7 @@ namespace Ecommerce3.Domain.Enums;
 [Flags]
 public enum ProductInclude
 {
+    None = 0,
     Images = 1 << 0,
     Brand = 1 << 1,
     ProductGroup = 1 << 2,
