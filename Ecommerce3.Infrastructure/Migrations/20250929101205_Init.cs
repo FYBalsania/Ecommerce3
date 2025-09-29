@@ -731,10 +731,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                     DeliveryWindowId = table.Column<int>(type: "integer", nullable: false),
                     MinOrderQuantity = table.Column<int>(type: "integer", nullable: false),
                     MaxOrderQuantity = table.Column<int>(type: "integer", nullable: true),
-                    Featured = table.Column<bool>(type: "boolean", nullable: false),
-                    New = table.Column<bool>(type: "boolean", nullable: false),
-                    BestSeller = table.Column<bool>(type: "boolean", nullable: false),
-                    Returnable = table.Column<bool>(type: "boolean", nullable: false),
+                    IsFeatured = table.Column<bool>(type: "boolean", nullable: false),
+                    IsNew = table.Column<bool>(type: "boolean", nullable: false),
+                    IsBestSeller = table.Column<bool>(type: "boolean", nullable: false),
+                    IsReturnable = table.Column<bool>(type: "boolean", nullable: false),
                     ReturnPolicy = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     RedirectUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
@@ -2281,6 +2281,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 table: "Product",
                 column: "Facets")
                 .Annotation("Npgsql:IndexMethod", "gin");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_IsBestSeller",
+                table: "Product",
+                column: "IsBestSeller");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_IsFeatured",
+                table: "Product",
+                column: "IsFeatured");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_IsNew",
+                table: "Product",
+                column: "IsNew");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_ProductGroupId",

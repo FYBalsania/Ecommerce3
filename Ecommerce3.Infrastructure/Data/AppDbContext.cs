@@ -10,6 +10,41 @@ namespace Ecommerce3.Infrastructure.Data;
 internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
 {
     public DbSet<Brand> Brands { get; set; }
+    public DbSet<BrandCategoryPage> BrandCategoryPages { get; set; }
+    public DbSet<BrandPage> BrandPages { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartLine> CartLines { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<CategoryKVPListItem> CategoryKVPListItems { get; set; }
+    public DbSet<CategoryPage> CategoryPages { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<CustomerAddress> CustomerAddresses { get; set; }
+    public DbSet<DeliveryWindow> DeliveryWindows { get; set; }
+    public DbSet<Discount> Discounts { get; set; }
+    public DbSet<DiscountProduct> DiscountProducts { get; set; }
+    public DbSet<Image> Images { get; set; }
+    public DbSet<ImageType> ImageTypes { get; set; }
+    public DbSet<KVPListItem> KVPListItems { get; set; }
+    public DbSet<Page> Pages { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductAttribute> ProductAttributes { get; set; }
+    public DbSet<ProductAttributeColourValue> ProductAttributeColourValues { get; set; }
+    public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
+    public DbSet<ProductCategory> ProductCategories { get; set; }
+    public DbSet<ProductDiscount> ProductDiscounts { get; set; }
+    public DbSet<ProductGroup> ProductGroups { get; set; }
+    public DbSet<ProductGroupPage> ProductGroupPages { get; set; }
+    public DbSet<ProductGroupProductAttribute> ProductGroupProductAttributes { get; set; }
+    public DbSet<ProductKVPListItem>  ProductKVPListItems { get; set; }
+    public DbSet<ProductPage> ProductPages { get; set; }
+    public DbSet<ProductProductAttribute> ProductProductAttributes { get; set; }
+    public DbSet<ProductQnA> ProductQnAs { get; set; }
+    public DbSet<ProductReview> ProductReviews { get; set; }
+    public DbSet<ProductTextListItem> ProductTextListItems { get; set; }
+    public DbSet<SalesOrder> SalesOrders { get; set; }
+    public DbSet<SalesOrderLine> SalesOrderLines { get; set; }
+    public DbSet<ShippingDiscount> ShippingDiscounts { get; set; }
+    public DbSet<TextListItem> TextListItems { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -57,7 +92,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new SalesOrderLineConfiguration());
         builder.ApplyConfiguration(new ShippingDiscountConfiguration());
         builder.ApplyConfiguration(new TextListItemConfiguration());
-        
+
         // Rename Identity tables.
         builder.Entity<Role>().ToTable("Role");
         builder.Entity<IdentityUserRole<int>>().ToTable("AppUserRole");

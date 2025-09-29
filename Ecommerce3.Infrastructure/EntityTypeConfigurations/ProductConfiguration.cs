@@ -27,13 +27,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
-        
+
         // Value converter for List<string> <-> json string
         var converter = new ValueConverter<List<string>, string>(
             v => JsonSerializer.Serialize(v, jsonOptions),
             v => JsonSerializer.Deserialize<List<string>>(v, jsonOptions) ?? new()
         );
-        
+
         // Value comparer so EF knows when list contents changed
         var comparer = new ValueComparer<List<string>>(
             (a, b) => a.SequenceEqual(b),
@@ -77,10 +77,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.DeliveryWindowId).HasColumnType("integer").HasColumnOrder(34);
         builder.Property(x => x.MinOrderQuantity).HasColumnType("integer").HasColumnOrder(35);
         builder.Property(x => x.MaxOrderQuantity).HasColumnType("integer").HasColumnOrder(36);
-        builder.Property(x => x.Featured).HasColumnType("boolean").HasColumnOrder(37);
-        builder.Property(x => x.New).HasColumnType("boolean").HasColumnOrder(38);
-        builder.Property(x => x.BestSeller).HasColumnType("boolean").HasColumnOrder(39);
-        builder.Property(x => x.Returnable).HasColumnType("boolean").HasColumnOrder(40);
+        builder.Property(x => x.IsFeatured).HasColumnType("boolean").HasColumnOrder(37);
+        builder.Property(x => x.IsNew).HasColumnType("boolean").HasColumnOrder(38);
+        builder.Property(x => x.IsBestSeller).HasColumnType("boolean").HasColumnOrder(39);
+        builder.Property(x => x.IsReturnable).HasColumnType("boolean").HasColumnOrder(40);
         builder.Property(x => x.ReturnPolicy).HasColumnType("text").HasColumnOrder(41);
         builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(32).HasColumnType("varchar(32)")
             .HasColumnOrder(42);
@@ -113,14 +113,19 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Name)}");
         builder.HasIndex(x => x.Slug).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Slug)}");
         builder.HasIndex(x => x.Status).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Status)}");
+        builder.HasIndex(x => x.IsFeatured).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsFeatured)}");
+        builder.HasIndex(x => x.IsNew).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsNew)}");
+        builder.HasIndex(x => x.IsBestSeller).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsBestSeller)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.SortOrder)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.DeletedAt)}");
 
         //Navigations.
         builder.Navigation(x => x.Categories).HasField("_categories").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.TextListItems).HasField("_textListItems").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.TextListItems).HasField("_textListItems")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.QnAs).HasField("_qnas").UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.Reviews).HasField("_reviews").UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.Attributes).HasField("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);

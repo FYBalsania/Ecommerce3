@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250928162245_Init")]
+    [Migration("20250929101205_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -1703,10 +1703,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnOrder(23);
 
-                    b.Property<bool>("BestSeller")
-                        .HasColumnType("boolean")
-                        .HasColumnOrder(39);
-
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer")
                         .HasColumnOrder(18);
@@ -1763,10 +1759,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(64)")
                         .HasColumnOrder(6);
 
-                    b.Property<bool>("Featured")
-                        .HasColumnType("boolean")
-                        .HasColumnOrder(37);
-
                     b.Property<bool>("FreeShipping")
                         .HasColumnType("boolean")
                         .HasColumnOrder(31);
@@ -1785,6 +1777,22 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnOrder(17);
+
+                    b.Property<bool>("IsBestSeller")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(39);
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(37);
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(38);
+
+                    b.Property<bool>("IsReturnable")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(40);
 
                     b.Property<string>("MFC")
                         .HasMaxLength(64)
@@ -1830,10 +1838,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnOrder(8);
 
-                    b.Property<bool>("New")
-                        .HasColumnType("boolean")
-                        .HasColumnOrder(38);
-
                     b.Property<decimal?>("OldPrice")
                         .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(26);
@@ -1854,10 +1858,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("ReturnPolicy")
                         .HasColumnType("text")
                         .HasColumnOrder(41);
-
-                    b.Property<bool>("Returnable")
-                        .HasColumnType("boolean")
-                        .HasColumnOrder(40);
 
                     b.Property<string>("SKU")
                         .IsRequired()
@@ -1949,6 +1949,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("GTIN")
                         .IsUnique()
                         .HasDatabaseName("UK_Product_GTIN");
+
+                    b.HasIndex("IsBestSeller")
+                        .HasDatabaseName("IX_Product_IsBestSeller");
+
+                    b.HasIndex("IsFeatured")
+                        .HasDatabaseName("IX_Product_IsFeatured");
+
+                    b.HasIndex("IsNew")
+                        .HasDatabaseName("IX_Product_IsNew");
 
                     b.HasIndex("MFC")
                         .IsUnique()

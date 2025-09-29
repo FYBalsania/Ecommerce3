@@ -2,7 +2,7 @@ namespace Ecommerce3.Domain.Enums;
 
 public enum BrandInclude
 {
-    None,
+    Images,
     CreatedUser,
     UpdatedUser,
     DeletedUser,
