@@ -35,13 +35,14 @@ public class BrandsController : Controller
             BrandListItems = brands,
             BrandListItemsCount = total
         };
-
+        ViewData["Title"] = "Brands";
         return View(response);
     }
 
     [HttpGet]
     public IActionResult Add()
     {
+        ViewData["Title"] = "Add Brand";
         return View(new AddBrandViewModel());
     }
 
@@ -77,10 +78,13 @@ public class BrandsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        var brand = await _brandService.GetBrandAsync(id, cancellationToken);
-        if (brand is null) return NotFound();
+        // var brand = await _brandService.GetBrandAsync(id, cancellationToken);
+        // if (brand is null) return NotFound();
 
-       // return View(brand.ToViewModel());
+        //return View(brand.ToViewModel());
+        //ViewData["Title"] = $"Edit Brand - {brand.Name}";
+       
+       ViewData["Title"] = $"Edit Brand - Apple";
        return View();
     }
 
