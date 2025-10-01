@@ -4,9 +4,24 @@ namespace Ecommerce3.Admin.Controllers;
 
 public class CategoriesController : Controller
 {
-    // GET
+    [HttpGet]
     public IActionResult Index()
     {
+        ViewData["Title"] = "Categories";
+        return View();
+    }
+    
+    [HttpGet]
+    public IActionResult Add()
+    {
+        ViewData["Title"] = "Add Category";
+        return View();
+    }
+    
+    [HttpGet]
+    public IActionResult Edit()
+    {
+        ViewData["Title"] = "Edit Category - Electronics";
         return View();
     }
 }

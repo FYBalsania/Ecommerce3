@@ -87,6 +87,7 @@ body {
 .nav-link.active {
   background-color: #8DC63F;
   color: #fff;
+  border-radius: 5px;
 }
 
 .nav-link i {

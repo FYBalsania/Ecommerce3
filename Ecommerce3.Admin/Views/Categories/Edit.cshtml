@@ -1,9 +1,7 @@
-@model Ecommerce3.Admin.ViewModels.Brand.EditBrandViewModel
-
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Brand - Apple</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">Add Category</h2>
     </div>
 
     <!-- General -->
@@ -17,7 +15,7 @@
                     <label class="col-form-label">Name : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Apple">
+                    <input type="text" class="form-control" value="Electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -25,7 +23,7 @@
                     <label class="col-form-label">Slug : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="apple">
+                    <input type="text" class="form-control" value="electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -33,7 +31,7 @@
                     <label class="col-form-label">Display : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Apple">
+                    <input type="text" class="form-control" value="Electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -41,7 +39,7 @@
                     <label class="col-form-label">Breadcrumbs : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Home > Brands > Edit > Apple">
+                    <input type="text" class="form-control" value="Home > Categories > Edit > Electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -49,7 +47,7 @@
                     <label class="col-form-label">Anchor Text : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Apple">
+                    <input type="text" class="form-control" value="Electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -57,7 +55,7 @@
                     <label class="col-form-label">Anchor Title : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Apple">
+                    <input type="text" class="form-control" value="Electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -82,7 +80,7 @@
                     <label class="col-form-label">Short Description : </label>
                 </div>
                 <div class="col-md-9">
-                    <textarea class="form-control" rows="3">Apple is a hardware design company.</textarea>
+                    <textarea class="form-control" rows="3">Electronics category includes gadgets, devices, and appliances that bring innovation and convenience to everyday life.</textarea>
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -92,9 +90,7 @@
                 <div class="col-md-9">
                     <!-- Quill Editor Container -->
                     <div id="longDescriptionEditor" style="height: 200px;">
-                        Apple Inc. is one of the world’s most innovative and influential technology companies, renowned for its premium quality products, cutting-edge design, and seamless ecosystem. Founded in 1976, Apple has revolutionized the way people interact with technology through devices such as the iPhone, iPad, MacBook, and Apple Watch. The brand is synonymous with innovation, minimalism, and reliability, offering hardware, software, and services that integrate flawlessly.
-
-                        Apple’s products are designed with precision and attention to detail, providing an intuitive user experience that appeals to individuals, professionals, and enterprises alike. The company’s strong commitment to privacy, sustainability, and forward-thinking technology has made it a leader in consumer electronics and digital services worldwide. Whether it’s productivity, creativity, communication, or entertainment, Apple continues to set new benchmarks in performance and design.
+                        The Electronics category covers a wide range of products including smartphones, laptops, tablets, televisions, audio systems, cameras, home appliances, and more. This category brings together the latest innovations in technology, offering customers high-performance devices that enhance entertainment, productivity, and lifestyle. Whether you are looking for cutting-edge gadgets or reliable household devices, the Electronics category ensures a diverse selection from leading global brands.
                     </div>
                     <!-- Hidden input to store HTML content for form submission -->
                     <input type="hidden" id="longDescriptionInput" name="LongDescription">
@@ -114,7 +110,15 @@
                     <label class="col-form-label">H1 : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Apple">
+                    <input type="text" class="form-control" value="Electronics">
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Google Category : </label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="Electronics">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -122,7 +126,7 @@
                     <label class="col-form-label">Meta Title : </label>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="Apple – Premium Technology, iPhone, MacBook, iPad, Apple Watch & More">
+                    <input type="text" class="form-control" value="Electronics – Smartphones, Laptops, Gadgets, Home Appliances & More">
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -130,7 +134,7 @@
                     <label class="col-form-label">Meta Description : </label>
                 </div>
                 <div class="col-md-9">
-                    <textarea class="form-control" rows="3">Discover Apple’s world of innovation – explore iPhones, MacBooks, iPads, Apple Watch, and more. Experience premium technology, cutting-edge design, and seamless integration with Apple’s ecosystem.</textarea>
+                    <textarea class="form-control" rows="3">Explore the Electronics category featuring smartphones, laptops, tablets, TVs, audio systems, cameras, and home appliances. Find the latest technology and trusted brands all in one place.</textarea>
                 </div>
             </div>
             <div class="row form-group mb-3 text-muted fw-semibold">
@@ -138,13 +142,13 @@
                     <label class="col-form-label">Meta Keywords : </label>
                 </div>
                 <div class="col-md-9">
-                    <textarea class="form-control" rows="3">Apple, Apple brand, Apple Inc, iPhone, iPad, MacBook, Apple Watch, Apple products, Apple technology, Apple store, Apple devices, premium smartphones, laptops, tablets, smartwatches, Apple accessories, iOS, macOS</textarea>
+                    <textarea class="form-control" rows="3">Electronics, gadgets, smartphones, laptops, tablets, TVs, home appliances, cameras, audio systems, electronic devices, technology products, electronics online store</textarea>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Images -->
+        <!-- Images -->
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0 text-muted py-2">
@@ -177,10 +181,10 @@
                             <td>
                                 <img src="https://placehold.co/60x60" class="img-fluid rounded">
                             </td>
-                            <td>brand-banner-1.jpg</td>
+                            <td>electronics-1.jpg</td>
                             <td>Large</td>
-                            <td>Main Brand Banner</td>
-                            <td>Brand Banner</td>
+                            <td>Main Category Banner</td>
+                            <td>Category Banner</td>
                             <td>Lazy</td>
                             <td><a href="#">https://example.com</a></td>
                             <td>_blank</td>
@@ -198,12 +202,12 @@
                             <td>
                                 <img src="https://placehold.co/60x60" class="img-fluid rounded">
                             </td>
-                            <td>brand-thumbnail.png</td>
+                            <td>fashion.png</td>
                             <td>Small</td>
-                            <td>Brand Thumbnail</td>
+                            <td>Category Thumbnail</td>
                             <td>Thumbnail Image</td>
                             <td>Eager</td>
-                            <td><a href="#">https://example.com/brand</a></td>
+                            <td><a href="#">https://example.com/category</a></td>
                             <td>_parent</td>
                             <td>2</td>
                             <td>
@@ -225,7 +229,7 @@
     
     <div class="row mb-7">
         <div class="col-xl-12">
-            <button type="submit" class="btn btn-primary float-end">Update</button>
+            <button type="submit" class="btn btn-primary float-end">Submit</button>
         </div>
     </div>
 </div>
@@ -347,7 +351,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-muted" id="editImageModalLabel1">
-                    <i class="fas fa-edit"></i> Edit Image - brand-banner-1.jpg
+                    <i class="fas fa-edit"></i> Edit Image - electronics.jpg
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -383,17 +387,17 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Image Name</label>
-                        <input type="text" class="form-control" value="brand-banner-1.jpg">
+                        <input type="text" class="form-control" value="electronics.jpg">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Alt Text</label>
-                        <input type="text" class="form-control" value="Main Brand Banner">
+                        <input type="text" class="form-control" value="Main Category Banner">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Title</label>
-                        <input type="text" class="form-control" value="Brand Banner">
+                        <input type="text" class="form-control" value="Category Banner">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Loading</label>
@@ -442,7 +446,7 @@
             <div class="modal-body text-center">
                 <img src="https://placehold.co/120x120" class="img-fluid rounded mb-3" alt="Image Preview">
                 <p class="fw-semibold text-muted">
-                    Are you sure you want to delete <span class="text-danger">brand-banner-1.jpg</span>?
+                    Are you sure you want to delete <span class="text-danger">electronics.jpg</span>?
                 </p>
             </div>
 

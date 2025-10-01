@@ -1,8 +1,12 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
 <div class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="dashboard.html">
+                <a class="nav-link @(currentController == "Dashboard" ? "active" : "")" 
+                   asp-controller="Dashboard" asp-action="Index">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -16,8 +20,8 @@
                 <ul class="nav flex-column nav-submenu">
                     <li><a class="nav-link" href="#">Products</a></li>
                     <li><a class="nav-link" href="#">Product Groups</a></li>
-                    <li><a class="nav-link" asp-controller="Brands" asp-action="Index">Brands</a></li>
-                    <li><a class="nav-link" href="#">Categories</a></li>
+                    <li><a class="nav-link @(currentController == "Brands" ? "active" : "")" asp-controller="Brands" asp-action="Index">Brands</a></li>
+                    <li><a class="nav-link @(currentController == "Categories" ? "active" : "")" asp-controller="Categories" asp-action="Index">Categories</a></li>
                     <li><a class="nav-link" href="#">Inventory</a></li>
                     <li><a class="nav-link" href="#">Attributes</a></li>
                 </ul>
