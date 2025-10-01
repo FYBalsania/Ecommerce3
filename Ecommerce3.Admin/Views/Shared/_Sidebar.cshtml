@@ -23,7 +23,7 @@
                     <li><a class="nav-link @(currentController == "Brands" ? "active" : "")" asp-controller="Brands" asp-action="Index">Brands</a></li>
                     <li><a class="nav-link @(currentController == "Categories" ? "active" : "")" asp-controller="Categories" asp-action="Index">Categories</a></li>
                     <li><a class="nav-link" href="#">Inventory</a></li>
-                    <li><a class="nav-link" href="#">Attributes</a></li>
+                    <li><a class="nav-link @(currentController == "ProductAttributes" ? "active" : "")" asp-controller="ProductAttributes" asp-action="Index">Attributes</a></li>
                 </ul>
             </li>
 

@@ -1,0 +1,448 @@
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <!-- Left side: Heading -->
+        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Product Attribute - Colour</h2>
+    </div>
+
+    <!-- General -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0 text-muted py-2"><i class="fas fa-info"></i> General Info</h5>
+        </div>
+        <div class="card-body">
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Name : </label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="Colour">
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Slug : </label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="colour">
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Display : </label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="Colour">
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Breadcrumbs : </label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="Home > Attributes > Edit > Colour">
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Sort Order : </label>
+                </div>
+                <div class="col-md-9">
+                    <input type="number" class="form-control" value="1">
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Is Active : </label>
+                </div>
+                <div class="col-md-9">
+                    <input class="form-check-input" type="checkbox" id="isActive" checked>
+                    <label class="form-check-label" for="isActive">Active</label>
+                </div>
+            </div>
+            <div class="row form-group mb-3 text-muted fw-semibold">
+                <div class="col-md-3">
+                    <label class="col-form-label">Data Type : </label>
+                </div>
+                <div class="col-md-9">
+                    <select class="form-select">
+                        <option value="">Select Data Type</option>
+                        <option value="Text" selected>Text</option>
+                        <option value="Number">Number</option>
+                        <option value="DateOnly">DateOnly</option>
+                        <option value="Boolean">Boolean</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Product Attributes Value for Colour -->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-muted py-2">
+                <i class="fas fa-pencil"></i> Colour Values
+            </h5>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addProductAttributeValueModal">
+                <i class="fas fa-plus"></i> Add Value
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                        <tr>
+                            <th>Value</th>
+                            <th>Slug</th>
+                            <th>Sort Order</th>
+                            <th>Status</th>
+                            <th>Hex</th>
+                            <th>Colour Family</th>
+                            <th>Colour Family Hex</th>
+                            <th class="text-end">Created</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Blood Red</td>
+                            <td>blood-red</td>
+                            <td>1</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>#8A0303</td>
+                            <td>Red</td>
+                            <td>#FF0000</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pale Yellow</td>
+                            <td>pale-yellow</td>
+                            <td>2</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>#FFFF99</td>
+                            <td>Yellow</td>
+                            <td>#FFD700</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Emerald Green</td>
+                            <td>emerald-green</td>
+                            <td>3</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>#50C878</td>
+                            <td>Green</td>
+                            <td>#008000</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- Product Attributes Value for Storage-->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-muted py-2">
+                <i class="fas fa-pencil"></i> Storage Values (for reference - will be dynamic)
+            </h5>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addProductAttributeValueModal">
+                <i class="fas fa-plus"></i> Add Value
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                        <tr>
+                            <th>Value</th>
+                            <th>Slug</th>
+                            <th>Sort Order</th>
+                            <th class="text-end">Created</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>128 GB</td>
+                            <td>128-gb</td>
+                            <td>1</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>256 GB</td>
+                            <td>256-gb</td>
+                            <td>2</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>512 GB</td>
+                            <td>512-gb</td>
+                            <td>1</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1 TB</td>
+                            <td>1-tb</td>
+                            <td>4</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
+                                    <i class="fas fa-trash fs-6 text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="row mb-7">
+        <div class="col-xl-12">
+            <button type="submit" class="btn btn-primary float-end">Update</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Product Attribute Value Modal -->
+<div class="modal fade" id="addProductAttributeValueModal" tabindex="-1" aria-labelledby="addProductAttributeValueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-muted" id="addProductAttributeValueModalLabel">
+                    <i class="fas fa-plus"></i> Add Value
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" value="ProductAttributeValue" />
+                @* Or *@
+                <input type="hidden" value="ProductAttributeColourValue" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Value</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Slug</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Sort Order</label>
+                            <input type="number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="checkbox" id="isActive" checked>
+                            <label class="form-check-label" for="isActive">Active</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="text-muted">Value can be Number, DateOnly or Boolean. Depends on DataType selected for Product Attribute. If attribute is not color, Hex fields hide.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Product Attribute Value Modal -->
+<div class="modal fade" id="editProductAttributeValueModal" tabindex="-1" aria-labelledby="editProductAttributeValueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-muted" id="editProductAttributeValueModalLabel">
+                    <i class="fas fa-plus"></i> Edit Value
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" value="ProductAttributeValue" />
+                @* Or *@
+                <input type="hidden" value="ProductAttributeColourValue" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Value</label>
+                            <input type="text" class="form-control" value="Blood Red">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Slug</label>
+                            <input type="text" class="form-control" value="blood-red">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Display</label>
+                            <input type="text" class="form-control" value="Blood Red">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Breadcrumb</label>
+                            <input type="text" class="form-control" value="Home > Attributes > Color > Edit">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Sort Order</label>
+                            <input type="number" class="form-control" value="1">
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="checkbox" id="isActive" checked>
+                            <label class="form-check-label" for="isActive">Active</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Hex</label>
+                            <input type="text" class="form-control" value="8A0303">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Colour Family</label>
+                            <input type="text" class="form-control" value="Red">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Colour Family Hex</label>
+                            <input type="text" class="form-control" value="#FF0000">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="text-muted">Value can be Number, DateOnly or Boolean. Depends on DataType selected for Product Attribute. If attribute is not color, Hex fields hide.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Product Attribute Value Modal -->
+<div class="modal fade" id="deleteProductAttributeValueModal" tabindex="-1" aria-labelledby="deleteProductAttributeValueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash"></i> Delete Product Attribute Value
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p class="fw-semibold text-muted">
+                    Are you sure you want to delete value <span class="text-danger">Red</span>?
+                </p>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
