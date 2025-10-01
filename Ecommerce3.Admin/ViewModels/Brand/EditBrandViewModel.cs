@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands;
 
-namespace Ecommerce3.Admin.ViewModels;
+namespace Ecommerce3.Admin.ViewModels.Brand;
 
 public class EditBrandViewModel
 {

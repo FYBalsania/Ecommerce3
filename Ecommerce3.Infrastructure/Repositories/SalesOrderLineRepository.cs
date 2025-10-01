@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class SalesOrderLineRepository : Repository<SalesOrderLine>, ISalesOrderLineRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public SalesOrderLineRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public SalesOrderLineRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

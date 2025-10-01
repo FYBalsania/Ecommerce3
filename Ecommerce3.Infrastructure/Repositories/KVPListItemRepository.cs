@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class KVPListItemRepository : Repository<KVPListItem>, IKVPListItemRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public KVPListItemRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public KVPListItemRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

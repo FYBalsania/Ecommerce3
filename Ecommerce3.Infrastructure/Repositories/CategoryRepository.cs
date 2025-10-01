@@ -8,12 +8,10 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class CategoryRepository : Repository<Category>, ICategoryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public CategoryRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public CategoryRepository(AppDbContext dbContext) : base(dbContext) {}
 
     public async Task<(IEnumerable<Category> ListItems, int Count)> GetCategoriesAsync(string? name, int parentId,
-        CategoryInclude[] includes, bool trackChanges, int pageNumber, int pageSize,
+        CategoryInclude includes, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
@@ -29,19 +27,19 @@ internal class CategoryRepository : Repository<Category>, ICategoryRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Brand?> GetByIdAsync(int id, CategoryInclude[] includes, bool trackChanges,
+    public async Task<Brand?> GetByIdAsync(int id, CategoryInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Brand?> GetBySlugAsync(string slug, CategoryInclude[] includes, bool trackChanges,
+    public async Task<Brand?> GetBySlugAsync(string slug, CategoryInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Brand?> GetByNameAsync(string name, CategoryInclude[] includes, bool trackChanges,
+    public async Task<Brand?> GetByNameAsync(string name, CategoryInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

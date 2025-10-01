@@ -8,12 +8,12 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class DiscountRepository : Repository<Discount>, IDiscountRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public DiscountRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public DiscountRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 
     public async Task<(IEnumerable<Discount> ListItems, int Count)> GetDiscountsAsync(string? scope, string? code,
-        string? name, DiscountInclude[] includes, bool trackChanges, int pageNumber, int pageSize,
+        string? name, DiscountInclude includes, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
@@ -29,19 +29,19 @@ internal class DiscountRepository : Repository<Discount>, IDiscountRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Discount?> GetByIdAsync(int id, DiscountInclude[] includes, bool trackChanges,
+    public async Task<Discount?> GetByIdAsync(int id, DiscountInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Discount?> GetByCodeAsync(string code, DiscountInclude[] includes, bool trackChanges,
+    public async Task<Discount?> GetByCodeAsync(string code, DiscountInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Discount?> GetByNameAsync(string name, DiscountInclude[] includes, bool trackChanges,
+    public async Task<Discount?> GetByNameAsync(string name, DiscountInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

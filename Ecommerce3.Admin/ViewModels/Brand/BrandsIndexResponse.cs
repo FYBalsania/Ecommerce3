@@ -1,7 +1,6 @@
 using Ecommerce3.Application.DTOs;
-using Ecommerce3.Domain.Models;
 
-namespace Ecommerce3.Admin.ViewModels;
+namespace Ecommerce3.Admin.ViewModels.Brand;
 
 public record BrandsIndexResponse
 {

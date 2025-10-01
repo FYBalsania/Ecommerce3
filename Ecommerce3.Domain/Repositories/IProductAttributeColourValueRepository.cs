@@ -6,6 +6,6 @@ namespace Ecommerce3.Domain.Repositories;
 public interface IProductAttributeColourValueRepository : IRepository<ProductAttributeColourValue>
 {
     public Task<(IReadOnlyCollection<ProductAttributeColourValue> ListItems, int Count)>
-        GetProductAttributeColourValuesAsync(string? name, ProductAttributeColourValueInclude[] includes,
+        GetProductAttributeColourValuesAsync(string? name, ProductAttributeColourValueInclude includes,
             bool trackChanges, int pageNumber, int pageSize, CancellationToken cancellationToken);
 }

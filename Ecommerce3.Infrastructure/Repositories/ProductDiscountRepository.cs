@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductDiscountRepository : Repository<ProductDiscount>, IProductDiscountRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductDiscountRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductDiscountRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

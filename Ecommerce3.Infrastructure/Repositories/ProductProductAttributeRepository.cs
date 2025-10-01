@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductProductAttributeRepository : IProductProductAttributeRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductProductAttributeRepository(AppDbContext dbContext) => _dbContext = dbContext;
+    public ProductProductAttributeRepository(AppDbContext dbContext)
+    {
+    }
 }

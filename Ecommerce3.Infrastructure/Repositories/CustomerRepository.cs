@@ -8,12 +8,12 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class CustomerRepository : Repository<Customer>, ICustomerRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public CustomerRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public CustomerRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 
     public async Task<(IEnumerable<Customer> ListItems, int Count)?> GetCustomersAsync(string? firstName,
-        string? lastName, string? companyName, string? emailAddress, string? phoneNumber, CustomerInclude[] includes,
+        string? lastName, string? companyName, string? emailAddress, string? phoneNumber, CustomerInclude includes,
         bool trackChanges, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
@@ -24,13 +24,13 @@ internal class CustomerRepository : Repository<Customer>, ICustomerRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Customer?> GetByEmailAsync(string email, CustomerInclude[] includes, bool trackChanges,
+    public async Task<Customer?> GetByEmailAsync(string email, CustomerInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Customer?> GetByIdAsync(string email, CustomerInclude[] includes, bool trackChanges,
+    public async Task<Customer?> GetByIdAsync(string email, CustomerInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

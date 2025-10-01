@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands;
 
-namespace Ecommerce3.Admin.ViewModels;
+namespace Ecommerce3.Admin.ViewModels.Brand;
 
-public sealed class AddBrandViewModel
+public class AddBrandViewModel
 {
     [Required(ErrorMessage = $"{nameof(Name)} is required.")]
     [Range(1, 256, ErrorMessage = $"{nameof(Name)} must be between 1 and 256 characters.")]

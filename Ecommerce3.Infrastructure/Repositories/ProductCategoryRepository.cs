@@ -5,7 +5,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductCategoryRepository : IProductCategoryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductCategoryRepository(AppDbContext dbContext) => _dbContext = dbContext;
+    public ProductCategoryRepository(AppDbContext dbContext)
+    {
+    }
 }

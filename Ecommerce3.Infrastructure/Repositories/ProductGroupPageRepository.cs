@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductGroupPageRepository : Repository<ProductGroupPage>, IProductGroupPageRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductGroupPageRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductGroupPageRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

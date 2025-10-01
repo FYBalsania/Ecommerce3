@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Ecommerce3.Admin.Extensions;
-using Ecommerce3.Admin.ViewModels;
+using Ecommerce3.Admin.ViewModels.Brand;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -80,7 +80,8 @@ public class BrandsController : Controller
         var brand = await _brandService.GetBrandAsync(id, cancellationToken);
         if (brand is null) return NotFound();
 
-        return View(brand.ToViewModel());
+       // return View(brand.ToViewModel());
+       return View();
     }
 
     [HttpPost]

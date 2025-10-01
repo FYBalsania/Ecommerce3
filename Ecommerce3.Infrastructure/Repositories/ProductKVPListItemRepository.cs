@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductKVPListItemRepository : Repository<ProductKVPListItem>, IProductKVPListItemRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductKVPListItemRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductKVPListItemRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

@@ -1,4 +1,4 @@
-using Ecommerce3.Admin.ViewModels;
+using Ecommerce3.Admin.ViewModels.Brand;
 using Ecommerce3.Application.DTOs;
 
 namespace Ecommerce3.Admin.Extensions;

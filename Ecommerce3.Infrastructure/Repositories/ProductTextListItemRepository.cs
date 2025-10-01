@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductTextListItemRepository : Repository<ProductTextListItem>, IProductTextListItemRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductTextListItemRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductTextListItemRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

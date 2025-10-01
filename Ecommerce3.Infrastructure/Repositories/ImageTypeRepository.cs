@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class ImageTypeRepository : Repository<ImageType>, IImageTypeRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ImageTypeRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ImageTypeRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

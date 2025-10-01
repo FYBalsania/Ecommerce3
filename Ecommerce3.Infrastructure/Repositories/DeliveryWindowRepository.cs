@@ -8,24 +8,24 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class DeliveryWindowRepository : Repository<DeliveryWindow>, IDeliveryWindowRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public DeliveryWindowRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public DeliveryWindowRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 
     public async Task<(IEnumerable<DeliveryWindow> ListItems, int Count)> GetDeliveryWindowsAsync(string? name,
-        DeliveryWindowInclude[] includes, bool trackChanges, int pageNumber, int pageSize,
+        DeliveryWindowInclude includes, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<DeliveryWindow?> GetByIdAsync(int id, DeliveryWindowInclude[] includes, bool trackChanges,
+    public async Task<DeliveryWindow?> GetByIdAsync(int id, DeliveryWindowInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<DeliveryWindow?> GetByNameAsync(string name, DeliveryWindowInclude[] includes, bool trackChanges,
+    public async Task<DeliveryWindow?> GetByNameAsync(string name, DeliveryWindowInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

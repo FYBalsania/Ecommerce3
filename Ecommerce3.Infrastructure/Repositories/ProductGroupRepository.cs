@@ -8,30 +8,30 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class ProductGroupRepository : Repository<ProductGroup>, IProductGroupRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductGroupRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductGroupRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 
     public async Task<(IReadOnlyCollection<ProductGroup> ListItems, int Count)> GetProductGroupsAsync(string? name,
-        ProductGroupInclude[] includes, bool trackChanges, int pageNumber, int pageSize,
+        ProductGroupInclude includes, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductGroup?> GetByNameAsync(string name, ProductGroupInclude[] includes, bool trackChanges,
+    public async Task<ProductGroup?> GetByNameAsync(string name, ProductGroupInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductGroup?> GetBySlugAsync(string slug, ProductGroupInclude[] includes, bool trackChanges,
+    public async Task<ProductGroup?> GetBySlugAsync(string slug, ProductGroupInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductGroup?> GetByIdAsync(int id, ProductGroupInclude[] includes, bool trackChanges,
+    public async Task<ProductGroup?> GetByIdAsync(int id, ProductGroupInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

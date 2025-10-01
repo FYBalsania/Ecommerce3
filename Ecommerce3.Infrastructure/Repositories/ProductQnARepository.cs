@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductQnARepository : Repository<ProductQnA>, IProductQnARepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductQnARepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductQnARepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

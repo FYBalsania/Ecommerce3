@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class CartRepository : Repository<Cart>, ICartRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public CartRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public CartRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

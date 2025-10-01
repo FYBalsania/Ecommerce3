@@ -7,12 +7,12 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class PageRepository : Repository<Page>, IPageRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public PageRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public PageRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 
     public async Task<(IEnumerable<Page> ListItems, int Count)?> GetPagesAsync(string? path, string? title,
-        string? canonicalUrl, int? seoScore, PageInclude[] includes, bool trackChanges, int pageNumber, int pageSize,
+        string? canonicalUrl, int? seoScore, PageInclude includes, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
@@ -23,13 +23,13 @@ internal class PageRepository : Repository<Page>, IPageRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Page?> GetByPathAsync(string path, PageInclude[] includes, bool trackChanges,
+    public async Task<Page?> GetByPathAsync(string path, PageInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Page?> GetByIdAsync(int id, PageInclude[] includes, bool trackChanges,
+    public async Task<Page?> GetByIdAsync(int id, PageInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

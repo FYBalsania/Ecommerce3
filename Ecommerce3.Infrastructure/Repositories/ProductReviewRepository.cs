@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class ProductReviewRepository : Repository<ProductReview>, IProductReviewRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductReviewRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductReviewRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

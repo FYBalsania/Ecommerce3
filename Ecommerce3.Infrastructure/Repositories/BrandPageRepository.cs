@@ -6,8 +6,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class BrandPageRepository : Repository<BrandPage>, IBrandPageRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public BrandPageRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
-
+    public BrandPageRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 }

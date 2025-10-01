@@ -8,12 +8,12 @@ namespace Ecommerce3.Infrastructure.Repositories;
 internal sealed class ProductAttributeValueRepository : Repository<ProductAttributeValue>,
     IProductAttributeValueRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductAttributeValueRepository(AppDbContext dbContext) : base(dbContext) => _dbContext = dbContext;
+    public ProductAttributeValueRepository(AppDbContext dbContext) : base(dbContext)
+    {
+    }
 
     public async Task<(IReadOnlyCollection<ProductAttributeValue> ListItems, int Count)> GetProductAttributeValuesAsync(
-        string? name, ProductAttributeValueInclude[] includes, bool trackChanges,
+        string? name, ProductAttributeValueInclude includes, bool trackChanges,
         int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
@@ -29,21 +29,22 @@ internal sealed class ProductAttributeValueRepository : Repository<ProductAttrib
         throw new NotImplementedException();
     }
 
-    public async Task<ProductAttributeValue?> GetByNameAsync(string name, ProductAttributeValueInclude[] includes,
+    public async Task<ProductAttributeValue?> GetByNameAsync(string name, ProductAttributeValueInclude includes,
         bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductAttributeValue?> GetBySlugAsync(string slug, ProductAttributeValueInclude[] includes,
+    public async Task<ProductAttributeValue?> GetBySlugAsync(string slug, ProductAttributeValueInclude includes,
         bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductAttributeValue?> GetByIdAsync(int id, ProductAttributeValueInclude[] includes, bool trackChanges,
+    public async Task<ProductAttributeValue?> GetByIdAsync(int id, ProductAttributeValueInclude includes,
+        bool trackChanges,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
