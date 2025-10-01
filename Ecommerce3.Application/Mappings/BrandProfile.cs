@@ -1,6 +1,5 @@
 using AutoMapper;
-using Ecommerce3.Application.Commands;
-using Ecommerce3.Application.DTOs;
+using Ecommerce3.Application.DTOs.Brand;
 using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Application.Mappings;

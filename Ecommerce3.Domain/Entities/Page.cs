@@ -1,5 +1,3 @@
-using Ecommerce3.Domain.Enums;
-
 namespace Ecommerce3.Domain.Entities;
 
 public class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable

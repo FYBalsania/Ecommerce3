@@ -1,6 +1,5 @@
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
-using Ecommerce3.Domain.Models;
 
 namespace Ecommerce3.Domain.Repositories;
 

@@ -1,4 +1,4 @@
-namespace Ecommerce3.Application.DTOs;
+namespace Ecommerce3.Application.DTOs.ProductAttribute;
 
 public class ProductAttributeDTO
 {

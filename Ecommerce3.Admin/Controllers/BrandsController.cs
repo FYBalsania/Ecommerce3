@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Ecommerce3.Admin.Extensions;
 using Ecommerce3.Admin.ViewModels.Brand;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Domain.Exceptions;

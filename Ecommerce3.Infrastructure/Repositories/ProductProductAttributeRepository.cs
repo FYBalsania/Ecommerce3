@@ -1,4 +1,3 @@
-using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
 

@@ -1,6 +1,3 @@
-using Ecommerce3.Domain.Enums;
-using Ecommerce3.Domain.Extensions;
-
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class Cart : Entity, ICreatable, IUpdatable, IDeletable

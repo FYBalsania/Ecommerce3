@@ -1,6 +1,6 @@
 using AutoMapper;
 using Ecommerce3.Application.Commands;
-using Ecommerce3.Application.DTOs;
+using Ecommerce3.Application.DTOs.Brand;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;

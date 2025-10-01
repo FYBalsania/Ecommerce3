@@ -1,5 +1,3 @@
-using Ecommerce3.Domain.Entities;
-
 namespace Ecommerce3.Domain.Exceptions;
 
 public class DuplicateException: Exception

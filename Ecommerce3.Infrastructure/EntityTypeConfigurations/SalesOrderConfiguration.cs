@@ -1,5 +1,4 @@
 using Ecommerce3.Domain.Entities;
-using Ecommerce3.Domain.Models;
 using Ecommerce3.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
