@@ -1,0 +1,161 @@
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <!-- Left side: Heading -->
+        <h2 class="text-danger fw-bold fs-3 mb-0">Product Groups</h2>
+
+        <!-- Right side: button -->
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary" asp-controller="ProductGroups" asp-action="Add">
+                <i class="fas fa-plus"></i> Add New
+            </a>
+            <!-- Add more button here -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="row g-3 mt-1 mb-5">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Product Group Name">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option value="">Select Status</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Created By">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </form>
+            <!-- Catgeory Table -->
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="">
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>Active</th>
+                        <th>Sort Order</th>
+                        <th>Images</th>
+                        <th class="text-end">Created</th>
+                        <th>Created By</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
+                            <td>iPhone 17</td>
+                            <td>iphone-17</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>1</td>
+                            <td>4</td>
+                            <td class="text-end">25-Sept-2025 09:15</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
+                            <td>iPhone 17 Air</td>
+                            <td>iphone-17-air</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td class="text-end">24-Sept-2025 14:30</td>
+                            <td>John Smith</td>
+                            <td>
+                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="2"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
+                            <td>iPhone 17 Pro</td>
+                            <td>iphone-17-pro</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td class="text-end">23-Sept-2025 11:50</td>
+                            <td>Alice</td>
+                            <td>
+                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="3"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
+                            <td>iPhone 17 Pro Max</td>
+                            <td>iphone-17-pro-max</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td class="text-end">22-Sept-2025 18:00</td>
+                            <td>Mike</td>
+                            <td>
+                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="4"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination + Page Size -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- Left: Page Size -->
+                <div class="text-muted">
+                    Displaying 10 of 43 records
+                </div>
+
+                <!-- Right: Pagination -->
+                <nav>
+                    <ul class="pagination mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete Category Modal -->
+<div class="modal fade" id="deleteProductGroupModal" tabindex="-1" aria-labelledby="deleteProductGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash"></i> Delete Product Group - iPhone 17
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <img src="https://placehold.co/120x120" class="img-fluid rounded mb-3" alt="Image Preview">
+                <p class="fw-semibold text-muted">
+                    Are you sure you want to delete the product group <span class="text-danger">iPhone 17</span>?
+                </p>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <form method="post" asp-controller="ProductGroups" asp-action="Delete" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
