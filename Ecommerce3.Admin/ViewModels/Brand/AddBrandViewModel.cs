@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce3.Application.Commands;
+using Ecommerce3.Application.Commands.Brand;
 
 namespace Ecommerce3.Admin.ViewModels.Brand;
 

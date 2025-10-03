@@ -1,4 +1,5 @@
 using Ecommerce3.Application.Commands;
+using Ecommerce3.Application.Commands.Brand;
 using Ecommerce3.Application.DTOs.Brand;
 
 namespace Ecommerce3.Application.Services.Interfaces;
