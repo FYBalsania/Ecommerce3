@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ecommerce3.Application.Services;
 using Ecommerce3.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +8,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(Profile).Assembly);
         services.AddScoped<IIPAddressService, IPAddressService>();
         services.AddScoped<IBrandService, BrandService>();
         

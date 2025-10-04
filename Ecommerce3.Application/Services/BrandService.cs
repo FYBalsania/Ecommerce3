@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ecommerce3.Application.Commands;
 using Ecommerce3.Application.Commands.Brand;
 using Ecommerce3.Application.DTOs.Brand;
@@ -14,13 +13,11 @@ public sealed class BrandService : IBrandService
 {
     private readonly IBrandRepository _brandRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public BrandService(IBrandRepository brandRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public BrandService(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
     {
         _brandRepository = brandRepository;
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
 
     public async Task<(IEnumerable<BrandListItemDTO> ListItems, int Count)> GetBrandListItemsAsync(string? name,
@@ -28,9 +25,8 @@ public sealed class BrandService : IBrandService
     {
         var result = await _brandRepository.GetBrandsAsync(name, BrandInclude.CreatedUser, pageNumber, pageSize,
             cancellationToken);
-        var brands = _mapper.Map<IEnumerable<BrandListItemDTO>>(result.Brands);
 
-        return (brands, result.Count);
+        return (new List<BrandListItemDTO>(), result.Count);
     }
 
     public async Task AddBrandAsync(AddBrandCommand command, CancellationToken cancellationToken)
@@ -54,7 +50,7 @@ public sealed class BrandService : IBrandService
         var brand = await _brandRepository.GetByIdAsync(id, BrandInclude.None, false, cancellationToken);
         if (brand == null) return null;
 
-        return _mapper.Map<BrandDTO>(brand);
+        return new BrandDTO();
     }
 
     public async Task UpdateBrandAsync(UpdateBrandCommand command, CancellationToken cancellationToken)
