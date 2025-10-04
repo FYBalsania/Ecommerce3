@@ -1,5 +1,7 @@
+using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.QueryRepositories;
 using Ecommerce3.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +28,8 @@ public static class DependencyInjection
         // services.AddScoped<IPageRepository, PageRepository>();
         // services.AddScoped<IProductRepository, ProductRepository>();
         // services.AddScoped<IProductSpecificationGroupRepository, ProductSpecificationGroupRepository>();
+
+        services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
 
         return services;
     }

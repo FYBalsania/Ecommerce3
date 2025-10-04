@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Application", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Infrastructure", "Ecommerce3.Infrastructure\Ecommerce3.Infrastructure.csproj", "{129849A3-ACE4-4A82-A985-634AB96DE61C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Contracts", "Ecommerce3.Contracts\Ecommerce3.Contracts.csproj", "{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{129849A3-ACE4-4A82-A985-634AB96DE61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{129849A3-ACE4-4A82-A985-634AB96DE61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{129849A3-ACE4-4A82-A985-634AB96DE61C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

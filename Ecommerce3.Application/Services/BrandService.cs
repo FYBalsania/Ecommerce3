@@ -1,7 +1,8 @@
 using Ecommerce3.Application.Commands;
 using Ecommerce3.Application.Commands.Brand;
-using Ecommerce3.Application.DTOs.Brand;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Exceptions;
@@ -12,23 +13,21 @@ namespace Ecommerce3.Application.Services;
 public sealed class BrandService : IBrandService
 {
     private readonly IBrandRepository _brandRepository;
+    private readonly IBrandQueryRepository _brandQueryRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BrandService(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
+    public BrandService(IBrandRepository brandRepository, IBrandQueryRepository brandQueryRepository,
+        IUnitOfWork unitOfWork)
     {
         _brandRepository = brandRepository;
+        _brandQueryRepository = brandQueryRepository;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<(IEnumerable<BrandListItemDTO> ListItems, int Count)> GetBrandListItemsAsync(string? name,
+    public async Task<(IReadOnlyList<BrandListItemDTO>, int)> GetBrandListItemsAsync(string? name,
         int pageNumber, int pageSize, CancellationToken cancellationToken)
-    {
-        var result = await _brandRepository.GetBrandsAsync(name, BrandInclude.CreatedUser, pageNumber, pageSize,
-            cancellationToken);
-
-        return (result.Brands.Select(BrandListItemDTO.FromDomain), result.Count);
-    }
-
+        => await _brandQueryRepository.GetBrandListItemsAsync(name, pageNumber, pageSize, cancellationToken);
+    
     public async Task AddBrandAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
         var exists = await _brandRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
@@ -43,14 +42,6 @@ public sealed class BrandService : IBrandService
             command.CreatedByIp);
 
         await _brandRepository.AddAsync(brand, cancellationToken);
-    }
-
-    public async Task<BrandDTO?> GetBrandAsync(int id, CancellationToken cancellationToken)
-    {
-        var brand = await _brandRepository.GetByIdAsync(id, BrandInclude.None, false, cancellationToken);
-        if (brand == null) return null;
-
-        return new BrandDTO();
     }
 
     public async Task UpdateBrandAsync(UpdateBrandCommand command, CancellationToken cancellationToken)

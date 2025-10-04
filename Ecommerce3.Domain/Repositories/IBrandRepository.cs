@@ -5,9 +5,6 @@ namespace Ecommerce3.Domain.Repositories;
 
 public interface IBrandRepository : IRepository<Brand>
 {
-    public Task<(IEnumerable<Brand> Brands, int Count)> GetBrandsAsync(string? name, BrandInclude includes,
-        int pageNumber, int pageSize, CancellationToken cancellationToken);
-
     public Task<Brand?> GetByIdAsync(int id, BrandInclude includes, bool trackChanges,
         CancellationToken cancellationToken);
 

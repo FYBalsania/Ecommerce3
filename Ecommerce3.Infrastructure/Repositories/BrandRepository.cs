@@ -1,3 +1,5 @@
+using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Repositories;
@@ -6,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BrandRepository : Repository<Brand>, IBrandRepository
+internal class BrandRepository : Repository<Brand>, IBrandRepository, IBrandQueryRepository
 {
     public BrandRepository(AppDbContext dbContext) : base(dbContext)
     {
@@ -28,23 +30,6 @@ internal class BrandRepository : Repository<Brand>, IBrandRepository
             query = query.Include(x => x.DeletedByUser);
 
         return query;
-    }
-
-    public async Task<(IEnumerable<Brand> Brands, int Count)> GetBrandsAsync(string? name, BrandInclude includes,
-        int pageNumber, int pageSize, CancellationToken cancellationToken)
-    {
-        var query = GetQuery(BrandInclude.None, false);
-
-        if (!string.IsNullOrWhiteSpace(name))
-            query = query.Where(b => EF.Functions.Like(b.Name, $"%{name}%"));
-
-        var total = await query.CountAsync(cancellationToken);
-        var brands = await query
-            .OrderBy(b => b.Name)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize).ToListAsync(cancellationToken);
-
-        return (brands, total);
     }
 
     public async Task<Brand?> GetByIdAsync(int id, BrandInclude includes, bool trackChanges,
@@ -86,5 +71,24 @@ internal class BrandRepository : Repository<Brand>, IBrandRepository
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
 
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
+    }
+
+    public async Task<(IReadOnlyList<BrandListItemDTO>, int)> GetBrandListItemsAsync(string? name, int pageNumber,
+        int pageSize, CancellationToken cancellationToken)
+    {
+        var query = GetQuery(BrandInclude.CreatedUser, false);
+
+        if (!string.IsNullOrWhiteSpace(name))
+            query = query.Where(b => EF.Functions.Like(b.Name, $"%{name}%"));
+
+        var total = await query.CountAsync(cancellationToken);
+        var brands = await query
+            .OrderBy(b => b.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Select(x => new BrandListItemDTO(x.Id, x.Name, x.Slug, x.CreatedByUser!.FullName, x.CreatedAt))
+            .ToListAsync(cancellationToken);
+
+        return (brands, total);
     }
 }

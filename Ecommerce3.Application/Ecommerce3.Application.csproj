@@ -7,16 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Ecommerce3.Contracts\Ecommerce3.Contracts.csproj" />
       <ProjectReference Include="..\Ecommerce3.Domain\Ecommerce3.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Mappings\" />
     </ItemGroup>
 
 </Project>
