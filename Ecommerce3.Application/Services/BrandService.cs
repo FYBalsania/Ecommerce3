@@ -26,7 +26,7 @@ public sealed class BrandService : IBrandService
         var result = await _brandRepository.GetBrandsAsync(name, BrandInclude.CreatedUser, pageNumber, pageSize,
             cancellationToken);
 
-        return (new List<BrandListItemDTO>(), result.Count);
+        return (result.Brands.Select(BrandListItemDTO.FromDomain), result.Count);
     }
 
     public async Task AddBrandAsync(AddBrandCommand command, CancellationToken cancellationToken)
