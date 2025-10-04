@@ -18,7 +18,7 @@
                     <span>Products</span>
                 </div>
                 <ul class="nav flex-column nav-submenu">
-                    <li><a class="nav-link" href="#">Products</a></li>
+                    <li><a class="nav-link @(currentController == "Products" ? "active" : "")" asp-controller="Products" asp-action="Index">Products</a></li>
                     <li><a class="nav-link @(currentController == "ProductGroups" ? "active" : "")" asp-controller="ProductGroups" asp-action="Index">Product Groups</a></li>
                     <li><a class="nav-link @(currentController == "Brands" ? "active" : "")" asp-controller="Brands" asp-action="Index">Brands</a></li>
                     <li><a class="nav-link @(currentController == "Categories" ? "active" : "")" asp-controller="Categories" asp-action="Index">Categories</a></li>
