@@ -2,7 +2,7 @@ namespace Ecommerce3.Application.Commands.Brand;
 
 public record AddBrandCommand
 {
-    public string Name { get; set; }
+    public string Name { get; init; }
     public string Slug { get; init; }
     public string Display { get; init; }
     public string Breadcrumb { get; init; }
