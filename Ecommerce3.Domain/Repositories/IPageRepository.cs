@@ -16,4 +16,6 @@ public interface IPageRepository : IRepository<Page>
 
     public Task<Page?> GetByIdAsync(int id, PageInclude includes, bool trackChanges,
         CancellationToken cancellationToken);
+
+    public Task<bool> ExistsByBrandIdAsync(int brandId, CancellationToken cancellationToken);
 }

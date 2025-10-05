@@ -25,7 +25,7 @@ public static class DependencyInjection
         // services.AddScoped<IDeliveryWindowRepository, DeliveryWindowRepository>();
         // services.AddScoped<IDiscountRepository, DiscountRepository>();
         // services.AddScoped<IImageRepository, ImageRepository>();
-        // services.AddScoped<IPageRepository, PageRepository>();
+        services.AddScoped<IPageRepository, PageRepository>();
         // services.AddScoped<IProductRepository, ProductRepository>();
         // services.AddScoped<IProductSpecificationGroupRepository, ProductSpecificationGroupRepository>();
 

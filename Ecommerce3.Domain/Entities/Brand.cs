@@ -8,10 +8,6 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     public string Breadcrumb { get; private set; }
     public string AnchorText { get; private set; }
     public string? AnchorTitle { get; private set; }
-    public string MetaTitle { get; private set; }
-    public string? MetaDescription { get; private set; }
-    public string? MetaKeywords { get; private set; }
-    public string H1 { get; private set; }
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }
     public bool IsActive { get; private set; }
@@ -35,8 +31,8 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     }
 
     public Brand(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
-        string metaTitle, string? metaDescription, string? metaKeywords, string h1, string? shortDescription,
-        string? fullDescription, bool isActive, int sortOrder, int createdBy, string createdByIp)
+        string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int createdBy,
+        string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
         ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
@@ -45,8 +41,6 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
         ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
         ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
         ArgumentException.ThrowIfNullOrWhiteSpace(anchorText, nameof(anchorText));
-        ArgumentException.ThrowIfNullOrWhiteSpace(metaTitle, nameof(metaTitle));
-        ArgumentException.ThrowIfNullOrWhiteSpace(h1, nameof(h1));
         ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
 
         Name = name;
@@ -55,10 +49,6 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        MetaTitle = metaTitle;
-        MetaDescription = metaDescription;
-        MetaKeywords = metaKeywords;
-        H1 = h1;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
         IsActive = isActive;
@@ -69,15 +59,13 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     }
 
     public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
-        string? anchorTitle, string metaTitle, string? metaDescription, string? metaKeywords, string h1,
-        string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int updatedBy,
+        string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
+        int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
-            AnchorText == anchorText && AnchorTitle == anchorTitle && MetaTitle == metaTitle &&
-            MetaDescription == metaDescription && MetaKeywords == metaKeywords && H1 == h1 &&
-            ShortDescription == shortDescription && FullDescription == fullDescription && IsActive == isActive &&
-            SortOrder == sortOrder)
+            AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
+            FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
             return false;
 
         Name = name;
@@ -86,10 +74,6 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        MetaTitle = metaTitle;
-        MetaDescription = metaDescription;
-        MetaKeywords = metaKeywords;
-        H1 = h1;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
         IsActive = isActive;

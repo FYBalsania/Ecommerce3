@@ -2,6 +2,7 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
@@ -34,4 +35,7 @@ internal class PageRepository : Repository<Page>, IPageRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<bool> ExistsByBrandIdAsync(int brandId, CancellationToken cancellationToken)
+        => await _dbContext.Pages.IgnoreQueryFilters().AnyAsync(x => x.BrandId == brandId, cancellationToken);
 }

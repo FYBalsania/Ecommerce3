@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251005123523_Init")]
+    [Migration("20251005144738_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -87,33 +87,11 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("text")
-                        .HasColumnOrder(13);
-
-                    b.Property<string>("H1")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(9);
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(14);
-
-                    b.Property<string>("MetaDescription")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(9);
-
-                    b.Property<string>("MetaKeywords")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
                         .HasColumnOrder(10);
-
-                    b.Property<string>("MetaTitle")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(8);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -124,7 +102,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("ShortDescription")
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)")
-                        .HasColumnOrder(12);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -134,7 +112,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(15);
+                        .HasColumnOrder(11);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -1430,26 +1408,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer")
                         .HasColumnName("BrandId")
-                        .HasColumnOrder(39);
+                        .HasColumnOrder(38);
 
                     b.Property<string>("BreadcrumbsJson")
                         .HasColumnType("text")
-                        .HasColumnOrder(28);
+                        .HasColumnOrder(27);
 
                     b.Property<string>("CanonicalUrl")
-                        .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(18);
+                        .HasColumnOrder(17);
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("integer")
                         .HasColumnName("CategoryId")
-                        .HasColumnOrder(40);
+                        .HasColumnOrder(39);
 
                     b.Property<string>("ContentHtml")
                         .HasColumnType("text")
-                        .HasColumnOrder(24);
+                        .HasColumnOrder(23);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1486,83 +1463,75 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("FooterScripts")
                         .HasColumnType("text")
-                        .HasColumnOrder(35);
+                        .HasColumnOrder(34);
 
                     b.Property<string>("H1")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(25);
+                        .HasColumnOrder(24);
 
                     b.Property<string>("HeaderScripts")
                         .HasColumnType("text")
-                        .HasColumnOrder(34);
+                        .HasColumnOrder(33);
 
                     b.Property<string>("HreflangMapJson")
                         .HasColumnType("text")
-                        .HasColumnOrder(29);
+                        .HasColumnOrder(28);
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(43);
+                        .HasColumnOrder(42);
 
                     b.Property<bool>("IsIndexed")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(33);
+                        .HasColumnOrder(32);
 
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(36);
+                        .HasColumnOrder(35);
 
                     b.Property<string>("MetaDescription")
-                        .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(15);
+                        .HasColumnOrder(14);
 
                     b.Property<string>("MetaKeywords")
-                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(16);
+                        .HasColumnOrder(15);
 
                     b.Property<string>("MetaRobots")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)")
-                        .HasColumnOrder(17);
+                        .HasColumnOrder(16);
 
                     b.Property<string>("MetaTitle")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(14);
+                        .HasColumnOrder(13);
 
                     b.Property<string>("OgDescription")
-                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnOrder(19);
+
+                    b.Property<string>("OgImageUrl")
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
                         .HasColumnOrder(20);
 
-                    b.Property<string>("OgImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(21);
-
                     b.Property<string>("OgTitle")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(19);
+                        .HasColumnOrder(18);
 
                     b.Property<string>("OgType")
-                        .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnOrder(22);
+                        .HasColumnOrder(21);
 
                     b.Property<string>("Path")
                         .HasMaxLength(256)
@@ -1572,56 +1541,49 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<int?>("ProductGroupId")
                         .HasColumnType("integer")
                         .HasColumnName("ProductGroupId")
-                        .HasColumnOrder(42);
+                        .HasColumnOrder(41);
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("integer")
                         .HasColumnName("ProductId")
-                        .HasColumnOrder(41);
+                        .HasColumnOrder(40);
 
                     b.Property<string>("RedirectFromJson")
                         .HasColumnType("text")
-                        .HasColumnOrder(32);
+                        .HasColumnOrder(31);
 
                     b.Property<string>("Region")
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(37);
+                        .HasColumnOrder(36);
 
                     b.Property<string>("SchemaJsonLd")
                         .HasColumnType("text")
-                        .HasColumnOrder(27);
+                        .HasColumnOrder(26);
 
                     b.Property<int?>("SeoScore")
                         .HasColumnType("integer")
-                        .HasColumnOrder(38);
+                        .HasColumnOrder(37);
 
                     b.Property<string>("SitemapFrequency")
                         .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnOrder(31);
+                        .HasColumnOrder(30);
 
                     b.Property<decimal>("SitemapPriority")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(30);
+                        .HasColumnOrder(29);
 
                     b.Property<string>("Summary")
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(26);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(13);
+                        .HasColumnOrder(25);
 
                     b.Property<string>("TwitterCard")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)")
-                        .HasColumnOrder(23);
+                        .HasColumnOrder(22);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
