@@ -38,6 +38,7 @@ public sealed class Category : EntityWithImages, ICreatable, IUpdatable, IDeleta
     public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
     public IReadOnlyList<CategoryKVPListItem> GetKVPListItemsByType(KVPListItemType type) =>
         _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
+    public CategoryPage? Page { get; private set; }
 
     private Category()
     {

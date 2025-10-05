@@ -18,7 +18,7 @@ public class ProductGroupPageConfiguration : IEntityTypeConfiguration<ProductGro
         
         //Relations.
         builder.HasOne(x => x.ProductGroup)
-            .WithOne()
+            .WithOne(x => x.Page)
             .HasForeignKey<ProductGroupPage>(x => x.ProductGroupId)
             .HasPrincipalKey<ProductGroup>(p => p.Id)
             .OnDelete(DeleteBehavior.Restrict);

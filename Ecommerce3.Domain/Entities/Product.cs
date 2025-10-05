@@ -78,6 +78,7 @@ public sealed class Product : EntityWithImages, ICreatable, IUpdatable, IDeletab
     public IReadOnlyList<ProductReview> Reviews => _reviews;
     public IReadOnlyList<ProductProductAttribute> Attributes => _attributes;
     public IReadOnlyList<string> Facets => _facets.AsReadOnly();
+    public ProductPage? Page { get; private set; }
 
     private Product()
     {

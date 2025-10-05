@@ -13,7 +13,7 @@ public class CategoryPageConfiguration : IEntityTypeConfiguration<CategoryPage>
         
         //Relations.
         builder.HasOne(x => x.Category)
-            .WithOne()
+            .WithOne(x => x.Page)
             .HasForeignKey<CategoryPage>(x => x.CategoryId)
             .HasPrincipalKey<Category>(x => x.Id)
             .OnDelete(DeleteBehavior.Restrict);

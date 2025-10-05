@@ -13,7 +13,7 @@ public class BrandPageConfiguration : IEntityTypeConfiguration<BrandPage>
 
         //Relations.
         builder.HasOne(x => x.Brand)
-            .WithOne()
+            .WithOne(x => x.Page)
             .HasForeignKey<BrandPage>(x => x.BrandId)
             .HasPrincipalKey<Brand>(x => x.Id)
             .OnDelete(DeleteBehavior.Restrict);

@@ -17,7 +17,7 @@ public class ProductPageConfiguration : IEntityTypeConfiguration<ProductPage>
         
         // One-to-one relation
         builder.HasOne(x => x.Product)
-            .WithOne()
+            .WithOne(x => x.Page)
             .HasForeignKey<ProductPage>(x => x.ProductId)
             .HasPrincipalKey<Product>(p => p.Id)
             .OnDelete(DeleteBehavior.Restrict);

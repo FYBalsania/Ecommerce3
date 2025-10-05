@@ -30,6 +30,7 @@ public sealed class ProductGroup : EntityWithImages, ICreatable, IUpdatable, IDe
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
     public IReadOnlyList<ProductGroupProductAttribute> Attributes => _attributes;
+    public ProductGroupPage? Page { get; private set; }
 
     private ProductGroup()
     {

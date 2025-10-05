@@ -28,6 +28,7 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
+    public BrandPage? Page { get; private set; }
 
     private Brand()
     {
