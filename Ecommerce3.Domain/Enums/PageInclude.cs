@@ -1,8 +1,10 @@
 namespace Ecommerce3.Domain.Enums;
 
+[Flags]
 public enum PageInclude
 {
-    CreatedByUser,
-    UpdatedByUser,
-    DeletedByUser
+    None = 0,
+    CreatedByUser = 1 << 0,
+    UpdatedByUser = 1 << 1,
+    DeletedByUser = 1 << 2,
 }

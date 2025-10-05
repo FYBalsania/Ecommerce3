@@ -24,10 +24,6 @@ public sealed class Product : EntityWithImages, ICreatable, IUpdatable, IDeletab
     public string Breadcrumb { get; private set; }
     public string AnchorText { get; private set; }
     public string? AnchorTitle { get; private set; }
-    public string MetaTitle { get; private set; }
-    public string? MetaDescription { get; private set; }
-    public string? MetaKeywords { get; private set; }
-    public string H1 { get; private set; }
     public int? BrandId { get; private set; }
     public Brand? Brand { get; private set; }
     public int? ProductGroupId { get; private set; }
@@ -85,10 +81,9 @@ public sealed class Product : EntityWithImages, ICreatable, IUpdatable, IDeletab
     }
 
     internal Product(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
-        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, string metaTitle,
-        string? metaDescription, string? metaKeywords, string h1, int? brandId, int? productGroupId,
-        string? shortDescription, string? fullDescription, bool allowReviews, decimal price, decimal? oldPrice,
-        decimal? costPrice, int stock, int minStock, bool showAvailability, bool freeShipping,
+        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int? brandId,
+        int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews, decimal price,
+        decimal? oldPrice, decimal? costPrice, int stock, int minStock, bool showAvailability, bool freeShipping,
         decimal additionalShippingCharge, decimal weightKgs, int deliveryWindowId, int minOrderQuantity,
         int? maxOrderQuantity, bool isFeatured, bool isNew, bool isBestSeller, bool isReturnable, string? returnPolicy,
         ProductStatus status, string? redirectUrl, int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
@@ -105,10 +100,6 @@ public sealed class Product : EntityWithImages, ICreatable, IUpdatable, IDeletab
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        MetaTitle = metaTitle;
-        MetaDescription = metaDescription;
-        MetaKeywords = metaKeywords;
-        H1 = h1;
         BrandId = brandId;
         ProductGroupId = productGroupId;
         ShortDescription = shortDescription;
@@ -154,10 +145,6 @@ public class ProductBuilder
     private string _breadcrumb;
     private string _anchorText;
     private string? _anchorTitle;
-    private string _metaTitle;
-    private string? _metaDescription;
-    private string? _metaKeywords;
-    private string _h1;
     private int? _brandId;
     private int? _productGroupId;
     private string? _shortDescription;
@@ -188,8 +175,7 @@ public class ProductBuilder
     private string _createdByIp;
 
     public ProductBuilder(string sku, string name, string slug, string display, string breadcrumb, string anchorText,
-        string metaTitle, string h1, int deliveryWindowId, ProductStatus status, int createdBy, DateTime createdAt,
-        string createdByIp)
+        int deliveryWindowId, ProductStatus status, int createdBy, DateTime createdAt, string createdByIp)
     {
         _sku = sku;
         _name = name;
@@ -197,8 +183,6 @@ public class ProductBuilder
         _display = display;
         _breadcrumb = breadcrumb;
         _anchorText = anchorText;
-        _metaTitle = metaTitle;
-        _h1 = h1;
         _deliveryWindowId = deliveryWindowId;
         _status = status;
         _createdBy = createdBy;
@@ -239,18 +223,6 @@ public class ProductBuilder
     public ProductBuilder HasAnchorTitle(string? anchorTitle)
     {
         _anchorTitle = anchorTitle;
-        return this;
-    }
-
-    public ProductBuilder HasMetaDescription(string? metaDescription)
-    {
-        _metaDescription = metaDescription;
-        return this;
-    }
-
-    public ProductBuilder HasMetaKeywords(string? metaKeywords)
-    {
-        _metaKeywords = metaKeywords;
         return this;
     }
 
@@ -395,10 +367,9 @@ public class ProductBuilder
     public Product Build()
     {
         return new Product(_sku, _gtin, _mpn, _mfc, _ean, _upc, _name, _slug, _display, _breadcrumb, _anchorText,
-            _anchorTitle, _metaTitle, _metaDescription, _metaKeywords, _h1, _brandId, _productGroupId,
-            _shortDescription, _fullDescription, _allowReviews, _price, _oldPrice, _costPrice, _stock, _minStock,
-            _showAvailability, _freeShipping, _additionalShippingCharge, _weightKgs, _deliveryWindowId,
-            _minOrderQuantity, _maxOrderQuantity, _isFeatured, _isNew, _isBestSeller, _isReturnable, _returnPolicy,
-            _status, _redirectUrl, _sortOrder, _createdBy, _createdAt, _createdByIp);
+            _anchorTitle, _brandId, _productGroupId, _shortDescription, _fullDescription, _allowReviews, _price,
+            _oldPrice, _costPrice, _stock, _minStock, _showAvailability, _freeShipping, _additionalShippingCharge,
+            _weightKgs, _deliveryWindowId, _minOrderQuantity, _maxOrderQuantity, _isFeatured, _isNew, _isBestSeller,
+            _isReturnable, _returnPolicy, _status, _redirectUrl, _sortOrder, _createdBy, _createdAt, _createdByIp);
     }
 }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands;
+using Ecommerce3.Contracts.DTOs.Brand;
 
 namespace Ecommerce3.Admin.ViewModels.Brand;
 
@@ -78,5 +79,10 @@ public class EditBrandViewModel
             UpdatedAt = updatedAt,
             UpdatedByIp = updatedByIp,
         };
+    }
+
+    public static EditBrandViewModel FromDTO(BrandDTO dto)
+    {
+        return new EditBrandViewModel();
     }
 }

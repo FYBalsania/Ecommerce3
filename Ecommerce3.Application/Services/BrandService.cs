@@ -30,7 +30,7 @@ public sealed class BrandService : IBrandService
         int pageNumber, int pageSize, CancellationToken cancellationToken)
         => await _brandQueryRepository.GetBrandListItemsAsync(name, pageNumber, pageSize, cancellationToken);
 
-    public async Task AddBrandAsync(AddBrandCommand command, CancellationToken cancellationToken)
+    public async Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
         var exists = await _brandRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
@@ -40,9 +40,10 @@ public sealed class BrandService : IBrandService
 
         var brand = new Brand(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
             command.AnchorTitle, command.ShortDescription, command.FullDescription, command.IsActive, command.SortOrder,
-            command.CreatedBy, command.CreatedByIp);
+            command.CreatedBy, command.CreatedAt, command.CreatedByIp);
 
-        var page = new BrandPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null, null,
+        var page = new BrandPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
+            command.H1,
             null, null, null, null, null, null, null, null,
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, brand);
@@ -51,7 +52,13 @@ public sealed class BrandService : IBrandService
         await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task UpdateBrandAsync(UpdateBrandCommand command, CancellationToken cancellationToken)
+    public async Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var brand = await _brandRepository.GetByIdAsync(id, BrandInclude.None, false, cancellationToken);
+        return new BrandDTO();
+    }
+
+    public async Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken)
     {
         var exists = await _brandRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
@@ -62,19 +69,23 @@ public sealed class BrandService : IBrandService
         var brand = await _brandRepository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
         if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
 
-        var updated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
-            command.AnchorTitle,
-            command.ShortDescription, command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy,
-            command.UpdatedAt, command.UpdatedByIp);
+        var page = await _pageRepository.GetByBrandIdAsync(command.Id, PageInclude.None, true, cancellationToken);
+        if (page is null) throw new ArgumentNullException(nameof(command.Id), "Brand page not found.");
 
-        if (updated)
-        {
-            _brandRepository.Update(brand);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-        }
+        var brandUpdated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
+            command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
+            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (brandUpdated) _brandRepository.Update(brand);
+        if (pageUpdated) _pageRepository.Update(page);
+
+        if (brandUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public Task DeleteBrandAsync(int id, CancellationToken cancellationToken)
+    public Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

@@ -91,4 +91,74 @@ public class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
+
+    public bool Update(string? path, string metaTitle, string? metaDescription, string? metaKeywords,
+        string? metaRobots, string? h1, string? canonicalUrl, string? ogTitle, string? ogDescription,
+        string? ogImageUrl, string? ogType, string? twitterCard, string? contentHtml, string? summary,
+        string? schemaJsonLd, string? breadcrumbsJson, string? hreflangMapJson, decimal sitemapPriority,
+        SiteMapFrequency sitemapFrequency, string? redirectFromJson, bool isIndexed, string? headerScripts,
+        string? footerScripts, string language, string? region, int? seoScore, bool isActive, int updatedBy,
+        DateTime updatedAt, string updatedByIp)
+    {
+        if (Path == path && MetaTitle == metaTitle && MetaDescription == metaDescription &&
+            MetaKeywords == metaKeywords && MetaRobots == metaRobots && H1 == h1 &&
+            CanonicalUrl == canonicalUrl && OgTitle == ogTitle && OgDescription == ogDescription &&
+            OgImageUrl == ogImageUrl && OgType == ogType && TwitterCard == twitterCard &&
+            ContentHtml == contentHtml && Summary == summary && SchemaJsonLd == schemaJsonLd &&
+            BreadcrumbsJson == breadcrumbsJson && HreflangMapJson == hreflangMapJson &&
+            SitemapPriority == sitemapPriority && SitemapFrequency == sitemapFrequency &&
+            RedirectFromJson == redirectFromJson && IsIndexed == isIndexed && HeaderScripts == headerScripts &&
+            FooterScripts == footerScripts && Language == language && Region == region &&
+            SeoScore == seoScore && IsActive == isActive) return false;
+
+        Path = path;
+        MetaTitle = metaTitle;
+        MetaDescription = metaDescription;
+        MetaKeywords = metaKeywords;
+        MetaRobots = metaRobots;
+        H1 = h1;
+        CanonicalUrl = canonicalUrl;
+        OgTitle = ogTitle;
+        OgDescription = ogDescription;
+        OgImageUrl = ogImageUrl;
+        OgType = ogType;
+        TwitterCard = twitterCard;
+        ContentHtml = contentHtml;
+        Summary = summary;
+        SchemaJsonLd = schemaJsonLd;
+        BreadcrumbsJson = breadcrumbsJson;
+        HreflangMapJson = hreflangMapJson;
+        SitemapPriority = sitemapPriority;
+        SitemapFrequency = sitemapFrequency;
+        RedirectFromJson = redirectFromJson;
+        IsIndexed = isIndexed;
+        HeaderScripts = headerScripts;
+        FooterScripts = footerScripts;
+        Language = language;
+        Region = region;
+        SeoScore = seoScore;
+        IsActive = isActive;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+
+        return true;
+    }
+
+    public bool Update(string metaTitle, string? metaDescription, string? metaKeywords, string? h1, int updatedBy,
+        DateTime updatedAt, string updatedByIp)
+    {
+        if (MetaTitle == metaTitle && MetaDescription == metaDescription && MetaKeywords == metaKeywords && H1 == h1)
+            return false;
+
+        MetaTitle = metaTitle;
+        MetaDescription = metaDescription;
+        MetaKeywords = metaKeywords;
+        H1 = h1;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+
+        return true;
+    }
 }

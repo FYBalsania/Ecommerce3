@@ -32,6 +32,7 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
 
     public Brand(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
         string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int createdBy,
+        DateTime createdAt,
         string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
@@ -54,14 +55,13 @@ public sealed class Brand : EntityWithImages, ICreatable, IUpdatable, IDeletable
         IsActive = isActive;
         SortOrder = sortOrder;
         CreatedBy = createdBy;
-        CreatedAt = DateTime.Now;
+        CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
 
     public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
-        int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&

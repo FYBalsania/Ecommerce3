@@ -28,7 +28,7 @@ public class BrandsController : Controller
             await _brandService.GetBrandListItemsAsync(name, pageNumber, pageSize, cancellationToken);
         var response = new BrandsIndexResponse
         {
-            Name = name,
+            BrandName = name,
             PageNumber = pageNumber,
             PageSize = pageSize,
             BrandListItems = brands,
@@ -56,7 +56,7 @@ public class BrandsController : Controller
 
         try
         {
-            await _brandService.AddBrandAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await _brandService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (DuplicateException e)
         {
@@ -77,14 +77,11 @@ public class BrandsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        // var brand = await _brandService.GetBrandAsync(id, cancellationToken);
-        // if (brand is null) return NotFound();
+        var brand = await _brandService.GetByBrandIdAsync(id, cancellationToken);
+        if (brand is null) return NotFound();
 
-        //return View(brand.ToViewModel());
-        //ViewData["Title"] = $"Edit Brand - {brand.Name}";
-       
-       ViewData["Title"] = $"Edit Brand - Apple";
-       return View();
+        ViewData["Title"] = $"Edit Brand - {brand.Name}";
+        return View(EditBrandViewModel.FromDTO(brand));
     }
 
     [HttpPost]
@@ -98,7 +95,7 @@ public class BrandsController : Controller
 
         try
         {
-            await _brandService.UpdateBrandAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await _brandService.UpdateAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (ArgumentNullException e)
         {

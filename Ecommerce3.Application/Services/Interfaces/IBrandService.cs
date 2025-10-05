@@ -9,7 +9,8 @@ public interface IBrandService
     Task<(IReadOnlyList<BrandListItemDTO>, int)> GetBrandListItemsAsync(string? name,
         int pageNumber, int pageSize, CancellationToken cancellationToken);
 
-    Task AddBrandAsync(AddBrandCommand command, CancellationToken cancellationToken);
-    Task UpdateBrandAsync(UpdateBrandCommand command, CancellationToken cancellationToken);
-    Task DeleteBrandAsync(int id, CancellationToken cancellationToken);
+    Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken);
+    Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken);
+    Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken);
+    Task DeleteAsync(int id, CancellationToken cancellationToken);
 }
