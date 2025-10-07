@@ -15,14 +15,14 @@
     <!-- Main Content -->
     <div class="card mb-4">
         <div class="card-body">
-            <form class="row g-3 mb-2 align-items-end">
-                <div class="col-md-5">
-                    <label class="form-label">Name Contains</label>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Name contains</label>
                     <input type="text" class="form-control" />
                 </div>
 
-                <div class="col-md-5">
-                    <label class="form-label">Is Active</label>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Is active</label>
                     <select class="form-select">
                         <option value="">Select Status</option>
                         <option value="0">Any</option>
@@ -30,11 +30,12 @@
                         <option value="0">No</option>
                     </select>
                 </div>
-
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-end">
+                    <button type="submit" class="btn btn-primary px-4">Filter</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <div class="card mb-4">
@@ -44,11 +45,11 @@
                <table class="table align-middle">
                 <thead>
                     <tr>
-                        <th>Name & Slug</th>
-                        <th class="text-end">Sort Order</th>
-                        <th class="text-end">Images</th>
-                        <th class="text-end">Created</th>
-                        <th class="text-center">Action</th>
+                        <th style="width: 50%;">Name & Slug</th>
+                        <th class="text-end" style="width: 10%;">Sort Order</th>
+                        <th class="text-end" style="width: 10%;">Images</th>
+                        <th class="text-end" style="width: 20%;">Created</th>
+                        <th class="text-center" style="width: 10%;">Action</th>
                     </tr>
                 </thead>
                 <tbody>

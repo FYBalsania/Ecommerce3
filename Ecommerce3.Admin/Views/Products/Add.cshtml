@@ -4,6 +4,55 @@
         <h2 class="text-danger fw-bold fs-3 mb-0">Add Product</h2>
     </div>
 
+    <!-- Identification -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0 text-muted py-2"><i class="fas fa-eye"></i> Identification</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">SKU <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">GTIN</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">MPN</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">MFC</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">EAN</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">UPC</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- General -->
     <div class="card mb-4">
         <div class="card-header">
@@ -13,7 +62,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">Product Group</label>
+                        <label class="form-label fw-bold">Product Group</label>
                         <select class="select-product form-select">
                             <option value="">Select Product Group</option>
                             <option value="Text">iPhone 17</option>
@@ -25,7 +74,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">Brand</label>
+                        <label class="form-label fw-bold">Brand <span class="text-danger">*</span></label>
                         <select class="select-brand form-select">
                             <option value="">Select Brand</option>
                             <option value="Text">Apple</option>
@@ -36,7 +85,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">Categories</label>
+                        <label class="form-label fw-bold">Categories <span class="text-danger">*</span></label>
                         <select class="select-brand form-select" multiple="multiple">
                             <option value="Text">Accessories</option>
                             <option value="Number">Phone > Apple</option>
@@ -49,27 +98,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
+                        <label class="form-label fw-bold">Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Slug</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Display</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Breadcrumbs</label>
+                        <label class="form-label fw-bold">Slug <span class="text-danger">*</span></label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
@@ -77,15 +112,39 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Sort Order</label>
+                        <label class="form-label fw-bold">Display <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Breadcrumb <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Sort Order <span class="text-danger">*</span></label>
                         <input type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Is Active <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Short Description</label>
+                        <label class="form-label fw-bold">Short Description <span class="text-danger">*</span></label>
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
                 </div>
@@ -93,121 +152,83 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Long Description</label>
+                        <label class="form-label fw-bold">Long Description <span class="text-danger">*</span></label>
                         <div id="longDescriptionEditor" style="height: 200px;"></div>
                         <input type="hidden" id="longDescriptionInput" name="LongDescription">
                     </div>
                 </div>
             </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Is Active : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="IsActive" checked></div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Allow Reviews : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="AllowReviews" checked>
-                </div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Show Availability : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="ShowAvailability" checked>
-                </div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Free Shipping : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="FreeShipping" checked>
-                </div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Is Featured : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="IsFeatured" checked>
-                </div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Is New : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="IsNew" checked>
-                </div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Is BestSeller : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="IsBestSeller" checked>
-                </div>
-            </div>
-            <div class="row form-group mb-3 text-muted fw-semibold">
-                <div class="col-md-3">
-                    <label class="form-label">Is Returnable : </label>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-check-input" type="checkbox" id="IsReturnable" checked>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Identification -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0 text-muted py-2"><i class="fas fa-eye"></i> Identification</h5>
-        </div>
-        <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label">SKU</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold">Allow reviews <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label">GTIN</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold">Show availability  <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label">MPN</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold">Free shipping  <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Is featured  <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label">MFC</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold">Is new  <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label">EAN</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold">Is bestseller <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label">UPC</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold">Is returnable <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -223,7 +244,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">H1</label>
+                        <label class="form-label fw-bold">H1</label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
@@ -231,7 +252,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Meta Title</label>
+                        <label class="form-label fw-bold">Meta Title</label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
@@ -239,7 +260,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Meta Description</label>
+                        <label class="form-label fw-bold">Meta Description</label>
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
                 </div>
@@ -247,7 +268,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Meta Keywords</label>
+                        <label class="form-label fw-bold">Meta Keywords</label>
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
                 </div>

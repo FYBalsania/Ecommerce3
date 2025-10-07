@@ -17,20 +17,20 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="row g-3 mb-2 align-items-end">
-                <div class="col-md-4">
-                    <label class="form-label">Name Contains</label>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Name contains</label>
                     <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">SKU Contains</label>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">SKU</label>
                     <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Brand & Category Contains</label>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Brand & Category contains</label>
                     <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Is Active</label>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Is active</label>
                     <select class="form-select">
                         <option value="">Select Status</option>
                         <option value="0">Any</option>
@@ -38,8 +38,10 @@
                         <option value="0">No</option>
                     </select>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-end">
+                    <button type="submit" class="btn btn-primary px-4">Filter</button>
                 </div>
             </div>
         </div>
@@ -52,14 +54,14 @@
                 <table class="table align-middle">
                     <thead>
                         <tr>
-                            <th>Name & Slug</th>
-                            <th>SKU</th>
-                            <th>Brand</th>
-                            <th>Category</th>
-                            <th>Sort Order</th>
-                            <th class="text-end">Images</th>
-                            <th class="text-end">Created</th>
-                            <th class="text-center">Action</th>
+                            <th style="width: 30%;">Name & Slug</th>
+                            <th style="width: 10%;">SKU</th>
+                            <th style="width: 10%;">Brand</th>
+                            <th style="width: 10%;">Category</th>
+                            <th class="text-end" style="width: 10%;">Sort Order</th>
+                            <th class="text-end" style="width: 5%;">Images</th>
+                            <th class="text-end" style="width: 15%;">Created</th>
+                            <th class="text-center" style="width: 10%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,7 +73,7 @@
                             <td>AS2173</td>
                             <td>Apple</td>
                             <td>Electronics</td>
-                            <td>1</td>
+                            <td class="text-end">1</td>
                             <td class="text-end">4</td>
                             <td class="text-end">Jane Doe <br/>25-Sept-2025 09:15</td>
                             <td class="text-center">
@@ -87,7 +89,7 @@
                             <td>SMX2456</td>
                             <td>Samsung</td>
                             <td>Electronics</td>
-                            <td>2</td>
+                            <td class="text-end">2</td>
                             <td class="text-end">5</td>
                             <td class="text-end">John Smith <br/>24-Sept-2025 14:30</td>
                             <td class="text-center">
@@ -103,7 +105,7 @@
                             <td>SY1006</td>
                             <td>Sony</td>
                             <td>Audio</td>
-                            <td>3</td>
+                            <td class="text-end">3</td>
                             <td class="text-end">3</td>
                             <td class="text-end">Alice Brown <br/>20-Sept-2025 11:20</td>
                             <td class="text-center">
@@ -119,7 +121,7 @@
                             <td>LG6500</td>
                             <td>LG</td>
                             <td>Home Appliances</td>
-                            <td>4</td>
+                            <td class="text-end">4</td>
                             <td class="text-end">6</td>
                             <td class="text-end">Robert King <br/>23-Sept-2025 10:45</td>
                             <td class="text-center">
@@ -135,7 +137,7 @@
                             <td>PN1501</td>
                             <td>Panasonic</td>
                             <td>Home Appliances</td>
-                            <td>5</td>
+                            <td class="text-end">5</td>
                             <td class="text-end">2</td>
                             <td class="text-end">Mary Johnson <br/>21-Sept-2025 08:55</td>
                             <td class="text-center">
@@ -151,7 +153,7 @@
                             <td>XM1499</td>
                             <td>Xiaomi</td>
                             <td>Electronics</td>
-                            <td>6</td>
+                            <td class="text-end">6</td>
                             <td class="text-end">4</td>
                             <td class="text-end">Kevin Lee <br/>26-Sept-2025 16:25</td>
                             <td class="text-center">
@@ -167,7 +169,7 @@
                             <td>OP1345</td>
                             <td>OnePlus</td>
                             <td>Mobile Phones</td>
-                            <td>7</td>
+                            <td class="text-end">7</td>
                             <td class="text-end">5</td>
                             <td class="text-end">Emma Wilson <br/>27-Sept-2025 13:40</td>
                             <td class="text-center">
@@ -183,7 +185,7 @@
                             <td>GP9302</td>
                             <td>Google</td>
                             <td>Mobile Phones</td>
-                            <td>8</td>
+                            <td class="text-end">8</td>
                             <td class="text-end">3</td>
                             <td class="text-end">Liam Martinez <br/>28-Sept-2025 17:10</td>
                             <td class="text-center">
@@ -199,7 +201,7 @@
                             <td>DX1525</td>
                             <td>Dell</td>
                             <td>Laptops</td>
-                            <td>9</td>
+                            <td class="text-end">9</td>
                             <td class="text-end">3</td>
                             <td class="text-end">Sophia Taylor <br/>19-Sept-2025 12:50</td>
                             <td class="text-center">
@@ -215,7 +217,7 @@
                             <td>ASG1777</td>
                             <td>ASUS</td>
                             <td>Laptops</td>
-                            <td>10</td>
+                            <td class="text-end">10</td>
                             <td class="text-end">5</td>
                             <td class="text-end">Ethan Clark <br/>21-Sept-2025 09:05</td>
                             <td class="text-center">

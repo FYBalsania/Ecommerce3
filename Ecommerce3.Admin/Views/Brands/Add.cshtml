@@ -15,27 +15,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
+                        <label class="form-label fw-bold">Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Slug</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Display</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Breadcrumbs</label>
+                        <label class="form-label fw-bold">Slug <span class="text-danger">*</span></label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
@@ -43,24 +29,39 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Sort Order</label>
+                        <label class="form-label fw-bold">Display <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Breadcrumb <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Sort Order <span class="text-danger">*</span></label>
                         <input type="number" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Is Active</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="isActive" checked>
-                            <label class="form-check-label" for="isActive">Yes</label>
-                        </div>
+                        <label class="form-label fw-bold">Is Active <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Short Description</label>
+                        <label class="form-label fw-bold">Short Description <span class="text-danger">*</span></label>
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
                 </div>
@@ -68,7 +69,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Long Description</label>
+                        <label class="form-label fw-bold">Long Description <span class="text-danger">*</span></label>
                         <div id="longDescriptionEditor" style="height: 200px;"></div>
                         <input type="hidden" id="longDescriptionInput" name="LongDescription">
                     </div>
@@ -86,7 +87,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">H1</label>
+                        <label class="form-label fw-bold">H1</label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
@@ -94,7 +95,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Meta Title</label>
+                        <label class="form-label fw-bold">Meta Title</label>
                         <input type="text" class="form-control">
                     </div>
                 </div>
@@ -102,7 +103,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Meta Description</label>
+                        <label class="form-label fw-bold">Meta Description</label>
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
                 </div>
@@ -110,7 +111,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Meta Keywords</label>
+                        <label class="form-label fw-bold">Meta Keywords</label>
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
                 </div>
