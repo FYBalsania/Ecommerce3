@@ -15,194 +15,188 @@
     <!-- Main Content -->
     <div class="card mb-4">
         <div class="card-body">
-            <form class="row g-3 mt-1 mb-5">
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Category Name">
+            <form class="row g-3 mb-2 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label">Name Contains</label>
+                    <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-3">
+
+                <div class="col-md-5">
+                    <label class="form-label">Is Active</label>
                     <select class="form-select">
                         <option value="">Select Status</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="0">Any</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Created By">
-                </div>
-                <div class="col-md-3">
+
+                <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
             </form>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-body">
             <!-- Catgeory Table -->
             <div class="table-responsive">
                 <table class="table align-middle">
-                    <thead class="">
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Parent</th>
-                        <th>Active</th>
-                        <th>Sort Order</th>
-                        <th>Images</th>
-                        <th class="text-end">Created</th>
-                        <th>Created By</th>
-                        <th>Action</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Name & Slug</th>
+                            <th>Parent</th>
+                            <th class="text-end">Sort Order</th>
+                            <th class="text-end">Images</th>
+                            <th class="text-end">Created</th>
+                            <th class="text-center">Action</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Electronics</td>
-                            <td>electronics</td>
-                            <td></td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>1</td>
-                            <td>4</td>
-                            <td class="text-end">25-Sept-2025 09:15</td>
-                            <td>Jane Doe</td>
                             <td>
+                                Electronics <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">electronics</span>
+                            </td>
+                            <td></td>
+                            <td class="text-end">1</td>
+                            <td class="text-end">4</td>
+                            <td class="text-end">Jane Doe <br />25-Sept-2025 09:15</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Mobiles</td>
-                            <td>mobiles</td>
-                            <td>Electronics</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td class="text-end">24-Sept-2025 14:30</td>
-                            <td>John Smith</td>
                             <td>
+                                Mobile Phones <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">mobile-phones</span>
+                            </td>
+                            <td>Electronics</td>
+                            <td class="text-end">2</td>
+                            <td class="text-end">5</td>
+                            <td class="text-end">John Smith <br />22-Sept-2025 11:25</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="2"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Laptops</td>
-                            <td>laptops</td>
-                            <td>Electronics</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td class="text-end">23-Sept-2025 11:50</td>
-                            <td>Alice</td>
                             <td>
+                                Laptops <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">laptops</span>
+                            </td>
+                            <td>Electronics</td>
+                            <td class="text-end">3</td>
+                            <td class="text-end">3</td>
+                            <td class="text-end">Ava Patel <br />23-Sept-2025 10:10</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="3"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Fashion</td>
-                            <td>fashion</td>
-                            <td></td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="text-end">22-Sept-2025 18:00</td>
-                            <td>Mike</td>
                             <td>
+                                Home Appliances <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">home-appliances</span>
+                            </td>
+                            <td></td>
+                            <td class="text-end">4</td>
+                            <td class="text-end">6</td>
+                            <td class="text-end">Liam Johnson <br />20-Sept-2025 08:50</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="4"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Men</td>
-                            <td>men</td>
-                            <td>Fashion</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>5</td>
-                            <td>2</td>
-                            <td class="text-end">21-Sept-2025 10:45</td>
-                            <td>Emma</td>
                             <td>
+                                Refrigerators <span class="badge bg-danger ms-2"> </span><br/>
+                                <span class="text-muted">refrigerators</span>
+                            </td>
+                            <td>Home Appliances</td>
+                            <td class="text-end">5</td>
+                            <td class="text-end">2</td>
+                            <td class="text-end">Emma White <br />18-Sept-2025 09:35</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="5"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Women</td>
-                            <td>women</td>
-                            <td>Fashion</td>
-                            <td><span class="badge bg-danger">Inactive</span></td>
-                            <td>6</td>
-                            <td>3</td>
-                            <td class="text-end">20-Sept-2025 13:25</td>
-                            <td>Lucas</td>
                             <td>
+                                Air Conditioners <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">air-conditioners</span>
+                            </td>
+                            <td>Home Appliances</td>
+                            <td class="text-end">6</td>
+                            <td class="text-end">3</td>
+                            <td class="text-end">Noah Lee <br />19-Sept-2025 12:05</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="6"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Home Appliances</td>
-                            <td>home-appliances</td>
-                            <td></td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>7</td>
-                            <td>4</td>
-                            <td class="text-end">19-Sept-2025 15:20</td>
-                            <td>Olivia</td>
                             <td>
+                                Fashion <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">fashion</span>
+                            </td>
+                            <td></td>
+                            <td class="text-end">7</td>
+                            <td class="text-end">5</td>
+                            <td class="text-end">Olivia Brown <br />26-Sept-2025 15:10</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="7"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Kitchen</td>
-                            <td>kitchen</td>
-                            <td>Home Appliances</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>8</td>
-                            <td>2</td>
-                            <td class="text-end">18-Sept-2025 09:40</td>
-                            <td>David</td>
                             <td>
+                                Men’s Wear <span class="badge bg-danger ms-2"> </span><br/>
+                                <span class="text-muted">mens-wear</span>
+                            </td>
+                            <td>Fashion</td>
+                            <td class="text-end">8</td>
+                            <td class="text-end">2</td>
+                            <td class="text-end">Sophia Turner <br />24-Sept-2025 10:20</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="8"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Books</td>
-                            <td>books</td>
-                            <td></td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>9</td>
-                            <td>1</td>
-                            <td class="text-end">17-Sept-2025 16:00</td>
-                            <td>Sophia</td>
                             <td>
+                                Women’s Wear <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">womens-wear</span>
+                            </td>
+                            <td>Fashion</td>
+                            <td class="text-end">9</td>
+                            <td class="text-end">4</td>
+                            <td class="text-end">Mason Green <br />27-Sept-2025 14:45</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="9"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Category"></td>
-                            <td>Sports</td>
-                            <td>sports</td>
-                            <td></td>
-                            <td><span class="badge bg-danger">Inactive</span></td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td class="text-end">16-Sept-2025 12:30</td>
-                            <td>Liam</td>
                             <td>
+                                Accessories <span class="badge bg-danger ms-2"> </span><br/>
+                                <span class="text-muted">accessories</span>
+                            </td>
+                            <td>Fashion</td>
+                            <td class="text-end">10</td>
+                            <td class="text-end">1</td>
+                            <td class="text-end">Ethan Clark <br />21-Sept-2025 09:05</td>
+                            <td class="text-center">
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="10"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
             <!-- Pagination + Page Size -->
             <div class="d-flex justify-content-between align-items-center mt-3">
@@ -229,24 +223,21 @@
 <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-danger text-white">
+            <div class="modal-header text-danger">
                 <h5 class="modal-title">
-                    <i class="fas fa-trash"></i> Delete Category - Electonics
+                    <i class="fas fa-trash"></i> Delete Category
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body text-center">
-                <img src="https://placehold.co/120x120" class="img-fluid rounded mb-3" alt="Image Preview">
-                <p class="fw-semibold text-muted">
+            <div class="modal-body">
+                <p class="text-muted">
                     Are you sure you want to delete the category <span class="text-danger">Electronics</span>?
                 </p>
             </div>
 
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form method="post" asp-controller="Categories" asp-action="Delete" class="d-inline">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>

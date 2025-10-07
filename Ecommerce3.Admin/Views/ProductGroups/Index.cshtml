@@ -15,99 +15,175 @@
     <!-- Main Content -->
     <div class="card mb-4">
         <div class="card-body">
-            <form class="row g-3 mt-1 mb-5">
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Product Group Name">
+            <form class="row g-3 mb-2 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label">Name Contains</label>
+                    <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-3">
+
+                <div class="col-md-5">
+                    <label class="form-label">Is Active</label>
                     <select class="form-select">
                         <option value="">Select Status</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="0">Any</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Created By">
-                </div>
-                <div class="col-md-3">
+
+                <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
             <!-- Catgeory Table -->
             <div class="table-responsive">
-                <table class="table align-middle">
-                    <thead class="">
+               <table class="table align-middle">
+                <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Active</th>
-                        <th>Sort Order</th>
-                        <th>Images</th>
+                        <th>Name & Slug</th>
+                        <th class="text-end">Sort Order</th>
+                        <th class="text-end">Images</th>
                         <th class="text-end">Created</th>
-                        <th>Created By</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
-                            <td>iPhone 17</td>
-                            <td>iphone-17</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>1</td>
-                            <td>4</td>
-                            <td class="text-end">25-Sept-2025 09:15</td>
-                            <td>Jane Doe</td>
-                            <td>
-                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
-                            <td>iPhone 17 Air</td>
-                            <td>iphone-17-air</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td class="text-end">24-Sept-2025 14:30</td>
-                            <td>John Smith</td>
-                            <td>
-                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="2"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
-                            <td>iPhone 17 Pro</td>
-                            <td>iphone-17-pro</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td class="text-end">23-Sept-2025 11:50</td>
-                            <td>Alice</td>
-                            <td>
-                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="3"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://placehold.co/40x40" class="img-fluid rounded" alt="Product Group"></td>
-                            <td>iPhone 17 Pro Max</td>
-                            <td>iphone-17-pro-max</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="text-end">22-Sept-2025 18:00</td>
-                            <td>Mike</td>
-                            <td>
-                                <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="4"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            iPhone 17 <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">iphone-17</span>
+                        </td>
+                        <td class="text-end">1</td>
+                        <td class="text-end">4</td>
+                        <td class="text-end">Jane Doe <br />25-Sept-2025 09:15</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Galaxy S24 Series <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">galaxy-s24-series</span>
+                        </td>
+                        <td class="text-end">2</td>
+                        <td class="text-end">5</td>
+                        <td class="text-end">John Smith <br />24-Sept-2025 14:45</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="2"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            PlayStation 6 <span class="badge bg-danger ms-2"> </span><br/>
+                            <span class="text-muted">playstation-6</span>
+                        </td>
+                        <td class="text-end">3</td>
+                        <td class="text-end">3</td>
+                        <td class="text-end">Alice Brown <br />22-Sept-2025 10:20</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="3"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            MacBook Pro 2025 <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">macbook-pro-2025</span>
+                        </td>
+                        <td class="text-end">4</td>
+                        <td class="text-end">6</td>
+                        <td class="text-end">Robert King <br />26-Sept-2025 13:10</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="4"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Sony Bravia X95L <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">sony-bravia-x95l</span>
+                        </td>
+                        <td class="text-end">5</td>
+                        <td class="text-end">5</td>
+                        <td class="text-end">Emma Wilson <br />20-Sept-2025 09:40</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="5"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Dell XPS Series <span class="badge bg-danger ms-2"> </span><br/>
+                            <span class="text-muted">dell-xps-series</span>
+                        </td>
+                        <td class="text-end">6</td>
+                        <td class="text-end">3</td>
+                        <td class="text-end">Kevin Lee <br />23-Sept-2025 16:30</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="6"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            OnePlus Nord Series <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">oneplus-nord-series</span>
+                        </td>
+                        <td class="text-end">7</td>
+                        <td class="text-end">4</td>
+                        <td class="text-end">Sophia Taylor <br />19-Sept-2025 15:00</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="7"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nikon Z Series <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">nikon-z-series</span>
+                        </td>
+                        <td class="text-end">8</td>
+                        <td class="text-end">2</td>
+                        <td class="text-end">Liam Martinez <br />27-Sept-2025 11:25</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="8"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ASUS ROG Gaming Series <span class="badge bg-danger ms-2"> </span><br/>
+                            <span class="text-muted">asus-rog-gaming-series</span>
+                        </td>
+                        <td class="text-end">9</td>
+                        <td class="text-end">5</td>
+                        <td class="text-end">Ethan Clark <br />18-Sept-2025 09:55</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="9"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Canon EOS Series <span class="badge bg-success ms-2"> </span><br/>
+                            <span class="text-muted">canon-eos-series</span>
+                        </td>
+                        <td class="text-end">10</td>
+                        <td class="text-end">4</td>
+                        <td class="text-end">Olivia Perez <br />28-Sept-2025 17:05</td>
+                        <td class="text-center">
+                            <a asp-controller="ProductGroups" asp-action="Edit" asp-route-id="10"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductGroupModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
             <!-- Pagination + Page Size -->
             <div class="d-flex justify-content-between align-items-center mt-3">
@@ -134,24 +210,21 @@
 <div class="modal fade" id="deleteProductGroupModal" tabindex="-1" aria-labelledby="deleteProductGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-danger text-white">
+            <div class="modal-header text-danger">
                 <h5 class="modal-title">
-                    <i class="fas fa-trash"></i> Delete Product Group - iPhone 17
+                    <i class="fas fa-trash"></i> Delete Product Group
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body text-center">
-                <img src="https://placehold.co/120x120" class="img-fluid rounded mb-3" alt="Image Preview">
-                <p class="fw-semibold text-muted">
+            <div class="modal-body">
+                <p class="text-muted">
                     Are you sure you want to delete the product group <span class="text-danger">iPhone 17</span>?
                 </p>
             </div>
 
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form method="post" asp-controller="ProductGroups" asp-action="Delete" class="d-inline">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>

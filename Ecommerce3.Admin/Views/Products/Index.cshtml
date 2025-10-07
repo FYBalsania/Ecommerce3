@@ -13,127 +13,216 @@
     </div>
 
     <!-- Main Content -->
+    <!-- Main Content -->
     <div class="card mb-4">
         <div class="card-body">
-            <div class="row g-3 mt-1">
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Product Name">
+            <div class="row g-3 mb-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Name Contains</label>
+                    <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="SKU">
+                <div class="col-md-2">
+                    <label class="form-label">SKU Contains</label>
+                    <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Brand">
+                <div class="col-md-2">
+                    <label class="form-label">Brand & Category Contains</label>
+                    <input type="text" class="form-control" />
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Category">
-                </div>
-            </div>
-            <div class="row g-3 mt-1 mb-5">
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <label class="form-label">Is Active</label>
                     <select class="form-select">
                         <option value="">Select Status</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="0">Any</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Created By">
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-body">
             <!-- Catgeory Table -->
             <div class="table-responsive">
                 <table class="table align-middle">
-                    <thead class="">
-                    <tr>
-                        <th>Image</th>
-                        <th>Name / Slug</th>
-                        <th>SKU</th>
-                        <th>Brand</th>
-                        <th>Active</th>
-                        <th>Sort Order</th>
-                        <th>Images</th>
-                        <th class="text-end">Created</th>
-                        <th>Created By</th>
-                        <th>Action</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Name & Slug</th>
+                            <th>SKU</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th>Sort Order</th>
+                            <th class="text-end">Images</th>
+                            <th class="text-end">Created</th>
+                            <th class="text-center">Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><img src="https://placehold.co/60x60" class="img-fluid rounded" alt="Product"></td>
-                        <td>
-                            iPhone 17 Red 128GB<br/>
-                            <span class="text-muted">iphone-17-red-128gb</span>
-                        </td>
-                        <td>AS2173</td>
-                        <td>Apple</td>
-                        <td><span class="badge bg-success">Active</span></td>
-                        <td>1</td>
-                        <td>4</td>
-                        <td class="text-end">25-Sept-2025 09:15</td>
-                        <td>Jane Doe</td>
-                        <td>
-                            <a asp-controller="Products" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://placehold.co/60x60" class="img-fluid rounded" alt="Product"></td>
-                        <td>
-                            iPhone 17 Red 256GB<br/>
-                            <span class="text-muted">iphone-17-red-256gb</span>
-                        </td>
-                        <td>AS2174</td>
-                        <td>Apple</td>
-                        <td><span class="badge bg-success">Active</span></td>
-                        <td>1</td>
-                        <td>4</td>
-                        <td class="text-end">25-Sept-2025 09:15</td>
-                        <td>Jane Doe</td>
-                        <td>
-                            <a asp-controller="Products" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://placehold.co/60x60" class="img-fluid rounded" alt="Product"></td>
-                        <td>
-                            iPhone 17 Blue 128GB<br/>
-                            <span class="text-muted">iphone-17-blue-128gb</span>
-                        </td>
-                        <td>AS2175</td>
-                        <td>Apple</td>
-                        <td><span class="badge bg-success">Active</span></td>
-                        <td>1</td>
-                        <td>4</td>
-                        <td class="text-end">25-Sept-2025 09:15</td>
-                        <td>Jane Doe</td>
-                        <td>
-                            <a asp-controller="Products" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://placehold.co/60x60" class="img-fluid rounded" alt="Product"></td>
-                        <td>
-                            iPhone 17 Blue 256GB<br/>
-                            <span class="text-muted">iphone-17-blue-256gb</span>
-                        </td>
-                        <td>AS2176</td>
-                        <td>Apple</td>
-                        <td><span class="badge bg-success">Active</span></td>
-                        <td>1</td>
-                        <td>4</td>
-                        <td class="text-end">25-Sept-2025 09:15</td>
-                        <td>Jane Doe</td>
-                        <td>
-                            <a asp-controller="Products" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                iPhone 17 Red 128GB <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">iphone-17-red-128gb</span>
+                            </td>
+                            <td>AS2173</td>
+                            <td>Apple</td>
+                            <td>Electronics</td>
+                            <td>1</td>
+                            <td class="text-end">4</td>
+                            <td class="text-end">Jane Doe <br/>25-Sept-2025 09:15</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Galaxy S24 Ultra 256GB <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">galaxy-s24-ultra-256gb</span>
+                            </td>
+                            <td>SMX2456</td>
+                            <td>Samsung</td>
+                            <td>Electronics</td>
+                            <td>2</td>
+                            <td class="text-end">5</td>
+                            <td class="text-end">John Smith <br/>24-Sept-2025 14:30</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="2"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sony WH-1000XM6 Headphones <span class="badge bg-danger ms-2"> </span><br/>
+                                <span class="text-muted">sony-wh-1000xm6</span>
+                            </td>
+                            <td>SY1006</td>
+                            <td>Sony</td>
+                            <td>Audio</td>
+                            <td>3</td>
+                            <td class="text-end">3</td>
+                            <td class="text-end">Alice Brown <br/>20-Sept-2025 11:20</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="3"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                LG OLED 65” Smart TV <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">lg-oled-65-smart-tv</span>
+                            </td>
+                            <td>LG6500</td>
+                            <td>LG</td>
+                            <td>Home Appliances</td>
+                            <td>4</td>
+                            <td class="text-end">6</td>
+                            <td class="text-end">Robert King <br/>23-Sept-2025 10:45</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="4"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Panasonic Inverter AC 1.5 Ton <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">panasonic-inverter-ac-15</span>
+                            </td>
+                            <td>PN1501</td>
+                            <td>Panasonic</td>
+                            <td>Home Appliances</td>
+                            <td>5</td>
+                            <td class="text-end">2</td>
+                            <td class="text-end">Mary Johnson <br/>21-Sept-2025 08:55</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="5"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Redmi Note 14 Pro+ <span class="badge bg-danger ms-2"> </span><br/>
+                                <span class="text-muted">redmi-note-14-pro-plus</span>
+                            </td>
+                            <td>XM1499</td>
+                            <td>Xiaomi</td>
+                            <td>Electronics</td>
+                            <td>6</td>
+                            <td class="text-end">4</td>
+                            <td class="text-end">Kevin Lee <br/>26-Sept-2025 16:25</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="6"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                OnePlus 13R 5G <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">oneplus-13r-5g</span>
+                            </td>
+                            <td>OP1345</td>
+                            <td>OnePlus</td>
+                            <td>Mobile Phones</td>
+                            <td>7</td>
+                            <td class="text-end">5</td>
+                            <td class="text-end">Emma Wilson <br/>27-Sept-2025 13:40</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="7"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Google Pixel 9 Pro <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">google-pixel-9-pro</span>
+                            </td>
+                            <td>GP9302</td>
+                            <td>Google</td>
+                            <td>Mobile Phones</td>
+                            <td>8</td>
+                            <td class="text-end">3</td>
+                            <td class="text-end">Liam Martinez <br/>28-Sept-2025 17:10</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="8"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Dell XPS 15 2025 <span class="badge bg-danger ms-2"> </span><br/>
+                                <span class="text-muted">dell-xps-15-2025</span>
+                            </td>
+                            <td>DX1525</td>
+                            <td>Dell</td>
+                            <td>Laptops</td>
+                            <td>9</td>
+                            <td class="text-end">3</td>
+                            <td class="text-end">Sophia Taylor <br/>19-Sept-2025 12:50</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="9"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                ASUS ROG Strix G17 <span class="badge bg-success ms-2"> </span><br/>
+                                <span class="text-muted">asus-rog-strix-g17</span>
+                            </td>
+                            <td>ASG1777</td>
+                            <td>ASUS</td>
+                            <td>Laptops</td>
+                            <td>10</td>
+                            <td class="text-end">5</td>
+                            <td class="text-end">Ethan Clark <br/>21-Sept-2025 09:05</td>
+                            <td class="text-center">
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="10"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -162,24 +251,21 @@
 <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-danger text-white">
+            <div class="modal-header text-danger">
                 <h5 class="modal-title">
-                    <i class="fas fa-trash"></i> Delete Product - iPhone 17 Red 128GB
+                    <i class="fas fa-trash"></i> Delete Product
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body text-center">
-                <img src="https://placehold.co/120x120" class="img-fluid rounded mb-3" alt="Image Preview">
-                <p class="fw-semibold text-muted">
+            <div class="modal-body">
+                <p class="text-muted">
                     Are you sure you want to delete the product <span class="text-danger">iPhone 17 Red 128GB</span>?
                 </p>
             </div>
 
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form method="post" asp-controller="Products" asp-action="Delete" class="d-inline">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
