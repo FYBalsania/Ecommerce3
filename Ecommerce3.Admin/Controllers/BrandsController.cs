@@ -25,7 +25,7 @@ public class BrandsController : Controller
         CancellationToken cancellationToken)
     {
         var (brands, total) =
-            await _brandService.GetBrandListItemsAsync(name, pageNumber, pageSize, cancellationToken);
+            await _brandService.GetBrandListItemsAsync(name, 1, 10, cancellationToken);
         var response = new BrandsIndexResponse
         {
             BrandName = name,
@@ -52,11 +52,13 @@ public class BrandsController : Controller
         if (!ModelState.IsValid) return View(model);
 
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
-        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        //var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
         {
-            await _brandService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await _brandService.AddAsync(model.ToCommand(model.Name, model.Slug, model.Display, model.Breadcrumb, model.AnchorText, model.AnchorTitle, 
+                model.MetaTitle, model.MetaDescription, model.MetaKeywords, model.H1, model.ShortDescription, model.FullDescription, model.IsActive, model.SortOrder, 
+                1, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (DuplicateException e)
         {

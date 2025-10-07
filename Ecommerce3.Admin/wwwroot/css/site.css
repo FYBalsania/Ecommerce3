@@ -219,3 +219,9 @@ body {
 .sidebar::-webkit-scrollbar-thumb:hover {
   background: #6c757d;
 }
+
+/* Form label required */
+label.form-label.fw-bold.required::after {
+  content: " *";
+  color: red;
+}

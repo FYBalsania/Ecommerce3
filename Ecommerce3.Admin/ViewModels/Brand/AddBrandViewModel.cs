@@ -6,71 +6,88 @@ namespace Ecommerce3.Admin.ViewModels.Brand;
 public class AddBrandViewModel
 {
     [Required(ErrorMessage = $"{nameof(Name)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(Name)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(Name)} must be between 1 and 256 characters.")]
+    [Display(Name = nameof(Name))]
     public string Name { get; set; }
 
     [Required(ErrorMessage = $"{nameof(Slug)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(Slug)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(Slug)} must be between 1 and 256 characters.")]
+    [Display(Name = nameof(Slug))]
     public string Slug { get; set; }
 
     [Required(ErrorMessage = $"{nameof(Display)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(Display)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(Display)} must be between 1 and 256 characters.")]
+    [Display(Name = nameof(Display))]
     public string Display { get; set; }
 
     [Required(ErrorMessage = $"{nameof(Breadcrumb)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(Breadcrumb)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(Breadcrumb)} must be between 1 and 256 characters.")]
+    [Display(Name = nameof(Breadcrumb))]
     public string Breadcrumb { get; set; }
 
     [Required(ErrorMessage = $"{nameof(AnchorText)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(AnchorText)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(AnchorText)} must be between 1 and 256 characters.")]
+    [Display(Name = "Anchor text")]
     public string AnchorText { get; set; }
 
-    [MaxLength(256, ErrorMessage = $"{nameof(AnchorTitle)} may be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(AnchorTitle)} must be between 1 and 256 characters.")]
+    [Display(Name = "Anchor title")]
     public string? AnchorTitle { get; set; }
 
     [Required(ErrorMessage = $"{nameof(MetaTitle)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(MetaTitle)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(MetaTitle)} must be between 1 and 256 characters.")]
+    [Display(Name = "Meta title")]
     public string MetaTitle { get; set; }
 
-    [MaxLength(1024, ErrorMessage = $"{nameof(MetaDescription)} may be between 1 and 1024 characters.")]
+    [StringLength(1024, MinimumLength = 1, ErrorMessage = $"{nameof(MetaDescription)} must be between 1 and 1024 characters.")]
+    [Display(Name = "Meta description")]
     public string? MetaDescription { get; set; }
 
-    [MaxLength(1024, ErrorMessage = $"{nameof(MetaKeywords)} may be between 1 and 1024 characters.")]
+    [StringLength(1024, MinimumLength = 1, ErrorMessage = $"{nameof(MetaKeywords)} must be between 1 and 1024 characters.")]
+    [Display(Name = "Meta keywords")]
     public string? MetaKeywords { get; set; }
 
     [Required(ErrorMessage = $"{nameof(H1)} is required.")]
-    [Range(1, 256, ErrorMessage = $"{nameof(H1)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(H1)} must be between 1 and 256 characters.")]
+    [Display(Name = nameof(H1))]
     public string H1 { get; set; }
 
-    [MaxLength(512, ErrorMessage = $"{nameof(ShortDescription)} may be between 1 and 512 characters.")]
+    [StringLength(512, MinimumLength = 1, ErrorMessage = $"{nameof(ShortDescription)} must be between 1 and 512 characters.")]
+    [Display(Name = "Short description")]
     public string? ShortDescription { get; set; }
 
+    [Display(Name = "Full description")]
     public string? FullDescription { get; set; }
 
     [Required(ErrorMessage = $"{nameof(IsActive)} is required.")]
+    [Display(Name = "Is active")]
     public bool IsActive { get; set; }
 
     [Required(ErrorMessage = $"{nameof(SortOrder)} is required.")]
+    [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
-    public AddBrandCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddBrandCommand ToCommand(string name, string slug, string display, string breadcrumb, string anchorText, string anchorTitle, 
+        string metaTitle, string metaDescription, string metaKeywords, string h1, 
+        string shortDescription, string fullDescription, bool isActive, int sortOrder, 
+        int createdBy, DateTime createdAt, string createdByIp)
     {
         return new AddBrandCommand()
         {
-            Name = Name,
-            Slug = Slug,
-            Display = Display,
-            Breadcrumb = Breadcrumb,
-            AnchorText = AnchorText,
-            AnchorTitle = AnchorTitle,
-            MetaTitle = MetaTitle,
-            MetaDescription = MetaDescription,
-            MetaKeywords = MetaKeywords,
-            H1 = H1,
-            ShortDescription = ShortDescription,
-            FullDescription = FullDescription,
-            IsActive = IsActive,
-            SortOrder = SortOrder,
+            Name = name,
+            Slug = slug,
+            Display = display,
+            Breadcrumb = breadcrumb,
+            AnchorText = anchorText,
+            AnchorTitle = anchorTitle,
+            MetaTitle = metaTitle,
+            MetaDescription = metaDescription,
+            MetaKeywords = metaKeywords,
+            H1 = h1,
+            ShortDescription = shortDescription,
+            FullDescription = fullDescription,
+            IsActive = isActive,
+            SortOrder = sortOrder,
             CreatedBy = createdBy,
             CreatedAt = createdAt,
             CreatedByIp = createdByIp,

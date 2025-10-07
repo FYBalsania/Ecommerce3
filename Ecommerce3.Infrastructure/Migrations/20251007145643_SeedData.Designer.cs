@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251005144738_Init")]
-    partial class Init
+    [Migration("20251007145643_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -411,38 +411,16 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("text")
-                        .HasColumnOrder(16);
+                        .HasColumnOrder(12);
 
                     b.Property<string>("GoogleCategory")
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
                         .HasColumnOrder(8);
 
-                    b.Property<string>("H1")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(12);
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(17);
-
-                    b.Property<string>("MetaDescription")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(10);
-
-                    b.Property<string>("MetaKeywords")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(11);
-
-                    b.Property<string>("MetaTitle")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(13);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -452,17 +430,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(13);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("ltree")
-                        .HasColumnOrder(14);
+                        .HasColumnOrder(10);
 
                     b.Property<string>("ShortDescription")
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)")
-                        .HasColumnOrder(15);
+                        .HasColumnOrder(11);
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -472,7 +450,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(18);
+                        .HasColumnOrder(14);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -1644,11 +1622,11 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<decimal>("AdditionalShippingCharge")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(32);
+                        .HasColumnOrder(28);
 
                     b.Property<bool>("AllowReviews")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(22);
+                        .HasColumnOrder(18);
 
                     b.Property<string>("AnchorText")
                         .IsRequired()
@@ -1663,11 +1641,11 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("AverageRating")
                         .HasColumnType("integer")
-                        .HasColumnOrder(23);
+                        .HasColumnOrder(19);
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(18);
+                        .HasColumnOrder(14);
 
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
@@ -1677,7 +1655,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<decimal?>("CostPrice")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(27);
+                        .HasColumnOrder(23);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1708,7 +1686,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("DeliveryWindowId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(34);
+                        .HasColumnOrder(30);
 
                     b.Property<string>("Display")
                         .IsRequired()
@@ -1723,38 +1701,32 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<bool>("FreeShipping")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(31);
+                        .HasColumnOrder(27);
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("text")
-                        .HasColumnOrder(21);
+                        .HasColumnOrder(17);
 
                     b.Property<string>("GTIN")
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
                         .HasColumnOrder(3);
 
-                    b.Property<string>("H1")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(17);
-
                     b.Property<bool>("IsBestSeller")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(39);
+                        .HasColumnOrder(35);
 
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(37);
+                        .HasColumnOrder(33);
 
                     b.Property<bool>("IsNew")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(38);
+                        .HasColumnOrder(34);
 
                     b.Property<bool>("IsReturnable")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(40);
+                        .HasColumnOrder(36);
 
                     b.Property<string>("MFC")
                         .HasMaxLength(64)
@@ -1768,31 +1740,15 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int?>("MaxOrderQuantity")
                         .HasColumnType("integer")
-                        .HasColumnOrder(36);
-
-                    b.Property<string>("MetaDescription")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(15);
-
-                    b.Property<string>("MetaKeywords")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(16);
-
-                    b.Property<string>("MetaTitle")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(14);
+                        .HasColumnOrder(32);
 
                     b.Property<int>("MinOrderQuantity")
                         .HasColumnType("integer")
-                        .HasColumnOrder(35);
+                        .HasColumnOrder(31);
 
                     b.Property<int>("MinStock")
                         .HasColumnType("integer")
-                        .HasColumnOrder(29);
+                        .HasColumnOrder(25);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1802,24 +1758,24 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<decimal?>("OldPrice")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(26);
+                        .HasColumnOrder(22);
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(25);
+                        .HasColumnOrder(21);
 
                     b.Property<int?>("ProductGroupId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(19);
+                        .HasColumnOrder(15);
 
                     b.Property<string>("RedirectUrl")
                         .HasMaxLength(2048)
                         .HasColumnType("varchar(2048)")
-                        .HasColumnOrder(43);
+                        .HasColumnOrder(39);
 
                     b.Property<string>("ReturnPolicy")
                         .HasColumnType("text")
-                        .HasColumnOrder(41);
+                        .HasColumnOrder(37);
 
                     b.Property<string>("SKU")
                         .IsRequired()
@@ -1830,11 +1786,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("ShortDescription")
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)")
-                        .HasColumnOrder(20);
+                        .HasColumnOrder(16);
 
                     b.Property<bool>("ShowAvailability")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(30);
+                        .HasColumnOrder(26);
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -1844,21 +1800,21 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(44);
+                        .HasColumnOrder(40);
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)")
-                        .HasColumnOrder(42);
+                        .HasColumnOrder(38);
 
                     b.Property<int>("Stock")
                         .HasColumnType("integer")
-                        .HasColumnOrder(28);
+                        .HasColumnOrder(24);
 
                     b.Property<int>("TotalReviews")
                         .HasColumnType("integer")
-                        .HasColumnOrder(24);
+                        .HasColumnOrder(20);
 
                     b.Property<string>("UPC")
                         .HasMaxLength(64)
@@ -1880,7 +1836,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<decimal>("WeightKgs")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnOrder(33);
+                        .HasColumnOrder(29);
 
                     b.Property<string>("_facets")
                         .IsRequired()
@@ -2342,33 +2298,11 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("text")
-                        .HasColumnOrder(13);
-
-                    b.Property<string>("H1")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(9);
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(14);
-
-                    b.Property<string>("MetaDescription")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(9);
-
-                    b.Property<string>("MetaKeywords")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
                         .HasColumnOrder(10);
-
-                    b.Property<string>("MetaTitle")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnOrder(8);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2379,7 +2313,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("ShortDescription")
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)")
-                        .HasColumnOrder(12);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -2389,7 +2323,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(15);
+                        .HasColumnOrder(11);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
