@@ -54,9 +54,7 @@ public class BrandsController : Controller
 
         try
         {
-            await _brandService.AddAsync(model.ToCommand(model.Name, model.Slug, model.Display, model.Breadcrumb, model.AnchorText, model.AnchorTitle, 
-                model.MetaTitle, model.MetaDescription, model.MetaKeywords, model.H1, model.ShortDescription, model.FullDescription, model.IsActive, model.SortOrder, 
-                1, DateTime.Now, ipAddress), cancellationToken);
+            await _brandService.AddAsync(model.ToCommand(1, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (DuplicateException e)
         {

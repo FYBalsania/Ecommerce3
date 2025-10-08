@@ -67,27 +67,24 @@ public class AddBrandViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
-    public AddBrandCommand ToCommand(string name, string slug, string display, string breadcrumb, string anchorText, string anchorTitle, 
-        string metaTitle, string metaDescription, string metaKeywords, string h1, 
-        string shortDescription, string fullDescription, bool isActive, int sortOrder, 
-        int createdBy, DateTime createdAt, string createdByIp)
+    public AddBrandCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
     {
         return new AddBrandCommand()
         {
-            Name = name,
-            Slug = slug,
-            Display = display,
-            Breadcrumb = breadcrumb,
-            AnchorText = anchorText,
-            AnchorTitle = anchorTitle,
-            MetaTitle = metaTitle,
-            MetaDescription = metaDescription,
-            MetaKeywords = metaKeywords,
-            H1 = h1,
-            ShortDescription = shortDescription,
-            FullDescription = fullDescription,
-            IsActive = isActive,
-            SortOrder = sortOrder,
+            Name = Name,
+            Slug = Slug,
+            Display = Display,
+            Breadcrumb = Breadcrumb,
+            AnchorText = AnchorText,
+            AnchorTitle = AnchorTitle,
+            MetaTitle = MetaTitle,
+            MetaDescription = MetaDescription,
+            MetaKeywords = MetaKeywords,
+            H1 = H1,
+            ShortDescription = ShortDescription,
+            FullDescription = FullDescription,
+            IsActive = IsActive,
+            SortOrder = SortOrder,
             CreatedBy = createdBy,
             CreatedAt = createdAt,
             CreatedByIp = createdByIp,
