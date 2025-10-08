@@ -21,9 +21,9 @@ public class ProductQnAConfiguration : IEntityTypeConfiguration<ProductQnA>
 
         //Properties.
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
-        builder.Property(x => x.Question).HasMaxLength(2048).HasColumnType("varchar(2048)").HasColumnOrder(3);
+        builder.Property(x => x.Question).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(4);
-        builder.Property(x => x.Answer).HasColumnType("text").HasColumnOrder(5);
+        builder.Property(x => x.Answer).HasColumnType("citext").HasColumnOrder(5);
         builder.Property(x => x.AnsweredBy).HasColumnType("integer").HasColumnOrder(6);
         builder.Property(x => x.AnsweredOn).HasColumnType("timestamp").HasColumnOrder(7);
         builder.Property(x => x.AnswererIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(8);
@@ -41,7 +41,11 @@ public class ProductQnAConfiguration : IEntityTypeConfiguration<ProductQnA>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
+        builder.HasIndex(x => x.Question).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"UK_{nameof(ProductQnA)}_{nameof(ProductQnA.Question)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.SortOrder)}");
+        builder.HasIndex(x => x.Answer).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.Answer)}");
         builder.HasIndex(x => x.AnsweredOn).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.AnsweredOn)}");
         builder.HasIndex(x => x.ApprovedOn).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.ApprovedOn)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.CreatedAt)}");

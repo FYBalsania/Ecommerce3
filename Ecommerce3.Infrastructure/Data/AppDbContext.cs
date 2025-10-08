@@ -55,6 +55,10 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         // Always call base first to apply Identity's default config.
         base.OnModelCreating(builder);
 
+        builder.HasPostgresExtension("citext");
+        builder.HasPostgresExtension("pg_trgm");
+        builder.HasPostgresExtension("ltree");
+
         // Apply entity configurations.
         builder.ApplyConfiguration(new BrandCategoryPageConfiguration());
         builder.ApplyConfiguration(new BrandConfiguration());
@@ -94,6 +98,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new TextListItemConfiguration());
 
         // Rename Identity tables.
+        builder.Entity<AppUser>().ToTable("AppUser");
         builder.Entity<Role>().ToTable("Role");
         builder.Entity<IdentityUserRole<int>>().ToTable("AppUserRole");
         builder.Entity<IdentityUserClaim<int>>().ToTable("AppUserClaim");

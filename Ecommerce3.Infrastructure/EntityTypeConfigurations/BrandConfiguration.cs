@@ -11,18 +11,18 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {
         //Table.
         builder.ToTable(nameof(Brand));
-        
+
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Properties.
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
-        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(3);
-        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
-        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(6);
-        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(7);
+        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
+        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
+        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
+        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(6);
+        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(7);
         builder.Property(x => x.ShortDescription).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(8);
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(9);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(10);
@@ -38,13 +38,23 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
-        builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"UK_{nameof(Brand)}_{nameof(Brand.Name)}");
-        builder.HasIndex(x => x.Slug).IsUnique().HasDatabaseName($"UK_{nameof(Brand)}_{nameof(Brand.Slug)}");
+        builder.HasIndex(x => x.Name).IsUnique()
+            .HasDatabaseName($"UK_{nameof(Brand)}_{nameof(Brand.Name)}");
+        builder.HasIndex(x => x.Slug).IsUnique()
+            .HasDatabaseName($"UK_{nameof(Brand)}_{nameof(Brand.Slug)}");
+        builder.HasIndex(x => x.Display).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.Display)}");
+        builder.HasIndex(x => x.Breadcrumb).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.Breadcrumb)}");
+        builder.HasIndex(x => x.AnchorText).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.AnchorText)}");
+        builder.HasIndex(x => x.AnchorTitle).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.AnchorTitle)}");
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.IsActive)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.SortOrder)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Brand)}_{nameof(Brand.DeletedAt)}");
-        
+
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
 

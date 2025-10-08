@@ -13,10 +13,12 @@ namespace Ecommerce3.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:ltree", ",,");
+                .Annotation("Npgsql:PostgresExtension:citext", ",,")
+                .Annotation("Npgsql:PostgresExtension:ltree", ",,")
+                .Annotation("Npgsql:PostgresExtension:pg_trgm", ",,");
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AppUser",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -41,7 +43,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AppUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,11 +52,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
-                    LastName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
-                    CompanyName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailAddress = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
+                    FirstName = table.Column<string>(type: "citext", maxLength: 64, nullable: false),
+                    LastName = table.Column<string>(type: "citext", maxLength: 64, nullable: true),
+                    CompanyName = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
+                    EmailAddress = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "citext", maxLength: 64, nullable: true),
                     Password = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
                     IsEmailVerified = table.Column<bool>(type: "boolean", nullable: false),
                     PasswordResetToken = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
@@ -101,9 +103,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AppUserClaim", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppUserClaim_AspNetUsers_UserId",
+                        name: "FK_AppUserClaim_AppUser_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -121,9 +123,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AppUserLogin", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AppUserLogin_AspNetUsers_UserId",
+                        name: "FK_AppUserLogin_AppUser_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -141,9 +143,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AppUserToken", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AppUserToken_AspNetUsers_UserId",
+                        name: "FK_AppUserToken_AppUser_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -154,12 +156,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Display = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Breadcrumb = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorText = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorText = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
                     ShortDescription = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
                     FullDescription = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
@@ -178,21 +180,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Brand", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Brand_AspNetUsers_CreatedBy",
+                        name: "FK_Brand_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Brand_AspNetUsers_DeletedBy",
+                        name: "FK_Brand_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Brand_AspNetUsers_UpdatedBy",
+                        name: "FK_Brand_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -203,13 +205,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Display = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Breadcrumb = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorText = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    GoogleCategory = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorText = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
+                    GoogleCategory = table.Column<string>(type: "citext", maxLength: 1024, nullable: true),
                     ParentId = table.Column<int>(type: "integer", nullable: true),
                     Path = table.Column<string>(type: "ltree", nullable: false),
                     ShortDescription = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
@@ -230,21 +232,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Category_AspNetUsers_CreatedBy",
+                        name: "FK_Category_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Category_AspNetUsers_DeletedBy",
+                        name: "FK_Category_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Category_AspNetUsers_UpdatedBy",
+                        name: "FK_Category_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -261,7 +263,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     Unit = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
                     MinValue = table.Column<int>(type: "integer", nullable: false),
                     MaxValue = table.Column<int>(type: "integer", nullable: true),
@@ -283,21 +285,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_DeliveryWindow", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DeliveryWindow_AspNetUsers_CreatedBy",
+                        name: "FK_DeliveryWindow_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DeliveryWindow_AspNetUsers_DeletedBy",
+                        name: "FK_DeliveryWindow_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DeliveryWindow_AspNetUsers_UpdatedBy",
+                        name: "FK_DeliveryWindow_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -309,8 +311,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Scope = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                    Code = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Code = table.Column<string>(type: "citext", maxLength: 16, nullable: false),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     StartAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     EndAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     MinOrderValue = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
@@ -333,21 +335,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Discount", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Discount_AspNetUsers_CreatedBy",
+                        name: "FK_Discount_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Discount_AspNetUsers_DeletedBy",
+                        name: "FK_Discount_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Discount_AspNetUsers_UpdatedBy",
+                        name: "FK_Discount_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -359,7 +361,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Entity = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    Type = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    Type = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -376,21 +378,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ImageType", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImageType_AspNetUsers_CreatedBy",
+                        name: "FK_ImageType_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ImageType_AspNetUsers_DeletedBy",
+                        name: "FK_ImageType_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ImageType_AspNetUsers_UpdatedBy",
+                        name: "FK_ImageType_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -401,10 +403,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Display = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Breadcrumb = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     DataType = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -421,21 +423,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductAttribute", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_AspNetUsers_CreatedBy",
+                        name: "FK_ProductAttribute_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_AspNetUsers_DeletedBy",
+                        name: "FK_ProductAttribute_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductAttribute_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -446,12 +448,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Display = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Breadcrumb = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorText = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorText = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
                     ShortDescription = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
                     FullDescription = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
@@ -470,21 +472,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductGroup", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductGroup_AspNetUsers_CreatedBy",
+                        name: "FK_ProductGroup_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroup_AspNetUsers_DeletedBy",
+                        name: "FK_ProductGroup_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroup_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductGroup_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -514,21 +516,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Cart", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cart_AspNetUsers_CreatedBy",
+                        name: "FK_Cart_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cart_AspNetUsers_DeletedBy",
+                        name: "FK_Cart_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cart_AspNetUsers_UpdatedBy",
+                        name: "FK_Cart_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -547,15 +549,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CustomerId = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
-                    FullName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
-                    CompanyName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    AddressLine1 = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
-                    AddressLine2 = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
-                    City = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
-                    StateOrProvince = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    PostalCode = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
-                    Landmark = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
+                    FullName = table.Column<string>(type: "citext", maxLength: 128, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "citext", maxLength: 64, nullable: true),
+                    CompanyName = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
+                    AddressLine1 = table.Column<string>(type: "citext", maxLength: 512, nullable: false),
+                    AddressLine2 = table.Column<string>(type: "citext", maxLength: 512, nullable: true),
+                    City = table.Column<string>(type: "citext", maxLength: 64, nullable: false),
+                    StateOrProvince = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    PostalCode = table.Column<string>(type: "citext", maxLength: 16, nullable: false),
+                    Landmark = table.Column<string>(type: "citext", maxLength: 512, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -586,9 +588,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AppUserRole", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_AppUserRole_AspNetUsers_UserId",
+                        name: "FK_AppUserRole_AppUser_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -628,16 +630,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductAttributeId = table.Column<int>(type: "integer", nullable: false),
                     Discriminator = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
-                    Value = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Display = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Breadcrumb = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Value = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     NumberValue = table.Column<decimal>(type: "numeric(18,3)", nullable: true),
                     BooleanValue = table.Column<bool>(type: "boolean", nullable: true),
                     DateOnlyValue = table.Column<DateOnly>(type: "date", nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     HexCode = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
-                    ColourFamily = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
+                    ColourFamily = table.Column<string>(type: "citext", maxLength: 64, nullable: true),
                     ColourFamilyHexCode = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
@@ -653,21 +655,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductAttributeValue", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductAttributeValue_AspNetUsers_CreatedBy",
+                        name: "FK_ProductAttributeValue_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttributeValue_AspNetUsers_DeletedBy",
+                        name: "FK_ProductAttributeValue_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttributeValue_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductAttributeValue_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -690,12 +692,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     MFC = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
                     EAN = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
                     UPC = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Display = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    Breadcrumb = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorText = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    AnchorTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorText = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    AnchorTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
                     BrandId = table.Column<int>(type: "integer", nullable: true),
                     ProductGroupId = table.Column<int>(type: "integer", nullable: true),
                     ShortDescription = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
@@ -721,7 +723,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     IsReturnable = table.Column<bool>(type: "boolean", nullable: false),
                     ReturnPolicy = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                    RedirectUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
+                    RedirectUrl = table.Column<string>(type: "citext", maxLength: 2048, nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     Facets = table.Column<string>(type: "jsonb", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -738,21 +740,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_CreatedBy",
+                        name: "FK_Product_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_DeletedBy",
+                        name: "FK_Product_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_UpdatedBy",
+                        name: "FK_Product_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -781,7 +783,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Number = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
+                    Number = table.Column<string>(type: "citext", maxLength: 16, nullable: false),
                     Dated = table.Column<DateTime>(type: "timestamp", nullable: false),
                     CartId = table.Column<int>(type: "integer", nullable: true),
                     CustomerId = table.Column<int>(type: "integer", nullable: false),
@@ -813,21 +815,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_SalesOrder", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_AspNetUsers_CreatedByUserId",
+                        name: "FK_SalesOrder_AppUser_CreatedByUserId",
                         column: x => x.CreatedByUserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_AspNetUsers_DeletedBy",
+                        name: "FK_SalesOrder_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_AspNetUsers_UpdatedByUserId",
+                        name: "FK_SalesOrder_AppUser_UpdatedByUserId",
                         column: x => x.UpdatedByUserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -891,21 +893,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductGroupProductAttribute", x => new { x.ProductGroupId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt });
                     table.ForeignKey(
-                        name: "FK_ProductGroupProductAttribute_AspNetUsers_CreatedBy",
+                        name: "FK_ProductGroupProductAttribute_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroupProductAttribute_AspNetUsers_DeletedBy",
+                        name: "FK_ProductGroupProductAttribute_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroupProductAttribute_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductGroupProductAttribute_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -954,21 +956,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CartLine", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartLine_AspNetUsers_CreatedBy",
+                        name: "FK_CartLine_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CartLine_AspNetUsers_DeletedBy",
+                        name: "FK_CartLine_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CartLine_AspNetUsers_UpdatedBy",
+                        name: "FK_CartLine_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1002,15 +1004,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_DiscountProduct", x => new { x.DiscountId, x.ProductId, x.DeletedAt });
                     table.ForeignKey(
-                        name: "FK_DiscountProduct_AspNetUsers_CreatedBy",
+                        name: "FK_DiscountProduct_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DiscountProduct_AspNetUsers_DeletedBy",
+                        name: "FK_DiscountProduct_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1060,21 +1062,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_KVPListItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_KVPListItem_AspNetUsers_CreatedBy",
+                        name: "FK_KVPListItem_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_KVPListItem_AspNetUsers_DeletedBy",
+                        name: "FK_KVPListItem_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_KVPListItem_AspNetUsers_UpdatedBy",
+                        name: "FK_KVPListItem_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1098,19 +1100,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Discriminator = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                    Path = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    MetaTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Path = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
+                    MetaTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     MetaDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
                     MetaKeywords = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     MetaRobots = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true),
-                    CanonicalUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
+                    CanonicalUrl = table.Column<string>(type: "citext", maxLength: 2048, nullable: true),
                     OgTitle = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     OgDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
                     OgImageUrl = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
                     OgType = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: true),
                     TwitterCard = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true),
                     ContentHtml = table.Column<string>(type: "text", nullable: true),
-                    H1 = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    H1 = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
                     Summary = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     SchemaJsonLd = table.Column<string>(type: "text", nullable: true),
                     BreadcrumbsJson = table.Column<string>(type: "text", nullable: true),
@@ -1143,21 +1145,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Page", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Page_AspNetUsers_CreatedBy",
+                        name: "FK_Page_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Page_AspNetUsers_DeletedBy",
+                        name: "FK_Page_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Page_AspNetUsers_UpdatedBy",
+                        name: "FK_Page_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1208,21 +1210,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductCategory_ProductId_CategoryId_DeletedAt", x => new { x.ProductId, x.CategoryId, x.DeletedAt });
                     table.ForeignKey(
-                        name: "FK_ProductCategory_AspNetUsers_CreatedBy",
+                        name: "FK_ProductCategory_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductCategory_AspNetUsers_DeletedBy",
+                        name: "FK_ProductCategory_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductCategory_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductCategory_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1262,21 +1264,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductProductAttribute", x => new { x.ProductId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt });
                     table.ForeignKey(
-                        name: "FK_ProductProductAttribute_AspNetUsers_CreatedBy",
+                        name: "FK_ProductProductAttribute_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductProductAttribute_AspNetUsers_DeletedBy",
+                        name: "FK_ProductProductAttribute_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductProductAttribute_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductProductAttribute_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1306,9 +1308,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
-                    Question = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false),
+                    Question = table.Column<string>(type: "citext", maxLength: 2048, nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Answer = table.Column<string>(type: "text", nullable: true),
+                    Answer = table.Column<string>(type: "citext", nullable: true),
                     AnsweredBy = table.Column<int>(type: "integer", nullable: true),
                     AnsweredOn = table.Column<DateTime>(type: "timestamp", nullable: true),
                     AnswererIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
@@ -1329,33 +1331,33 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductQnA", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AspNetUsers_AnsweredBy",
+                        name: "FK_ProductQnA_AppUser_AnsweredBy",
                         column: x => x.AnsweredBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AspNetUsers_Approver",
+                        name: "FK_ProductQnA_AppUser_Approver",
                         column: x => x.Approver,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AspNetUsers_CreatedBy",
+                        name: "FK_ProductQnA_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AspNetUsers_DeletedBy",
+                        name: "FK_ProductQnA_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductQnA_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1374,7 +1376,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     Rating = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    Review = table.Column<string>(type: "varchar(18432)", maxLength: 18432, nullable: true),
+                    Review = table.Column<string>(type: "citext", maxLength: 18432, nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     Approver = table.Column<int>(type: "integer", nullable: true),
                     ApprovedOn = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1393,27 +1395,27 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ProductReview", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AspNetUsers_Approver",
+                        name: "FK_ProductReview_AppUser_Approver",
                         column: x => x.Approver,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AspNetUsers_CreatedBy",
+                        name: "FK_ProductReview_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AspNetUsers_DeletedBy",
+                        name: "FK_ProductReview_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AspNetUsers_UpdatedBy",
+                        name: "FK_ProductReview_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1432,7 +1434,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Discriminator = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
+                    Text = table.Column<string>(type: "citext", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: true),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -1449,21 +1451,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_TextListItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TextListItem_AspNetUsers_CreatedBy",
+                        name: "FK_TextListItem_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TextListItem_AspNetUsers_DeletedBy",
+                        name: "FK_TextListItem_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TextListItem_AspNetUsers_UpdatedBy",
+                        name: "FK_TextListItem_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1503,21 +1505,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_SalesOrderLine", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_AspNetUsers_CreatedByUserId",
+                        name: "FK_SalesOrderLine_AppUser_CreatedByUserId",
                         column: x => x.CreatedByUserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_AspNetUsers_DeletedBy",
+                        name: "FK_SalesOrderLine_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_AspNetUsers_UpdatedByUserId",
+                        name: "FK_SalesOrderLine_AppUser_UpdatedByUserId",
                         column: x => x.UpdatedByUserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1558,13 +1560,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OgFileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
-                    FileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    OgFileName = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    FileName = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     FileExtension = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
                     ImageTypeId = table.Column<int>(type: "integer", nullable: false),
                     Size = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
-                    AltText = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Title = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    AltText = table.Column<string>(type: "citext", maxLength: 128, nullable: true),
+                    Title = table.Column<string>(type: "citext", maxLength: 128, nullable: true),
                     Loading = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
                     Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     LinkTarget = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
@@ -1588,21 +1590,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Image", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_CreatedBy",
+                        name: "FK_Image_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_DeletedBy",
+                        name: "FK_Image_AppUser_DeletedBy",
                         column: x => x.DeletedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_UpdatedBy",
+                        name: "FK_Image_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1644,6 +1646,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AppUser",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AppUser",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AppUserClaim_UserId",
                 table: "AppUserClaim",
                 column: "UserId");
@@ -1659,15 +1672,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
+                name: "IX_Brand_AnchorText",
+                table: "Brand",
+                column: "AnchorText")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true);
+                name: "IX_Brand_AnchorTitle",
+                table: "Brand",
+                column: "AnchorTitle")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Brand_Breadcrumb",
+                table: "Brand",
+                column: "Breadcrumb")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Brand_CreatedAt",
@@ -1688,6 +1711,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Brand_DeletedBy",
                 table: "Brand",
                 column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Brand_Display",
+                table: "Brand",
+                column: "Display")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Brand_IsActive",
@@ -1797,6 +1827,27 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_AnchorText",
+                table: "Category",
+                column: "AnchorText")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_AnchorTitle",
+                table: "Category",
+                column: "AnchorTitle")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_Breadcrumb",
+                table: "Category",
+                column: "Breadcrumb")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Category_CreatedAt",
                 table: "Category",
                 column: "CreatedAt");
@@ -1817,6 +1868,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_Display",
+                table: "Category",
+                column: "Display")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_GoogleCategory",
+                table: "Category",
+                column: "GoogleCategory")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Category_IsActive",
                 table: "Category",
                 column: "IsActive");
@@ -1825,6 +1890,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Category_ParentId",
                 table: "Category",
                 column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_Path",
+                table: "Category",
+                column: "Path")
+                .Annotation("Npgsql:IndexMethod", "gist");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Category_SortOrder",
@@ -1851,7 +1922,9 @@ namespace Ecommerce3.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_CompanyName",
                 table: "Customer",
-                column: "CompanyName");
+                column: "CompanyName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_CreatedAt",
@@ -1866,12 +1939,16 @@ namespace Ecommerce3.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_FirstName",
                 table: "Customer",
-                column: "FirstName");
+                column: "FirstName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_LastName",
                 table: "Customer",
-                column: "LastName");
+                column: "LastName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_PasswordResetToken",
@@ -1887,12 +1964,37 @@ namespace Ecommerce3.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "UK_Customer_PhoneNumber",
                 table: "Customer",
-                column: "PhoneNumber");
+                column: "PhoneNumber")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddress_AddressLine1",
+                table: "CustomerAddress",
+                column: "AddressLine1")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddress_AddressLine2",
+                table: "CustomerAddress",
+                column: "AddressLine2")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_City",
                 table: "CustomerAddress",
-                column: "City");
+                column: "City")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddress_CompanyName",
+                table: "CustomerAddress",
+                column: "CompanyName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_CreatedAt",
@@ -1910,14 +2012,39 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedAt");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddress_FullName",
+                table: "CustomerAddress",
+                column: "FullName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddress_Landmark",
+                table: "CustomerAddress",
+                column: "Landmark")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddress_PhoneNumber",
+                table: "CustomerAddress",
+                column: "PhoneNumber")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_PostalCode",
                 table: "CustomerAddress",
-                column: "PostalCode");
+                column: "PostalCode")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_StateOrProvince",
                 table: "CustomerAddress",
-                column: "StateOrProvince");
+                column: "StateOrProvince")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeliveryWindow_CreatedAt",
@@ -1976,6 +2103,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Discount_EndAt",
+                table: "Discount",
+                column: "EndAt");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Discount_IsActive",
                 table: "Discount",
                 column: "IsActive");
@@ -1986,9 +2118,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Scope");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Discount_StartAt_EndAt",
+                name: "IX_Discount_StartAt",
                 table: "Discount",
-                columns: new[] { "StartAt", "EndAt" });
+                column: "StartAt");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Discount_UpdatedBy",
@@ -1999,6 +2131,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "UK_Discount_Code",
                 table: "Discount",
                 column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Discount_Name",
+                table: "Discount",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2017,14 +2155,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_BrandId_SortOrder",
+                name: "IX_Image_AltText",
                 table: "Image",
-                columns: new[] { "BrandId", "SortOrder" });
+                column: "AltText")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_CategoryId_SortOrder",
+                name: "IX_Image_BrandId",
                 table: "Image",
-                columns: new[] { "CategoryId", "SortOrder" });
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_CategoryId",
+                table: "Image",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_CreatedAt",
@@ -2049,7 +2194,9 @@ namespace Ecommerce3.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Image_FileName",
                 table: "Image",
-                column: "FileName");
+                column: "FileName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_ImageTypeId",
@@ -2057,19 +2204,38 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "ImageTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_PageId_SortOrder",
+                name: "IX_Image_OgFileName",
                 table: "Image",
-                columns: new[] { "PageId", "SortOrder" });
+                column: "OgFileName")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_ProductGroupId_SortOrder",
+                name: "IX_Image_PageId",
                 table: "Image",
-                columns: new[] { "ProductGroupId", "SortOrder" });
+                column: "PageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_ProductId_SortOrder",
+                name: "IX_Image_ProductGroupId",
                 table: "Image",
-                columns: new[] { "ProductId", "SortOrder" });
+                column: "ProductGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_ProductId",
+                table: "Image",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_SortOrder",
+                table: "Image",
+                column: "SortOrder");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_Title",
+                table: "Image",
+                column: "Title")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_UpdatedBy",
@@ -2097,9 +2263,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_Entity_Type",
+                name: "IX_ImageType_Entity",
                 table: "ImageType",
-                columns: new[] { "Entity", "Type" });
+                column: "Entity");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImageType_IsActive",
@@ -2107,9 +2273,22 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "IsActive");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ImageType_Type",
+                table: "ImageType",
+                column: "Type")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ImageType_UpdatedBy",
                 table: "ImageType",
                 column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_ImageType_Entity_Type",
+                table: "ImageType",
+                columns: new[] { "Entity", "Type" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryKVPListItem_CategoryId_Type",
@@ -2153,6 +2332,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Page_CanonicalUrl",
+                table: "Page",
+                column: "CanonicalUrl")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Page_CategoryId",
                 table: "Page",
                 column: "CategoryId",
@@ -2179,6 +2365,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Page_H1",
+                table: "Page",
+                column: "H1")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Page_IsActive",
                 table: "Page",
                 column: "IsActive");
@@ -2187,6 +2380,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Page_IsIndexed",
                 table: "Page",
                 column: "IsIndexed");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Page_MetaTitle",
+                table: "Page",
+                column: "MetaTitle")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Page_ProductGroupId",
@@ -2204,12 +2404,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Page_UpdatedBy",
                 table: "Page",
                 column: "UpdatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "UK_Page_BrandId_CategoryId_DeletedAt",
-                table: "Page",
-                columns: new[] { "BrandId", "CategoryId", "DeletedAt" },
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UK_Page_Path",
@@ -2230,9 +2424,30 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_AnchorText",
+                table: "Product",
+                column: "AnchorText")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_AnchorTitle",
+                table: "Product",
+                column: "AnchorTitle")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_BrandId",
                 table: "Product",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Breadcrumb",
+                table: "Product",
+                column: "Breadcrumb")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_CreatedAt",
@@ -2260,6 +2475,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeliveryWindowId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_Display",
+                table: "Product",
+                column: "Display")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_Facets",
                 table: "Product",
                 column: "Facets")
@@ -2284,6 +2506,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Product_ProductGroupId",
                 table: "Product",
                 column: "ProductGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_RedirectUrl",
+                table: "Product",
+                column: "RedirectUrl")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_SortOrder",
@@ -2349,6 +2578,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductAttribute_Breadcrumb",
+                table: "ProductAttribute",
+                column: "Breadcrumb")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttribute_CreatedAt",
                 table: "ProductAttribute",
                 column: "CreatedAt");
@@ -2367,6 +2603,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_ProductAttribute_DeletedBy",
                 table: "ProductAttribute",
                 column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductAttribute_Display",
+                table: "ProductAttribute",
+                column: "Display")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttribute_SortOrder",
@@ -2391,6 +2634,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductAttributeColourValue_ColourFamily",
+                table: "ProductAttributeValue",
+                column: "ColourFamily")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductAttributeValue_Breadcrumb",
+                table: "ProductAttributeValue",
+                column: "Breadcrumb")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_CreatedBy",
                 table: "ProductAttributeValue",
                 column: "CreatedBy");
@@ -2406,19 +2663,27 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Discriminator");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductAttributeValue_Display",
+                table: "ProductAttributeValue",
+                column: "Display")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_ProductAttributeId_SortOrder_Value",
                 table: "ProductAttributeValue",
                 columns: new[] { "ProductAttributeId", "SortOrder", "Value" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttributeValue_Slug",
-                table: "ProductAttributeValue",
-                column: "Slug");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_UpdatedBy",
                 table: "ProductAttributeValue",
                 column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_ProductAttributeValue_ProductAttributeId_Slug",
+                table: "ProductAttributeValue",
+                columns: new[] { "ProductAttributeId", "Slug" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductAttributeValue_ProductAttributeId_Value",
@@ -2462,6 +2727,27 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductGroup_AnchorText",
+                table: "ProductGroup",
+                column: "AnchorText")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductGroup_AnchorTitle",
+                table: "ProductGroup",
+                column: "AnchorTitle")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductGroup_Breadcrumb",
+                table: "ProductGroup",
+                column: "Breadcrumb")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductGroup_CreatedAt",
                 table: "ProductGroup",
                 column: "CreatedAt");
@@ -2480,6 +2766,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_ProductGroup_DeletedBy",
                 table: "ProductGroup",
                 column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductGroup_Display",
+                table: "ProductGroup",
+                column: "Display")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductGroup_IsActive",
@@ -2575,6 +2868,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductQnA_Answer",
+                table: "ProductQnA",
+                column: "Answer")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductQnA_AnsweredBy",
                 table: "ProductQnA",
                 column: "AnsweredBy");
@@ -2630,6 +2930,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "UK_ProductQnA_Question",
+                table: "ProductQnA",
+                column: "Question")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductReview_ApprovedOn",
                 table: "ProductReview",
                 column: "ApprovedOn");
@@ -2663,6 +2970,18 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_ProductReview_ProductId",
                 table: "ProductReview",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductReview_Rating",
+                table: "ProductReview",
+                column: "Rating");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductReview_Review",
+                table: "ProductReview",
+                column: "Review")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductReview_SortOrder",
@@ -2858,6 +3177,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Discriminator");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TextListItem_Text",
+                table: "TextListItem",
+                column: "Text")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TextListItem_Type",
                 table: "TextListItem",
                 column: "Type");
@@ -2965,7 +3291,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "Customer");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AppUser");
         }
     }
 }

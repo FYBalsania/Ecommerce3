@@ -22,7 +22,7 @@ public class ProductReviewConfiguration : IEntityTypeConfiguration<ProductReview
         //Properties.
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
         builder.Property(x => x.Rating).HasColumnType("decimal(18,2)").HasColumnOrder(3);
-        builder.Property(x => x.Review).HasMaxLength(18432).HasColumnType("varchar(18432)").HasColumnOrder(4);
+        builder.Property(x => x.Review).HasMaxLength(18432).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(5);
         builder.Property(x => x.Approver).HasColumnType("integer").HasColumnOrder(6);
         builder.Property(x => x.ApprovedOn).HasColumnType("timestamp").HasColumnOrder(7);
@@ -38,6 +38,9 @@ public class ProductReviewConfiguration : IEntityTypeConfiguration<ProductReview
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
+        builder.HasIndex(x => x.Rating).HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.Rating)}");
+        builder.HasIndex(x => x.Review).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.Review)}");
         builder.HasIndex(x => x.SortOrder)
             .HasDatabaseName($"IX_{nameof(ProductReview)}_{nameof(ProductReview.SortOrder)}");
         builder.HasIndex(x => x.ApprovedOn)

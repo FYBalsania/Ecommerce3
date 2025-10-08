@@ -1,9 +1,11 @@
+using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.Filters;
 
 namespace Ecommerce3.Contracts.QueryRepositories;
 
 public interface IBrandQueryRepository
 {
-    Task<(IReadOnlyList<BrandListItemDTO>, int)> GetBrandListItemsAsync(string? name, int pageNumber, int pageSize,
+    Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
 }

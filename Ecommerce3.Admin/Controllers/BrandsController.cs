@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Ecommerce3.Admin.ViewModels.Brand;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,28 +12,33 @@ public class BrandsController : Controller
     private readonly IBrandService _brandService;
     private readonly ILogger<BrandsController> _logger;
     private readonly IIPAddressService _ipAddressService;
+    private readonly IConfiguration _configuration;
+    private readonly int _pageSize;
 
     public BrandsController(IBrandService brandService, ILogger<BrandsController> logger,
-        IIPAddressService ipAddressService)
+        IIPAddressService ipAddressService, IConfiguration configuration)
     {
         _brandService = brandService;
         _logger = logger;
         _ipAddressService = ipAddressService;
+        _configuration = configuration;
+        _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? name, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(BrandFilter filter, int pageNumber, int pageSize,
+        CancellationToken cancellationToken)
     {
-        var (brands, total) = await _brandService.GetBrandListItemsAsync(name, 1, 10, cancellationToken);
+        pageNumber = pageNumber == 0 ? 1 : pageNumber;
+        pageSize = pageSize == 0 ? _pageSize : pageSize;
+
+        var result = await _brandService.GetBrandListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
         var response = new BrandsIndexResponse
         {
-            BrandName = name,
-            PageNumber = pageNumber,
-            PageSize = pageSize,
-            BrandListItems = brands,
-            BrandListItemsCount = total
+            Filter = filter,
+            Brands = result,
+            PageTitle = "Brands"
         };
-        ViewData["Title"] = "Brands";
         return View(response);
     }
 
@@ -50,11 +56,11 @@ public class BrandsController : Controller
         if (!ModelState.IsValid) return View(model);
 
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
-        //var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
         {
-            await _brandService.AddAsync(model.ToCommand(1, DateTime.Now, ipAddress), cancellationToken);
+            await _brandService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (DuplicateException e)
         {

@@ -17,10 +17,10 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Properties.
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
-        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(3);
-        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
+        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
+        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
+        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
         builder.Property(x => x.DataType).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(6);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(7);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
@@ -44,6 +44,10 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
             .HasDatabaseName($"UK_{nameof(ProductAttribute)}_{nameof(ProductAttribute.Name)}");
         builder.HasIndex(x => x.Slug).IsUnique()
             .HasDatabaseName($"UK_{nameof(ProductAttribute)}_{nameof(ProductAttribute.Slug)}");
+        builder.HasIndex(x => x.Display).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.Display)}");
+        builder.HasIndex(x => x.Breadcrumb).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.Breadcrumb)}");
         builder.HasIndex(x => x.SortOrder)
             .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.SortOrder)}");
         builder.HasIndex(x => x.CreatedAt)

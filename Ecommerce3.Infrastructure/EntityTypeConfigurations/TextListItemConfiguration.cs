@@ -26,7 +26,7 @@ public class TextListItemConfiguration : IEntityTypeConfiguration<TextListItem>
         //Properties.
         builder.Property(x => x.Discriminator).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
         builder.Property(x => x.Type).HasConversion<string>().HasColumnOrder(3);
-        builder.Property(x => x.Text).HasColumnType("text").HasColumnOrder(4);
+        builder.Property(x => x.Text).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(5);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
@@ -41,6 +41,8 @@ public class TextListItemConfiguration : IEntityTypeConfiguration<TextListItem>
         //Indexes.
         builder.HasIndex(x => x.Discriminator).HasDatabaseName($"IX_{nameof(TextListItem)}_{nameof(TextListItem.Discriminator)}");
         builder.HasIndex(x => x.Type).HasDatabaseName($"IX_{nameof(TextListItem)}_{nameof(TextListItem.Type)}");
+        builder.HasIndex(x => x.Text).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(TextListItem)}_{nameof(TextListItem.Text)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(TextListItem)}_{nameof(TextListItem.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(TextListItem)}_{nameof(TextListItem.DeletedAt)}");
         

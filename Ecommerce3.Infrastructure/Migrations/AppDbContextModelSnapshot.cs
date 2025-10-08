@@ -20,7 +20,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "ltree");
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pg_trgm");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Brand", b =>
@@ -35,18 +37,18 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("AnchorText")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(6);
 
                     b.Property<string>("AnchorTitle")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(7);
 
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<DateTime>("CreatedAt")
@@ -79,7 +81,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<string>("FullDescription")
@@ -93,7 +95,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<string>("ShortDescription")
@@ -104,7 +106,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<int>("SortOrder")
@@ -126,6 +128,24 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnchorText")
+                        .HasDatabaseName("IX_Brand_AnchorText");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorText"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorText"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("AnchorTitle")
+                        .HasDatabaseName("IX_Brand_AnchorTitle");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorTitle"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorTitle"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("Breadcrumb")
+                        .HasDatabaseName("IX_Brand_Breadcrumb");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Brand_CreatedAt");
 
@@ -135,6 +155,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_Brand_DeletedAt");
 
                     b.HasIndex("DeletedBy");
+
+                    b.HasIndex("Display")
+                        .HasDatabaseName("IX_Brand_Display");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Display"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_Brand_IsActive");
@@ -359,18 +385,18 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("AnchorText")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(6);
 
                     b.Property<string>("AnchorTitle")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(7);
 
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<DateTime>("CreatedAt")
@@ -403,7 +429,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<string>("FullDescription")
@@ -412,7 +438,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("GoogleCategory")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(8);
 
                     b.Property<bool>("IsActive")
@@ -422,7 +448,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<int?>("ParentId")
@@ -442,7 +468,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<int>("SortOrder")
@@ -464,6 +490,24 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnchorText")
+                        .HasDatabaseName("IX_Category_AnchorText");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorText"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorText"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("AnchorTitle")
+                        .HasDatabaseName("IX_Category_AnchorTitle");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorTitle"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorTitle"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("Breadcrumb")
+                        .HasDatabaseName("IX_Category_Breadcrumb");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Category_CreatedAt");
 
@@ -474,6 +518,18 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("DeletedBy");
 
+                    b.HasIndex("Display")
+                        .HasDatabaseName("IX_Category_Display");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Display"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("GoogleCategory")
+                        .HasDatabaseName("IX_Category_GoogleCategory");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("GoogleCategory"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("GoogleCategory"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_Category_IsActive");
 
@@ -483,6 +539,11 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("ParentId")
                         .HasDatabaseName("IX_Category_ParentId");
+
+                    b.HasIndex("Path")
+                        .HasDatabaseName("IX_Category_Path");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Path"), "gist");
 
                     b.HasIndex("Slug")
                         .IsUnique()
@@ -507,7 +568,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("CompanyName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<DateTime>("CreatedAt")
@@ -532,13 +593,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<bool>("IsEmailVerified")
@@ -547,7 +608,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("LastName")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<string>("Password")
@@ -567,7 +628,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(6);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -584,6 +645,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("CompanyName")
                         .HasDatabaseName("IX_Customer_CompanyName");
 
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("CompanyName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("CompanyName"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Customer_CreatedAt");
 
@@ -597,14 +661,23 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("FirstName")
                         .HasDatabaseName("IX_Customer_FirstName");
 
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("FirstName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("FirstName"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("LastName")
                         .HasDatabaseName("IX_Customer_LastName");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("LastName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("LastName"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("PasswordResetToken")
                         .HasDatabaseName("IX_Customer_PasswordResetToken");
 
                     b.HasIndex("PhoneNumber")
                         .HasDatabaseName("UK_Customer_PhoneNumber");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("PhoneNumber"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("PhoneNumber"), new[] { "gin_trgm_ops" });
 
                     b.ToTable("Customer", (string)null);
                 });
@@ -621,23 +694,23 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("AddressLine1")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(7);
 
                     b.Property<string>("AddressLine2")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(8);
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(9);
 
                     b.Property<string>("CompanyName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(6);
 
                     b.Property<DateTime>("CreatedAt")
@@ -665,29 +738,29 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("FullName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<string>("Landmark")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(12);
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(11);
 
                     b.Property<string>("StateOrProvince")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(10);
 
                     b.Property<string>("Type")
@@ -706,8 +779,29 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressLine1")
+                        .HasDatabaseName("IX_CustomerAddress_AddressLine1");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AddressLine1"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AddressLine1"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("AddressLine2")
+                        .HasDatabaseName("IX_CustomerAddress_AddressLine2");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AddressLine2"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AddressLine2"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("City")
                         .HasDatabaseName("IX_CustomerAddress_City");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("City"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("City"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("CompanyName")
+                        .HasDatabaseName("IX_CustomerAddress_CompanyName");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("CompanyName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("CompanyName"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_CustomerAddress_CreatedAt");
@@ -717,11 +811,35 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("DeletedAt")
                         .HasDatabaseName("IX_CustomerAddress_DeletedAt");
 
+                    b.HasIndex("FullName")
+                        .HasDatabaseName("IX_CustomerAddress_FullName");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("FullName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("FullName"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("Landmark")
+                        .HasDatabaseName("IX_CustomerAddress_Landmark");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Landmark"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Landmark"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("PhoneNumber")
+                        .HasDatabaseName("IX_CustomerAddress_PhoneNumber");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("PhoneNumber"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("PhoneNumber"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("PostalCode")
                         .HasDatabaseName("IX_CustomerAddress_PostalCode");
 
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("PostalCode"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("PostalCode"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("StateOrProvince")
                         .HasDatabaseName("IX_CustomerAddress_StateOrProvince");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("StateOrProvince"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("StateOrProvince"), new[] { "gin_trgm_ops" });
 
                     b.ToTable("CustomerAddress", (string)null);
                 });
@@ -777,7 +895,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<decimal?>("NormalizedMaxDays")
@@ -851,7 +969,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<DateTime>("CreatedAt")
@@ -900,7 +1018,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<decimal?>("Percent")
@@ -952,16 +1070,23 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("DeletedBy");
 
+                    b.HasIndex("EndAt")
+                        .HasDatabaseName("IX_Discount_EndAt");
+
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_Discount_IsActive");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("UK_Discount_Name");
 
                     b.HasIndex("Scope")
                         .HasDatabaseName("IX_Discount_Scope");
 
-                    b.HasIndex("UpdatedBy");
+                    b.HasIndex("StartAt")
+                        .HasDatabaseName("IX_Discount_StartAt");
 
-                    b.HasIndex("StartAt", "EndAt")
-                        .HasDatabaseName("IX_Discount_StartAt_EndAt");
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("Discount", (string)null);
 
@@ -1029,7 +1154,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("AltText")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(7);
 
                     b.Property<int?>("BrandId")
@@ -1076,7 +1201,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<int>("ImageTypeId")
@@ -1102,7 +1227,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("OgFileName")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<int?>("PageId")
@@ -1129,7 +1254,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(8);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1147,6 +1272,16 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AltText")
+                        .HasDatabaseName("IX_Image_AltText");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AltText"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AltText"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Image_CreatedAt");
 
@@ -1160,24 +1295,33 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("FileName")
                         .HasDatabaseName("IX_Image_FileName");
 
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("FileName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("FileName"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("ImageTypeId");
 
+                    b.HasIndex("OgFileName")
+                        .HasDatabaseName("IX_Image_OgFileName");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("OgFileName"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("OgFileName"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("PageId");
+
+                    b.HasIndex("ProductGroupId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SortOrder")
+                        .HasDatabaseName("IX_Image_SortOrder");
+
+                    b.HasIndex("Title")
+                        .HasDatabaseName("IX_Image_Title");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Title"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Title"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("UpdatedBy");
-
-                    b.HasIndex("BrandId", "SortOrder")
-                        .HasDatabaseName("IX_Image_BrandId_SortOrder");
-
-                    b.HasIndex("CategoryId", "SortOrder")
-                        .HasDatabaseName("IX_Image_CategoryId_SortOrder");
-
-                    b.HasIndex("PageId", "SortOrder")
-                        .HasDatabaseName("IX_Image_PageId_SortOrder");
-
-                    b.HasIndex("ProductGroupId", "SortOrder")
-                        .HasDatabaseName("IX_Image_ProductGroupId_SortOrder");
-
-                    b.HasIndex("ProductId", "SortOrder")
-                        .HasDatabaseName("IX_Image_ProductId_SortOrder");
 
                     b.ToTable("Image", (string)null);
                 });
@@ -1236,7 +1380,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1264,13 +1408,23 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("DeletedBy");
 
+                    b.HasIndex("Entity")
+                        .HasDatabaseName("IX_ImageType_Entity");
+
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_ImageType_IsActive");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("IX_ImageType_Type");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Type"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Type"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("UpdatedBy");
 
                     b.HasIndex("Entity", "Type")
-                        .HasDatabaseName("IX_ImageType_Entity_Type");
+                        .IsUnique()
+                        .HasDatabaseName("UK_ImageType_Entity_Type");
 
                     b.ToTable("ImageType", (string)null);
                 });
@@ -1391,7 +1545,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("CanonicalUrl")
                         .HasMaxLength(2048)
-                        .HasColumnType("varchar(2048)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(17);
 
                     b.Property<int?>("CategoryId")
@@ -1442,7 +1596,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("H1")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(24);
 
                     b.Property<string>("HeaderScripts")
@@ -1485,7 +1639,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("MetaTitle")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(13);
 
                     b.Property<string>("OgDescription")
@@ -1510,7 +1664,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("Path")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(12);
 
                     b.Property<int?>("ProductGroupId")
@@ -1575,6 +1729,12 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CanonicalUrl")
+                        .HasDatabaseName("IX_Page_CanonicalUrl");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("CanonicalUrl"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("CanonicalUrl"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Page_CreatedAt");
 
@@ -1585,21 +1745,29 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("DeletedBy");
 
+                    b.HasIndex("H1")
+                        .HasDatabaseName("IX_Page_H1");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("H1"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("H1"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_Page_IsActive");
 
                     b.HasIndex("IsIndexed")
                         .HasDatabaseName("IX_Page_IsIndexed");
 
+                    b.HasIndex("MetaTitle")
+                        .HasDatabaseName("IX_Page_MetaTitle");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("MetaTitle"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("MetaTitle"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("Path")
                         .IsUnique()
                         .HasDatabaseName("UK_Page_Path");
 
                     b.HasIndex("UpdatedBy");
-
-                    b.HasIndex("BrandId", "CategoryId", "DeletedAt")
-                        .IsUnique()
-                        .HasDatabaseName("UK_Page_BrandId_CategoryId_DeletedAt");
 
                     b.ToTable("Page", (string)null);
 
@@ -1628,12 +1796,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("AnchorText")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(12);
 
                     b.Property<string>("AnchorTitle")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(13);
 
                     b.Property<int>("AverageRating")
@@ -1647,7 +1815,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(11);
 
                     b.Property<decimal?>("CostPrice")
@@ -1688,7 +1856,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(10);
 
                     b.Property<string>("EAN")
@@ -1750,7 +1918,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(8);
 
                     b.Property<decimal?>("OldPrice")
@@ -1767,7 +1935,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("RedirectUrl")
                         .HasMaxLength(2048)
-                        .HasColumnType("varchar(2048)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(39);
 
                     b.Property<string>("ReturnPolicy")
@@ -1792,7 +1960,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(9);
 
                     b.Property<int>("SortOrder")
@@ -1843,7 +2011,25 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnchorText")
+                        .HasDatabaseName("IX_Product_AnchorText");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorText"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorText"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("AnchorTitle")
+                        .HasDatabaseName("IX_Product_AnchorTitle");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorTitle"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorTitle"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("Breadcrumb")
+                        .HasDatabaseName("IX_Product_Breadcrumb");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Product_CreatedAt");
@@ -1856,6 +2042,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("DeliveryWindowId");
+
+                    b.HasIndex("Display")
+                        .HasDatabaseName("IX_Product_Display");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Display"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("EAN")
                         .IsUnique()
@@ -1887,6 +2079,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("UK_Product_Name");
 
                     b.HasIndex("ProductGroupId");
+
+                    b.HasIndex("RedirectUrl")
+                        .HasDatabaseName("IX_Product_RedirectUrl");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("RedirectUrl"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("RedirectUrl"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("SKU")
                         .IsUnique()
@@ -1927,7 +2125,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<DateTime>("CreatedAt")
@@ -1966,19 +2164,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<int>("SortOrder")
@@ -2000,6 +2198,12 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Breadcrumb")
+                        .HasDatabaseName("IX_ProductAttribute_Breadcrumb");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_ProductAttribute_CreatedAt");
 
@@ -2009,6 +2213,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_ProductAttribute_DeletedAt");
 
                     b.HasIndex("DeletedBy");
+
+                    b.HasIndex("Display")
+                        .HasDatabaseName("IX_ProductAttribute_Display");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Display"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -2042,7 +2252,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(7);
 
                     b.Property<DateTime>("CreatedAt")
@@ -2085,7 +2295,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(6);
 
                     b.Property<decimal?>("NumberValue")
@@ -2099,7 +2309,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<int>("SortOrder")
@@ -2122,10 +2332,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Breadcrumb")
+                        .HasDatabaseName("IX_ProductAttributeValue_Breadcrumb");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedBy");
 
@@ -2134,10 +2350,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("Discriminator")
                         .HasDatabaseName("IX_ProductAttributeValue_Discriminator");
 
-                    b.HasIndex("Slug")
-                        .HasDatabaseName("IX_ProductAttributeValue_Slug");
+                    b.HasIndex("Display")
+                        .HasDatabaseName("IX_ProductAttributeValue_Display");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Display"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("ProductAttributeId", "Slug")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ProductAttributeValue_ProductAttributeId_Slug");
 
                     b.HasIndex("ProductAttributeId", "Value")
                         .IsUnique()
@@ -2246,18 +2469,18 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("AnchorText")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(6);
 
                     b.Property<string>("AnchorTitle")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(7);
 
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<DateTime>("CreatedAt")
@@ -2290,7 +2513,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<string>("FullDescription")
@@ -2304,7 +2527,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<string>("ShortDescription")
@@ -2315,7 +2538,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<int>("SortOrder")
@@ -2337,6 +2560,24 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnchorText")
+                        .HasDatabaseName("IX_ProductGroup_AnchorText");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorText"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorText"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("AnchorTitle")
+                        .HasDatabaseName("IX_ProductGroup_AnchorTitle");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AnchorTitle"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AnchorTitle"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("Breadcrumb")
+                        .HasDatabaseName("IX_ProductGroup_Breadcrumb");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_ProductGroup_CreatedAt");
 
@@ -2346,6 +2587,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_ProductGroup_DeletedAt");
 
                     b.HasIndex("DeletedBy");
+
+                    b.HasIndex("Display")
+                        .HasDatabaseName("IX_ProductGroup_Display");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Display"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("IsActive")
                         .IsDescending()
@@ -2540,7 +2787,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Answer")
-                        .HasColumnType("text")
+                        .HasColumnType("citext")
                         .HasColumnOrder(5);
 
                     b.Property<int?>("AnsweredBy")
@@ -2603,7 +2850,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasMaxLength(2048)
-                        .HasColumnType("varchar(2048)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(3);
 
                     b.Property<int>("SortOrder")
@@ -2624,6 +2871,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Answer")
+                        .HasDatabaseName("IX_ProductQnA_Answer");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Answer"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Answer"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("AnsweredBy");
 
@@ -2646,6 +2899,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("Question")
+                        .HasDatabaseName("UK_ProductQnA_Question");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Question"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Question"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("SortOrder")
                         .HasDatabaseName("IX_ProductQnA_SortOrder");
@@ -2714,7 +2973,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("Review")
                         .HasMaxLength(18432)
-                        .HasColumnType("varchar(18432)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<int>("SortOrder")
@@ -2752,6 +3011,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("Rating")
+                        .HasDatabaseName("IX_ProductReview_Rating");
+
+                    b.HasIndex("Review")
+                        .HasDatabaseName("IX_ProductReview_Review");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Review"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Review"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("SortOrder")
                         .HasDatabaseName("IX_ProductReview_SortOrder");
@@ -2824,7 +3092,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(2);
 
                     b.Property<string>("PaymentStatus")
@@ -3086,7 +3354,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("citext")
                         .HasColumnOrder(4);
 
                     b.Property<string>("Type")
@@ -3121,6 +3389,12 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("Discriminator")
                         .HasDatabaseName("IX_TextListItem_Discriminator");
+
+                    b.HasIndex("Text")
+                        .HasDatabaseName("IX_TextListItem_Text");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Text"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Text"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("Type")
                         .HasDatabaseName("IX_TextListItem_Type");
@@ -3209,7 +3483,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AppUser", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce3.Infrastructure.Entities.Role", b =>
@@ -3454,7 +3728,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("ColourFamily")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)")
+                        .HasColumnType("citext")
                         .HasColumnOrder(13);
 
                     b.Property<string>("ColourFamilyHexCode")
@@ -3466,6 +3740,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
                         .HasColumnOrder(12);
+
+                    b.HasIndex("ColourFamily")
+                        .HasDatabaseName("IX_ProductAttributeColourValue_ColourFamily");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("ColourFamily"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("ColourFamily"), new[] { "gin_trgm_ops" });
 
                     b.HasDiscriminator().HasValue("ProductAttributeColourValue");
                 });
@@ -3627,23 +3907,23 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                             b1.Property<string>("CompanyName")
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(256)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(3);
 
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(1);
 
                             b1.Property<string>("LastName")
                                 .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(2);
 
                             b1.Property<string>("PhoneNumber")
                                 .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(4);
 
                             b1.Property<DateTime>("UpdatedAt")
@@ -3689,50 +3969,50 @@ namespace Ecommerce3.Infrastructure.Migrations
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()
                                 .HasMaxLength(512)
-                                .HasColumnType("varchar(512)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(5);
 
                             b1.Property<string>("AddressLine2")
                                 .HasMaxLength(512)
-                                .HasColumnType("varchar(512)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(6);
 
                             b1.Property<string>("City")
                                 .IsRequired()
                                 .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(7);
 
                             b1.Property<string>("CompanyName")
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(256)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(4);
 
                             b1.Property<string>("FullName")
                                 .HasMaxLength(128)
-                                .HasColumnType("varchar(128)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(2);
 
                             b1.Property<string>("Landmark")
                                 .HasMaxLength(512)
-                                .HasColumnType("varchar(512)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(10);
 
                             b1.Property<string>("PhoneNumber")
                                 .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(3);
 
                             b1.Property<string>("PostalCode")
                                 .IsRequired()
                                 .HasMaxLength(16)
-                                .HasColumnType("varchar(16)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(9);
 
                             b1.Property<string>("StateOrProvince")
                                 .IsRequired()
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(256)")
+                                .HasColumnType("citext")
                                 .HasColumnOrder(8);
 
                             b1.Property<string>("Type")

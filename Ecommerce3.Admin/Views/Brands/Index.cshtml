@@ -15,31 +15,32 @@
     </div>
 
     <!-- Main Content -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row mb-2">
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Name contains</label>
-                    <input type="text" class="form-control" />
-                </div>
+    <form method="get" asp-controller="Brands" asp-action="Index">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold" asp-for="Filter.Name">Name contains</label>
+                        <input type="text" class="form-control" asp-for="Filter.Name" />
+                    </div>
 
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Is active</label>
-                    <select class="form-select">
-                        <option value="">Select Status</option>
-                        <option value="0">Any</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Is active</label>
+                        <select class="form-select" asp-for="Filter.IsActive">
+                            <option value="" selected="selected">Any</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-end">
-                    <button type="submit" class="btn btn-primary px-4">Filter</button>
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <button type="submit" class="btn btn-primary px-4">Filter</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="card mb-4">
         <div class="card-body">
             <!-- Brand Table -->
@@ -55,19 +56,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var brand in Model.BrandListItems)
+                    @foreach (var brand in Model.Brands.Data)
                     {
                         <tr>
                             <td>
-                                @brand.Name <span class="badge @(brand.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
+                                @brand.Name <span
+                                    class="badge @(brand.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
                                 <span class="text-muted">@brand.Slug</span>
                             </td>
                             <td class="text-end">@brand.SortOrder</td>
                             <td class="text-end">@brand.ImageCount</td>
-                            <td class="text-end">@brand.CreatedUserFullName <br/>@brand.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")</td>
+                            <td class="text-end">@brand.CreatedUserFullName <br/>@brand.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
+                            </td>
                             <td class="text-center">
-                                <a asp-controller="Brands" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBrandModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                                <a asp-controller="Brands" asp-action="Edit" asp-route-id="1"><i
+                                        class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBrandModal"><i
+                                        class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                     }
@@ -91,6 +96,13 @@
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                 </nav>
+                <cs-pager cs-paging-pagesize="@Model.Brands.PageSize"
+                          cs-paging-pagenumber="@Model.Brands.PageNumber"
+                          cs-paging-totalitems="@Model.Brands.TotalItems"
+                          cs-pagenumber-param="page"
+                          asp-controller="Brands"
+                          asp-action="Index">
+                </cs-pager>
             </div>
         </div>
     </div>
@@ -103,7 +115,8 @@
                 <h5 class="modal-title text-danger">
                     <i class="fas fa-trash"></i> Delete Brand
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <div class="modal-body">

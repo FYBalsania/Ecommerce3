@@ -23,7 +23,7 @@ public class SalesOrderConfiguration : IEntityTypeConfiguration<SalesOrder>
         builder.Navigation(x => x.Lines).HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
-        builder.Property(x => x.Number).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(2);
+        builder.Property(x => x.Number).HasMaxLength(16).HasColumnType("citext").HasColumnOrder(2);
         builder.Property(x => x.Dated).HasColumnType("timestamp").HasColumnOrder(3);
         builder.Property(x => x.CartId).HasColumnType("integer").HasColumnOrder(4);
         builder.Property(x => x.CustomerId).HasColumnType("integer").HasColumnOrder(5);

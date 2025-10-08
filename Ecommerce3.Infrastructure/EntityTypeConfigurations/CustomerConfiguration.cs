@@ -19,11 +19,11 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Navigation(x => x.History).HasField("_history").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
-        builder.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
-        builder.Property(x => x.LastName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
-        builder.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
-        builder.Property(x => x.EmailAddress).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
-        builder.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(6);
+        builder.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(2);
+        builder.Property(x => x.LastName).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(3);
+        builder.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
+        builder.Property(x => x.EmailAddress).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
+        builder.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(6);
         builder.Property(x => x.Password).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(7);
         builder.Property(x => x.IsEmailVerified).HasColumnType("boolean").HasColumnOrder(8);
         builder.Property(x => x.PasswordResetToken).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(9);
@@ -39,21 +39,25 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.OwnsMany(x => x.History, nb =>
         {
             nb.ToJson();
-            nb.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(1);
-            nb.Property(x => x.LastName).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
-            nb.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(3);
-            nb.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(4);
+            nb.Property(x => x.FirstName).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(1);
+            nb.Property(x => x.LastName).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(2);
+            nb.Property(x => x.CompanyName).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
+            nb.Property(x => x.PhoneNumber).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(4);
             nb.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(5);
             nb.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(6);
         });
 
         //Indexes.
-        builder.HasIndex(x => x.FirstName).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.FirstName)}");
-        builder.HasIndex(x => x.LastName).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.LastName)}");
-        builder.HasIndex(x => x.CompanyName).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.CompanyName)}");
+        builder.HasIndex(x => x.FirstName).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.FirstName)}");
+        builder.HasIndex(x => x.LastName).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.LastName)}");
+        builder.HasIndex(x => x.CompanyName).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.CompanyName)}");
         builder.HasIndex(x => x.EmailAddress).IsUnique()
             .HasDatabaseName($"UK_{nameof(Customer)}_{nameof(Customer.EmailAddress)}");
-        builder.HasIndex(x => x.PhoneNumber).HasDatabaseName($"UK_{nameof(Customer)}_{nameof(Customer.PhoneNumber)}");
+        builder.HasIndex(x => x.PhoneNumber).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"UK_{nameof(Customer)}_{nameof(Customer.PhoneNumber)}");
         builder.HasIndex(x => x.PasswordResetToken)
             .HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.PasswordResetToken)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.CreatedAt)}");

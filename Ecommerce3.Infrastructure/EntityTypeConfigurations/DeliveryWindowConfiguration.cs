@@ -17,7 +17,7 @@ public class DeliveryWindowConfiguration : IEntityTypeConfiguration<DeliveryWind
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Properties.
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
+        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
         builder.Property(x => x.Unit).HasConversion<string>().HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(3);
         builder.Property(x => x.MinValue).HasColumnType("integer").HasColumnOrder(4);
         builder.Property(x => x.MaxValue).HasColumnType("integer").HasColumnOrder(5);
@@ -39,7 +39,8 @@ public class DeliveryWindowConfiguration : IEntityTypeConfiguration<DeliveryWind
         builder.HasQueryFilter(x => x.DeletedAt == null);
         
         //Indexes.
-        builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"UK_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.Name)}");
+        builder.HasIndex(x => x.Name).IsUnique()
+            .HasDatabaseName($"UK_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.Name)}");
         builder.HasIndex(x => new { x.Name, x.SortOrder, x.IsActive})
             .HasDatabaseName($"IX_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.Name)}_{nameof(DeliveryWindow.SortOrder)}_{nameof(DeliveryWindow.IsActive)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(DeliveryWindow)}_{nameof(DeliveryWindow.CreatedAt)}");

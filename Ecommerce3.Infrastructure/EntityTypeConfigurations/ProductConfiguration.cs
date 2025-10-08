@@ -48,12 +48,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.MFC).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(5);
         builder.Property(x => x.EAN).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(6);
         builder.Property(x => x.UPC).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(7);
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(8);
-        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(9);
-        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(10);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(11);
-        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(12);
-        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(13);
+        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(8);
+        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(9);
+        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(10);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(11);
+        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(12);
+        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(13);
         builder.Property(x => x.BrandId).HasColumnType("integer").HasColumnOrder(14);
         builder.Property(x => x.ProductGroupId).HasColumnType("integer").HasColumnOrder(15);
         builder.Property(x => x.ShortDescription).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(16);
@@ -80,7 +80,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.ReturnPolicy).HasColumnType("text").HasColumnOrder(37);
         builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(32).HasColumnType("varchar(32)")
             .HasColumnOrder(38);
-        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("varchar(2048)").HasColumnOrder(39);
+        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(39);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(40);
         builder.Property<List<string>>("_facets")
             .HasColumnName(nameof(Product.Facets))
@@ -106,8 +106,20 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.MFC).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.MFC)}");
         builder.HasIndex(x => x.EAN).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.EAN)}");
         builder.HasIndex(x => x.UPC).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.UPC)}");
-        builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Name)}");
-        builder.HasIndex(x => x.Slug).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Slug)}");
+        builder.HasIndex(x => x.Name).IsUnique()
+            .HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Name)}");
+        builder.HasIndex(x => x.Slug).IsUnique()
+            .HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Slug)}");
+        builder.HasIndex(x => x.Display).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Display)}");
+        builder.HasIndex(x => x.Breadcrumb).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Breadcrumb)}");
+        builder.HasIndex(x => x.AnchorText).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.AnchorText)}");
+        builder.HasIndex(x => x.AnchorTitle).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.AnchorTitle)}");
+        builder.HasIndex(x => x.RedirectUrl).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.RedirectUrl)}");
         builder.HasIndex(x => x.Status).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Status)}");
         builder.HasIndex(x => x.IsFeatured).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsFeatured)}");
         builder.HasIndex(x => x.IsNew).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsNew)}");

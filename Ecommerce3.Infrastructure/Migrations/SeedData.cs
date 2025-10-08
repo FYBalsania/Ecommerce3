@@ -19,7 +19,7 @@ public partial class SeedData : Migration
 
         //user
         migrationBuilder.InsertData(
-            table: "AspNetUsers",
+            table: "AppUser",
             columns: userColumns,
             values: new object[]
             {

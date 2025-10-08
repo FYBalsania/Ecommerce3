@@ -20,12 +20,12 @@ public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
         builder.Navigation(x => x.Attributes).HasField("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
-        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(3);
-        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(5);
-        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(6);
-        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(7);
+        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
+        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
+        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
+        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(6);
+        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(7);
         builder.Property(x => x.ShortDescription).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(8);
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(9);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(10);
@@ -48,6 +48,14 @@ public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
             .HasDatabaseName($"UK_{nameof(ProductGroup)}_{nameof(ProductGroup.Name)}");
         builder.HasIndex(x => x.Slug).IsUnique()
             .HasDatabaseName($"UK_{nameof(ProductGroup)}_{nameof(ProductGroup.Slug)}");
+        builder.HasIndex(x => x.Display).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.Display)}");
+        builder.HasIndex(x => x.Breadcrumb).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.Breadcrumb)}");
+        builder.HasIndex(x => x.AnchorText).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.AnchorText)}");
+        builder.HasIndex(x => x.AnchorTitle).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.AnchorTitle)}");
         builder.HasIndex(x => x.IsActive).IsDescending()
             .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.IsActive)}");
         builder.HasIndex(x => x.SortOrder)

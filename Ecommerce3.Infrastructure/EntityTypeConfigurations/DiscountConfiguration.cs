@@ -27,8 +27,8 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
 
         //Properties.
         builder.Property(x => x.Scope).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);
-        builder.Property(x => x.Code).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(3);
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(4);
+        builder.Property(x => x.Code).HasMaxLength(16).HasColumnType("citext").HasColumnOrder(3);
+        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.StartAt).HasColumnType("timestamp").HasColumnOrder(5);
         builder.Property(x => x.EndAt).HasColumnType("timestamp").HasColumnOrder(6);
         builder.Property(x => x.MinOrderValue).HasColumnType("decimal(18,2)").HasColumnOrder(7);
@@ -50,9 +50,14 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
 
         //Indexes.
         builder.HasIndex(x => x.Scope).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.Scope)}");
-        builder.HasIndex(x => x.Code).IsUnique().HasDatabaseName($"UK_{nameof(Discount)}_{nameof(Discount.Code)}");
-        builder.HasIndex(x => new { x.StartAt, x.EndAt })
-            .HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.StartAt)}_{nameof(Discount.EndAt)}");
+        builder.HasIndex(x => x.Code).IsUnique()
+            .HasDatabaseName($"UK_{nameof(Discount)}_{nameof(Discount.Code)}");
+        builder.HasIndex(x => x.Name).IsUnique()
+            .HasDatabaseName($"UK_{nameof(Discount)}_{nameof(Discount.Name)}");
+        builder.HasIndex(x => x.StartAt)
+            .HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.StartAt)}");
+        builder.HasIndex(x => x.EndAt)
+            .HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.EndAt)}");
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.IsActive)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.DeletedAt)}");

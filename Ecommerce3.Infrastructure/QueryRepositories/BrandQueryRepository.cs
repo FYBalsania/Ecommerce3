@@ -1,4 +1,6 @@
+using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -14,22 +16,40 @@ internal class BrandQueryRepository : IBrandQueryRepository
         _dbContext = dbContext;
     }
 
-    public async Task<(IReadOnlyList<BrandListItemDTO>, int)> GetBrandListItemsAsync(string? name, int pageNumber,
+    public async Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
         var query = _dbContext.Brands.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(name))
-            query = query.Where(b => EF.Functions.Like(b.Name, $"%{name}%"));
+        if (!string.IsNullOrWhiteSpace(filter.Name))
+            query = query.Where(x => x.Name.Contains(filter.Name));
+        if (filter.IsActive.HasValue)
+            query = query.Where(x => x.IsActive == filter.IsActive);
 
         var total = await query.CountAsync(cancellationToken);
+        query = query.OrderBy(x => x.Name);
         var brands = await query
-            .OrderBy(b => b.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new BrandListItemDTO(x.Id, x.Name, x.Slug, x.SortOrder, x.IsActive, x.Images.Count, x.CreatedByUser!.FullName, x.CreatedAt))
+            .Select(x => new BrandListItemDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                SortOrder = x.SortOrder,
+                IsActive = x.IsActive,
+                ImageCount = x.Images.Count,
+                CreatedUserFullName = x.CreatedByUser!.FullName,
+                CreatedAt = x.CreatedAt
+            })
             .ToListAsync(cancellationToken);
 
-        return (brands, total);
+        return new PagedResult<BrandListItemDTO>()
+        {
+            Data = brands,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalItems = total
+        };
     }
 }

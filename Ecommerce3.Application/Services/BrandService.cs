@@ -1,7 +1,9 @@
+using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands;
 using Ecommerce3.Application.Commands.Brand;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
@@ -26,9 +28,10 @@ public sealed class BrandService : IBrandService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<(IReadOnlyList<BrandListItemDTO>, int)> GetBrandListItemsAsync(string? name,
-        int pageNumber, int pageSize, CancellationToken cancellationToken)
-        => await _brandQueryRepository.GetBrandListItemsAsync(name, pageNumber, pageSize, cancellationToken);
+
+    public Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
+        CancellationToken cancellationToken)
+        => _brandQueryRepository.GetBrandListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {

@@ -15,19 +15,19 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
-        
+
         //Filters
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
-        builder.Property(x => x.OgFileName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
-        builder.Property(x => x.FileName).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(3);
+        builder.Property(x => x.OgFileName).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
+        builder.Property(x => x.FileName).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.FileExtension).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(4);
         builder.Property(x => x.ImageTypeId).HasColumnType("integer").HasColumnOrder(5);
         builder.Property(x => x.Size).HasConversion<string>().HasMaxLength(8).HasColumnType("varchar(8)")
             .HasColumnOrder(6);
-        builder.Property(x => x.AltText).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(7);
-        builder.Property(x => x.Title).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(8);
+        builder.Property(x => x.AltText).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(7);
+        builder.Property(x => x.Title).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(8);
         builder.Property(x => x.Loading).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(9);
         builder.Property(x => x.Link).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(10);
         builder.Property(x => x.LinkTarget).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(11);
@@ -48,17 +48,15 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
-        builder.HasIndex(x => x.FileName).HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.FileName)}");
-        builder.HasIndex(x => new { x.BrandId, x.SortOrder })
-            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.BrandId)}_{nameof(Image.SortOrder)}");
-        builder.HasIndex(x => new { x.ProductId, x.SortOrder })
-            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.ProductId)}_{nameof(Image.SortOrder)}");
-        builder.HasIndex(x => new { x.CategoryId, x.SortOrder })
-            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.CategoryId)}_{nameof(Image.SortOrder)}");
-        builder.HasIndex(x => new { x.PageId, x.SortOrder })
-            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.PageId)}_{nameof(Image.SortOrder)}");
-        builder.HasIndex(x => new { x.ProductGroupId, x.SortOrder })
-            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.ProductGroupId)}_{nameof(Image.SortOrder)}");
+        builder.HasIndex(x => x.OgFileName).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.OgFileName)}");
+        builder.HasIndex(x => x.FileName).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.FileName)}");
+        builder.HasIndex(x => x.AltText).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.AltText)}");
+        builder.HasIndex(x => x.Title).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.Title)}");
+        builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.SortOrder)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.DeletedAt)}");
 
