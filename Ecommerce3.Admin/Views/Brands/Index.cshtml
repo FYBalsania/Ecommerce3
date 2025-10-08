@@ -88,21 +88,22 @@
 
                 <!-- Right: Pagination -->
                 <nav>
-                    <ul class="pagination mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
+                    <cs-pager cs-pager-ul-class="pagination mb-0"
+                              cs-pager-li-current-class="page-item active"
+                              cs-pager-li-other-class="page-item"
+                              cs-pager-link-current-class="page-link"
+                              cs-pager-link-other-class="page-link"
+                              cs-previous-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-left'></i></a></li>"
+                              cs-next-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-right'></i></a></li>"
+                              cs-paging-pagesize="@Model.Brands.PageSize"
+                              cs-paging-pagenumber="@Model.Brands.PageNumber"
+                              cs-paging-totalitems="@Model.Brands.TotalItems"
+                              cs-pagenumber-param="pageNumber"
+                              asp-controller="Brands"
+                              asp-action="Index"
+                              cs-show-disabled-page-items="false">
+                    </cs-pager>
                 </nav>
-                <cs-pager cs-paging-pagesize="@Model.Brands.PageSize"
-                          cs-paging-pagenumber="@Model.Brands.PageNumber"
-                          cs-paging-totalitems="@Model.Brands.TotalItems"
-                          cs-pagenumber-param="page"
-                          asp-controller="Brands"
-                          asp-action="Index">
-                </cs-pager>
             </div>
         </div>
     </div>
