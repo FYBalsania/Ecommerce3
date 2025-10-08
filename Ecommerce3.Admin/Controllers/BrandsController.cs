@@ -21,11 +21,9 @@ public class BrandsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? name, int pageNumber, int pageSize,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(string? name, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var (brands, total) =
-            await _brandService.GetBrandListItemsAsync(name, 1, 10, cancellationToken);
+        var (brands, total) = await _brandService.GetBrandListItemsAsync(name, 1, 10, cancellationToken);
         var response = new BrandsIndexResponse
         {
             BrandName = name,

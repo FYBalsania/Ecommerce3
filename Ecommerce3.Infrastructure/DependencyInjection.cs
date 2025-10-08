@@ -31,6 +31,7 @@ public static class DependencyInjection
         // services.AddScoped<IProductSpecificationGroupRepository, ProductSpecificationGroupRepository>();
 
         services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
+        services.AddScoped<IPageQueryRepository, PageQueryRepository>();
 
         return services;
     }

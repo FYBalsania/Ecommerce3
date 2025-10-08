@@ -5,5 +5,7 @@ public record BrandListItemDTO(
     string Name, 
     string Slug, 
     int SortOrder,
+    bool IsActive,
+    int ImageCount,
     string CreatedUserFullName, 
     DateTime CreatedAt);

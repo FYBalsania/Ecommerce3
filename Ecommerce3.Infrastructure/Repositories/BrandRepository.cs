@@ -86,7 +86,7 @@ internal class BrandRepository : Repository<Brand>, IBrandRepository, IBrandQuer
             .OrderBy(b => b.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new BrandListItemDTO(x.Id, x.Name, x.Slug, x.SortOrder, x.CreatedByUser!.FullName, x.CreatedAt))
+            .Select(x => new BrandListItemDTO(x.Id, x.Name, x.Slug, x.SortOrder, x.IsActive, x.Images.Count, x.CreatedByUser!.FullName, x.CreatedAt))
             .ToListAsync(cancellationToken);
 
         return (brands, total);
