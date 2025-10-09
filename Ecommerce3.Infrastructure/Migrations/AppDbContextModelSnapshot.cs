@@ -25,6 +25,106 @@ namespace Ecommerce3.Infrastructure.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pg_trgm");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.Bank", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(1);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(51);
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(50);
+
+                    b.Property<string>("CreatedByIp")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(52);
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(56);
+
+                    b.Property<string>("DeletedByIp")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(58);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("citext")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("citext")
+                        .HasColumnOrder(3);
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(5);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(54);
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(53);
+
+                    b.Property<string>("UpdatedByIp")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(55);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_Bank_CreatedAt");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("IX_Bank_DeletedAt");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_Bank_IsActive");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("UK_Bank_Name");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasDatabaseName("UK_Bank_Slug");
+
+                    b.HasIndex("SortOrder")
+                        .HasDatabaseName("IX_Bank_SortOrder");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Bank", (string)null);
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -1776,6 +1876,89 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.PostCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(1);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)")
+                        .HasColumnOrder(2);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(51);
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(50);
+
+                    b.Property<string>("CreatedByIp")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(52);
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(56);
+
+                    b.Property<string>("DeletedByIp")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(58);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(3);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(54);
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(53);
+
+                    b.Property<string>("UpdatedByIp")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(55);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("UK_PostCode_Code");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_PostCode_CreatedAt");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("IX_PostCode_DeletedAt");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_PostCode_IsActive");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PostCode", (string)null);
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -2245,10 +2428,6 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("BooleanValue")
-                        .HasColumnType("boolean")
-                        .HasColumnOrder(9);
-
                     b.Property<string>("Breadcrumb")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -2268,10 +2447,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(52);
-
-                    b.Property<DateOnly?>("DateOnlyValue")
-                        .HasColumnType("date")
-                        .HasColumnOrder(10);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
@@ -2298,10 +2473,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("citext")
                         .HasColumnOrder(6);
 
-                    b.Property<decimal?>("NumberValue")
-                        .HasColumnType("decimal(18,3)")
-                        .HasColumnOrder(8);
-
                     b.Property<int>("ProductAttributeId")
                         .HasColumnType("integer")
                         .HasColumnOrder(2);
@@ -2314,7 +2485,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(14);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -3721,6 +3892,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ProductPage");
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductAttributeBooleanValue", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.ProductAttributeValue");
+
+                    b.Property<bool>("BooleanValue")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(8);
+
+                    b.HasIndex("ProductAttributeId", "SortOrder", "BooleanValue")
+                        .HasDatabaseName("IX_ProductAttributeBooleanValue_ProductAttributeId_SortOrder_BooleanValue")
+                        .HasFilter("(\"DeletedAt\") IS NULL");
+
+                    b.HasDiscriminator().HasValue("ProductAttributeBooleanValue");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductAttributeColourValue", b =>
                 {
                     b.HasBaseType("Ecommerce3.Domain.Entities.ProductAttributeValue");
@@ -3729,17 +3915,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("citext")
-                        .HasColumnOrder(13);
+                        .HasColumnOrder(12);
 
                     b.Property<string>("ColourFamilyHexCode")
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(14);
+                        .HasColumnOrder(13);
 
                     b.Property<string>("HexCode")
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(12);
+                        .HasColumnOrder(11);
 
                     b.HasIndex("ColourFamily")
                         .HasDatabaseName("IX_ProductAttributeColourValue_ColourFamily");
@@ -3748,6 +3934,36 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("ColourFamily"), new[] { "gin_trgm_ops" });
 
                     b.HasDiscriminator().HasValue("ProductAttributeColourValue");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductAttributeDateOnlyValue", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.ProductAttributeValue");
+
+                    b.Property<DateOnly>("DateOnlyValue")
+                        .HasColumnType("date")
+                        .HasColumnOrder(9);
+
+                    b.HasIndex("ProductAttributeId", "SortOrder", "DateOnlyValue")
+                        .HasDatabaseName("IX_ProductAttributeDateOnlyValue_ProductAttributeId_SortOrder_DateOnlyValue")
+                        .HasFilter("(\"DeletedAt\") IS NULL");
+
+                    b.HasDiscriminator().HasValue("ProductAttributeDateOnlyValue");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductAttributeDecimalValue", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.ProductAttributeValue");
+
+                    b.Property<decimal>("DecimalValue")
+                        .HasColumnType("decimal(18,3)")
+                        .HasColumnOrder(10);
+
+                    b.HasIndex("ProductAttributeId", "SortOrder", "DecimalValue")
+                        .HasDatabaseName("IX_ProductAttributeDecimalValue_ProductAttributeId_SortOrder_DecimalValue")
+                        .HasFilter("(\"DeletedAt\") IS NULL");
+
+                    b.HasDiscriminator().HasValue("ProductAttributeDecimalValue");
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductTextListItem", b =>
@@ -3762,6 +3978,31 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_ProductId_Type_SortOrder");
 
                     b.HasDiscriminator().HasValue("ProductTextListItem");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.Bank", b =>
+                {
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "DeletedByUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("DeletedByUser");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Brand", b =>
@@ -4254,6 +4495,31 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Page", b =>
+                {
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "DeletedByUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("DeletedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.PostCode", b =>
                 {
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")
                         .WithMany()

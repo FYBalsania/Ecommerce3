@@ -19,7 +19,10 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
         //Discriminator.
         builder.HasDiscriminator(x => x.Discriminator)
             .HasValue<ProductAttributeValue>(nameof(ProductAttributeValue))
-            .HasValue<ProductAttributeColourValue>(nameof(ProductAttributeColourValue));
+            .HasValue<ProductAttributeColourValue>(nameof(ProductAttributeColourValue))
+            .HasValue<ProductAttributeBooleanValue>(nameof(ProductAttributeBooleanValue))
+            .HasValue<ProductAttributeDateOnlyValue>(nameof(ProductAttributeDateOnlyValue))
+            .HasValue<ProductAttributeDecimalValue>(nameof(ProductAttributeDecimalValue));
 
         //Properties.
         builder.Property(x => x.ProductAttributeId).HasColumnType("integer").HasColumnOrder(2);
@@ -28,10 +31,7 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
         builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
         builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(6);
         builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(7);
-        builder.Property(x => x.NumberValue).HasColumnType("decimal(18,3)").HasColumnOrder(8);
-        builder.Property(x => x.BooleanValue).HasColumnType("boolean").HasColumnOrder(9);
-        builder.Property(x => x.DateOnlyValue).HasColumnType("date").HasColumnOrder(10);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(11);
+        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(14);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);

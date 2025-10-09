@@ -9,9 +9,9 @@ public class ProductAttributeColourValueConfiguration : IEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<ProductAttributeColourValue> builder)
     {
         //properties.
-        builder.Property(x => x.HexCode).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(12);
-        builder.Property(x => x.ColourFamily).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(13);
-        builder.Property(x => x.ColourFamilyHexCode).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(14);
+        builder.Property(x => x.HexCode).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(11);
+        builder.Property(x => x.ColourFamily).HasMaxLength(64).HasColumnType("citext").HasColumnOrder(12);
+        builder.Property(x => x.ColourFamilyHexCode).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(13);
 
         //indexes.
         builder.HasIndex(x => x.ColourFamily).HasMethod("gin").HasOperators("gin_trgm_ops")

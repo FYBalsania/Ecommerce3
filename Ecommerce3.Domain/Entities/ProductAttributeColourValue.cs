@@ -6,19 +6,11 @@ public sealed class ProductAttributeColourValue : ProductAttributeValue
     public string ColourFamily { get; private set; }
     public string? ColourFamilyHexCode { get; private set; }
 
-    private ProductAttributeColourValue() : base()
+    public ProductAttributeColourValue(string value, string slug, string display, string breadcrumb, string? hexCode,
+        string colourFamily, string? colourFamilyHexCode, int sortOrder, int createdBy, DateTime createdAt,
+        string createdByIp)
+        : base(value, slug, display, breadcrumb, sortOrder, createdBy, createdAt, createdByIp)
     {
-    }
-
-    public ProductAttributeColourValue(string value, string slug, string display, string breadcrumb,
-        decimal? numberValue,
-        bool? booleanValue, DateOnly? dateOnlyValue, string? hexCode, string colourFamily, string? colourFamilyHexCode,
-        int sortOrder, int createdBy, string createdByIp)
-        : base(value, slug, display, breadcrumb, numberValue, booleanValue, dateOnlyValue, sortOrder, createdBy,
-            createdByIp)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(colourFamily, nameof(colourFamily));
-
         HexCode = hexCode;
         ColourFamily = colourFamily;
         ColourFamilyHexCode = colourFamilyHexCode;

@@ -151,6 +151,49 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bank",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bank", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bank_AppUser_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bank_AppUser_DeletedBy",
+                        column: x => x.DeletedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bank_AppUser_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Brand",
                 columns: table => new
                 {
@@ -398,6 +441,47 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PostCode",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostCode", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostCode_AppUser_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PostCode_AppUser_DeletedBy",
+                        column: x => x.DeletedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PostCode_AppUser_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductAttribute",
                 columns: table => new
                 {
@@ -634,13 +718,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     Display = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
-                    NumberValue = table.Column<decimal>(type: "numeric(18,3)", nullable: true),
                     BooleanValue = table.Column<bool>(type: "boolean", nullable: true),
                     DateOnlyValue = table.Column<DateOnly>(type: "date", nullable: true),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    DecimalValue = table.Column<decimal>(type: "numeric(18,3)", nullable: true),
                     HexCode = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
                     ColourFamily = table.Column<string>(type: "citext", maxLength: 64, nullable: true),
                     ColourFamilyHexCode = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
+                    SortOrder = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
@@ -1672,6 +1756,53 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bank_CreatedAt",
+                table: "Bank",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bank_CreatedBy",
+                table: "Bank",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bank_DeletedAt",
+                table: "Bank",
+                column: "DeletedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bank_DeletedBy",
+                table: "Bank",
+                column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bank_IsActive",
+                table: "Bank",
+                column: "IsActive");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bank_SortOrder",
+                table: "Bank",
+                column: "SortOrder");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bank_UpdatedBy",
+                table: "Bank",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Bank_Name",
+                table: "Bank",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Bank_Slug",
+                table: "Bank",
+                column: "Slug",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Brand_AnchorText",
                 table: "Brand",
                 column: "AnchorText")
@@ -2424,6 +2555,42 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostCode_CreatedAt",
+                table: "PostCode",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCode_CreatedBy",
+                table: "PostCode",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCode_DeletedAt",
+                table: "PostCode",
+                column: "DeletedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCode_DeletedBy",
+                table: "PostCode",
+                column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCode_IsActive",
+                table: "PostCode",
+                column: "IsActive");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCode_UpdatedBy",
+                table: "PostCode",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_PostCode_Code",
+                table: "PostCode",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_AnchorText",
                 table: "Product",
                 column: "AnchorText")
@@ -2634,11 +2801,29 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductAttributeBooleanValue_ProductAttributeId_SortOrder_BooleanValue",
+                table: "ProductAttributeValue",
+                columns: new[] { "ProductAttributeId", "SortOrder", "BooleanValue" },
+                filter: "(\"DeletedAt\") IS NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeColourValue_ColourFamily",
                 table: "ProductAttributeValue",
                 column: "ColourFamily")
                 .Annotation("Npgsql:IndexMethod", "gin")
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductAttributeDateOnlyValue_ProductAttributeId_SortOrder_DateOnlyValue",
+                table: "ProductAttributeValue",
+                columns: new[] { "ProductAttributeId", "SortOrder", "DateOnlyValue" },
+                filter: "(\"DeletedAt\") IS NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductAttributeDecimalValue_ProductAttributeId_SortOrder_DecimalValue",
+                table: "ProductAttributeValue",
+                columns: new[] { "ProductAttributeId", "SortOrder", "DecimalValue" },
+                filter: "(\"DeletedAt\") IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_Breadcrumb",
@@ -3210,6 +3395,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "AppUserToken");
 
             migrationBuilder.DropTable(
+                name: "Bank");
+
+            migrationBuilder.DropTable(
                 name: "DiscountProduct");
 
             migrationBuilder.DropTable(
@@ -3217,6 +3405,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "KVPListItem");
+
+            migrationBuilder.DropTable(
+                name: "PostCode");
 
             migrationBuilder.DropTable(
                 name: "ProductCategory");
