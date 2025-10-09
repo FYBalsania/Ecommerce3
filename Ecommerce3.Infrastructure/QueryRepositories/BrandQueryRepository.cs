@@ -52,4 +52,7 @@ internal class BrandQueryRepository : IBrandQueryRepository
             TotalItems = total
         };
     }
+
+    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+        => await _dbContext.Brands.MaxAsync(x => x.SortOrder, cancellationToken);
 }

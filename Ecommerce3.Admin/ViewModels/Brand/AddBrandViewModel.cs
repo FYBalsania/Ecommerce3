@@ -13,6 +13,7 @@ public class AddBrandViewModel
     [Required(ErrorMessage = $"{nameof(Slug)} is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(Slug)} must be between 1 and 256 characters.")]
     [Display(Name = nameof(Slug))]
+    [RegularExpression(@"^[a-z0-9]+(?:[-._~][a-z0-9]+)*$", ErrorMessage = "Invalid slug format.")]
     public string Slug { get; set; }
 
     [Required(ErrorMessage = $"{nameof(Display)} is required.")]

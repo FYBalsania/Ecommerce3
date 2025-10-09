@@ -8,4 +8,5 @@ public interface IBrandQueryRepository
 {
     Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
+    Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
 }

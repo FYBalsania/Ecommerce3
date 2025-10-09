@@ -10,29 +10,24 @@ namespace Ecommerce3.Admin.Controllers;
 public class BrandsController : Controller
 {
     private readonly IBrandService _brandService;
-    private readonly ILogger<BrandsController> _logger;
     private readonly IIPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
     private readonly int _pageSize;
 
-    public BrandsController(IBrandService brandService, ILogger<BrandsController> logger,
-        IIPAddressService ipAddressService, IConfiguration configuration)
+    public BrandsController(IBrandService brandService, IIPAddressService ipAddressService,
+        IConfiguration configuration)
     {
         _brandService = brandService;
-        _logger = logger;
         _ipAddressService = ipAddressService;
         _configuration = configuration;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(BrandFilter filter, int pageNumber, int pageSize,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(BrandFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
         pageNumber = pageNumber == 0 ? 1 : pageNumber;
-        pageSize = pageSize == 0 ? _pageSize : pageSize;
-
-        var result = await _brandService.GetBrandListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+        var result = await _brandService.GetBrandListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
         var response = new BrandsIndexResponse
         {
             Filter = filter,
@@ -43,10 +38,14 @@ public class BrandsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Add()
+    public async Task<IActionResult> Add(CancellationToken cancellationToken)
     {
         ViewData["Title"] = "Add Brand";
-        return View(new AddBrandViewModel());
+        return View(new AddBrandViewModel
+        {
+            IsActive = true,
+            SortOrder = await _brandService.GetMaxSortOrderAsync(cancellationToken) + 1
+        });
     }
 
     [HttpPost]
@@ -75,7 +74,7 @@ public class BrandsController : Controller
             }
         }
 
-        return View(model);
+        return LocalRedirect("/Brands/Add");
     }
 
     [HttpGet]

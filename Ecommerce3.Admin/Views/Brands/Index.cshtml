@@ -20,12 +20,12 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <label class="form-label fw-bold" asp-for="Filter.Name">Name contains</label>
+                        <label class="form-label fw-bold" asp-for="Filter.Name">Name:</label>
                         <input type="text" class="form-control" asp-for="Filter.Name" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Is active</label>
+                        <label class="form-label fw-bold">Is Active:</label>
                         <select class="form-select" asp-for="Filter.IsActive">
                             <option value="" selected="selected">Any</option>
                             <option value="true">Yes</option>
@@ -48,11 +48,11 @@
                 <table class="table align-middle">
                     <thead>
                     <tr>
-                        <th style="width: 50%;">Name & Slug</th>
+                        <th style="width: 65%;">Name/Slug</th>
                         <th class="text-end" style="width: 10%;">Sort Order</th>
-                        <th class="text-end" style="width: 10%;">Images</th>
-                        <th class="text-end" style="width: 20%;">Created</th>
-                        <th class="text-center" style="width: 10%;">Action</th>
+                        <th class="text-end" style="width: 5%;">Images</th>
+                        <th class="text-end" style="width: 15%;">Created</th>
+                        <th class="text-center" style="width: 5%;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -93,6 +93,11 @@
                               cs-pager-li-other-class="page-item"
                               cs-pager-link-current-class="page-link"
                               cs-pager-link-other-class="page-link"
+                              cs-show-first-last="true"
+                              cs-first-page-text="<"
+                              cs-first-page-title="First Page"
+                              cs-last-page-text=">"
+                              cs-last-page-title="Last Page"
                               cs-previous-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-left'></i></a></li>"
                               cs-next-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-right'></i></a></li>"
                               cs-paging-pagesize="@Model.Brands.PageSize"

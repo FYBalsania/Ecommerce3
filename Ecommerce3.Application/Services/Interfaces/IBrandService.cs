@@ -15,4 +15,5 @@ public interface IBrandService
     Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken);
     Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken);
     Task DeleteAsync(int id, CancellationToken cancellationToken);
+    Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
 }

@@ -24,3 +24,22 @@ navLinks.forEach(link => {
         console.log('Loading section:', this.dataset.section);
     });
 });
+
+function toSlug(name) {
+    // Convert to lowercase
+    let slug = name.toLowerCase();
+
+    // Replace spaces with hyphens
+    slug = slug.replace(/\s+/g, "-");
+
+    // Remove disallowed characters (except - _ . ~)
+    slug = slug.replace(/[^a-z0-9\-_~.]/g, "");
+
+    // Trim leading and trailing hyphens
+    slug = slug.replace(/^-+|-+$/g, "");
+
+    // Collapse multiple consecutive hyphens into a single one
+    slug = slug.replace(/-+/g, "-");
+
+    return slug;
+}

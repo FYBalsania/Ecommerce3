@@ -28,10 +28,9 @@ public sealed class BrandService : IBrandService
         _unitOfWork = unitOfWork;
     }
 
-
-    public Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
-        CancellationToken cancellationToken)
-        => _brandQueryRepository.GetBrandListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+    public async Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber,
+        int pageSize, CancellationToken cancellationToken)
+        => await _brandQueryRepository.GetBrandListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
@@ -88,8 +87,11 @@ public sealed class BrandService : IBrandService
         if (brandUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public Task DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
+
+    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+        => await _brandQueryRepository.GetMaxSortOrderAsync(cancellationToken);
 }
