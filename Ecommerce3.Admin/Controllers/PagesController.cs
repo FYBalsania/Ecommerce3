@@ -28,4 +28,16 @@ public class PagesController : Controller
         ViewData["Title"] = "Pages";
         return View(response);
     }
+    
+    [HttpGet]
+    public IActionResult Add()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        return View();   
+    }
 }

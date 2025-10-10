@@ -1,0 +1,20 @@
+@using Ecommerce3.Admin.ViewComponents
+@using Ecommerce3.Domain.Entities
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    @await Component.InvokeAsync(typeof(ImagesViewComponent), new { Entity = typeof(Page), EntityId = 1 })
+</head>
+<body>
+<div>
+
+</div>
+</body>
+</html>
