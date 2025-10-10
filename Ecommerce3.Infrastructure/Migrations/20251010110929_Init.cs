@@ -1644,6 +1644,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Discriminator = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     OgFileName = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     FileName = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     FileExtension = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
@@ -1654,12 +1655,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Loading = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
                     Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     LinkTarget = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
                     BrandId = table.Column<int>(type: "integer", nullable: true),
-                    ProductId = table.Column<int>(type: "integer", nullable: true),
                     CategoryId = table.Column<int>(type: "integer", nullable: true),
-                    PageId = table.Column<int>(type: "integer", nullable: true),
+                    ProductId = table.Column<int>(type: "integer", nullable: true),
                     ProductGroupId = table.Column<int>(type: "integer", nullable: true),
+                    PageId = table.Column<int>(type: "integer", nullable: true),
+                    SortOrder = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
@@ -1714,7 +1715,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         column: x => x.PageId,
                         principalTable: "Page",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Image_ProductGroup_ProductGroupId",
                         column: x => x.ProductGroupId,
@@ -2321,6 +2322,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Image_DeletedBy",
                 table: "Image",
                 column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_Discriminator",
+                table: "Image",
+                column: "Discriminator");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_FileName",

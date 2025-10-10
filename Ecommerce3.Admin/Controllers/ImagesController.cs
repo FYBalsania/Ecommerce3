@@ -20,7 +20,7 @@ public class ImagesController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(AddImageViewModel model, CancellationToken cancellationToken)
     {
-        return Task.FromResult<IActionResult>(View());   
+        return View();
     }
     
 }

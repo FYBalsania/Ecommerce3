@@ -15,6 +15,9 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         //PK.
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
+        
+        //Navigation Properties.
+        builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Discriminator.
         builder.HasDiscriminator(x => x.Discriminator)

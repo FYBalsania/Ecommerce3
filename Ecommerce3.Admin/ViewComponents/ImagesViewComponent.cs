@@ -9,8 +9,7 @@ public class ImagesViewComponent : ViewComponent
     {
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(EntityWithImages entity, int entityId,
-        CancellationToken cancellationToken)
+    public async Task<IViewComponentResult> InvokeAsync(CancellationToken cancellationToken)
     {
         return View();
     }

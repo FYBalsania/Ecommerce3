@@ -21,6 +21,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         //Filters
         builder.HasQueryFilter(x => x.DeletedAt == null);
+        
+        //Navigation Properties.
+        builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //JSONOptions.
         var jsonOptions = new JsonSerializerOptions

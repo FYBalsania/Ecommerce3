@@ -2,7 +2,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Category : EntityWithImages, ICreatable, IUpdatable, IDeletable
+public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpdatable, IDeletable
 {
     private readonly List<CategoryKVPListItem> _kvpListItems = [];
     public string Name { get; private set; }

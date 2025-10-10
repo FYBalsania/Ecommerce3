@@ -1,7 +1,7 @@
 namespace Ecommerce3.Domain.Entities;
 
-public abstract class EntityWithImages : Entity
+public abstract class EntityWithImages<T> : Entity where T : Image
 {
-    private readonly List<Image> _images = [];
-    public IReadOnlyList<Image> Images => _images;
+    protected readonly List<T> _images = [];
+    public IReadOnlyList<T> Images => _images;
 }

@@ -2,7 +2,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public class Page : EntityWithImages, ICreatable, IUpdatable, IDeletable
+public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeletable
 {
     public string Discriminator { get; private set; }
     public string? Path { get; private set; }

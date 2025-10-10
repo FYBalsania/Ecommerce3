@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251009112750_SeedData")]
+    [Migration("20251010110940_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />
@@ -1258,15 +1258,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("AltText")
                         .HasMaxLength(128)
                         .HasColumnType("citext")
-                        .HasColumnOrder(7);
-
-                    b.Property<int?>("BrandId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(13);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(15);
+                        .HasColumnOrder(8);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1295,70 +1287,64 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)")
+                        .HasColumnOrder(2);
+
                     b.Property<string>("FileExtension")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("citext")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(4);
 
                     b.Property<int>("ImageTypeId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Link")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(11);
 
                     b.Property<string>("LinkTarget")
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(12);
 
                     b.Property<string>("Loading")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(10);
 
                     b.Property<string>("OgFileName")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("citext")
-                        .HasColumnOrder(2);
-
-                    b.Property<int?>("PageId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(16);
-
-                    b.Property<int?>("ProductGroupId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(17);
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(14);
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Size")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(7);
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(12);
+                        .HasColumnOrder(18);
 
                     b.Property<string>("Title")
                         .HasMaxLength(128)
                         .HasColumnType("citext")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(9);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -1381,10 +1367,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AltText"), "gin");
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AltText"), new[] { "gin_trgm_ops" });
 
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Image_CreatedAt");
 
@@ -1394,6 +1376,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_Image_DeletedAt");
 
                     b.HasIndex("DeletedBy");
+
+                    b.HasIndex("Discriminator")
+                        .HasDatabaseName("IX_Image_Discriminator");
 
                     b.HasIndex("FileName")
                         .HasDatabaseName("IX_Image_FileName");
@@ -1409,12 +1394,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("OgFileName"), "gin");
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("OgFileName"), new[] { "gin_trgm_ops" });
 
-                    b.HasIndex("PageId");
-
-                    b.HasIndex("ProductGroupId");
-
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("SortOrder")
                         .HasDatabaseName("IX_Image_SortOrder");
 
@@ -1427,6 +1406,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("Image", (string)null);
+
+                    b.HasDiscriminator().HasValue("Image");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ImageType", b =>
@@ -3806,6 +3789,71 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ShippingDiscount");
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandImage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Image");
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(13);
+
+                    b.HasIndex("BrandId");
+
+                    b.HasDiscriminator().HasValue("BrandImage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.CategoryImage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Image");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(14);
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasDiscriminator().HasValue("CategoryImage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.PageImage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Image");
+
+                    b.Property<int>("PageId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(17);
+
+                    b.HasIndex("PageId");
+
+                    b.HasDiscriminator().HasValue("PageImage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductGroupImage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Image");
+
+                    b.Property<int>("ProductGroupId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(16);
+
+                    b.HasIndex("ProductGroupId");
+
+                    b.HasDiscriminator().HasValue("ProductGroupImage");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductImage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Image");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(15);
+
+                    b.HasIndex("ProductId");
+
+                    b.HasDiscriminator().HasValue("ProductImage");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.CategoryKVPListItem", b =>
                 {
                     b.HasBaseType("Ecommerce3.Domain.Entities.KVPListItem");
@@ -4381,16 +4429,6 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Image", b =>
                 {
-                    b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
-                        .WithMany("Images")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Ecommerce3.Domain.Entities.Category", "Category")
-                        .WithMany("Images")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -4408,41 +4446,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Ecommerce3.Domain.Entities.Page", "Page")
-                        .WithMany("Images")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Ecommerce3.Domain.Entities.ProductGroup", "ProductGroup")
-                        .WithMany("Images")
-                        .HasForeignKey("ProductGroupId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Ecommerce3.Domain.Entities.Product", "Product")
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
 
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("DeletedByUser");
 
                     b.Navigation("ImageType");
-
-                    b.Navigation("Page");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductGroup");
 
                     b.Navigation("UpdatedByUser");
                 });
@@ -5421,6 +5434,61 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandImage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
+                        .WithMany("Images")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.CategoryImage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Category", "Category")
+                        .WithMany("Images")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.PageImage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Page", "Page")
+                        .WithMany("Images")
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Page");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductGroupImage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.ProductGroup", "ProductGroup")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductGroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ProductGroup");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductImage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Product", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.CategoryKVPListItem", b =>

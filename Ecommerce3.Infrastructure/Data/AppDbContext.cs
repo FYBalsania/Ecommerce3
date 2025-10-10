@@ -12,10 +12,12 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
     public DbSet<Bank> Banks { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<BrandCategoryPage> BrandCategoryPages { get; set; }
+    public DbSet<BrandImage> BrandImages { get; set; }   
     public DbSet<BrandPage> BrandPages { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartLine> CartLines { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<CategoryImage> CategoryImages { get; set; }   
     public DbSet<CategoryKVPListItem> CategoryKVPListItems { get; set; }
     public DbSet<CategoryPage> CategoryPages { get; set; }
     public DbSet<Customer> Customers { get; set; }
@@ -27,20 +29,23 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
     public DbSet<ImageType> ImageTypes { get; set; }
     public DbSet<KVPListItem> KVPListItems { get; set; }
     public DbSet<Page> Pages { get; set; }
-    public DbSet<PostCode> PostCodes { get; set; }   
+    public DbSet<PageImage> PageImages { get; set; }   
+    public DbSet<PostCode> PostCodes { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductAttribute> ProductAttributes { get; set; }
     public DbSet<ProductAttributeBooleanValue> ProductAttributeBooleanValues { get; set; }
     public DbSet<ProductAttributeColourValue> ProductAttributeColourValues { get; set; }
     public DbSet<ProductAttributeDateOnlyValue> ProductAttributeDateOnlyValues { get; set; }
-    public DbSet<ProductAttributeDecimalValue> ProductAttributeDecimalValues { get; set; }   
+    public DbSet<ProductAttributeDecimalValue> ProductAttributeDecimalValues { get; set; }
     public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<ProductDiscount> ProductDiscounts { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
+    public DbSet<ProductGroupImage> ProductGroupImages { get; set; }  
     public DbSet<ProductGroupPage> ProductGroupPages { get; set; }
     public DbSet<ProductGroupProductAttribute> ProductGroupProductAttributes { get; set; }
-    public DbSet<ProductKVPListItem>  ProductKVPListItems { get; set; }
+    public DbSet<ProductImage> ProductImages { get; set; } 
+    public DbSet<ProductKVPListItem> ProductKVPListItems { get; set; }
     public DbSet<ProductPage> ProductPages { get; set; }
     public DbSet<ProductProductAttribute> ProductProductAttributes { get; set; }
     public DbSet<ProductQnA> ProductQnAs { get; set; }
@@ -68,10 +73,12 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new BankConfiguration());
         builder.ApplyConfiguration(new BrandCategoryPageConfiguration());
         builder.ApplyConfiguration(new BrandConfiguration());
+        builder.ApplyConfiguration(new BrandImageConfiguration());
         builder.ApplyConfiguration(new BrandPageConfiguration());
         builder.ApplyConfiguration(new CartConfiguration());
         builder.ApplyConfiguration(new CartLineConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
+        builder.ApplyConfiguration(new CategoryImageConfiguration());
         builder.ApplyConfiguration(new CategoryKVPListItemConfiguration());
         builder.ApplyConfiguration(new CategoryPageConfiguration());
         builder.ApplyConfiguration(new CustomerAddressConfiguration());
@@ -83,6 +90,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new ImageTypeConfiguration());
         builder.ApplyConfiguration(new KVPListItemConfiguration());
         builder.ApplyConfiguration(new PageConfiguration());
+        builder.ApplyConfiguration(new PageImageConfiguration());
         builder.ApplyConfiguration(new PostCodeConfiguration());
         builder.ApplyConfiguration(new ProductAttributeBooleanValueConfiguration());
         builder.ApplyConfiguration(new ProductAttributeColourValueConfiguration());
@@ -94,8 +102,10 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new ProductConfiguration());
         builder.ApplyConfiguration(new ProductDiscountConfiguration());
         builder.ApplyConfiguration(new ProductGroupConfiguration());
+        builder.ApplyConfiguration(new ProductGroupImageConfiguration());
         builder.ApplyConfiguration(new ProductGroupPageConfiguration());
         builder.ApplyConfiguration(new ProductGroupProductAttributeConfiguration());
+        builder.ApplyConfiguration(new ProductImageConfiguration());
         builder.ApplyConfiguration(new ProductKVPListItemConfiguration());
         builder.ApplyConfiguration(new ProductPageConfiguration());
         builder.ApplyConfiguration(new ProductProductAttributeConfiguration());

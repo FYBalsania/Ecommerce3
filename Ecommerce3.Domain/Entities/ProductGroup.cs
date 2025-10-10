@@ -1,6 +1,6 @@
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class ProductGroup : EntityWithImages, ICreatable, IUpdatable, IDeletable
+public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatable, IUpdatable, IDeletable
 {
     private readonly List<ProductGroupProductAttribute> _attributes = [];
     public string Name { get; set; }
