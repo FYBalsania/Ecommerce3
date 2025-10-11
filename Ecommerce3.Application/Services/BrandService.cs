@@ -34,10 +34,10 @@ public sealed class BrandService : IBrandService
 
     public async Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _brandRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await _brandQueryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
 
-        exists = await _brandRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        exists = await _brandQueryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
         var brand = new Brand(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
@@ -62,10 +62,10 @@ public sealed class BrandService : IBrandService
 
     public async Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _brandRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await _brandQueryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
 
-        exists = await _brandRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
+        exists = await _brandQueryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
         var brand = await _brandRepository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);

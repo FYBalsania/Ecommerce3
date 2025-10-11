@@ -13,7 +13,4 @@ public interface IBrandRepository : IRepository<Brand>
 
     public Task<Brand?> GetByNameAsync(string name, BrandInclude includes, bool trackChanges,
         CancellationToken cancellationToken);
-
-    public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
-    public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
 }
