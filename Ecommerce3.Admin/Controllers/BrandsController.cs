@@ -34,6 +34,8 @@ public class BrandsController : Controller
             Brands = result,
             PageTitle = "Brands"
         };
+        
+        ViewData["Title"] = $"Brands";
         return View(response);
     }
 
@@ -73,8 +75,8 @@ public class BrandsController : Controller
                     break;
             }
         }
-
-        return LocalRedirect("/Brands/Add");
+        
+        return LocalRedirect("/Brands/Index");
     }
 
     [HttpGet]
@@ -94,7 +96,7 @@ public class BrandsController : Controller
         if (!ModelState.IsValid) return View(model);
 
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
-        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
         {
@@ -117,6 +119,6 @@ public class BrandsController : Controller
             }
         }
 
-        return View(model);
+        return LocalRedirect("/Brands/Index");
     }
 }

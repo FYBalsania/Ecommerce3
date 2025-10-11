@@ -56,8 +56,26 @@ public sealed class BrandService : IBrandService
 
     public async Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken)
     {
-        var brand = await _brandRepository.GetByIdAsync(id, BrandInclude.None, false, cancellationToken);
-        return new BrandDTO();
+        var brand = await _brandQueryRepository.GetByIdAsync(id, cancellationToken);
+
+        return new BrandDTO
+        {
+            Id = brand.Id,
+            Name = brand.Name,
+            Slug = brand.Slug,
+            Display = brand.Display,
+            Breadcrumb = brand.Breadcrumb,
+            AnchorText = brand.AnchorText,
+            AnchorTitle = brand.AnchorTitle,
+            ShortDescription = brand.ShortDescription,
+            FullDescription = brand.FullDescription,
+            IsActive = brand.IsActive,
+            SortOrder = brand.SortOrder,
+            H1 = brand.H1,
+            MetaTitle = brand.MetaTitle,
+            MetaDescription = brand.MetaDescription,
+            MetaKeywords = brand.MetaKeywords
+        };
     }
 
     public async Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken)

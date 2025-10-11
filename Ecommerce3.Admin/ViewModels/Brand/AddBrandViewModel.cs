@@ -26,25 +26,25 @@ public class AddBrandViewModel
     [Display(Name = nameof(Breadcrumb))]
     public string Breadcrumb { get; set; }
 
-    [Required(ErrorMessage = $"{nameof(AnchorText)} is required.")]
-    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(AnchorText)} must be between 1 and 256 characters.")]
+    [Required(ErrorMessage = "Anchor text is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Anchor text must be between 1 and 256 characters.")]
     [Display(Name = "Anchor text")]
     public string AnchorText { get; set; }
 
-    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(AnchorTitle)} must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Anchor title must be between 1 and 256 characters.")]
     [Display(Name = "Anchor title")]
     public string? AnchorTitle { get; set; }
 
-    [Required(ErrorMessage = $"{nameof(MetaTitle)} is required.")]
-    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(MetaTitle)} must be between 1 and 256 characters.")]
+    [Required(ErrorMessage = "Meta title is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
     [Display(Name = "Meta title")]
     public string MetaTitle { get; set; }
 
-    [StringLength(1024, MinimumLength = 1, ErrorMessage = $"{nameof(MetaDescription)} must be between 1 and 1024 characters.")]
+    [StringLength(1024, MinimumLength = 1, ErrorMessage = "Meta description must be between 1 and 1024 characters.")]
     [Display(Name = "Meta description")]
     public string? MetaDescription { get; set; }
 
-    [StringLength(1024, MinimumLength = 1, ErrorMessage = $"{nameof(MetaKeywords)} must be between 1 and 1024 characters.")]
+    [StringLength(1024, MinimumLength = 1, ErrorMessage = $"Meta keywords must be between 1 and 1024 characters.")]
     [Display(Name = "Meta keywords")]
     public string? MetaKeywords { get; set; }
 
@@ -53,18 +53,18 @@ public class AddBrandViewModel
     [Display(Name = nameof(H1))]
     public string H1 { get; set; }
 
-    [StringLength(512, MinimumLength = 1, ErrorMessage = $"{nameof(ShortDescription)} must be between 1 and 512 characters.")]
+    [StringLength(512, MinimumLength = 1, ErrorMessage = "Short description must be between 1 and 512 characters.")]
     [Display(Name = "Short description")]
     public string? ShortDescription { get; set; }
 
     [Display(Name = "Full description")]
     public string? FullDescription { get; set; }
 
-    [Required(ErrorMessage = $"{nameof(IsActive)} is required.")]
+    [Required(ErrorMessage = "Is active is required.")]
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
 
-    [Required(ErrorMessage = $"{nameof(SortOrder)} is required.")]
+    [Required(ErrorMessage = "Sort order is required.")]
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
