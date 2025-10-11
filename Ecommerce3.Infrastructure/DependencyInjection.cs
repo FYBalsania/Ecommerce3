@@ -19,7 +19,7 @@ public static class DependencyInjection
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IBrandRepository, BrandRepository>();
-        // services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         // services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         // services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
         // services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -32,6 +32,7 @@ public static class DependencyInjection
 
         services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
         services.AddScoped<IPageQueryRepository, PageQueryRepository>();
+        services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
 
         return services;
     }

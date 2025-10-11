@@ -3,7 +3,7 @@
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">Brands</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">@Model.PageTitle</h2>
 
         <!-- Right side: button -->
         <div class="d-flex gap-2">
@@ -81,8 +81,7 @@
                     {
                         <tr>
                             <td>
-                                @brand.Name <span
-                                    class="badge @(brand.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
+                                @brand.Name <span class="badge @(brand.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
                                 <span class="text-muted">@brand.Slug</span>
                             </td>
                             <td class="text-end">@brand.SortOrder</td>

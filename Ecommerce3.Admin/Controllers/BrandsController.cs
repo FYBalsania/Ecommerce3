@@ -35,7 +35,7 @@ public class BrandsController : Controller
             PageTitle = "Brands"
         };
         
-        ViewData["Title"] = $"Brands";
+        ViewData["Title"] = "Brands";
         return View(response);
     }
 
