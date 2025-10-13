@@ -16,15 +16,15 @@ public sealed class BrandService : IBrandService
 {
     private readonly IBrandRepository _brandRepository;
     private readonly IBrandQueryRepository _brandQueryRepository;
-    private readonly IPageRepository _pageRepository;
+    private readonly IBrandPageRepository _brandPageRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public BrandService(IBrandRepository brandRepository, IBrandQueryRepository brandQueryRepository,
-        IPageRepository pageRepository, IUnitOfWork unitOfWork)
+        IBrandPageRepository brandPageRepository, IUnitOfWork unitOfWork)
     {
         _brandRepository = brandRepository;
         _brandQueryRepository = brandQueryRepository;
-        _pageRepository = pageRepository;
+        _brandPageRepository = brandPageRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -50,7 +50,7 @@ public sealed class BrandService : IBrandService
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, brand);
         await _brandRepository.AddAsync(brand, cancellationToken);
-        await _pageRepository.AddAsync(page, cancellationToken);
+        await _brandPageRepository.AddAsync(page, cancellationToken);
         await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
@@ -89,7 +89,8 @@ public sealed class BrandService : IBrandService
         var brand = await _brandRepository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
         if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
 
-        var page = await _pageRepository.GetByBrandIdAsync(command.Id, PageInclude.None, true, cancellationToken);
+        var page = await _brandPageRepository.GetByBrandIdAsync(command.Id, BrandPageInclude.None, true,
+            cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), "Brand page not found.");
 
         var brandUpdated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
@@ -100,7 +101,7 @@ public sealed class BrandService : IBrandService
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         if (brandUpdated) _brandRepository.Update(brand);
-        if (pageUpdated) _pageRepository.Update(page);
+        if (pageUpdated) _brandPageRepository.Update(page);
 
         if (brandUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
     }

@@ -1,4 +1,5 @@
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.QueryRepositories;
@@ -18,6 +19,7 @@ public static class DependencyInjection
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IBrandPageRepository, BrandPageRepository>();
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         // services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
@@ -26,7 +28,7 @@ public static class DependencyInjection
         // services.AddScoped<IDeliveryWindowRepository, DeliveryWindowRepository>();
         // services.AddScoped<IDiscountRepository, DiscountRepository>();
         // services.AddScoped<IImageRepository, ImageRepository>();
-        services.AddScoped<IPageRepository, PageRepository>();
+        services.AddScoped<IPageRepository<Page>, PageRepository<Page>>();
         // services.AddScoped<IProductRepository, ProductRepository>();
         // services.AddScoped<IProductSpecificationGroupRepository, ProductSpecificationGroupRepository>();
 

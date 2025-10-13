@@ -3,25 +3,15 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface IPageRepository : IRepository<Page>
+public interface IPageRepository<T> : IRepository<T> where T : Page
 {
-    public Task<(IEnumerable<Page> ListItems, int Count)?> GetPagesAsync(string? path, string? title,
+    public Task<(IEnumerable<T> ListItems, int Count)?> GetPagesAsync(string? path, string? title,
         string? canonicalUrl, int? seoScore, PageInclude includes, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
-
-    public Task<bool> ExistsByPathAsync(string path, int? excludeId, CancellationToken cancellationToken);
-
-    public Task<Page?> GetByPathAsync(string path, PageInclude includes, bool trackChanges,
-        CancellationToken cancellationToken);
-
-    public Task<Page?> GetByIdAsync(int id, PageInclude includes, bool trackChanges,
-        CancellationToken cancellationToken);
-
-    public Task<bool> ExistsByBrandIdAsync(int brandId, CancellationToken cancellationToken);
-
-    public Task<Page?> GetByBrandIdAsync(int brandId, PageInclude includes, bool trackChanges,
-        CancellationToken cancellationToken);
     
-    public Task<Page?> GetByCategoryIdAsync(int categoryId, PageInclude includes, bool trackChanges,
+    public Task<T?> GetByPathAsync(string path, PageInclude include, bool trackChanges,
+        CancellationToken cancellationToken);
+
+    public Task<T?> GetByIdAsync(int id, PageInclude include, bool trackChanges,
         CancellationToken cancellationToken);
 }

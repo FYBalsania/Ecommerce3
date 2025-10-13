@@ -15,28 +15,28 @@ public sealed class CategoryService : ICategoryService
 {
     private readonly ICategoryQueryRepository _categoryQueryRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IPageRepository _pageRepository;
+    private readonly ICategoryPageRepository _categoryPageRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CategoryService(ICategoryQueryRepository categoryQueryRepository, ICategoryRepository categoryRepository, 
-        IPageRepository pageRepository, IUnitOfWork unitOfWork)
+    public CategoryService(ICategoryQueryRepository categoryQueryRepository, ICategoryRepository categoryRepository,
+        ICategoryPageRepository categoryPageRepository, IUnitOfWork unitOfWork)
     {
         _categoryQueryRepository = categoryQueryRepository;
         _categoryRepository = categoryRepository;
-        _pageRepository = pageRepository;
+        _categoryPageRepository = categoryPageRepository;
         _unitOfWork = unitOfWork;
     }
-    
+
     public async Task<PagedResult<CategoryListItemDTO>> GetCategoryListItemsAsync(CategoryFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
         => await _categoryQueryRepository.GetCategoryListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken)
         => await _categoryQueryRepository.GetCategoryIdAndNameAsync(cancellationToken);
-    
+
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _categoryQueryRepository.GetMaxSortOrderAsync(cancellationToken);
-    
+
     public async Task AddAsync(AddCategoryCommand command, CancellationToken cancellationToken)
     {
         var exists = await _categoryQueryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
@@ -45,8 +45,9 @@ public sealed class CategoryService : ICategoryService
         exists = await _categoryQueryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
-        var category = new Category(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText, command.AnchorTitle, 
-            command.GoogleCategory, command.ParentId, command.Path, command.ShortDescription, command.FullDescription, 
+        var category = new Category(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
+            command.AnchorTitle,
+            command.GoogleCategory, command.ParentId, command.Path, command.ShortDescription, command.FullDescription,
             command.IsActive, command.SortOrder, command.CreatedBy, command.CreatedByIp);
 
         var page = new CategoryPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
@@ -55,10 +56,10 @@ public sealed class CategoryService : ICategoryService
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, category);
         await _categoryRepository.AddAsync(category, cancellationToken);
-        await _pageRepository.AddAsync(page, cancellationToken);
+        await _categoryPageRepository.AddAsync(page, cancellationToken);
         await _unitOfWork.CompleteAsync(cancellationToken);
     }
-    
+
     public async Task<CategoryDTO?> GetByCategoryIdAsync(int id, CancellationToken cancellationToken)
     {
         var category = await _categoryQueryRepository.GetByIdAsync(id, cancellationToken);
@@ -94,21 +95,24 @@ public sealed class CategoryService : ICategoryService
         exists = await _categoryQueryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Category.Slug)} already exists.", nameof(Category.Slug));
 
-        var category = await _categoryRepository.GetByIdAsync(command.Id, CategoryInclude.None, true, cancellationToken);
+        var category =
+            await _categoryRepository.GetByIdAsync(command.Id, CategoryInclude.None, true, cancellationToken);
         if (category is null) throw new ArgumentNullException(nameof(command.Id), "Category not found.");
 
-        var page = await _pageRepository.GetByCategoryIdAsync(command.Id, PageInclude.None, true, cancellationToken);
+        var page = await _categoryPageRepository.GetByCategoryIdAsync(command.Id, CategoryPageInclude.None, true,
+            cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), "Category page not found.");
 
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
-            command.AnchorText, command.AnchorTitle, command.ParentId, command.GoogleCategory, command.ShortDescription, command.FullDescription,
+            command.AnchorText, command.AnchorTitle, command.ParentId, command.GoogleCategory, command.ShortDescription,
+            command.FullDescription,
             command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         if (categoryUpdated) _categoryRepository.Update(category);
-        if (pageUpdated) _pageRepository.Update(page);
+        if (pageUpdated) _categoryPageRepository.Update(page);
 
         if (categoryUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
     }
