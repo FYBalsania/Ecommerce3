@@ -73,10 +73,11 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="IsActive"></label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="isActive" asp-for="IsActive">
-                                <label class="form-check-label" for="isActive">Yes</label>
-                            </div>
+                            <select class="form-select" asp-for="IsActive">
+                                <option value="">Select</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
                             <span asp-validation-for="IsActive" class="text-danger"></span>
                         </div>
                     </div>

@@ -71,4 +71,32 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
+    
+    public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
+        string? anchorTitle, int? parentId, string? googleCategory, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
+        int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
+            AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
+            FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
+            return false;
+
+        Name = name;
+        Slug = slug;
+        Display = display;
+        Breadcrumb = breadcrumb;
+        AnchorText = anchorText;
+        AnchorTitle = anchorTitle;
+        ParentId = parentId;
+        GoogleCategory = googleCategory;
+        ShortDescription = shortDescription;
+        FullDescription = fullDescription;
+        IsActive = isActive;
+        SortOrder = sortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+
+        return true;
+    }
 }

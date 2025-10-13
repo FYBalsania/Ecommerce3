@@ -1,140 +1,180 @@
+@model Ecommerce3.Admin.ViewModels.Category.AddCategoryViewModel
+
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
         <h2 class="text-danger fw-bold fs-3 mb-0">Add Category</h2>
     </div>
 
-    <!-- General -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0 text-muted py-2"><i class="fas fa-info"></i> General Info</h5>
+    <form method="post" asp-action="Add">
+        @Html.AntiForgeryToken()
+        
+        <!-- General -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-info"></i> General Info</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="ParentId"></label>
+                            <select class="form-select" asp-for="ParentId" asp-items="Model.Parents">
+                                <option value="">Select Parent Category</option>
+                            </select>
+                            <span asp-validation-for="ParentId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="Name"></label>
+                                <input class="form-control" asp-for="Name"/>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="Slug"></label>
+                                <input class="form-control" asp-for="Slug"/>
+                                <span asp-validation-for="Slug" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="Display"></label>
+                                <input class="form-control" asp-for="Display"/>
+                                <span asp-validation-for="Display" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="Breadcrumb"></label>
+                                <input class="form-control" asp-for="Breadcrumb"/>
+                                <span asp-validation-for="Breadcrumb" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="AnchorText"></label>
+                                <input class="form-control" asp-for="AnchorText"/>
+                                <span asp-validation-for="AnchorText" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" asp-for="AnchorTitle">Achor title</label>
+                                <input class="form-control" asp-for="AnchorTitle"/>
+                                <span asp-validation-for="AnchorTitle" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="SortOrder"></label>
+                                <input type="number" class="form-control" asp-for="SortOrder">
+                                <span asp-validation-for="SortOrder" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="IsActive"></label>
+                                <select class="form-select" asp-for="IsActive">
+                                    <option value="">Select</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                                <span asp-validation-for="IsActive" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="ShortDescription"></label>
+                                <textarea class="form-control" rows="3" asp-for="ShortDescription"></textarea>
+                                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold required" asp-for="FullDescription"></label>
+                                <div id="longDescriptionEditor" style="height: 200px;"></div>
+                                <input type="hidden" id="longDescriptionInput" asp-for="FullDescription">
+                                <span asp-validation-for="FullDescription" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Parent Category</label>
-                        <select class="form-select">
-                            <option value="">Select Parent Category</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Kitchen">Kitchen</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Slug <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Display <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Breadcrumb <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Sort Order <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Is Active <span class="text-danger">*</span></label>
-                        <select class="form-select">
-                            <option value="">Select Status</option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Short Description <span class="text-danger">*</span></label>
-                        <textarea class="form-control" rows="3"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Long Description <span class="text-danger">*</span></label>
-                        <div id="longDescriptionEditor" style="height: 200px;"></div>
-                        <input type="hidden" id="longDescriptionInput" name="LongDescription">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- SEO -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0 text-muted py-2"><i class="fas fa-magnifying-glass"></i> SEO</h5>
+        <!-- SEO -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-magnifying-glass"></i> SEO</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="H1"></label>
+                            <input class="form-control" asp-for="H1"/>
+                            <span asp-validation-for="H1" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="GoogleCategory"></label>
+                            <input class="form-control" asp-for="GoogleCategory"/>
+                            <span asp-validation-for="GoogleCategory" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="MetaTitle"></label>
+                            <input class="form-control" asp-for="MetaTitle"/>
+                            <span asp-validation-for="MetaTitle" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="MetaDescription"></label>
+                            <textarea class="form-control" rows="3" asp-for="MetaDescription"></textarea>
+                            <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="MetaKeywords"></label>
+                            <textarea class="form-control" rows="3" asp-for="MetaKeywords"></textarea>
+                            <span asp-validation-for="MetaKeywords" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">H1</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Meta Title</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Meta Description</label>
-                        <textarea class="form-control" rows="3"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Meta Keywords</label>
-                        <textarea class="form-control" rows="3"></textarea>
-                    </div>
-                </div>
+        
+        <div class="row mb-7">
+            <div class="col-xl-12">
+                <button type="submit" class="btn btn-primary float-end">Submit</button>
             </div>
         </div>
-    </div>
     
-    <div class="row mb-7">
-        <div class="col-xl-12">
-            <button type="submit" class="btn btn-primary float-end">Submit</button>
-        </div>
-    </div>
+    </form>
 </div>
 @section StyleSheet
 {
@@ -144,6 +184,7 @@
 
 @section Scripts
 {
+    <script src="~/js/category.js"></script>
     <!-- Quill RTE JS for this page only -->
     <script src="~/js/quill.min.js"></script>
     <script>

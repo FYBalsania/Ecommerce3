@@ -61,4 +61,11 @@ internal class PageRepository : Repository<Page>, IPageRepository
         var query = GetQuery(includes, trackChanges);
         return await query.FirstOrDefaultAsync(x => x.BrandId == brandId, cancellationToken);
     }
+    
+    public async Task<Page?> GetByCategoryIdAsync(int categoryId, PageInclude includes, bool trackChanges,
+        CancellationToken cancellationToken)
+    {
+        var query = GetQuery(includes, trackChanges);
+        return await query.FirstOrDefaultAsync(x => x.CategoryId == categoryId, cancellationToken);
+    }
 }

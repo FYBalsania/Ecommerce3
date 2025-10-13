@@ -1,4 +1,4 @@
-namespace Ecommerce3.Application.Commands;
+namespace Ecommerce3.Application.Commands.Brand;
 
 public record UpdateBrandCommand
 {

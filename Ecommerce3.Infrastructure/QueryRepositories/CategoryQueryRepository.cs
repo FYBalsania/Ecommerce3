@@ -10,6 +10,7 @@ namespace Ecommerce3.Infrastructure.QueryRepositories;
 internal class CategoryQueryRepository : ICategoryQueryRepository
 {
     private readonly AppDbContext _dbContext;
+    private ICategoryQueryRepository _categoryQueryRepositoryImplementation;
 
     public CategoryQueryRepository(AppDbContext dbContext)
     {
@@ -64,5 +65,59 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
             PageSize = pageSize,
             TotalItems = total
         };
+    }
+    
+    public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.Categories.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
+
+        return await query.AnyAsync(x => x.Name == name, cancellationToken);
+    }
+
+    public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.Categories.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
+
+        return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
+    }
+
+    public async Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken) 
+        => await _dbContext.Categories.Where(x => x.ParentId == null).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+    
+    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+        => await _dbContext.Categories.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
+    
+    public async Task<CategoryDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await (from b in _dbContext.Categories
+            join p in _dbContext.Pages on b.Id equals p.CategoryId
+            where b.Id == id
+            select new CategoryDTO()
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Slug = b.Slug,
+                Display = b.Display,
+                Breadcrumb = b.Breadcrumb,
+                AnchorText = b.AnchorText,
+                AnchorTitle = b.AnchorTitle,
+                ParentId = b.ParentId,
+                GoogleCategory = b.GoogleCategory,
+                Path = b.Path,
+                IsActive = b.IsActive,
+                SortOrder = b.SortOrder,
+                ShortDescription = b.ShortDescription,
+                FullDescription = b.FullDescription,
+                H1 = p.H1,
+                MetaTitle = p.MetaTitle,
+                MetaDescription = p.MetaDescription,
+                MetaKeywords = p.MetaKeywords
+            }).FirstAsync(cancellationToken);
     }
 }

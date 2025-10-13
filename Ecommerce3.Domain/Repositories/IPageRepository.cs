@@ -21,4 +21,7 @@ public interface IPageRepository : IRepository<Page>
 
     public Task<Page?> GetByBrandIdAsync(int brandId, PageInclude includes, bool trackChanges,
         CancellationToken cancellationToken);
+    
+    public Task<Page?> GetByCategoryIdAsync(int categoryId, PageInclude includes, bool trackChanges,
+        CancellationToken cancellationToken);
 }
