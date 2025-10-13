@@ -3,9 +3,9 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface IImageRepository : IRepository<Image>
+public interface IImageRepository<T> : IRepository<T> where T : Image
 {
-    public Task<(IEnumerable<Image> ListItems, int Count)?> GetImagesAsync(string? fileName,
+    public Task<(IEnumerable<T> ListItems, int Count)?> GetImagesAsync(string? fileName,
         int? imageTypeId, ImageSize? imageSize, string? title, string? link, int? brandId, int? categoryId,
         int? productId, int? pageId, int? productGroupId, ImageInclude includes, bool trackChanges,
         int pageNumber, int pageSize, CancellationToken cancellationToken);

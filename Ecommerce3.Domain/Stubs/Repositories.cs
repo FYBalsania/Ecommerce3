@@ -40,3 +40,19 @@ public interface IProductRepository : IRepository<Product>
     Task<Product?> GetByNameAsync(string name, CancellationToken cancellationToken);
     Task<Product?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
 }
+
+public abstract class Repository<T> : IRepository<T> where T : Entity
+{
+    public async Task AddAsync(T entity, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class ImageRepository<T> : Repository<T>, IImageRepository<T> where T : Image
+{
+    public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}
