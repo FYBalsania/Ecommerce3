@@ -18,6 +18,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
 
         //Discriminator.
         builder.HasDiscriminator(x => x.Discriminator)
+            .HasValue<Image>(nameof(Image))
             .HasValue<BrandImage>(nameof(BrandImage))
             .HasValue<CategoryImage>(nameof(CategoryImage))
             .HasValue<ProductImage>(nameof(ProductImage))

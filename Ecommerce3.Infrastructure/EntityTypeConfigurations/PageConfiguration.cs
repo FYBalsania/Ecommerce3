@@ -25,6 +25,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
             .HasValue<BrandPage>(nameof(BrandPage))
             .HasValue<CategoryPage>(nameof(CategoryPage))
             .HasValue<ProductPage>(nameof(ProductPage))
+            .HasValue<ProductGroupPage>(nameof(ProductGroupPage))
             .HasValue<BrandCategoryPage>(nameof(BrandCategoryPage));
 
         //Filters.
