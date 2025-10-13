@@ -5,11 +5,14 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductAttributeColourValueRepository : Repository<ProductAttributeColourValue>,
+internal class ProductAttributeColourValueRepository : ProductAttributeValueRepository<ProductAttributeColourValue>,
     IProductAttributeColourValueRepository
 {
+    private readonly AppDbContext _dbContext;
+
     public ProductAttributeColourValueRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
     public async Task<(IReadOnlyCollection<ProductAttributeColourValue> ListItems, int Count)>

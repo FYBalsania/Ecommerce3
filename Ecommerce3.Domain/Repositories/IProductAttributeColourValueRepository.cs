@@ -3,7 +3,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface IProductAttributeColourValueRepository : IRepository<ProductAttributeColourValue>
+public interface IProductAttributeColourValueRepository : IProductAttributeValueRepository<ProductAttributeColourValue>
 {
     public Task<(IReadOnlyCollection<ProductAttributeColourValue> ListItems, int Count)>
         GetProductAttributeColourValuesAsync(string? name, ProductAttributeColourValueInclude includes,

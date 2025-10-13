@@ -5,47 +5,34 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class ProductAttributeValueRepository : Repository<ProductAttributeValue>,
-    IProductAttributeValueRepository
+internal class ProductAttributeValueRepository<T> : Repository<T>, IProductAttributeValueRepository<T>
+    where T : ProductAttributeValue
 {
     public ProductAttributeValueRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<(IReadOnlyCollection<ProductAttributeValue> ListItems, int Count)> GetProductAttributeValuesAsync(
-        string? name, ProductAttributeValueInclude includes, bool trackChanges,
-        int pageNumber, int pageSize, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<ProductAttributeValue?> GetByNameAsync(string name, ProductAttributeValueInclude includes,
-        bool trackChanges,
+    public async Task<(IReadOnlyCollection<T> ListItems, int Count)> GetProductAttributeValuesAsync(
+        string? name, ProductAttributeValueInclude include, bool trackChanges, int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductAttributeValue?> GetBySlugAsync(string slug, ProductAttributeValueInclude includes,
-        bool trackChanges,
-        CancellationToken cancellationToken)
+    public async Task<T?> GetByNameAsync(string name, ProductAttributeValueInclude include,
+        bool trackChanges, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductAttributeValue?> GetByIdAsync(int id, ProductAttributeValueInclude includes,
-        bool trackChanges,
-        CancellationToken cancellationToken)
+    public async Task<T?> GetBySlugAsync(string slug, ProductAttributeValueInclude include,
+        bool trackChanges, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<T?> GetByIdAsync(int id, ProductAttributeValueInclude include,
+        bool trackChanges, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
