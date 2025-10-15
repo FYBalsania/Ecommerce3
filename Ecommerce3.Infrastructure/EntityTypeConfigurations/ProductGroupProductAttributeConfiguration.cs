@@ -13,7 +13,8 @@ public sealed class ProductGroupProductAttributeConfiguration : IEntityTypeConfi
         builder.ToTable(nameof(ProductGroupProductAttribute));
 
         //Key.
-        builder.HasKey(x => new { x.ProductGroupId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt });
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Properties.
         builder.Property(x => x.ProductGroupId).HasColumnType("integer").HasColumnOrder(2);
@@ -33,15 +34,18 @@ public sealed class ProductGroupProductAttributeConfiguration : IEntityTypeConfi
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
-        
+
         //Indexes.
+        builder.HasIndex(x => new { x.ProductGroupId, x.ProductAttributeId, x.ProductAttributeValueId }).IsUnique()
+            .HasDatabaseName(
+                $"UK_{nameof(ProductGroupProductAttribute)}_{nameof(ProductGroupProductAttribute.ProductGroupId)}_{nameof(ProductGroupProductAttribute.ProductAttributeId)}_{nameof(ProductGroupProductAttribute.ProductAttributeValueId)}");
         builder.HasIndex(x => x.CreatedAt)
             .HasDatabaseName(
                 $"IX_{nameof(ProductGroupProductAttribute)}_{nameof(ProductGroupProductAttribute.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt)
             .HasDatabaseName(
                 $"IX_{nameof(ProductGroupProductAttribute)}_{nameof(ProductGroupProductAttribute.DeletedAt)}");
-        
+
         //Relations.
         builder.HasOne(x => x.ProductGroup)
             .WithMany(x => x.Attributes)

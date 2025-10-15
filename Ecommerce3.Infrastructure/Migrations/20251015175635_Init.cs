@@ -403,7 +403,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Entity = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    Entity = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Type = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
@@ -958,6 +958,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "ProductGroupProductAttribute",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductGroupId = table.Column<int>(type: "integer", nullable: false),
                     ProductAttributeId = table.Column<int>(type: "integer", nullable: false),
                     ProductAttributeSortOrder = table.Column<int>(type: "integer", nullable: false),
@@ -970,12 +972,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductGroupProductAttribute", x => new { x.ProductGroupId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt });
+                    table.PrimaryKey("PK_ProductGroupProductAttribute", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductGroupProductAttribute_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
@@ -1082,7 +1084,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                     CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1276,6 +1279,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "ProductCategory",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     IsPrimary = table.Column<bool>(type: "boolean", nullable: false),
@@ -1287,12 +1292,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductCategory_ProductId_CategoryId_DeletedAt", x => new { x.ProductId, x.CategoryId, x.DeletedAt });
+                    table.PrimaryKey("PK_ProductCategory", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductCategory_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
@@ -1329,6 +1334,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "ProductProductAttribute",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     ProductAttributeId = table.Column<int>(type: "integer", nullable: false),
                     ProductAttributeSortOrder = table.Column<int>(type: "integer", nullable: false),
@@ -1341,12 +1348,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductProductAttribute", x => new { x.ProductId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt });
+                    table.PrimaryKey("PK_ProductProductAttribute", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductProductAttribute_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
@@ -2918,6 +2925,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "UK_ProductCategory_ProductId_CategoryId",
+                table: "ProductCategory",
+                columns: new[] { "ProductId", "CategoryId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductGroup_AnchorText",
                 table: "ProductGroup",
                 column: "AnchorText")
@@ -3029,6 +3042,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "UK_ProductGroupProductAttribute_ProductGroupId_ProductAttributeId_ProductAttributeValueId",
+                table: "ProductGroupProductAttribute",
+                columns: new[] { "ProductGroupId", "ProductAttributeId", "ProductAttributeValueId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductProductAttribute_CreatedBy",
                 table: "ProductProductAttribute",
                 column: "CreatedBy");
@@ -3057,6 +3076,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_ProductProductAttribute_UpdatedBy",
                 table: "ProductProductAttribute",
                 column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_ProductProductAttribute_ProductId_ProductAttributeId_ProductAttributeValueId",
+                table: "ProductProductAttribute",
+                columns: new[] { "ProductId", "ProductAttributeId", "ProductAttributeValueId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductQnA_Answer",

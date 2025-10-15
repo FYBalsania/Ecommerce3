@@ -13,17 +13,17 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
         builder.ToTable(nameof(ProductCategory));
 
         //Key
-        builder.HasKey(x => new { x.ProductId, x.CategoryId, x.DeletedAt }).HasName(
-            $"PK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}_{nameof(ProductCategory.DeletedAt)}");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
-        builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(1);
-        builder.Property(x => x.CategoryId).HasColumnType("integer").HasColumnOrder(2);
-        builder.Property(x => x.IsPrimary).HasColumnType("boolean").HasColumnOrder(3);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(4);
+        builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
+        builder.Property(x => x.CategoryId).HasColumnType("integer").HasColumnOrder(3);
+        builder.Property(x => x.IsPrimary).HasColumnType("boolean").HasColumnOrder(4);
+        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(5);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
@@ -35,6 +35,9 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
+        builder.HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique()
+            .HasDatabaseName(
+                $"UK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}");
         builder.HasIndex(x => x.IsPrimary)
             .HasDatabaseName($"IX_{nameof(ProductCategory)}_{nameof(ProductCategory.IsPrimary)}");
         builder.HasIndex(x => x.CreatedAt)

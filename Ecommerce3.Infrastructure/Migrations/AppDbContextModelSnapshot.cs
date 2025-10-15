@@ -1232,6 +1232,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
                     b.HasKey("DiscountId", "ProductId", "DeletedAt");
 
                     b.HasIndex("CreatedBy");
@@ -1451,9 +1454,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(4);
 
                     b.Property<string>("Entity")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
                         .HasColumnOrder(2);
 
                     b.Property<bool>("IsActive")
@@ -2532,17 +2534,16 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductCategory", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnOrder(1);
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2558,6 +2559,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(52);
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
                         .HasColumnOrder(56);
@@ -2569,11 +2574,15 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(4);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -2588,8 +2597,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(55);
 
-                    b.HasKey("ProductId", "CategoryId", "DeletedAt")
-                        .HasName("PK_ProductCategory_ProductId_CategoryId_DeletedAt");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
@@ -2607,6 +2615,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_ProductCategory_IsPrimary");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("ProductId", "CategoryId")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ProductCategory_ProductId_CategoryId");
 
                     b.ToTable("ProductCategory", (string)null);
                 });
@@ -2770,21 +2782,12 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductGroupProductAttribute", b =>
                 {
-                    b.Property<int>("ProductGroupId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(1);
 
-                    b.Property<int>("ProductAttributeId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("ProductAttributeValueId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2800,6 +2803,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(52);
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
                         .HasColumnOrder(56);
@@ -2809,13 +2816,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
+                    b.Property<int>("ProductAttributeId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(3);
+
                     b.Property<int>("ProductAttributeSortOrder")
                         .HasColumnType("integer")
                         .HasColumnOrder(4);
 
+                    b.Property<int>("ProductAttributeValueId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(5);
+
                     b.Property<int>("ProductAttributeValueSortOrder")
                         .HasColumnType("integer")
                         .HasColumnOrder(6);
+
+                    b.Property<int>("ProductGroupId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -2830,7 +2849,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(55);
 
-                    b.HasKey("ProductGroupId", "ProductAttributeId", "ProductAttributeValueId", "DeletedAt");
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_ProductGroupProductAttribute_CreatedAt");
@@ -2848,26 +2867,21 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("UpdatedBy");
 
+                    b.HasIndex("ProductGroupId", "ProductAttributeId", "ProductAttributeValueId")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ProductGroupProductAttribute_ProductGroupId_ProductAttributeId_ProductAttributeValueId");
+
                     b.ToTable("ProductGroupProductAttribute", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.ProductProductAttribute", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(1);
 
-                    b.Property<int>("ProductAttributeId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("ProductAttributeValueId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2883,6 +2897,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(52);
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
                         .HasColumnOrder(56);
@@ -2892,13 +2910,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
+                    b.Property<int>("ProductAttributeId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(3);
+
                     b.Property<int>("ProductAttributeSortOrder")
                         .HasColumnType("integer")
                         .HasColumnOrder(4);
 
+                    b.Property<int>("ProductAttributeValueId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(5);
+
                     b.Property<int>("ProductAttributeValueSortOrder")
                         .HasColumnType("integer")
                         .HasColumnOrder(6);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -2913,7 +2943,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(55);
 
-                    b.HasKey("ProductId", "ProductAttributeId", "ProductAttributeValueId", "DeletedAt");
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
@@ -2927,6 +2957,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("ProductAttributeValueId");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("ProductId", "ProductAttributeId", "ProductAttributeValueId")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ProductProductAttribute_ProductId_ProductAttributeId_ProductAttributeValueId");
 
                     b.ToTable("ProductProductAttribute", (string)null);
                 });

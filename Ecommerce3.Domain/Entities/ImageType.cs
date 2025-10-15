@@ -2,7 +2,7 @@ namespace Ecommerce3.Domain.Entities;
 
 public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
 {
-    public string Entity { get; private set; }
+    public string? Entity { get; private set; }
     public string Type { get; private set; }
     public string? Description { get; private set; }
     public bool IsActive { get; private set; }

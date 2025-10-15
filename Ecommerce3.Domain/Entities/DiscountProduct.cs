@@ -1,6 +1,6 @@
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class DiscountProduct: ICreatable, IDeletable
+public sealed class DiscountProduct: Entity, ICreatable, IDeletable
 {
     public int DiscountId { get; set; }
     public Discount? Discount { get; set; }

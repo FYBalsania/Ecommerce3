@@ -17,7 +17,7 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Properties.
-        builder.Property(x => x.Entity).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(2);
+        builder.Property(x => x.Entity).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
         builder.Property(x => x.Type).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.Description).HasMaxLength(1024).HasColumnType("varchar(1024)").HasColumnOrder(4);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(5);

@@ -13,7 +13,8 @@ public class ProductProductAttributeConfiguration : IEntityTypeConfiguration<Pro
         builder.ToTable(nameof(ProductProductAttribute));
 
         //Key.
-        builder.HasKey(x => new { x.ProductId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt });
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
@@ -35,6 +36,9 @@ public class ProductProductAttributeConfiguration : IEntityTypeConfiguration<Pro
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
+        builder.HasIndex(x => new { x.ProductId, x.ProductAttributeId, x.ProductAttributeValueId }).IsUnique()
+            .HasDatabaseName(
+                $"UK_{nameof(ProductProductAttribute)}_{nameof(ProductProductAttribute.ProductId)}_{nameof(ProductProductAttribute.ProductAttributeId)}_{nameof(ProductProductAttribute.ProductAttributeValueId)}");
         builder.HasIndex(x => x.DeletedAt)
             .HasDatabaseName($"IX_{nameof(ProductProductAttribute)}_{nameof(ProductProductAttribute.DeletedAt)}");
 

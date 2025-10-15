@@ -1,11 +1,11 @@
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class ProductProductAttribute : ICreatable, IUpdatable, IDeletable
+public sealed class ProductProductAttribute : Entity, ICreatable, IUpdatable, IDeletable
 {
     public int ProductId { get; private set; }
-    public Product? Product { get; private set; }  
+    public Product? Product { get; private set; }
     public int ProductAttributeId { get; private set; }
-    public ProductAttribute? ProductAttribute { get; private set; } 
+    public ProductAttribute? ProductAttribute { get; private set; }
     public int ProductAttributeSortOrder { get; private set; }
     public int ProductAttributeValueId { get; private set; }
     public ProductAttributeValue? ProductAttributeValue { get; private set; }
