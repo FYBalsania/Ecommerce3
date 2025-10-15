@@ -56,6 +56,7 @@ public class CategoriesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(AddCategoryViewModel model, CancellationToken cancellationToken)
     {
+        ModelState.Remove("Parents");
         if (!ModelState.IsValid)
         {
             model.Parents = await GetParentsIdAndNameAsync(cancellationToken);
