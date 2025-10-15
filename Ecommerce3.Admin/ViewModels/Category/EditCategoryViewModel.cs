@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Category;
 using Ecommerce3.Contracts.DTOs.Category;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.ViewModels.Category;
 

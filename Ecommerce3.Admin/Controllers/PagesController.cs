@@ -1,6 +1,4 @@
-using Ecommerce3.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Ecommerce3.Admin.ViewModels.Page;
 
 namespace Ecommerce3.Admin.Controllers;
 

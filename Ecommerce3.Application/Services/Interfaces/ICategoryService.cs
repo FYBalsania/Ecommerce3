@@ -2,7 +2,6 @@ using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.Category;
 using Ecommerce3.Contracts.DTOs.Category;
 using Ecommerce3.Contracts.Filters;
-using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Application.Services.Interfaces;
 

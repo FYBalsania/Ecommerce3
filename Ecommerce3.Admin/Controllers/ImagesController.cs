@@ -1,5 +1,4 @@
 using Ecommerce3.Admin.ViewModels.Image;
-using Ecommerce3.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
