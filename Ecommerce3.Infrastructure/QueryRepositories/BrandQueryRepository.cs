@@ -64,7 +64,7 @@ internal class BrandQueryRepository : IBrandQueryRepository
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _dbContext.Brands.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
+        => await _dbContext.Brands.MaxAsync(x => x.SortOrder, cancellationToken);
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {

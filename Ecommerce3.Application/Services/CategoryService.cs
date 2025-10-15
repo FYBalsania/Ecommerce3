@@ -8,6 +8,7 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Application.Services;
 
@@ -45,14 +46,25 @@ public sealed class CategoryService : ICategoryService
         exists = await _categoryQueryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
+        //Path.
+        LTree path;
+        if (command.ParentId is not null)
+        {
+            var parent =
+                await _categoryRepository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false,
+                    cancellationToken);
+            path = new LTree($"{parent!.Path}.{command.Slug}");
+        }
+        else
+            path = new LTree(command.Slug);
+        //
+
         var category = new Category(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
-            command.AnchorTitle,
-            command.GoogleCategory, command.ParentId, command.Path, command.ShortDescription, command.FullDescription,
-            command.IsActive, command.SortOrder, command.CreatedBy, command.CreatedByIp);
+            command.AnchorTitle, command.GoogleCategory, command.ParentId, path, command.ShortDescription,
+            command.FullDescription, command.IsActive, command.SortOrder, command.CreatedBy, command.CreatedByIp);
 
         var page = new CategoryPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
-            command.H1,
-            null, null, null, null, null, null, null, null,
+            command.H1, null, null, null, null, null, null, null, null,
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, category);
         await _categoryRepository.AddAsync(category, cancellationToken);
@@ -105,8 +117,8 @@ public sealed class CategoryService : ICategoryService
 
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ParentId, command.GoogleCategory, command.ShortDescription,
-            command.FullDescription,
-            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+            command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt,
+            command.UpdatedByIp);
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);

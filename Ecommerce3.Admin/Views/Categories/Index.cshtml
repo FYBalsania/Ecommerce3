@@ -20,12 +20,15 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-3">
-                        <label class="form-label fw-bold" asp-for="Filter.Name">Name:</label>
-                        <input type="text" class="form-control" asp-for="Filter.Name" />
+                        <label class="form-label fw-bold" asp-for="Filter.ParentId">Parent:</label>
+                        <select asp-for="Filter.ParentId" asp-items="Model.Parents" class="form-select">
+                            <option value="" selected="selected">Any</option>
+                            <option value="0">Root</option>
+                        </select>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label fw-bold" asp-for="Filter.ParentName">Parent name:</label>
-                        <input type="text" class="form-control" asp-for="Filter.ParentName" />
+                        <label class="form-label fw-bold" asp-for="Filter.Name">Name:</label>
+                        <input type="text" class="form-control" asp-for="Filter.Name" />
                     </div>
                     <div class="col-md-3">
                         <label class="form-label fw-bold" asp-for="Filter.Slug">Slug:</label>

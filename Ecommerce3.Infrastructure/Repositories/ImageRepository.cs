@@ -11,6 +11,8 @@ internal class ImageRepository<T> : Repository<T>, IImageRepository<T> where T :
     {
     }
 
+    public Type ImageType  => typeof(T);
+
     public async Task<(IEnumerable<T> ListItems, int Count)?> GetImagesAsync(string? fileName, int? imageTypeId,
         ImageSize? imageSize, string? title, string? link, int? brandId, int? categoryId, int? productId, int? pageId,
         int? productGroupId, ImageInclude includes, bool trackChanges, int pageNumber, int pageSize,

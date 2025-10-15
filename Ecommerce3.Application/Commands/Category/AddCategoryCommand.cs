@@ -14,7 +14,6 @@ public record AddCategoryCommand
     public string H1 { get; init; }
     public int? ParentId { get; init; }
     public string? GoogleCategory { get; init; }
-    public string Path { get; init; }
     public string? ShortDescription { get; init; }
     public string? FullDescription { get; init; }
     public bool IsActive { get; init; }

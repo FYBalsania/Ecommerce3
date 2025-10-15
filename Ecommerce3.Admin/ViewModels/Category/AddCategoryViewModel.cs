@@ -42,10 +42,7 @@ public class AddCategoryViewModel
     
     [Display(Name = "Parent")]
     public int? ParentId  { get; set; }
-    public List<SelectListItem>? Parents { get; set; }
-    
-    [Display(Name = nameof(Path))]
-    public string? Path { get; set; }
+    public required SelectList Parents { get; set; }
 
     [Required(ErrorMessage = "Meta title is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
@@ -95,7 +92,6 @@ public class AddCategoryViewModel
             MetaKeywords = MetaKeywords,
             GoogleCategory = GoogleCategory,
             ParentId = ParentId,
-            Path = Path,
             H1 = H1,
             ShortDescription = ShortDescription,
             FullDescription = FullDescription,

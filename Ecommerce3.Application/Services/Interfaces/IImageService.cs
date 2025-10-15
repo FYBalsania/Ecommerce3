@@ -4,5 +4,5 @@ namespace Ecommerce3.Application.Services.Interfaces;
 
 public interface IImageService
 {
-    public Task AddAsync(AddImageCommand image, CancellationToken cancellationToken);
+    public Task AddAsync(AddImageCommand command, CancellationToken cancellationToken);
 }

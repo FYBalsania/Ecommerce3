@@ -8,7 +8,11 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class CategoryRepository : Repository<Category>, ICategoryRepository
 {
-    public CategoryRepository(AppDbContext dbContext) : base(dbContext) {}
+    private readonly AppDbContext _dbContext;
+    public CategoryRepository(AppDbContext dbContext) : base(dbContext)
+    {
+        _dbContext = dbContext;
+    }
 
     private IQueryable<Category> GetQuery(CategoryInclude includes, bool trackChanges)
     {

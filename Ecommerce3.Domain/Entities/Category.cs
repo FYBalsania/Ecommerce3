@@ -1,4 +1,5 @@
 using Ecommerce3.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -14,7 +15,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     public string? GoogleCategory { get; private set; }
     public int? ParentId { get; private set; }
     public Category? Parent { get; private set; }
-    public string Path { get; private set; }
+    public LTree Path { get; private set; }
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }
     public bool IsActive { get; private set; }
@@ -32,10 +33,8 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
     public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
-
     public IReadOnlyList<CategoryKVPListItem> GetKVPListItemsByType(KVPListItemType type) =>
         _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
-
     public CategoryPage? Page { get; private set; }
 
     private Category()
@@ -43,7 +42,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     }
 
     public Category(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
-        string? googleCategory, int? parentId, string path, string? shortDescription, string? fullDescription,
+        string? googleCategory, int? parentId, LTree path, string? shortDescription, string? fullDescription,
         bool isActive, int sortOrder, int createdBy, string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));

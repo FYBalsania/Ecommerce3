@@ -8,8 +8,11 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal sealed class ProductAttributeRepository : Repository<ProductAttribute>, IProductAttributeRepository
 {
+    private readonly AppDbContext _dbContext;
+
     public ProductAttributeRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
     private IQueryable<ProductAttribute> GetQuery(ProductAttributeInclude includes, bool trackChanges)

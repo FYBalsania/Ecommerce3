@@ -10,13 +10,10 @@ namespace Ecommerce3.Infrastructure.QueryRepositories;
 internal class CategoryQueryRepository : ICategoryQueryRepository
 {
     private readonly AppDbContext _dbContext;
-    private ICategoryQueryRepository _categoryQueryRepositoryImplementation;
 
     public CategoryQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
+        => _dbContext = dbContext;
+
     public async Task<PagedResult<CategoryListItemDTO>> GetCategoryListItemsAsync(CategoryFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
@@ -24,8 +21,19 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
-        if (!string.IsNullOrWhiteSpace(filter.ParentName))
-            query = query.Where(x => x.Parent!.Name.Contains(filter.ParentName));
+        if (filter.ParentId is not null)
+            if (filter.ParentId == 0)
+                query = query.Where(x => x.Path.NLevel == 1);
+            else
+            {
+                var parentPath = await _dbContext.Categories
+                    .Where(c => c.Id == filter.ParentId)
+                    .Select(c => c.Path)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                query = query.Where(x => x.Path.IsDescendantOf(parentPath) && x.Path != parentPath);
+            }
+
         if (!string.IsNullOrWhiteSpace(filter.Slug))
             query = query.Where(x => x.Slug.Contains(filter.Slug));
         if (!string.IsNullOrWhiteSpace(filter.Display))
@@ -35,13 +43,13 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
         if (!string.IsNullOrWhiteSpace(filter.AnchorText))
             query = query.Where(x => x.AnchorText.Contains(filter.AnchorText));
         if (!string.IsNullOrWhiteSpace(filter.AnchorTitle))
-            query = query.Where(x => x.AnchorTitle.Contains(filter.AnchorTitle));
+            query = query.Where(x => x.AnchorTitle!.Contains(filter.AnchorTitle));
         if (filter.IsActive.HasValue)
             query = query.Where(x => x.IsActive == filter.IsActive);
 
         var total = await query.CountAsync(cancellationToken);
         query = query.OrderBy(x => x.Name);
-        var Categorys = await query
+        var categories = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Select(x => new CategoryListItemDTO
@@ -60,13 +68,13 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
 
         return new PagedResult<CategoryListItemDTO>()
         {
-            Data = Categorys,
+            Data = categories,
             PageNumber = pageNumber,
             PageSize = pageSize,
             TotalItems = total
         };
     }
-    
+
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
         var query = _dbContext.Categories.AsQueryable();
@@ -87,12 +95,13 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
 
-    public async Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken) 
-        => await _dbContext.Categories.Where(x => x.ParentId == null).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
-    
+    public async Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken)
+        => await _dbContext.Categories.OrderBy(x => x.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _dbContext.Categories.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
-    
+        => await _dbContext.Categories.MaxAsync(x => x.SortOrder, cancellationToken);
+
     public async Task<CategoryDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await (from b in _dbContext.Categories

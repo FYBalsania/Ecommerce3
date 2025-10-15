@@ -8,8 +8,11 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class PageRepository<T> : Repository<T>, IPageRepository<T> where T : Page
 {
+    private readonly AppDbContext _dbContext;
+
     public PageRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
     private IQueryable<T> GetQuery(PageInclude includes, bool trackChanges)

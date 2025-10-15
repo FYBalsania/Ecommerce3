@@ -30,6 +30,7 @@ public class CategoriesController : Controller
         var response = new CategoriesIndexResponse
         {
             Filter = filter,
+            Parents = await GetParentsIdAndNameAsync(cancellationToken),
             Categories = result,
             PageTitle = "Categories"
         };
@@ -66,7 +67,6 @@ public class CategoriesController : Controller
 
         try
         {
-            model.Path = $"{model.ParentId}.{model.Slug}";
             await _categoryService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (DuplicateException e)
@@ -128,13 +128,10 @@ public class CategoriesController : Controller
         return LocalRedirect("/Categories/Index");
     }
     
-    private async Task<List<SelectListItem>> GetParentsIdAndNameAsync(CancellationToken cancellationToken)
+    [NonAction]
+    private async Task<SelectList> GetParentsIdAndNameAsync(CancellationToken cancellationToken)
     {
         var categoryParents = await _categoryService.GetCategoryIdAndNameAsync(cancellationToken);
-        return categoryParents.Select(x => new SelectListItem
-        {
-            Value = x.Key.ToString(),
-            Text = x.Value
-        }).ToList();
+        return new SelectList(categoryParents,"Key","Value");
     }
 }

@@ -5,6 +5,8 @@ namespace Ecommerce3.Domain.Repositories;
 
 public interface IImageRepository<T> : IRepository<T> where T : Image
 {
+    public Type ImageType { get; }
+    
     public Task<(IEnumerable<T> ListItems, int Count)?> GetImagesAsync(string? fileName,
         int? imageTypeId, ImageSize? imageSize, string? title, string? link, int? brandId, int? categoryId,
         int? productId, int? pageId, int? productGroupId, ImageInclude includes, bool trackChanges,

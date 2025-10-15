@@ -7,7 +7,7 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal abstract class Repository<T> : IRepository<T> where T : Entity
 {
-    protected readonly AppDbContext _dbContext;
+    private readonly AppDbContext _dbContext;
     protected Repository(AppDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<T?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)

@@ -8,8 +8,11 @@ namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class BrandRepository : Repository<Brand>, IBrandRepository
 {
+    private readonly AppDbContext _dbContext;
+
     public BrandRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
     private IQueryable<Brand> GetQuery(BrandInclude includes, bool trackChanges)
