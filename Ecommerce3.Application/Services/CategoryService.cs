@@ -4,6 +4,7 @@ using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Category;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.DomainEvents.Category;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Exceptions;
@@ -114,6 +115,8 @@ public sealed class CategoryService : ICategoryService
         var page = await _categoryPageRepository.GetByCategoryIdAsync(command.Id, CategoryPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), "Category page not found.");
+        
+        //Path.
 
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ParentId, command.GoogleCategory, command.ShortDescription,
@@ -123,7 +126,21 @@ public sealed class CategoryService : ICategoryService
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (categoryUpdated) _categoryRepository.Update(category);
+        if (categoryUpdated)
+        {
+            _categoryRepository.Update(category);
+            foreach (var domainEvent in category.DomainEvents)
+            {
+                switch (domainEvent)
+                {
+                    case CategoryParentIdUpdatedDomainEvent:
+                        break;
+                    case CategorySlugUpdatedDomainEvent:
+                        break;
+                }
+            }
+        }
+
         if (pageUpdated) _categoryPageRepository.Update(page);
 
         if (categoryUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
