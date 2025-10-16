@@ -1,3 +1,5 @@
+using Ecommerce3.Contracts.DTOs.Image;
+
 namespace Ecommerce3.Contracts.DTOs.Brand;
 
 public class BrandDTO
@@ -17,4 +19,5 @@ public class BrandDTO
     public string? FullDescription { get; set; }
     public bool IsActive { get; set; }
     public int SortOrder { get; set; }
+    public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
 }

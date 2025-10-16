@@ -1,5 +1,6 @@
 using Ecommerce3.Application.Services;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce3.Application;
@@ -12,7 +13,8 @@ public static class DependencyInjection
         services.AddScoped<IBrandService, BrandService>();
         // services.AddScoped<IPageService, PageService>();
         services.AddScoped<ICategoryService, CategoryService>();
-        
+        services.AddScoped<IImageService, ImageService>();
+
         return services;
     }
 }

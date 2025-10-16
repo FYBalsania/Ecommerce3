@@ -1,3 +1,4 @@
+@using Ecommerce3.Domain.Entities
 @model Ecommerce3.Admin.ViewModels.Brand.EditBrandViewModel
 
 <div class="content-section">
@@ -95,7 +96,8 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="FullDescription"></label>
-                            <div id="longDescriptionEditor" style="height: 200px;">@Html.Raw(Model.FullDescription)</div>
+                            <div id="longDescriptionEditor"
+                                 style="height: 200px;">@Html.Raw(Model.FullDescription)</div>
                             <input type="hidden" id="longDescriptionInput" asp-for="FullDescription">
                             <span asp-validation-for="FullDescription" class="text-danger"></span>
                         </div>
@@ -150,83 +152,7 @@
         </div>
 
         <!-- Images -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 text-muted py-2">
-                    <i class="fas fa-image"></i> Images
-                </h5>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addImageModal">
-                    <i class="fas fa-plus"></i> Add Image
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Image Name</th>
-                                <th>Size</th>
-                                <th>Alt Text</th>
-                                <th>Title</th>
-                                <th>Loading</th>
-                                <th>Link</th>
-                                <th>Target</th>
-                                <th class="text-end">Sort Order</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <img src="https://placehold.co/60x60" class="img-fluid rounded">
-                                </td>
-                                <td>brand-banner-1.jpg</td>
-                                <td>Large</td>
-                                <td>Main Brand Banner</td>
-                                <td>Brand Banner</td>
-                                <td>Lazy</td>
-                                <td><a href="#">https://example.com</a></td>
-                                <td>_blank</td>
-                                <td class="text-end">1</td>
-                                <td class="text-center">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editImageModal1">
-                                        <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteImageModal1">
-                                        <i class="fas fa-trash fs-6 text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="https://placehold.co/60x60" class="img-fluid rounded">
-                                </td>
-                                <td>brand-thumbnail.png</td>
-                                <td>Small</td>
-                                <td>Brand Thumbnail</td>
-                                <td>Thumbnail Image</td>
-                                <td>Eager</td>
-                                <td><a href="#">https://example.com/brand</a></td>
-                                <td>_parent</td>
-                                <td class="text-end">2</td>
-                                <td class="text-center">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editImageModal1">
-                                        <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteImageModal1">
-                                        <i class="fas fa-trash fs-6 text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        @await Component.InvokeAsync("Images", new { type = typeof(BrandImage) });
 
         <div class="row mb-7">
             <div class="col-xl-12">
@@ -360,7 +286,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body"> 
+            <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label class="form-label fw-bold">Type</label>
@@ -437,14 +363,16 @@
 </div>
 
 <!-- Delete Image Modal (for first image) -->
-<div class="modal fade" id="deleteImageModal1" tabindex="-1" aria-labelledby="deleteImageModalLabel1" aria-hidden="true">
+<div class="modal fade" id="deleteImageModal1" tabindex="-1" aria-labelledby="deleteImageModalLabel1"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
             <div class="modal-header text-danger">
                 <h5 class="modal-title" id="deleteImageModalLabel1">
                     <i class="fas fa-trash"></i> Delete Image
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -471,26 +399,26 @@
     <script src="~/js/brand.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script>
-    // Initialize Quill
-    var quill = new Quill('#longDescriptionEditor', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, 3, false] }],
-                [{ font: [] }],                               // Font family
-                ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                [{ color: [] }, { background: [] }],          // Text/Background color
-                [{ list: 'ordered' }, { list: 'bullet' }],    // Lists
-                [{ align: [] }],                              // Alignment
-                ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
-                ['clean']                                     // Clear formatting
-            ]
-        }
-    });
+        // Initialize Quill
+        var quill = new Quill('#longDescriptionEditor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],                               // Font family
+                    ['bold', 'italic', 'underline', 'strike'],    // Formatting
+                    [{color: []}, {background: []}],          // Text/Background color
+                    [{list: 'ordered'}, {list: 'bullet'}],    // Lists
+                    [{align: []}],                              // Alignment
+                    ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
+                    ['clean']                                     // Clear formatting
+                ]
+            }
+        });
 
-    // Sync Quill content to hidden input on change
-    quill.on('text-change', function () {
-        document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-    });
+        // Sync Quill content to hidden input on change
+        quill.on('text-change', function () {
+            document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
+        });
     </script>
 }

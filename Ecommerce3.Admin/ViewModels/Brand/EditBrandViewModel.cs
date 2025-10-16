@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Commands.Brand;
 using Ecommerce3.Contracts.DTOs.Brand;
 
@@ -70,6 +71,8 @@ public class EditBrandViewModel
     [Required(ErrorMessage = "Sort order is required.")]
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
+
+    public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
 
     public UpdateBrandCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {

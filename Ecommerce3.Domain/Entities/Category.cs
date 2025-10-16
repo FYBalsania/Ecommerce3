@@ -1,3 +1,4 @@
+using Ecommerce3.Domain.DomainEvents.Category;
 using Ecommerce3.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,8 +34,10 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
     public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
+
     public IReadOnlyList<CategoryKVPListItem> GetKVPListItemsByType(KVPListItemType type) =>
         _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
+
     public CategoryPage? Page { get; private set; }
 
     private Category()
@@ -70,9 +73,10 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
-    
+
     public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
-        string? anchorTitle, int? parentId, string? googleCategory, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
+        string? anchorTitle, int? parentId, string? googleCategory, string? shortDescription, string? fullDescription,
+        bool isActive, int sortOrder,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
@@ -81,12 +85,22 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
             return false;
 
         Name = name;
-        Slug = slug;
+        if (Slug != slug)
+        {
+            Slug = slug;
+            AddDomainEvent(new CategorySlugUpdatedDomainEvent(Slug, slug));
+        }
+
         Display = display;
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        ParentId = parentId;
+        if (ParentId != parentId)
+        {
+            ParentId = parentId;
+            AddDomainEvent(new CategoryParentIdUpdatedDomainEvent(ParentId, parentId));
+        }
+
         GoogleCategory = googleCategory;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
