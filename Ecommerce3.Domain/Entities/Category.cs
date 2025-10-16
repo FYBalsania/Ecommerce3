@@ -83,6 +83,8 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
             FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
             return false;
 
+        ValidateParent(parent);
+
         if (Slug != slug) AddDomainEvent(new CategorySlugUpdatedDomainEvent(Slug, slug));
         if (ParentId != parent?.Id) AddDomainEvent(new CategoryParentIdUpdatedDomainEvent(ParentId, parent?.Id));
 
@@ -104,5 +106,27 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedByIp = updatedByIp;
 
         return true;
+    }
+
+    public void ChangeParent(Category? parent, int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        if (ParentId == parent?.Id) return;
+
+        ValidateParent(parent);
+
+        ParentId = parent?.Id;
+        Path = parent is null ? new LTree(Slug) : new LTree($"{parent.Path}.{Slug}");
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+    }
+
+    private void ValidateParent(Category? parent)
+    {
+        if (parent is null) return;
+        if (parent.Id == Id) throw new InvalidOperationException("Cannot set a category's parent to itself.");
+        if (parent.Path == Path || parent.Path.IsDescendantOf(Path))
+            throw new InvalidOperationException(
+                "Cannot set a category's parent to one of its own descendants (circular reference detected).");
     }
 }
