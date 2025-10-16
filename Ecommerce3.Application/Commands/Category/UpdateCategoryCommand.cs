@@ -11,7 +11,6 @@ public record UpdateCategoryCommand
     public string? AnchorTitle { get; init; }
     public int? ParentId { get; init; }
     public string? GoogleCategory { get; init; }
-    public string Path { get; init; }
     public string MetaTitle { get; init; }
     public string? MetaDescription { get; init; }
     public string? MetaKeywords { get; init; }

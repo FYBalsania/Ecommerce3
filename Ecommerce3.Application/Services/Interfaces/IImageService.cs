@@ -1,6 +1,4 @@
 using Ecommerce3.Application.Commands.Image;
-using Ecommerce3.Contracts.QueryRepositories;
-using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Application.Services.Interfaces;
 

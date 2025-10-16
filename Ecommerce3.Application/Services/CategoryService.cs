@@ -9,7 +9,6 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Application.Services;
 
@@ -47,21 +46,13 @@ public sealed class CategoryService : ICategoryService
         exists = await _categoryQueryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
 
-        //Path.
-        LTree path;
-        if (command.ParentId is not null)
-        {
-            var parent =
-                await _categoryRepository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false,
-                    cancellationToken);
-            path = new LTree($"{parent!.Path}.{command.Slug}");
-        }
-        else
-            path = new LTree(command.Slug);
-        //
+        var parent = command.ParentId is not null
+            ? await _categoryRepository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false,
+                cancellationToken)
+            : null;
 
         var category = new Category(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
-            command.AnchorTitle, command.GoogleCategory, command.ParentId, path, command.ShortDescription,
+            command.AnchorTitle, command.GoogleCategory, parent, command.ShortDescription,
             command.FullDescription, command.IsActive, command.SortOrder, command.CreatedBy, command.CreatedByIp);
 
         var page = new CategoryPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
@@ -115,13 +106,22 @@ public sealed class CategoryService : ICategoryService
         var page = await _categoryPageRepository.GetByCategoryIdAsync(command.Id, CategoryPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), "Category page not found.");
-        
-        //Path.
+
+        var parent = command.ParentId is not null
+            ? await _categoryRepository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false,
+                cancellationToken)
+            : null;
+
+        var descendants = parent is not null
+            ? await _categoryRepository.GetDescendantsAsync(parent?.Id ?? 0, CategoryInclude.Parent, true,
+                cancellationToken)
+            : [];
 
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
-            command.AnchorText, command.AnchorTitle, command.ParentId, command.GoogleCategory, command.ShortDescription,
+            command.AnchorText, command.AnchorTitle, parent, command.GoogleCategory, command.ShortDescription,
             command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt,
             command.UpdatedByIp);
+
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
@@ -134,15 +134,14 @@ public sealed class CategoryService : ICategoryService
                 switch (domainEvent)
                 {
                     case CategoryParentIdUpdatedDomainEvent:
-                        break;
                     case CategorySlugUpdatedDomainEvent:
+                        await Task.Delay(1000, cancellationToken);
                         break;
                 }
             }
         }
 
         if (pageUpdated) _categoryPageRepository.Update(page);
-
         if (categoryUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
     }
 }

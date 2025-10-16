@@ -45,15 +45,14 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     }
 
     public Category(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
-        string? googleCategory, int? parentId, LTree path, string? shortDescription, string? fullDescription,
-        bool isActive, int sortOrder, int createdBy, string createdByIp)
+        string? googleCategory, Category? parent, string? shortDescription, string? fullDescription, bool isActive,
+        int sortOrder, int createdBy, string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
         ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
         ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
         ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
         ArgumentException.ThrowIfNullOrWhiteSpace(anchorText, nameof(anchorText));
-        ArgumentException.ThrowIfNullOrWhiteSpace(path, nameof(path));
         ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
 
         Name = name;
@@ -63,8 +62,8 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
         GoogleCategory = googleCategory;
-        ParentId = parentId;
-        Path = path;
+        ParentId = parent?.Id;
+        Path = parent is null ? new LTree(slug) : new LTree($"{parent.Path}.{slug}");
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
         IsActive = isActive;
@@ -75,32 +74,26 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     }
 
     public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
-        string? anchorTitle, int? parentId, string? googleCategory, string? shortDescription, string? fullDescription,
-        bool isActive, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        string? anchorTitle, Category? parent, string? googleCategory, string? shortDescription,
+        string? fullDescription, bool isActive, int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
-            AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
+            AnchorText == anchorText && AnchorTitle == anchorTitle && ParentId == parent?.Id &&
+            GoogleCategory == googleCategory && ShortDescription == shortDescription &&
             FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
             return false;
 
-        Name = name;
-        if (Slug != slug)
-        {
-            Slug = slug;
-            AddDomainEvent(new CategorySlugUpdatedDomainEvent(Slug, slug));
-        }
+        if (Slug != slug) AddDomainEvent(new CategorySlugUpdatedDomainEvent(Slug, slug));
+        if (ParentId != parent?.Id) AddDomainEvent(new CategoryParentIdUpdatedDomainEvent(ParentId, parent?.Id));
 
+        Name = name;
+        Slug = slug;
         Display = display;
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        if (ParentId != parentId)
-        {
-            ParentId = parentId;
-            AddDomainEvent(new CategoryParentIdUpdatedDomainEvent(ParentId, parentId));
-        }
-
+        ParentId = parent?.Id;
+        Path = parent is null ? new LTree(slug) : new LTree($"{parent.Path}.{slug}");
         GoogleCategory = googleCategory;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;

@@ -11,4 +11,6 @@ internal class UnitOfWork : IUnitOfWork
 
     public async Task<int> CompleteAsync(CancellationToken cancellationToken)
         => await _dbContext.SaveChangesAsync(cancellationToken);
+    
+    public bool HasChanges() => _dbContext.ChangeTracker.HasChanges();
 }
