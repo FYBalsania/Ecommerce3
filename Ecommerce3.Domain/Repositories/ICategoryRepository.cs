@@ -1,5 +1,6 @@
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Repositories;
 
@@ -16,4 +17,6 @@ public interface ICategoryRepository : IRepository<Category>
 
     Task<List<Category>> GetDescendantsAsync(int parentId, CategoryInclude include, bool trackChanges,
         CancellationToken cancellationToken);
+
+    Task UpdateDescendantsPath(LTree oldPath, LTree newPath, CancellationToken cancellationToken);
 }

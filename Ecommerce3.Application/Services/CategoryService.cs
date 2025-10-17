@@ -9,6 +9,7 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Application.Services;
 
@@ -94,7 +95,7 @@ public sealed class CategoryService : ICategoryService
     public async Task UpdateAsync(UpdateCategoryCommand command, CancellationToken cancellationToken)
     {
         var exists = await _categoryQueryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Category.Name));
+        if (exists) throw new DuplicateException($"{nameof(command.Name)} already exists.", nameof(Category.Name));
 
         exists = await _categoryQueryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(Category.Slug)} already exists.", nameof(Category.Slug));
@@ -120,24 +121,26 @@ public sealed class CategoryService : ICategoryService
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (categoryUpdated)
-        {
-            _categoryRepository.Update(category);
-            foreach (var domainEvent in category.DomainEvents)
-            {
-                switch (domainEvent)
-                {
-                    case CategoryParentIdUpdatedDomainEvent de:
-                        
-                        break;
-                    case CategorySlugUpdatedDomainEvent de:
-                        await Task.Delay(1000, cancellationToken);
-                        break;
-                }
-            }
-        }
+        if (!categoryUpdated && !pageUpdated) return;
 
-        if (pageUpdated) _categoryPageRepository.Update(page);
-        if (categoryUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
+        try
+        {
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+
+            if (categoryUpdated)
+            {
+                _categoryRepository.Update(category);
+                await _categoryRepository.UpdateDescendantsPath(new LTree(""), new LTree(""), cancellationToken);
+            }
+            if (pageUpdated) _categoryPageRepository.Update(page);
+
+            await _unitOfWork.CompleteAsync(cancellationToken);
+            await _unitOfWork.CommitTransactionAsync(cancellationToken);
+        }
+        catch (Exception)
+        {
+            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+            throw;
+        }
     }
 }

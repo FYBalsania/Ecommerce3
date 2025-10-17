@@ -3,6 +3,7 @@ using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
@@ -54,12 +55,35 @@ internal class CategoryRepository : Repository<Category>, ICategoryRepository
         return await query.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<List<Category>> GetDescendantsAsync(int parentId, CategoryInclude include, bool trackChanges,
+    public async Task<List<Category>> GetDescendantsAsync(int id, CategoryInclude include, bool trackChanges,
         CancellationToken cancellationToken)
     {
-        var parent = await GetByIdAsync(parentId, CategoryInclude.None, false, cancellationToken);
+        var parent = await GetByIdAsync(id, CategoryInclude.None, false, cancellationToken);
         return await Query(include, trackChanges).Where(x => x.Path.IsDescendantOf(parent!.Path))
             .OrderBy(x => x.Path.NLevel)
             .ToListAsync(cancellationToken);
+    }
+
+    //This method must be surrounded by a database transaction.
+    public async Task UpdateDescendantsPath(LTree oldPath, LTree newPath, CancellationToken cancellationToken)
+    {
+        var sql = @"
+            WITH params AS (
+                SELECT 
+                    @oldPrefix::ltree AS old_prefix,
+                    @newPrefix::ltree AS new_prefix
+            )
+            UPDATE ""Category""
+            SET ""Path"" = params.new_prefix || subpath(""Path"", nlevel(params.old_prefix))
+            FROM params
+            WHERE ""Path"" <@ params.old_prefix AND ""Path"" <> params.old_prefix;";
+
+        var sqlParams = new[]
+        {
+            new NpgsqlParameter("@oldPrefix", oldPath),
+            new NpgsqlParameter("@newPrefix", newPath)
+        };
+
+        await _dbContext.Database.ExecuteSqlRawAsync(sql, sqlParams, cancellationToken);
     }
 }
