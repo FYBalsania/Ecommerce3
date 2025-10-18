@@ -25,21 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         services.AddScoped<IProductGroupPageRepository, ProductGroupPageRepository>();
         services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
-        // services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
-        // services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
-        // services.AddScoped<ICustomerRepository, CustomerRepository>();
-        // services.AddScoped<IDeliveryWindowRepository, DeliveryWindowRepository>();
-        // services.AddScoped<IDiscountRepository, DiscountRepository>();
-        // services.AddScoped<IImageRepository, ImageRepository>();
-        // services.AddScoped<IPageRepository<Page>, PageRepository<Page>>();
-        // services.AddScoped<IProductRepository, ProductRepository>();
-        // services.AddScoped<IProductSpecificationGroupRepository, ProductSpecificationGroupRepository>();
-        // services.AddScoped(typeof(ImageRepository<>), typeof(ImageRepository<>));
-        // services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
-        // services.AddScoped<IBrandImageRepository, BrandImageRepository>();
-        // services.AddScoped<ICategoryImageRepository, CategoryImageRepository>();
-        // services.AddScoped<IProductImageRepository, ProductImageRepository>();
-        // services.AddScoped<IProductGroupImageRepository, ProductGroupImageRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
 
         services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
         services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
@@ -47,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
         services.AddScoped<IProductGroupPageQueryRepository, ProductGroupPageQueryRepository>();
         services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
+        services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
 
         return services;
     }

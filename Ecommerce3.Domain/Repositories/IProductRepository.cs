@@ -11,10 +11,6 @@ public interface IProductRepository : IRepository<Product>
         ProductInclude includes, bool trackChanges,
         int pageNumber, int pageSize, CancellationToken cancellationToken);
 
-    public Task<bool> ExistsBySKUCodeAsync(string skuCode, int? excludeId, CancellationToken cancellationToken);
-    public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
-    public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
-
     public Task<Product?> GetBySlugAsync(string slug, ProductInclude includes, bool trackChanges,
         CancellationToken cancellationToken);
 

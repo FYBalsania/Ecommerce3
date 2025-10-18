@@ -16,6 +16,7 @@ public static class DependencyInjection
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IProductAttributeService, ProductAttributeService>();
         services.AddScoped<IProductGroupService, ProductGroupService>();
+        services.AddScoped<IProductService, ProductService>();
 
         return services;
     }

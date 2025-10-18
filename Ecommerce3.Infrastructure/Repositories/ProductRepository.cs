@@ -19,21 +19,6 @@ internal class ProductRepository : Repository<Product>, IProductRepository
         throw new NotImplementedException();
     }
 
-    public async Task<bool> ExistsBySKUCodeAsync(string skuCode, int? excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<Product?> GetBySlugAsync(string slug, ProductInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
