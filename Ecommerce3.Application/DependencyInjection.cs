@@ -1,6 +1,7 @@
 using Ecommerce3.Application.Services;
 using Ecommerce3.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using ProductGroupService = Ecommerce3.Application.Services.ProductGroupService;
 
 namespace Ecommerce3.Application;
 
@@ -14,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IProductAttributeService, ProductAttributeService>();
+        services.AddScoped<IProductGroupService, ProductGroupService>();
 
         return services;
     }

@@ -23,6 +23,8 @@ public static class DependencyInjection
         services.AddScoped<ICategoryPageRepository, CategoryPageRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
+        services.AddScoped<IProductGroupPageRepository, ProductGroupPageRepository>();
+        services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
         // services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         // services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
         // services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -40,9 +42,11 @@ public static class DependencyInjection
         // services.AddScoped<IProductGroupImageRepository, ProductGroupImageRepository>();
 
         services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
-        // services.AddScoped<IPageQueryRepository, PageQueryRepository>();
         services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+        // services.AddScoped<IPageQueryRepository, PageQueryRepository>();
         services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
+        services.AddScoped<IProductGroupPageQueryRepository, ProductGroupPageQueryRepository>();
+        services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
 
         return services;
     }

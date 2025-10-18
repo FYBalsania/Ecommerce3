@@ -11,13 +11,6 @@ internal class ProductGroupRepository : Repository<ProductGroup>, IProductGroupR
     {
     }
 
-    public async Task<(IReadOnlyCollection<ProductGroup> ListItems, int Count)> GetProductGroupsAsync(string? name,
-        ProductGroupInclude includes, bool trackChanges, int pageNumber, int pageSize,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<ProductGroup?> GetByNameAsync(string name, ProductGroupInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
@@ -32,16 +25,6 @@ internal class ProductGroupRepository : Repository<ProductGroup>, IProductGroupR
 
     public async Task<ProductGroup?> GetByIdAsync(int id, ProductGroupInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsByNameAsync(string name, int excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsBySlugAsync(string slug, int excludeId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
