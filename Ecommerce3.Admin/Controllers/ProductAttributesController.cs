@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.ProductAttribute;
 using Ecommerce3.Application.Services;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
@@ -8,24 +9,30 @@ namespace Ecommerce3.Admin.Controllers;
 public class ProductAttributesController : Controller
 {
     private readonly IProductAttributeService _productAttributeService;
-    private readonly IPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
     private readonly int _pageSize;
 
-    public ProductAttributesController(IProductAttributeService productAttributeService,
-        IPAddressService ipAddressService, IConfiguration configuration)
+    public ProductAttributesController(IProductAttributeService productAttributeService, IConfiguration configuration)
     {
         _productAttributeService = productAttributeService;
-        _ipAddressService = ipAddressService;
         _configuration = configuration;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(ProductAttributeFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
+        pageNumber = pageNumber == 0 ? 1 : pageNumber;
+        var result = await _productAttributeService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var response = new ProductAttributesIndexViewModel()
+        {
+            Filter = filter,
+            ProductAttributes = result,
+            PageTitle = "Product Attributes"
+        };
+        
         ViewData["Title"] = "Product Attributes";
-        return View(new ProductAttributesIndexViewModel());
+        return View(response);
     }
 
     [HttpGet]

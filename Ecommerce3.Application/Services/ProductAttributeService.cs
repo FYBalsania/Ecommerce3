@@ -22,11 +22,9 @@ public sealed class ProductAttributeService : IProductAttributeService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter, int pageNumber,
+        int pageSize, CancellationToken cancellationToken)
+        => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddProductAttributeCommand command, CancellationToken cancellationToken)
     {

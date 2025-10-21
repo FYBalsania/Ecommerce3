@@ -7,7 +7,7 @@ namespace Ecommerce3.Application.Services.Interfaces;
 
 public interface IProductAttributeService
 {
-    Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter,
+    Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
 
     Task AddAsync(AddProductAttributeCommand command, CancellationToken cancellationToken);

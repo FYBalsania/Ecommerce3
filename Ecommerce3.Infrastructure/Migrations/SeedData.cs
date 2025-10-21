@@ -117,7 +117,6 @@ public partial class SeedData : Migration
                 { 9, "Gaming", "gaming", "Gaming", "Gaming", "Gaming", "Gaming", "Gaming Short Description", "<p><strong>Gaming</strong></p>", null, "Video Game Consoles & Accessories", "gaming", true, 9, 1, DateTime.Now, "::1" },
                 { 10, "Consoles", "consoles", "Consoles", "Consoles", "Consoles", "Consoles", "Consoles Short Description", "<p><strong>Consoles</strong></p>", 9, "Video Game Consoles & Accessories > Game Consoles", "gaming.consoles", true, 10, 1, DateTime.Now, "::1" }
             });
-
         
         migrationBuilder.InsertData(
             "Page",
@@ -141,13 +140,39 @@ public partial class SeedData : Migration
                 { 19, "CategoryPage", "Gaming", "All about gaming gear and consoles", "Gaming, Consoles, Accessories", "Gaming", 0.88, "Weekly", true, "en", "US", 89, 9, true, 1, DateTime.Now, "::1" },
                 { 20, "CategoryPage", "Consoles", "Next-gen gaming consoles and devices", "Consoles, PlayStation, Xbox, Nintendo", "Consoles", 0.92, "Weekly", true, "en", "US", 93, 10, true, 1, DateTime.Now, "::1" }
             });
+        
+        // ProductAttribute
+        migrationBuilder.InsertData(
+            "ProductAttribute",
+            new[]
+            { 
+                "Id", "Name", "Slug", "Display", "Breadcrumb", "DataType",
+                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+            },
+            new object[,]
+            {
+                { 1, "Color", "color", "Color", "Color", "Text", 1, 1, DateTime.Now, "::1" },
+                { 2, "Storage", "storage", "Storage", "Storage", "Text", 2, 1, DateTime.Now, "::1" },
+                { 3, "RAM", "ram", "RAM", "RAM", "Text", 3, 1, DateTime.Now, "::1" },
+                { 4, "Screen Size", "screen-size", "Screen Size", "Screen Size", "Text", 4, 1, DateTime.Now, "::1" },
+                { 5, "Processor", "processor", "Processor", "Processor", "Text", 5, 1, DateTime.Now, "::1" },
+                { 6, "Battery Capacity", "battery-capacity", "Battery Capacity", "Battery Capacity", "Text", 6, 1, DateTime.Now, "::1" },
+                { 7, "Material", "material", "Material", "Material", "Text", 7, 1, DateTime.Now, "::1" },
+                { 8, "Weight", "weight", "Weight", "Weight", "Text", 8, 1, DateTime.Now, "::1" },
+                { 9, "Warranty", "warranty", "Warranty", "Warranty", "Text", 9, 1, DateTime.Now, "::1" },
+                { 10, "Connectivity", "connectivity", "Connectivity", "Connectivity", "Text", 10, 1, DateTime.Now, "::1" }
+            });
     }
 
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.DeleteData("AppUserRole", "UserId", "1");
-        migrationBuilder.DeleteData("AppUser", "Id", "1");
-        migrationBuilder.DeleteData("Role", "Id", "1");
+        migrationBuilder.Sql("DELETE from Page");
+        migrationBuilder.Sql("DELETE from Brand");
+        migrationBuilder.Sql("DELETE from Category");
+        migrationBuilder.Sql("DELETE from ProductAttribute");
+        migrationBuilder.Sql("DELETE from AppUserRole");
+        migrationBuilder.Sql("DELETE from AppUser");
+        migrationBuilder.Sql("DELETE from Role");
     }
 }

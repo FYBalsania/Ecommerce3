@@ -10,4 +10,8 @@
       <PackageReference Include="cloudscribe.Pagination.Models" Version="8.5.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Ecommerce3.Domain\Ecommerce3.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
