@@ -26,8 +26,8 @@ public class BrandsController : Controller
     public async Task<IActionResult> Index(BrandFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
         pageNumber = pageNumber == 0 ? 1 : pageNumber;
-        var result = await _brandService.GetBrandListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
-        var response = new BrandsIndexResponse
+        var result = await _brandService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var response = new BrandsIndexViewModel()
         {
             Filter = filter,
             Brands = result,

@@ -4,7 +4,7 @@ using Ecommerce3.Contracts.Filters;
 
 namespace Ecommerce3.Admin.ViewModels.Brand;
 
-public record BrandsIndexResponse
+public record BrandsIndexViewModel
 {
     public BrandFilter Filter { get; init; }
     public PagedResult<BrandListItemDTO> Brands { get; init; }

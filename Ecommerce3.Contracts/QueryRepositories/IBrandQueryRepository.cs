@@ -6,7 +6,7 @@ namespace Ecommerce3.Contracts.QueryRepositories;
 
 public interface IBrandQueryRepository
 {
-    Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
+    Task<PagedResult<BrandListItemDTO>> GetListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.ViewModels.Category;
 
-public record CategoriesIndexResponse
+public record CategoriesIndexViewModel
 {
     public CategoryFilter Filter { get; init; }
     public required SelectList Parents { get; init; }

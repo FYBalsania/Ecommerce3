@@ -59,11 +59,24 @@ internal class ProductAttributeQueryRepository : IProductAttributeQueryRepositor
 
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var query = _dbContext.ProductAttributes.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
+
+        return await query.AnyAsync(x => x.Name == name, cancellationToken);
     }
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var query = _dbContext.ProductAttributes.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
+
+        return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
+    
+    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+        => await _dbContext.ProductAttributes.MaxAsync(x => x.SortOrder, cancellationToken);
 }

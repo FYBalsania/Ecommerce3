@@ -7,7 +7,7 @@ namespace Ecommerce3.Application.Services.Interfaces;
 
 public interface ICategoryService
 {
-    Task<PagedResult<CategoryListItemDTO>> GetCategoryListItemsAsync(CategoryFilter filter, int pageNumber, int pageSize,
+    Task<PagedResult<CategoryListItemDTO>> GetListItemsAsync(CategoryFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
     Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);

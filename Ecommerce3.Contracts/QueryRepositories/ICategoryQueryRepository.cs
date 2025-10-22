@@ -6,7 +6,7 @@ namespace Ecommerce3.Contracts.QueryRepositories;
 
 public interface ICategoryQueryRepository
 {
-    Task<PagedResult<CategoryListItemDTO>> GetCategoryListItemsAsync(CategoryFilter filter, int pageNumber, int pageSize,
+    Task<PagedResult<CategoryListItemDTO>> GetListItemsAsync(CategoryFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
     Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);

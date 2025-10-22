@@ -16,7 +16,7 @@ internal class BrandQueryRepository : IBrandQueryRepository
         _dbContext = dbContext;
     }
 
-    public async Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber,
+    public async Task<PagedResult<BrandListItemDTO>> GetListItemsAsync(BrandFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
         var query = _dbContext.Brands.AsQueryable();

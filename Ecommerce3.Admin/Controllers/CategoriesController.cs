@@ -26,8 +26,8 @@ public class CategoriesController : Controller
     public async Task<IActionResult> Index(CategoryFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
         pageNumber = pageNumber == 0 ? 1 : pageNumber;
-        var result = await _categoryService.GetCategoryListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
-        var response = new CategoriesIndexResponse
+        var result = await _categoryService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var response = new CategoriesIndexViewModel()
         {
             Filter = filter,
             Parents = await GetParentsIdAndNameAsync(cancellationToken),

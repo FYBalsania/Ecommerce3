@@ -31,6 +31,9 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         int createdBy, string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
+        
+        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
         ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
         ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
         ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));

@@ -2,8 +2,9 @@ namespace Ecommerce3.Domain.Enums;
 
 public enum DataType
 {
-    Text,
-    Number,
+    Boolean,
+    Colour,
     DateOnly,
-    Boolean
+    Number,
+    Text
 }

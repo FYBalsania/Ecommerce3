@@ -4,6 +4,8 @@ using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
@@ -28,11 +30,24 @@ public sealed class ProductAttributeService : IProductAttributeService
 
     public async Task AddAsync(AddProductAttributeCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ProductAttribute.Name));
+
+        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        if (exists) throw new DuplicateException($"{nameof(ProductAttribute.Slug)} already exists.", nameof(ProductAttribute.Slug));
+
+        var productAttribute = new ProductAttribute(command.Name, command.Slug, command.Display, command.Breadcrumb, command.DataType, 
+            command.SortOrder, command.CreatedBy, command.CreatedByIp);
+        
+        await _repository.AddAsync(productAttribute, cancellationToken);
+        await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task EditAsync(EditProductAttributeCommand command, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
+    
+    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+        => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
 }

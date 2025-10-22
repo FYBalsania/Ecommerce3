@@ -21,7 +21,7 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
         builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
-        builder.Property(x => x.DataType).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(6);
+        builder.Property(x => x.DataType).HasConversion<string>().HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(6);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(7);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);

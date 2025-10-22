@@ -14,7 +14,7 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
     public CategoryQueryRepository(AppDbContext dbContext)
         => _dbContext = dbContext;
 
-    public async Task<PagedResult<CategoryListItemDTO>> GetCategoryListItemsAsync(CategoryFilter filter, int pageNumber,
+    public async Task<PagedResult<CategoryListItemDTO>> GetListItemsAsync(CategoryFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
         var query = _dbContext.Categories.AsQueryable();

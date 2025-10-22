@@ -7,7 +7,7 @@ namespace Ecommerce3.Application.Services.Interfaces;
 
 public interface IBrandService
 {
-    Task<PagedResult<BrandListItemDTO>> GetBrandListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
+    Task<PagedResult<BrandListItemDTO>> GetListItemsAsync(BrandFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
 
     Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken);
