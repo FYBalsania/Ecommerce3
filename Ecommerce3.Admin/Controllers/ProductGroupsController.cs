@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.ProductGroup;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
@@ -41,14 +42,40 @@ public class ProductGroupsController : Controller
     public async Task<IActionResult> Add(CancellationToken cancellationToken)
     {
         ViewData["Title"] = "Add Product Group";
-        return View(new AddProductGroupViewModel());
+        return View(new AddProductGroupViewModel()
+        {
+            IsActive = true,
+            SortOrder = await _productGroupService.GetMaxSortOrderAsync(cancellationToken) + 1
+        });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(AddProductGroupViewModel model, CancellationToken cancellationToken)
     {
-        return View(model);
+        if (!ModelState.IsValid) return View(model);
+
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        try
+        {
+            await _productGroupService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+        }
+        catch (DuplicateException e)
+        {
+            switch (e.ParamName)
+            {
+                case nameof(model.Name):
+                    ModelState.AddModelError(nameof(model.Name), e.Message);
+                    break;
+                case nameof(model.Slug):
+                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                    break;
+            }
+        }
+        
+        return LocalRedirect("/ProductGroups/Index");
     }
 
     [HttpGet]

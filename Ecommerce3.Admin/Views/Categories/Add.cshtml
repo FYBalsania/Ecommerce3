@@ -97,7 +97,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label class="form-label fw-bold required" asp-for="ShortDescription"></label>
+                                <label class="form-label fw-bold" asp-for="ShortDescription"></label>
                                 <textarea class="form-control" rows="3" asp-for="ShortDescription"></textarea>
                                 <span asp-validation-for="ShortDescription" class="text-danger"></span>
                             </div>
@@ -106,7 +106,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label class="form-label fw-bold required" asp-for="FullDescription"></label>
+                                <label class="form-label fw-bold" asp-for="FullDescription"></label>
                                 <div id="longDescriptionEditor" style="height: 200px;"></div>
                                 <input type="hidden" id="longDescriptionInput" asp-for="FullDescription">
                                 <span asp-validation-for="FullDescription" class="text-danger"></span>
