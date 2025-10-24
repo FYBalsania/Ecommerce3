@@ -22,12 +22,19 @@ public class ProductGroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(ProductGroupFilter filter, int pageNumber,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(ProductGroupFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
         pageNumber = pageNumber == 0 ? 1 : pageNumber;
+        var result = await _productGroupService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var response = new ProductGroupsIndexResponse()
+        {
+            Filter = filter,
+            ProductGroups = result,
+            PageTitle = "Product Groups"
+        };
+        
         ViewData["Title"] = "Product Groups";
-        return View(new ProductGroupsIndexResponse());
+        return View(response);
     }
 
     [HttpGet]

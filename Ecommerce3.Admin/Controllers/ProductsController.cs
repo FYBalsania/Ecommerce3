@@ -16,7 +16,6 @@ public class ProductsController : Controller
         IConfiguration configuration)
     {
         _productService = productService;
-        _ipAddressService = ipAddressService;
         _configuration = configuration;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
     }
@@ -24,8 +23,17 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<IActionResult> Index(ProductFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
+        pageNumber = pageNumber == 0 ? 1 : pageNumber;
+        var result = await _productService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var response = new ProductsIndexViewModel()
+        {
+            Filter = filter,
+            Products = result,
+            PageTitle = "Products"
+        };
+        
         ViewData["Title"] = "Products";
-        return View(new ProductsIndexViewModel());
+        return View(response);
     }
 
     [HttpGet]

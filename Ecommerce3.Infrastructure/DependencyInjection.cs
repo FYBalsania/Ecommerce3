@@ -16,25 +16,32 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+        
         // services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IBrandPageRepository, BrandPageRepository>();
-        services.AddScoped<IBrandRepository, BrandRepository>();
-        services.AddScoped<ICategoryPageRepository, CategoryPageRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
-        services.AddScoped<IProductGroupPageRepository, ProductGroupPageRepository>();
-        services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
-
-        services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
-        services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
         // services.AddScoped<IPageQueryRepository, PageQueryRepository>();
-        services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
-        services.AddScoped<IProductGroupPageQueryRepository, ProductGroupPageQueryRepository>();
-        services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
-        services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
+        
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
+        services.AddScoped<IBrandPageRepository, BrandPageRepository>();
+
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+        services.AddScoped<ICategoryPageRepository, CategoryPageRepository>();
+
+        services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
+        services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
+
+        services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
+        services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
+        services.AddScoped<IProductGroupPageRepository, ProductGroupPageRepository>();
+        services.AddScoped<IProductGroupPageQueryRepository, ProductGroupPageQueryRepository>();
+
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
+        services.AddScoped<IProductPageRepository, ProductPageRepository>();
+        
         return services;
     }
 }

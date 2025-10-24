@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251022113158_SeedData")]
+    [Migration("20251024090954_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />

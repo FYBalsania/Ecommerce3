@@ -162,15 +162,63 @@ public partial class SeedData : Migration
                 { 9, "Warranty", "warranty", "Warranty", "Warranty", "Text", 9, 1, DateTime.Now, "::1" },
                 { 10, "Connectivity", "connectivity", "Connectivity", "Connectivity", "Text", 10, 1, DateTime.Now, "::1" }
             });
+        
+        // ProductGroup
+        migrationBuilder.InsertData(
+            "ProductGroup",
+            new[]
+            {
+                "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
+                "ShortDescription", "FullDescription", "IsActive", "SortOrder",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                { 1, "iPhone 17", "iphone-17", "iPhone 17", "iPhone 17", "iPhone 17", "iPhone 17", "Premium Apple smartphone series", "<p><strong>Apple iPhone</strong> delivers high performance, elegant design, and cutting-edge cameras.</p>", true, 1, 1, DateTime.Now, "::1" },
+                { 2, "Duke 200 2015", "duke-200-2015", "Duke 200 2015", "Duke 200 2015", "Duke 200 2015", "Duke 200 2015", "KTM’s signature performance bike series", "<p><strong>KTM Duke</strong> – lightweight, powerful, and built for speed.</p>", true, 2, 1, DateTime.Now, "::1" },
+                { 3, "Galaxy S25", "galaxy-s25", "Galaxy S25", "Galaxy S25", "Galaxy S25", "Galaxy S25", "Samsung Galaxy smartphones known for innovation", "<p><strong>Samsung Galaxy</strong> devices redefine Android excellence.</p>", true, 3, 1, DateTime.Now, "::1" },
+                { 4, "PlayStation 5", "playstation-5", "PlayStation 5", "PlayStation 5", "PlayStation 5", "PlayStation 5", "Sony’s legendary gaming console line", "<p><strong>Sony PlayStation</strong> – immersive gaming for all generations.</p>", true, 4, 1, DateTime.Now, "::1" },
+                { 5, "ThinkPad", "thinkpad", "ThinkPad", "ThinkPad", "ThinkPad", "ThinkPad", "Lenovo’s durable and business-class laptops", "<p><strong>Lenovo ThinkPad</strong> – trusted productivity companion.</p>", true, 5, 1, DateTime.Now, "::1" },
+                { 6, "Surface", "surface", "Surface", "Surface", "Surface", "Surface", "Microsoft Surface tablets and laptops", "<p><strong>Microsoft Surface</strong> combines power, portability, and style.</p>", true, 6, 1, DateTime.Now, "::1" },
+                { 7, "Model S", "model-s", "Model S", "Model S", "Model S", "Model S", "Tesla’s premium electric sedan", "<p><strong>Tesla Model S</strong> – the benchmark for electric performance.</p>", true, 7, 1, DateTime.Now, "::1" },
+                { 8, "Legion", "legion", "Legion", "Legion", "Legion", "Legion", "Lenovo Legion gaming laptops and desktops", "<p><strong>Lenovo Legion</strong> – for gamers who demand power.</p>", true, 8, 1, DateTime.Now, "::1" },
+                { 9, "ROG", "rog", "ROG", "ROG", "ROG", "ROG", "ASUS Republic of Gamers product line", "<p><strong>ASUS ROG</strong> – elite gaming hardware and innovation.</p>", true, 9, 1, DateTime.Now, "::1" },
+                { 10, "Echo", "echo", "Echo", "Echo", "Echo", "Echo", "Amazon Echo smart devices with Alexa", "<p><strong>Amazon Echo</strong> – smart living with voice control.</p>", true, 10, 1, DateTime.Now, "::1" }
+            });
+
+        // Page
+        migrationBuilder.InsertData(
+            "Page",
+            new[]
+            {
+                "Id", "Discriminator", "MetaTitle", "MetaDescription", "MetaKeywords",
+                "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
+                "Language", "Region", "SeoScore", "ProductGroupId", "IsActive",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                { 21, "ProductGroupPage", "iPhone", "Apple iPhone Series Overview", "iPhone, Apple, Smartphones, iOS", "iPhone", 0.90, "Monthly", true, "en", "US", 92, 1, true, 1, DateTime.Now, "::1" },
+                { 22, "ProductGroupPage", "Duke", "KTM Duke Motorcycles", "KTM, Duke, Motorcycles, Bikes", "Duke", 0.85, "Monthly", true, "en", "IN", 88, 2, true, 1, DateTime.Now, "::1" },
+                { 23, "ProductGroupPage", "Galaxy", "Samsung Galaxy Smartphones", "Samsung, Galaxy, Android, Phones", "Galaxy", 0.88, "Monthly", true, "en", "US", 89, 3, true, 1, DateTime.Now, "::1" },
+                { 24, "ProductGroupPage", "PlayStation", "Sony PlayStation Consoles", "PlayStation, PS5, Gaming, Sony", "PlayStation", 0.80, "Monthly", true, "en", "JP", 85, 4, true, 1, DateTime.Now, "::1" },
+                { 25, "ProductGroupPage", "ThinkPad", "Lenovo ThinkPad Laptops", "ThinkPad, Lenovo, Laptops, Business", "ThinkPad", 0.78, "Yearly", true, "en", "US", 83, 5, true, 1, DateTime.Now, "::1" },
+                { 26, "ProductGroupPage", "Surface", "Microsoft Surface Devices", "Surface, Microsoft, Laptop, Tablet", "Surface", 0.82, "Monthly", true, "en", "US", 86, 6, true, 1, DateTime.Now, "::1" },
+                { 27, "ProductGroupPage", "Model S", "Tesla Model S Electric Car", "Tesla, Model S, EV, Electric Car", "Model S", 0.90, "Monthly", true, "en", "US", 91, 7, true, 1, DateTime.Now, "::1" },
+                { 28, "ProductGroupPage", "Legion", "Lenovo Legion Gaming Series", "Legion, Lenovo, Gaming, Laptop", "Legion", 0.84, "Monthly", true, "en", "US", 87, 8, true, 1, DateTime.Now, "::1" },
+                { 29, "ProductGroupPage", "ROG", "ASUS ROG Gaming Products", "ASUS, ROG, Gaming, Laptop, PC", "ROG", 0.86, "Monthly", true, "en", "US", 88, 9, true, 1, DateTime.Now, "::1" },
+                { 30, "ProductGroupPage", "Echo", "Amazon Echo Smart Devices", "Amazon, Echo, Alexa, Smart Home", "Echo", 0.83, "Weekly", true, "en", "US", 85, 10, true, 1, DateTime.Now, "::1" }
+            });
     }
 
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.Sql("DELETE from Page");
-        migrationBuilder.Sql("DELETE from Brand");
-        migrationBuilder.Sql("DELETE from Category");
+        migrationBuilder.Sql("DELETE from ProductGroup");
         migrationBuilder.Sql("DELETE from ProductAttribute");
+        migrationBuilder.Sql("DELETE from Category");
+        migrationBuilder.Sql("DELETE from Brand");
         migrationBuilder.Sql("DELETE from AppUserRole");
         migrationBuilder.Sql("DELETE from AppUser");
         migrationBuilder.Sql("DELETE from Role");
