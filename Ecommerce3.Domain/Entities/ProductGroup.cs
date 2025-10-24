@@ -57,4 +57,30 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
+    
+    public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
+        string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
+        int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
+            AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
+            FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
+            return false;
+
+        Name = name;
+        Slug = slug;
+        Display = display;
+        Breadcrumb = breadcrumb;
+        AnchorText = anchorText;
+        AnchorTitle = anchorTitle;
+        ShortDescription = shortDescription;
+        FullDescription = fullDescription;
+        IsActive = isActive;
+        SortOrder = sortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+
+        return true;
+    }
 }

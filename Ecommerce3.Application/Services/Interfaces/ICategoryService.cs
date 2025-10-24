@@ -13,5 +13,5 @@ public interface ICategoryService
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     Task AddAsync(AddCategoryCommand command, CancellationToken cancellationToken);
     Task<CategoryDTO?> GetByCategoryIdAsync(int id, CancellationToken cancellationToken);
-    Task UpdateAsync(UpdateCategoryCommand command, CancellationToken cancellationToken);
+    Task EditAsync(UpdateCategoryCommand command, CancellationToken cancellationToken);
 }

@@ -12,4 +12,5 @@ public interface IProductGroupService
     Task AddAsync(AddProductGroupCommand command, CancellationToken cancellationToken);
     Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
+    Task<ProductGroupDTO?> GetByProductGroupIdAsync(int id, CancellationToken cancellationToken);
 }

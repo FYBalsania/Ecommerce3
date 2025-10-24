@@ -81,14 +81,43 @@ public class ProductGroupsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        ViewData["Title"] = "Edit Product Group - IPhone 17";
-        return View(new EditProductGroupViewModel());
+        var brand = await _productGroupService.GetByProductGroupIdAsync(id, cancellationToken);
+        if (brand is null) return NotFound();
+
+        ViewData["Title"] = $"Edit Brand - {brand.Name}";
+        return View(EditProductGroupViewModel.FromDTO(brand));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditProductGroupViewModel model, CancellationToken cancellationToken)
     {
-        return View(model);
+        if (!ModelState.IsValid) return View(model);
+
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        try
+        {
+            await _productGroupService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+        }
+        catch (ArgumentNullException e)
+        {
+            ModelState.AddModelError(string.Empty, e.Message);
+        }
+        catch (DuplicateException e)
+        {
+            switch (e.ParamName)
+            {
+                case nameof(model.Name):
+                    ModelState.AddModelError(nameof(model.Name), e.Message);
+                    break;
+                case nameof(model.Slug):
+                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                    break;
+            }
+        }
+
+        return LocalRedirect("/ProductGroups/Index");
     }
 }

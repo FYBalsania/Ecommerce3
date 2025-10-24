@@ -104,25 +104,25 @@ internal class CategoryQueryRepository : ICategoryQueryRepository
 
     public async Task<CategoryDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await (from b in _dbContext.Categories
-            join p in _dbContext.Pages on b.Id equals p.CategoryId
-            where b.Id == id
+        return await (from c in _dbContext.Categories
+            join p in _dbContext.Pages on c.Id equals p.CategoryId
+            where c.Id == id
             select new CategoryDTO()
             {
-                Id = b.Id,
-                Name = b.Name,
-                Slug = b.Slug,
-                Display = b.Display,
-                Breadcrumb = b.Breadcrumb,
-                AnchorText = b.AnchorText,
-                AnchorTitle = b.AnchorTitle,
-                ParentId = b.ParentId,
-                GoogleCategory = b.GoogleCategory,
-                Path = b.Path,
-                IsActive = b.IsActive,
-                SortOrder = b.SortOrder,
-                ShortDescription = b.ShortDescription,
-                FullDescription = b.FullDescription,
+                Id = c.Id,
+                Name = c.Name,
+                Slug = c.Slug,
+                Display = c.Display,
+                Breadcrumb = c.Breadcrumb,
+                AnchorText = c.AnchorText,
+                AnchorTitle = c.AnchorTitle,
+                ParentId = c.ParentId,
+                GoogleCategory = c.GoogleCategory,
+                Path = c.Path,
+                IsActive = c.IsActive,
+                SortOrder = c.SortOrder,
+                ShortDescription = c.ShortDescription,
+                FullDescription = c.FullDescription,
                 H1 = p.H1,
                 MetaTitle = p.MetaTitle,
                 MetaDescription = p.MetaDescription,

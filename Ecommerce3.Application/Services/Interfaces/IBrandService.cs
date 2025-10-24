@@ -12,7 +12,7 @@ public interface IBrandService
 
     Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken);
     Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken);
-    Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken);
+    Task EditAsync(UpdateBrandCommand command, CancellationToken cancellationToken);
     Task DeleteAsync(int id, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
 }

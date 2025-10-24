@@ -99,7 +99,7 @@ public class BrandsController : Controller
 
         try
         {
-            await _brandService.UpdateAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await _brandService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (ArgumentNullException e)
         {

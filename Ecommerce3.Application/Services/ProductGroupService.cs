@@ -53,9 +53,56 @@ public sealed class ProductGroupService : IProductGroupService
         await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
+    public async Task<ProductGroupDTO?> GetByProductGroupIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var productGroup = await _queryRepository.GetByIdAsync(id, cancellationToken);
+
+        return new ProductGroupDTO
+        {
+            Id = productGroup.Id,
+            Name = productGroup.Name,
+            Slug = productGroup.Slug,
+            Display = productGroup.Display,
+            Breadcrumb = productGroup.Breadcrumb,
+            AnchorText = productGroup.AnchorText,
+            AnchorTitle = productGroup.AnchorTitle,
+            ShortDescription = productGroup.ShortDescription,
+            FullDescription = productGroup.FullDescription,
+            IsActive = productGroup.IsActive,
+            SortOrder = productGroup.SortOrder,
+            H1 = productGroup.H1,
+            MetaTitle = productGroup.MetaTitle,
+            MetaDescription = productGroup.MetaDescription,
+            MetaKeywords = productGroup.MetaKeywords
+        };
+    }
+    
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ProductGroup.Name));
+
+        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
+        if (exists) throw new DuplicateException($"{nameof(ProductGroup.Slug)} already exists.", nameof(ProductGroup.Slug));
+
+        var productGroup = await _repository.GetByIdAsync(command.Id, ProductGroupInclude.None, true, cancellationToken);
+        if (productGroup is null) throw new ArgumentNullException(nameof(command.Id), "Product Group not found.");
+
+        var page = await _pageRepository.GetByProductGroupIdAsync(command.Id, ProductGroupPageInclude.None, true,
+            cancellationToken);
+        if (page is null) throw new ArgumentNullException(nameof(command.Id), "Product Group page not found.");
+
+        var productGroupUpdated = productGroup.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
+            command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
+            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (productGroupUpdated) _repository.Update(productGroup);
+        if (pageUpdated) _pageRepository.Update(page);
+
+        if (productGroupUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
     }
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)

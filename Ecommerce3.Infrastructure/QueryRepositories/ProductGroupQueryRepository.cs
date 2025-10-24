@@ -85,4 +85,29 @@ internal class ProductGroupQueryRepository : IProductGroupQueryRepository
 
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
+    
+    public async Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await (from pg in _dbContext.ProductGroups
+            join p in _dbContext.Pages on pg.Id equals p.ProductGroupId
+            where pg.Id == id
+            select new ProductGroupDTO
+            {
+                Id = pg.Id,
+                Name = pg.Name,
+                Slug = pg.Slug,
+                Display = pg.Display,
+                Breadcrumb = pg.Breadcrumb,
+                AnchorText = pg.AnchorText,
+                AnchorTitle = pg.AnchorTitle,
+                IsActive = pg.IsActive,
+                SortOrder = pg.SortOrder,
+                ShortDescription = pg.ShortDescription,
+                FullDescription = pg.FullDescription,
+                H1 = p.H1,
+                MetaTitle = p.MetaTitle,
+                MetaDescription = p.MetaDescription,
+                MetaKeywords = p.MetaKeywords
+            }).FirstAsync(cancellationToken);
+    }
 }

@@ -77,7 +77,7 @@ public sealed class BrandService : IBrandService
         };
     }
 
-    public async Task UpdateAsync(UpdateBrandCommand command, CancellationToken cancellationToken)
+    public async Task EditAsync(UpdateBrandCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));

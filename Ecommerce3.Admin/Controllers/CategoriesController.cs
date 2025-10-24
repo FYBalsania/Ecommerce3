@@ -107,7 +107,7 @@ public class CategoriesController : Controller
 
         try
         {
-            await _categoryService.UpdateAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await _categoryService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (ArgumentNullException e)
         {
