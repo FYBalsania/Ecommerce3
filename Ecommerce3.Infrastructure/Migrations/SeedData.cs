@@ -209,11 +209,39 @@ public partial class SeedData : Migration
                 { 29, "ProductGroupPage", "ROG", "ASUS ROG Gaming Products", "ASUS, ROG, Gaming, Laptop, PC", "ROG", 0.86, "Monthly", true, "en", "US", 88, 9, true, 1, DateTime.Now, "::1" },
                 { 30, "ProductGroupPage", "Echo", "Amazon Echo Smart Devices", "Amazon, Echo, Alexa, Smart Home", "Echo", 0.83, "Weekly", true, "en", "US", 85, 10, true, 1, DateTime.Now, "::1" }
             });
+        
+    // DeliveryWindow
+        migrationBuilder.InsertData(
+            "DeliveryWindow",
+            new[]
+            {
+                "Id", "Name", "Unit", "MinValue", "MaxValue",
+                "NormalizedMinDays", "NormalizedMaxDays", "IsActive",
+                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                { 1, "Same Day Delivery", "Hour", 0, 24, 0m, 1m, true, 1, 1, DateTime.Now, "::1" },
+                { 2, "Next Day Delivery", "Day", 1, 1, 1m, 1m, true, 2, 1, DateTime.Now, "::1" },
+                { 3, "2-3 Days Delivery", "Day", 2, 3, 2m, 3m, true, 3, 1, DateTime.Now, "::1" },
+                { 4, "4-5 Days Delivery", "Day", 4, 5, 4m, 5m, true, 4, 1, DateTime.Now, "::1" },
+                { 5, "Standard (1 Week)", "Day", 5, 7, 5m, 7m, true, 5, 1, DateTime.Now, "::1" },
+                { 6, "Express (2-3 Hours)", "Hour", 2, 3, 0.1m, 0.2m, true, 6, 1, DateTime.Now, "::1" },
+                { 7, "Scheduled (2 Weeks)", "Day", 14, 14, 14m, 14m, true, 7, 1, DateTime.Now, "::1" },
+                { 8, "Bulk Order Delivery", "Day", 7, 14, 7m, 14m, true, 8, 1, DateTime.Now, "::1" },
+                { 9, "International Standard", "Day", 10, 21, 10m, 21m, true, 9, 1, DateTime.Now, "::1" },
+                { 10, "International Express", "Day", 3, 5, 3m, 5m, true, 10, 1, DateTime.Now, "::1" },
+                { 11, "Standard (2-3 Weeks)", "Week", 2, 3, 14m, 21m, true, 11, 1, DateTime.Now, "::1" },
+                { 12, "Economy (3-4 Weeks)", "Week", 3, 4, 21m, 28m, true, 12, 1, DateTime.Now, "::1" },
+                { 13, "Freight / Sea Shipping (4-6 Weeks)", "Week", 4, 6, 28m, 42m, true, 13, 1, DateTime.Now, "::1" },
+                { 14, "Extended (6+ Weeks)", "Week", 6, null, 42m, null, true, 14, 1, DateTime.Now, "::1" }
+            });
     }
 
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
+        migrationBuilder.Sql("DELETE from DeliveryWindow");
         migrationBuilder.Sql("DELETE from Page");
         migrationBuilder.Sql("DELETE from ProductGroup");
         migrationBuilder.Sql("DELETE from ProductAttribute");

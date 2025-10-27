@@ -2,36 +2,27 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class DeliveryWindowRepository : Repository<DeliveryWindow>, IDeliveryWindowRepository
 {
+    private readonly AppDbContext _dbContext;
+
     public DeliveryWindowRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
-    public async Task<(IEnumerable<DeliveryWindow> ListItems, int Count)> GetDeliveryWindowsAsync(string? name,
-        DeliveryWindowInclude includes, bool trackChanges, int pageNumber, int pageSize,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    private IQueryable<DeliveryWindow> GetQuery(bool trackChanges)
+        => trackChanges 
+            ? _dbContext.DeliveryWindows.AsQueryable() 
+            : _dbContext.DeliveryWindows.AsNoTracking();
+    
+    public async Task<DeliveryWindow?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
+        => await GetQuery(trackChanges).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-    public async Task<DeliveryWindow?> GetByIdAsync(int id, DeliveryWindowInclude includes, bool trackChanges,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<DeliveryWindow?> GetByNameAsync(string name, DeliveryWindowInclude includes, bool trackChanges,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<DeliveryWindow?> GetByNameAsync(string name, bool trackChanges, CancellationToken cancellationToken)
+        => await GetQuery(trackChanges).FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
 }

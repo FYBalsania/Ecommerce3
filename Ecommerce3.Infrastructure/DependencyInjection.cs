@@ -41,6 +41,9 @@ public static class DependencyInjection
         services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
         services.AddScoped<IProductPageRepository, ProductPageRepository>();
         
+        services.AddScoped<IDeliveryWindowRepository, DeliveryWindowRepository>();
+        services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
+        
         return services;
     }
 }
