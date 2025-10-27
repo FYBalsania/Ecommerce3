@@ -75,9 +75,9 @@ public class EditCategoryViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
-    public UpdateCategoryCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditCategoryCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        return new UpdateCategoryCommand()
+        return new EditCategoryCommand()
         {
             Id = Id,
             Name = Name,

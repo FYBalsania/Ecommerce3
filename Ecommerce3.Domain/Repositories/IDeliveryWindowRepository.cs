@@ -6,6 +6,4 @@ namespace Ecommerce3.Domain.Repositories;
 public interface IDeliveryWindowRepository : IRepository<DeliveryWindow>
 {
     public Task<DeliveryWindow?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken);
-
-    public Task<DeliveryWindow?> GetByNameAsync(string name, bool trackChanges, CancellationToken cancellationToken);
 }

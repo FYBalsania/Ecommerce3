@@ -92,7 +92,7 @@ public sealed class CategoryService : ICategoryService
         };
     }
 
-    public async Task EditAsync(UpdateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task EditAsync(EditCategoryCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(command.Name)} already exists.", nameof(Category.Name));
