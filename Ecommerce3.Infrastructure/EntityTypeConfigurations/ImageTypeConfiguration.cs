@@ -18,7 +18,7 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
 
         //Properties.
         builder.Property(x => x.Entity).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
-        builder.Property(x => x.Type).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(3);
+        builder.Property(x => x.Name).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.Description).HasMaxLength(1024).HasColumnType("varchar(1024)").HasColumnOrder(4);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(5);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
@@ -36,10 +36,10 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
 
         //Indexes.
         builder.HasIndex(x => x.Entity).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.Entity)}");
-        builder.HasIndex(x => x.Type).HasMethod("gin").HasOperators("gin_trgm_ops")
-            .HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.Type)}");
-        builder.HasIndex(x => new { x.Entity, x.Type }).IsUnique()
-            .HasDatabaseName($"UK_{nameof(ImageType)}_{nameof(ImageType.Entity)}_{nameof(ImageType.Type)}");
+        builder.HasIndex(x => x.Name).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.Name)}");
+        builder.HasIndex(x => new { x.Entity, Type = x.Name }).IsUnique()
+            .HasDatabaseName($"UK_{nameof(ImageType)}_{nameof(ImageType.Entity)}_{nameof(ImageType.Name)}");
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.IsActive)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.DeletedAt)}");

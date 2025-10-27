@@ -3,7 +3,7 @@ namespace Ecommerce3.Domain.Entities;
 public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
 {
     public string? Entity { get; private set; }
-    public string Type { get; private set; }
+    public string Name { get; private set; }
     public string? Description { get; private set; }
     public bool IsActive { get; private set; }
     public int CreatedBy { get; private set; }
@@ -27,7 +27,7 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(type, nameof(type));
 
-        Type = type;
+        Name = type;
         Entity = nameof(entity);
         Description = description;
         IsActive = isActive;

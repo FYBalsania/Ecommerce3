@@ -1,13 +1,24 @@
 using Ecommerce3.Application.Commands.Image;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public class ImageService : IImageService
+public sealed class BrandImageService : IImageService
 {
-    public Type HandledType => typeof(Image);
-    
+    private readonly IBrandRepository _brandRepository;
+    private readonly IBrandQueryRepository _brandQueryRepository;
+
+    public BrandImageService(IBrandRepository brandRepository, IBrandQueryRepository brandQueryRepository)
+    {
+        _brandRepository = brandRepository;
+        _brandQueryRepository = brandQueryRepository;
+    }
+
+    public Type HandledType => typeof(BrandImage);
+
     public async Task AddImageAsync(AddImageCommand command, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
