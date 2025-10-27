@@ -23,16 +23,35 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
     {
     }
 
-    public ImageType(Entity entity, string type, string? description, bool isActive, int createdBy, string createdByIp)
+    public ImageType(string? entity, string name, string? description, bool isActive, 
+        int createdBy, string createdByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(type, nameof(type));
+        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 128, nameof(name));
 
-        Name = type;
-        Entity = nameof(entity);
+        Entity = entity;
+        Name = name;
         Description = description;
         IsActive = isActive;
         CreatedBy = createdBy;
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
+    }
+    
+    public bool Update(string? entity, string name, string? description, bool isActive,
+        int updatedBy, string updatedByIp)
+    {
+        if (Entity == entity && Name == name && Description == description && IsActive == isActive)
+            return false;
+
+        Entity = entity;
+        Name = name;
+        Description = description;
+        IsActive = isActive;
+        UpdatedBy = updatedBy;
+        UpdatedAt = DateTime.Now;
+        UpdatedByIp = updatedByIp;
+
+        return true;
     }
 }

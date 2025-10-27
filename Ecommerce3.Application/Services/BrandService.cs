@@ -41,7 +41,7 @@ public sealed class BrandService : IBrandService
 
         var brand = new Brand(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
             command.AnchorTitle, command.ShortDescription, command.FullDescription, command.IsActive, command.SortOrder,
-            command.CreatedBy, command.CreatedAt, command.CreatedByIp);
+            command.CreatedBy, command.CreatedByIp);
 
         var page = new BrandPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
             command.H1,
@@ -94,7 +94,7 @@ public sealed class BrandService : IBrandService
 
         var brandUpdated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
-            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);

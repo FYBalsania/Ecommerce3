@@ -210,7 +210,7 @@ public partial class SeedData : Migration
                 { 30, "ProductGroupPage", "Echo", "Amazon Echo Smart Devices", "Amazon, Echo, Alexa, Smart Home", "Echo", 0.83, "Weekly", true, "en", "US", 85, 10, true, 1, DateTime.Now, "::1" }
             });
         
-    // DeliveryWindow
+        // DeliveryWindow
         migrationBuilder.InsertData(
             "DeliveryWindow",
             new[]
@@ -236,11 +236,34 @@ public partial class SeedData : Migration
                 { 13, "Freight / Sea Shipping (4-6 Weeks)", "Week", 4, 6, 28m, 42m, true, 13, 1, DateTime.Now, "::1" },
                 { 14, "Extended (6+ Weeks)", "Week", 6, null, 42m, null, true, 14, 1, DateTime.Now, "::1" }
             });
+        
+        // ImageType
+        migrationBuilder.InsertData(
+            "ImageType",
+            new[]
+            {
+                "Id", "Entity", "Name", "Description", "IsActive",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                { 1, "Brand", "Brand Banner", "Main banner image displayed on the brand page.", true, 1, DateTime.Now, "::1" },
+                { 2, "Brand", "Brand Logo", "Primary logo image for the brand.", true, 1, DateTime.Now, "::1" },
+                { 3, "Category", "Category Banner", "Banner displayed at the top of category pages.", true, 1, DateTime.Now, "::1" },
+                { 4, "Category", "Category Thumbnail", "Small thumbnail for category listings.", true, 1, DateTime.Now, "::1" },
+                { 5, "ProductGroup", "Group Banner", "Banner used for product group sections.", true, 1, DateTime.Now, "::1" },
+                { 6, "Product", "Main Image", "Primary product image shown on product details page.", true, 1, DateTime.Now, "::1" },
+                { 7, "Product", "Gallery Image", "Additional product gallery image.", true, 1, DateTime.Now, "::1" },
+                { 8, "Page", "Home Page Slide 1", "Main slider image on homepage (first slide).", true, 1, DateTime.Now, "::1" },
+                { 9, "Page", "Home Page Slide 2", "Main slider image on homepage (second slide).", true, 1, DateTime.Now, "::1" },
+                { 10, "Page", "Promo Banner", "Promotional banner displayed on homepage.", true, 1, DateTime.Now, "::1" }
+            });
     }
 
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
+        migrationBuilder.Sql("DELETE from ImageType");
         migrationBuilder.Sql("DELETE from DeliveryWindow");
         migrationBuilder.Sql("DELETE from Page");
         migrationBuilder.Sql("DELETE from ProductGroup");

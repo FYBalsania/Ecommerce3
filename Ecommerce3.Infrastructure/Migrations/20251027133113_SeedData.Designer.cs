@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251027095409_Init")]
-    partial class Init
+    [Migration("20251027133113_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1465,7 +1465,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasColumnOrder(5);
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("citext")
@@ -1502,17 +1502,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_ImageType_IsActive");
 
-                    b.HasIndex("Type")
-                        .HasDatabaseName("IX_ImageType_Type");
+                    b.HasIndex("Name")
+                        .HasDatabaseName("IX_ImageType_Name");
 
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Type"), "gin");
-                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Type"), new[] { "gin_trgm_ops" });
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Name"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Name"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("UpdatedBy");
 
-                    b.HasIndex("Entity", "Type")
+                    b.HasIndex("Entity", "Name")
                         .IsUnique()
-                        .HasDatabaseName("UK_ImageType_Entity_Type");
+                        .HasDatabaseName("UK_ImageType_Entity_Name");
 
                     b.ToTable("ImageType", (string)null);
                 });

@@ -75,7 +75,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
 
     public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, Category? parent, string? googleCategory, string? shortDescription,
-        string? fullDescription, bool isActive, int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
+        string? fullDescription, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
     {
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ParentId == parent?.Id &&
@@ -102,7 +102,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         IsActive = isActive;
         SortOrder = sortOrder;
         UpdatedBy = updatedBy;
-        UpdatedAt = updatedAt;
+        UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
 
         return true;

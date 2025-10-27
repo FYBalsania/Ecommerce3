@@ -404,7 +404,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Entity = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    Type = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -2417,9 +2417,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "IsActive");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_Type",
+                name: "IX_ImageType_Name",
                 table: "ImageType",
-                column: "Type")
+                column: "Name")
                 .Annotation("Npgsql:IndexMethod", "gin")
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
@@ -2429,9 +2429,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "UK_ImageType_Entity_Type",
+                name: "UK_ImageType_Entity_Name",
                 table: "ImageType",
-                columns: new[] { "Entity", "Type" },
+                columns: new[] { "Entity", "Name" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
