@@ -92,7 +92,7 @@ public sealed class CategoryService : ICategoryService
         };
     }
 
-    public async Task EditAsync(UpdateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task EditAsync(EditCategoryCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DuplicateException($"{nameof(command.Name)} already exists.", nameof(Category.Name));
@@ -115,8 +115,7 @@ public sealed class CategoryService : ICategoryService
 
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, parent, command.GoogleCategory, command.ShortDescription,
-            command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt,
-            command.UpdatedByIp);
+            command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);

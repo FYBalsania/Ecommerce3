@@ -22,7 +22,4 @@ internal class DeliveryWindowRepository : Repository<DeliveryWindow>, IDeliveryW
     
     public async Task<DeliveryWindow?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
         => await GetQuery(trackChanges).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-    public async Task<DeliveryWindow?> GetByNameAsync(string name, bool trackChanges, CancellationToken cancellationToken)
-        => await GetQuery(trackChanges).FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
 }

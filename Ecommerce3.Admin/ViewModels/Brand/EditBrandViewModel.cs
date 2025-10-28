@@ -74,9 +74,9 @@ public class EditBrandViewModel
 
     public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
 
-    public UpdateBrandCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditBrandCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        return new UpdateBrandCommand()
+        return new EditBrandCommand()
         {
             Id = Id,
             Name = Name,

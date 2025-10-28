@@ -94,7 +94,7 @@ public sealed class ProductGroupService : IProductGroupService
 
         var productGroupUpdated = productGroup.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
-            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);

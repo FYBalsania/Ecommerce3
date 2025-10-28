@@ -31,9 +31,7 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
     }
 
     public Brand(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
-        string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int createdBy,
-        DateTime createdAt,
-        string createdByIp)
+        string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int createdBy, string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
         ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
@@ -55,13 +53,13 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         IsActive = isActive;
         SortOrder = sortOrder;
         CreatedBy = createdBy;
-        CreatedAt = createdAt;
+        CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
 
     public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, string updatedByIp)
     {
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
@@ -79,7 +77,7 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         IsActive = isActive;
         SortOrder = sortOrder;
         UpdatedBy = updatedBy;
-        UpdatedAt = updatedAt;
+        UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
 
         return true;

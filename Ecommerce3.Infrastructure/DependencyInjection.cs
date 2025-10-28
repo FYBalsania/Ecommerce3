@@ -44,6 +44,9 @@ public static class DependencyInjection
         services.AddScoped<IDeliveryWindowRepository, DeliveryWindowRepository>();
         services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
         
+        services.AddScoped<IImageTypeRepository, ImageTypeRepository>();
+        services.AddScoped<IImageTypeQueryRepository, ImageTypeQueryRepository>();
+        
         return services;
     }
 }
