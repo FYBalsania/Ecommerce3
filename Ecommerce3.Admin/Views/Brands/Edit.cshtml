@@ -153,7 +153,13 @@
 
         <!-- Images -->
         @await Component.InvokeAsync("Images",
-            new { imageType = typeof(BrandImage), images = Model.Images, parentEntityId = Model.Id });
+            new
+            {
+                parentEntityType = typeof(Brand),
+                parentEntityId = Model.Id,
+                imageEntityType = typeof(BrandImage),
+                images = Model.Images
+            });
 
         <div class="row mb-7">
             <div class="col-xl-12">
@@ -195,4 +201,5 @@
             document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
         });
     </script>
+    <script src="~/js/image.js"></script>
 }

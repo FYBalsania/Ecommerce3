@@ -14,9 +14,9 @@ public class ImagesController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Add(Type entity, CancellationToken cancellationToken)
+    public async Task<IActionResult> Add(string parentEntityType, CancellationToken cancellationToken)
     {
-        return View();
+        return PartialView("_AddImagePartial", new AddImageViewModel());
     }
 
     [HttpPost]
