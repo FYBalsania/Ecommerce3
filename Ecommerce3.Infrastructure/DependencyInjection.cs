@@ -47,6 +47,12 @@ public static class DependencyInjection
         services.AddScoped<IImageTypeRepository, ImageTypeRepository>();
         services.AddScoped<IImageTypeQueryRepository, ImageTypeQueryRepository>();
         
+        services.AddScoped<IBankRepository, BankRepository>();
+        services.AddScoped<IBankQueryRepository, BankQueryRepository>();
+        
+        services.AddScoped<IPostCodeRepository, PostCodeRepository>();
+        services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();
+        
         return services;
     }
 }

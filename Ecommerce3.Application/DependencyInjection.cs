@@ -19,6 +19,8 @@ public static class DependencyInjection
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IDeliveryWindowService, DeliveryWindowService>();
         services.AddScoped<IImageTypeService, ImageTypeService>();
+        services.AddScoped<IBankService, BankService>();
+        services.AddScoped<IPostCodeService, PostCodeService>();
 
         return services;
     }

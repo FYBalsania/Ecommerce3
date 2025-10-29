@@ -258,11 +258,55 @@ public partial class SeedData : Migration
                 { 9, "Page", "Home Page Slide 2", "Main slider image on homepage (second slide).", true, 1, DateTime.Now, "::1" },
                 { 10, "Page", "Promo Banner", "Promotional banner displayed on homepage.", true, 1, DateTime.Now, "::1" }
             });
+        
+        // Bank
+        migrationBuilder.InsertData(
+            "Bank",
+            new[]
+            {
+                "Id", "Name", "Slug", "IsActive", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                { 1, "State Bank of India", "state-bank-of-india", true, 1, 1, DateTime.Now, "::1" },
+                { 2, "HDFC Bank", "hdfc-bank", true, 2, 1, DateTime.Now, "::1" },
+                { 3, "ICICI Bank", "icici-bank", true, 3, 1, DateTime.Now, "::1" },
+                { 4, "Axis Bank", "axis-bank", true, 4, 1, DateTime.Now, "::1" },
+                { 5, "Punjab National Bank", "punjab-national-bank", true, 5, 1, DateTime.Now, "::1" },
+                { 6, "Kotak Mahindra Bank", "kotak-mahindra-bank", true, 6, 1, DateTime.Now, "::1" },
+                { 7, "Bank of Baroda", "bank-of-baroda", true, 7, 1, DateTime.Now, "::1" },
+                { 8, "Canara Bank", "canara-bank", true, 8, 1, DateTime.Now, "::1" },
+                { 9, "Union Bank of India", "union-bank-of-india", true, 9, 1, DateTime.Now, "::1" },
+                { 10, "IndusInd Bank", "indusind-bank", true, 10, 1, DateTime.Now, "::1" }
+            });
+
+        // Post Code
+        migrationBuilder.InsertData(
+            "PostCode",
+            new[]
+            {
+                "Id", "Code", "IsActive", "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                { 1, "400001", true, 1, DateTime.Now, "::1" },
+                { 2, "400002", true, 1, DateTime.Now, "::1" },
+                { 3, "400003", true, 1, DateTime.Now, "::1" },
+                { 4, "400004", true, 1, DateTime.Now, "::1" },
+                { 5, "400005", true, 1, DateTime.Now, "::1" },
+                { 6, "400006", true, 1, DateTime.Now, "::1" },
+                { 7, "400007", true, 1, DateTime.Now, "::1" },
+                { 8, "400008", true, 1, DateTime.Now, "::1" },
+                { 9, "400009", true, 1, DateTime.Now, "::1" },
+                { 10, "400010", true, 1, DateTime.Now, "::1" }
+            });
     }
 
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
+        migrationBuilder.Sql("DELETE from PostCode");
+        migrationBuilder.Sql("DELETE from Bank");
         migrationBuilder.Sql("DELETE from ImageType");
         migrationBuilder.Sql("DELETE from DeliveryWindow");
         migrationBuilder.Sql("DELETE from Page");

@@ -47,7 +47,9 @@
                     <span>Shipping</span>
                 </div>
                 <ul class="nav flex-column nav-submenu">
+                    <li><a class="nav-link @(currentController == "Banks" ? "active" : "")" asp-controller="Banks" asp-action="Index">Banks</a></li>
                     <li><a class="nav-link @(currentController == "DeliveryWindow" ? "active" : "")" asp-controller="DeliveryWindows" asp-action="Index">Delivery Window</a></li>
+                    <li><a class="nav-link @(currentController == "PostCodes" ? "active" : "")" asp-controller="PostCodes" asp-action="Index">PostCodes</a></li>
                 </ul>
             </li>
 

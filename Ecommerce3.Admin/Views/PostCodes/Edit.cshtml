@@ -1,0 +1,48 @@
+@model Ecommerce3.Admin.ViewModels.PostCode.EditPostCodeViewModel
+
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <!-- Left side: Heading -->
+        <h2 class="text-danger fw-bold fs-3 mb-0">Edit PostCode - @Model.Code</h2>
+    </div>
+
+    <form method="post" asp-action="Edit">
+        @Html.AntiForgeryToken()
+        
+        <!-- General -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-info"></i> General Info</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="Code"></label>
+                            <input type="text" class="form-control" asp-for="Code">
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="IsActive"></label>
+                            <select class="form-select" asp-for="IsActive">
+                                <option value="">Select</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <div class="col-xl-12">
+                <button type="submit" class="btn btn-primary float-end">Update</button>
+            </div>
+        </div>
+        
+    </form>
+</div>
