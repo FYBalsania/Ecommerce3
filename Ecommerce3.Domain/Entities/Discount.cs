@@ -2,9 +2,9 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public class Discount : Entity, ICreatable, IUpdatable, IDeletable
+public abstract class Discount : Entity, ICreatable, IUpdatable, IDeletable
 {
-    public string Scope { get; private set; }
+    public string Discriminator { get; private set; }
     public string Code { get; private set; }
     public string Name { get; private set; }
     public DateTime StartAt { get; private set; }

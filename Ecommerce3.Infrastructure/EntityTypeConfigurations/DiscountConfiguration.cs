@@ -17,8 +17,7 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Discriminator.
-        builder.HasDiscriminator<string>(x => x.Scope)
-            .HasValue<Discount>(nameof(Discount))
+        builder.HasDiscriminator<string>(x => x.Discriminator)
             .HasValue<ShippingDiscount>(nameof(ShippingDiscount))
             .HasValue<ProductDiscount>(nameof(ProductDiscount));
         
@@ -26,7 +25,7 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
-        builder.Property(x => x.Scope).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);
+        builder.Property(x => x.Discriminator).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);
         builder.Property(x => x.Code).HasMaxLength(16).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.StartAt).HasColumnType("timestamp").HasColumnOrder(5);
@@ -49,7 +48,7 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
-        builder.HasIndex(x => x.Scope).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.Scope)}");
+        builder.HasIndex(x => x.Discriminator).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.Discriminator)}");
         builder.HasIndex(x => x.Code).IsUnique()
             .HasDatabaseName($"UK_{nameof(Discount)}_{nameof(Discount.Code)}");
         builder.HasIndex(x => x.Name).IsUnique()

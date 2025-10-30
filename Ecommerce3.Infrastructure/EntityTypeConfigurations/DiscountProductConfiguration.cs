@@ -13,7 +13,8 @@ public class DiscountProductConfiguration : IEntityTypeConfiguration<DiscountPro
         builder.ToTable(nameof(DiscountProduct));
 
         //PK
-        builder.HasKey(x => new { x.DiscountId, x.ProductId, x.DeletedAt });
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
         
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
