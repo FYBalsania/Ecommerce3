@@ -353,7 +353,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Scope = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    Discriminator = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     Code = table.Column<string>(type: "citext", maxLength: 16, nullable: false),
                     Name = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     StartAt = table.Column<DateTime>(type: "timestamp", nullable: false),
@@ -1077,19 +1077,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "DiscountProduct",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DiscountId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscountProduct", x => new { x.DiscountId, x.ProductId, x.DeletedAt });
+                    table.PrimaryKey("PK_DiscountProduct", x => x.Id);
                     table.ForeignKey(
                         name: "FK_DiscountProduct_AppUser_CreatedBy",
                         column: x => x.CreatedBy,
@@ -1254,7 +1255,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         name: "FK_Page_Bank_BankId",
                         column: x => x.BankId,
                         principalTable: "Bank",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Page_Brand_BrandId",
                         column: x => x.BrandId,
@@ -2255,6 +2257,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Discount_Discriminator",
+                table: "Discount",
+                column: "Discriminator");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Discount_EndAt",
                 table: "Discount",
                 column: "EndAt");
@@ -2263,11 +2270,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Discount_IsActive",
                 table: "Discount",
                 column: "IsActive");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Discount_Scope",
-                table: "Discount",
-                column: "Scope");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Discount_StartAt",
@@ -2300,6 +2302,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_DiscountProduct_DeletedBy",
                 table: "DiscountProduct",
                 column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DiscountProduct_DiscountId",
+                table: "DiscountProduct",
+                column: "DiscountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiscountProduct_ProductId",

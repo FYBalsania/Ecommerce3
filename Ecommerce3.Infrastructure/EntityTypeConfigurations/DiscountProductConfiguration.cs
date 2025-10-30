@@ -20,8 +20,8 @@ public class DiscountProductConfiguration : IEntityTypeConfiguration<DiscountPro
         builder.HasQueryFilter(x => x.DeletedAt == null);
         
         //Properties.
-        builder.Property(x => x.DiscountId).HasColumnType("integer").HasColumnOrder(1);
-        builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
+        builder.Property(x => x.DiscountId).HasColumnType("integer").HasColumnOrder(2);
+        builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(3);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);

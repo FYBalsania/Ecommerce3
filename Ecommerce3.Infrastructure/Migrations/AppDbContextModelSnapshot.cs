@@ -1099,6 +1099,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)")
+                        .HasColumnOrder(2);
+
                     b.Property<DateTime>("EndAt")
                         .HasColumnType("timestamp")
                         .HasColumnOrder(6);
@@ -1124,12 +1130,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<decimal?>("Percent")
                         .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(9);
-
-                    b.Property<string>("Scope")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("varchar(32)")
-                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("StartAt")
                         .HasColumnType("timestamp")
@@ -1170,6 +1170,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("DeletedBy");
 
+                    b.HasIndex("Discriminator")
+                        .HasDatabaseName("IX_Discount_Discriminator");
+
                     b.HasIndex("EndAt")
                         .HasDatabaseName("IX_Discount_EndAt");
 
@@ -1180,9 +1183,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UK_Discount_Name");
 
-                    b.HasIndex("Scope")
-                        .HasDatabaseName("IX_Discount_Scope");
-
                     b.HasIndex("StartAt")
                         .HasDatabaseName("IX_Discount_StartAt");
 
@@ -1190,24 +1190,19 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.ToTable("Discount", (string)null);
 
-                    b.HasDiscriminator<string>("Scope").HasValue("Discount");
+                    b.HasDiscriminator().HasValue("Discount");
 
                     b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.DiscountProduct", b =>
                 {
-                    b.Property<int>("DiscountId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnOrder(1);
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1223,6 +1218,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(52);
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
                         .HasColumnOrder(56);
@@ -1232,14 +1231,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnOrder(58);
 
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
+                    b.Property<int>("DiscountId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("DiscountId", "ProductId", "DeletedAt");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(3);
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedBy");
+
+                    b.HasIndex("DiscountId");
 
                     b.HasIndex("ProductId");
 
@@ -1621,6 +1627,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int?>("BankId")
                         .HasColumnType("integer")
+                        .HasColumnName("BankId")
                         .HasColumnOrder(42);
 
                     b.Property<int?>("BrandId")
@@ -5586,7 +5593,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                 {
                     b.HasOne("Ecommerce3.Domain.Entities.Bank", "Bank")
                         .WithOne("Page")
-                        .HasForeignKey("Ecommerce3.Domain.Entities.BankPage", "BankId");
+                        .HasForeignKey("Ecommerce3.Domain.Entities.BankPage", "BankId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Bank");
                 });
