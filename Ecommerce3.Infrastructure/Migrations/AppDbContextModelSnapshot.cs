@@ -1619,6 +1619,10 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BankId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(42);
+
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer")
                         .HasColumnName("BrandId")
@@ -1694,7 +1698,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(42);
+                        .HasColumnOrder(43);
 
                     b.Property<bool>("IsIndexed")
                         .HasColumnType("boolean")
@@ -3926,6 +3930,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ProductKVPListItem");
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BankPage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Page");
+
+                    b.HasIndex("BankId")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("BankPage");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandCategoryPage", b =>
                 {
                     b.HasBaseType("Ecommerce3.Domain.Entities.Page");
@@ -5568,6 +5582,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BankPage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Bank", "Bank")
+                        .WithOne("Page")
+                        .HasForeignKey("Ecommerce3.Domain.Entities.BankPage", "BankId");
+
+                    b.Navigation("Bank");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandCategoryPage", b =>
                 {
                     b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
@@ -5639,6 +5662,8 @@ namespace Ecommerce3.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Bank", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Page");
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Brand", b =>

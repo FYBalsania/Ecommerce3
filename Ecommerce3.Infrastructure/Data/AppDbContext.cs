@@ -1,6 +1,7 @@
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Entities;
 using Ecommerce3.Infrastructure.EntityTypeConfigurations;
+using Ecommerce3.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ namespace Ecommerce3.Infrastructure.Data;
 internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
 {
     public DbSet<Bank> Banks { get; set; }
+    public DbSet<BankImage> BankImages { get; set; } 
+    public DbSet<BankPage> BankPages { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<BrandCategoryPage> BrandCategoryPages { get; set; }
     public DbSet<BrandImage> BrandImages { get; set; }   
@@ -70,8 +73,9 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.HasPostgresExtension("ltree");
 
         // Apply entity configurations.
-        builder.ApplyConfiguration(new BankConfiguration());
         builder.ApplyConfiguration(new BankImageConfiguration());
+        builder.ApplyConfiguration(new BankPageConfiguration());
+        builder.ApplyConfiguration(new BankConfiguration());
         builder.ApplyConfiguration(new BrandCategoryPageConfiguration());
         builder.ApplyConfiguration(new BrandConfiguration());
         builder.ApplyConfiguration(new BrandImageConfiguration());

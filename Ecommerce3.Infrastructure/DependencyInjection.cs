@@ -17,11 +17,10 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         
-        // services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        // services.AddScoped<IPageQueryRepository, PageQueryRepository>();
+        services.AddScoped<IBankImageRepository, BankImageRepository>();
+        services.AddScoped<IBankPageRepository, BankPageRepository>();
+        services.AddScoped<IBankRepository, BankRepository>();
         
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
         services.AddScoped<IBrandPageRepository, BrandPageRepository>();
@@ -52,6 +51,8 @@ public static class DependencyInjection
         
         services.AddScoped<IPostCodeRepository, PostCodeRepository>();
         services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();
+        
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         return services;
     }

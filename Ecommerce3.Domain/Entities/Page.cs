@@ -36,6 +36,7 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
     public int? CategoryId { get; private set; }
     public int? ProductId { get; private set; }
     public int? ProductGroupId { get; private set; }
+    public int? BankId { get; private set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }

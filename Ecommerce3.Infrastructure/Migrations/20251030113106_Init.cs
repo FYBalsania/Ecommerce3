@@ -1217,6 +1217,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     CategoryId = table.Column<int>(type: "integer", nullable: true),
                     ProductId = table.Column<int>(type: "integer", nullable: true),
                     ProductGroupId = table.Column<int>(type: "integer", nullable: true),
+                    BankId = table.Column<int>(type: "integer", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
@@ -1249,6 +1250,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Page_Bank_BankId",
+                        column: x => x.BankId,
+                        principalTable: "Bank",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Page_Brand_BrandId",
                         column: x => x.BrandId,
@@ -2482,6 +2488,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 columns: new[] { "ProductId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Page_BankId",
+                table: "Page",
+                column: "BankId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Page_BrandId",
                 table: "Page",
                 column: "BrandId",
@@ -3477,9 +3489,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "Discount");
 
             migrationBuilder.DropTable(
-                name: "Bank");
-
-            migrationBuilder.DropTable(
                 name: "ImageType");
 
             migrationBuilder.DropTable(
@@ -3496,6 +3505,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SalesOrder");
+
+            migrationBuilder.DropTable(
+                name: "Bank");
 
             migrationBuilder.DropTable(
                 name: "Category");

@@ -18,6 +18,7 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
+    public BankPage? Page { get; private set; }
 
     public Bank(string name, string slug, bool isActive, int sortOrder, int createdBy, string createdByIp)
     {

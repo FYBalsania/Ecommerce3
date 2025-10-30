@@ -22,6 +22,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         //Discriminator.
         builder.HasDiscriminator(x => x.Discriminator)
             .HasValue<Page>(nameof(Page))
+            .HasValue<BankPage>(nameof(BankPage))
             .HasValue<BrandPage>(nameof(BrandPage))
             .HasValue<CategoryPage>(nameof(CategoryPage))
             .HasValue<ProductPage>(nameof(ProductPage))
@@ -63,7 +64,8 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.Property(x => x.CategoryId).HasColumnType("integer").HasColumnOrder(39);
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(40);
         builder.Property(x => x.ProductGroupId).HasColumnType("integer").HasColumnOrder(41);
-        builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(42);
+        builder.Property(x => x.BankId).HasColumnType("integer").HasColumnOrder(42);
+        builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(43);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
