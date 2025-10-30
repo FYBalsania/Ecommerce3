@@ -19,6 +19,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         //Discriminator.
         builder.HasDiscriminator(x => x.Discriminator)
             .HasValue<Image>(nameof(Image))
+            .HasValue<BankImage>(nameof(BankImage))
             .HasValue<BrandImage>(nameof(BrandImage))
             .HasValue<CategoryImage>(nameof(CategoryImage))
             .HasValue<ProductImage>(nameof(ProductImage))
@@ -41,7 +42,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.Property(x => x.Loading).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(10);
         builder.Property(x => x.Link).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(11);
         builder.Property(x => x.LinkTarget).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(12);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(18);
+        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(19);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);

@@ -71,6 +71,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
 
         // Apply entity configurations.
         builder.ApplyConfiguration(new BankConfiguration());
+        builder.ApplyConfiguration(new BankImageConfiguration());
         builder.ApplyConfiguration(new BrandCategoryPageConfiguration());
         builder.ApplyConfiguration(new BrandConfiguration());
         builder.ApplyConfiguration(new BrandImageConfiguration());

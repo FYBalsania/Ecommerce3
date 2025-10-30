@@ -1667,6 +1667,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     ProductId = table.Column<int>(type: "integer", nullable: true),
                     ProductGroupId = table.Column<int>(type: "integer", nullable: true),
                     PageId = table.Column<int>(type: "integer", nullable: true),
+                    BankId = table.Column<int>(type: "integer", nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
@@ -1697,6 +1698,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         name: "FK_Image_AppUser_UpdatedBy",
                         column: x => x.UpdatedBy,
                         principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Image_Bank_BankId",
+                        column: x => x.BankId,
+                        principalTable: "Bank",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -2299,6 +2306,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "AltText")
                 .Annotation("Npgsql:IndexMethod", "gin")
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_BankId",
+                table: "Image",
+                column: "BankId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_BrandId",
@@ -3426,9 +3438,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "AppUserToken");
 
             migrationBuilder.DropTable(
-                name: "Bank");
-
-            migrationBuilder.DropTable(
                 name: "DiscountProduct");
 
             migrationBuilder.DropTable(
@@ -3466,6 +3475,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discount");
+
+            migrationBuilder.DropTable(
+                name: "Bank");
 
             migrationBuilder.DropTable(
                 name: "ImageType");

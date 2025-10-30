@@ -1339,7 +1339,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer")
-                        .HasColumnOrder(18);
+                        .HasColumnOrder(19);
 
                     b.Property<string>("Title")
                         .HasMaxLength(128)
@@ -3820,6 +3820,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ShippingDiscount");
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BankImage", b =>
+                {
+                    b.HasBaseType("Ecommerce3.Domain.Entities.Image");
+
+                    b.Property<int>("BankId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(18);
+
+                    b.HasIndex("BankId");
+
+                    b.HasDiscriminator().HasValue("BankImage");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandImage", b =>
                 {
                     b.HasBaseType("Ecommerce3.Domain.Entities.Image");
@@ -5467,6 +5480,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.BankImage", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.Bank", "Bank")
+                        .WithMany("Images")
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Bank");
+                });
+
             modelBuilder.Entity("Ecommerce3.Domain.Entities.BrandImage", b =>
                 {
                     b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
@@ -5610,6 +5634,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.Bank", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Brand", b =>

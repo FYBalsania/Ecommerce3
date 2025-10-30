@@ -1,6 +1,6 @@
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Bank : Entity, ICreatable, IUpdatable, IDeletable
+public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, IDeletable
 {
     public string Name { get; private set; }
     public string Slug { get; private set; }
@@ -26,7 +26,7 @@ public sealed class Bank : Entity, ICreatable, IUpdatable, IDeletable
 
         ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
         ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
-        
+
         Name = name;
         Slug = slug;
         IsActive = isActive;
@@ -35,7 +35,7 @@ public sealed class Bank : Entity, ICreatable, IUpdatable, IDeletable
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
-    
+
     public bool Update(string name, string slug, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
     {
         if (Name == name && Slug == slug && IsActive == isActive && SortOrder == sortOrder)
