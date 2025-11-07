@@ -44,8 +44,23 @@ function toSlug(name) {
     return slug;
 }
 
-function isUrlValid(url) {
-    return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+function isHttpsOrRelativeUrl(url) {
+    // Allow relative URLs (e.g. "/path", "../img", "?q=1", "#anchor")
+    if (/^(\/(?!\/)|\.{1,2}\/|\?|#)/.test(url)) {
+        return true;
+    }
+
+    // Allow protocol-relative URLs (e.g. "//example.com")
+    if (/^\/\//.test(url)) {
+        return true;
+    }
+
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'https:';
+    } catch {
+        return false;
+    }
 }
 
 function doAjax(url, method, data, processData = false, contentType = false, traditional = false) {
@@ -58,4 +73,19 @@ function doAjax(url, method, data, processData = false, contentType = false, tra
         contentType: contentType,
         traditional: traditional,
     });
+}
+
+function isValidNumberStrict(value) {
+    if (typeof value !== 'string' && typeof value !== 'number') return false;
+
+    const str = String(value).trim();
+
+    // Must match optional '-', digits, optional '.', digits — but not '.' alone or incomplete decimals
+    const pattern = /^-?\d+(\.\d+)?$/;
+
+    if (!pattern.test(str)) return false;
+
+    // Additional check — ensures it's a finite number
+    const num = Number(str);
+    return Number.isFinite(num);
 }

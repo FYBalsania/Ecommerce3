@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BrandRepository : Repository<Brand>, IBrandRepository
+internal class BrandRepository : EntityWithImagesRepository<Brand, BrandImage>, IBrandRepository
+//Repository<Brand>, IBrandRepository
 {
     private readonly AppDbContext _dbContext;
 

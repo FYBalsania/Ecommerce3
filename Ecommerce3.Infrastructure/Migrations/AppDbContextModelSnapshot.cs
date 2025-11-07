@@ -1474,6 +1474,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("citext")
                         .HasColumnOrder(3);
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnOrder(54);
@@ -1511,11 +1515,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Name"), "gin");
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Name"), new[] { "gin_trgm_ops" });
 
+                    b.HasIndex("Slug")
+                        .HasDatabaseName("IX_ImageType_Slug");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Slug"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Slug"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("UpdatedBy");
 
                     b.HasIndex("Entity", "Name")
                         .IsUnique()
                         .HasDatabaseName("UK_ImageType_Entity_Name");
+
+                    b.HasIndex("Entity", "Slug")
+                        .IsUnique()
+                        .HasDatabaseName("UK_ImageType_Entity_Slug");
 
                     b.ToTable("ImageType", (string)null);
                 });

@@ -1,8 +1,9 @@
+using System.Runtime.InteropServices;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public abstract class Image : Entity, ICreatable, IUpdatable, IDeletable
+public class Image : Entity, ICreatable, IUpdatable, IDeletable
 {
     public string Discriminator { get; private set; }
     public string OgFileName { get; private set; }
@@ -29,24 +30,43 @@ public abstract class Image : Entity, ICreatable, IUpdatable, IDeletable
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
+    
+    private protected Image()
+    {
+    }
 
-    public Image(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
+    internal Image(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
         string? altText, string? title, string loading, string? link, string? linkTarget, int sortOrder, int createdBy,
         DateTime createdAt, string createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(ogFileName, nameof(ogFileName));
         ArgumentException.ThrowIfNullOrWhiteSpace(fileName, nameof(fileName));
         ArgumentException.ThrowIfNullOrWhiteSpace(fileExtension, nameof(fileExtension));
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(imageTypeId, 0, nameof(imageTypeId));
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(createdBy, 0, nameof(createdBy));
+        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
+
+        //loading.
         ArgumentException.ThrowIfNullOrWhiteSpace(loading, nameof(loading));
         if (loading != "eager" && loading != "lazy")
         {
             throw new ArgumentException("Loading must be either 'eager' or 'lazy'", nameof(loading));
         }
 
-        //link
-        if (link != null && !Uri.TryCreate(link, UriKind.Absolute, out _))
+        //link & linkTarget.
+        if (!string.IsNullOrWhiteSpace(link))
         {
-            throw new ArgumentException("Link must be a valid URL", nameof(link));
+            //link.
+            if (!Uri.TryCreate(link, UriKind.RelativeOrAbsolute, out _))
+                throw new ArgumentException("Link must be a valid URL", nameof(link));
+
+            //linkTarget.
+            if (string.IsNullOrWhiteSpace(linkTarget))
+                throw new ArgumentException("LinkTarget is required when Link is provided",
+                    nameof(linkTarget));
+            if (linkTarget != "_self" && linkTarget != "_blank")
+                throw new ArgumentException("LinkTarget must be either '_self' or '_blank'",
+                    nameof(linkTarget));
         }
 
         //linkTarget
@@ -63,10 +83,6 @@ public abstract class Image : Entity, ICreatable, IUpdatable, IDeletable
             }
         }
 
-        //createdByIp
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
-
-
         OgFileName = ogFileName;
         FileName = fileName;
         FileExtension = fileExtension;
@@ -81,5 +97,36 @@ public abstract class Image : Entity, ICreatable, IUpdatable, IDeletable
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
+    }
+
+    public static Image Create(Type imageType, string ogFileName, string fileName, string fileExtension,
+        int imageTypeId, ImageSize size, string? altText, string? title, string loading, string? link,
+        string? linkTarget, int parentId, int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+    {
+        if (imageType == typeof(BrandImage))
+            return new BrandImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading, link,
+                linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
+
+        if (imageType == typeof(CategoryImage))
+            return new CategoryImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading,
+                link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
+
+        if (imageType == typeof(ProductImage))
+            return new ProductImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading,
+                link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
+
+        if (imageType == typeof(ProductGroupImage))
+            return new ProductGroupImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title,
+                loading, link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
+
+        if (imageType == typeof(BankImage))
+            return new BankImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading,
+                link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
+
+        if (imageType == typeof(PageImage))
+            return new PageImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading,
+                link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
+
+        throw new ArgumentException("Invalid image type", nameof(imageType));
     }
 }

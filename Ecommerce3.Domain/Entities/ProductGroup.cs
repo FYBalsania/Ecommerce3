@@ -3,6 +3,7 @@ namespace Ecommerce3.Domain.Entities;
 public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatable, IUpdatable, IDeletable
 {
     private readonly List<ProductGroupProductAttribute> _attributes = [];
+    public override string ImageNamePrefix => Slug;
     public string Name { get; set; }
     public string Slug { get; set; }
     public string Display { get; set; }

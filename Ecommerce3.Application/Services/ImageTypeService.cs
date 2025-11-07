@@ -10,19 +10,20 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class ImageTypeService : IImageTypeService
+internal sealed class ImageTypeService : IImageTypeService
 {
     private readonly IImageTypeRepository _repository;
     private readonly IImageTypeQueryRepository _queryRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ImageTypeService(IImageTypeRepository repository, IImageTypeQueryRepository queryRepository, IUnitOfWork unitOfWork)
+    public ImageTypeService(IImageTypeRepository repository, IImageTypeQueryRepository queryRepository,
+        IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _queryRepository = queryRepository;
         _unitOfWork = unitOfWork;
     }
-    
+
     public async Task<PagedResult<ImageTypeListItemDTO>> GetListItemsAsync(ImageTypeFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
         => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
@@ -32,9 +33,9 @@ public sealed class ImageTypeService : IImageTypeService
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ImageType.Name));
 
-        var imageType = new ImageType(command.Entity, command.Name, command.Description, command.IsActive, 
+        var imageType = new ImageType(command.Entity, command.Name, command.Slug, command.Description, command.IsActive,
             command.CreatedBy, command.CreatedByIp);
-        
+
         await _repository.AddAsync(imageType, cancellationToken);
         await _unitOfWork.CompleteAsync(cancellationToken);
     }
@@ -61,9 +62,9 @@ public sealed class ImageTypeService : IImageTypeService
         var imageType = await _repository.GetByIdAsync(command.Id, true, cancellationToken);
         if (imageType is null) throw new ArgumentNullException(nameof(command.Id), "Image type not found.");
 
-        var imageTypeUpdated = imageType.Update(command.Entity, command.Name, command.Description, command.IsActive, 
-            command.UpdatedBy, command.UpdatedByIp);
-        
+        var imageTypeUpdated = imageType.Update(command.Entity, command.Name, command.Slug, command.Description,
+            command.IsActive, command.UpdatedBy, command.UpdatedByIp);
+
         if (imageTypeUpdated)
         {
             _repository.Update(imageType);
@@ -75,4 +76,8 @@ public sealed class ImageTypeService : IImageTypeService
     {
         throw new NotImplementedException();
     }
+
+    public async Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity,
+        CancellationToken cancellationToken)
+        => await _queryRepository.GetIdAndNamesByEntityAsync(entity, cancellationToken);
 }

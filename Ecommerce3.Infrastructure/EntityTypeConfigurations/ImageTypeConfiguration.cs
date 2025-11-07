@@ -38,8 +38,12 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
         builder.HasIndex(x => x.Entity).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.Entity)}");
         builder.HasIndex(x => x.Name).HasMethod("gin").HasOperators("gin_trgm_ops")
             .HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.Name)}");
+        builder.HasIndex(x => x.Slug).HasMethod("gin").HasOperators("gin_trgm_ops")
+            .HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.Slug)}");
         builder.HasIndex(x => new { x.Entity, Type = x.Name }).IsUnique()
             .HasDatabaseName($"UK_{nameof(ImageType)}_{nameof(ImageType.Entity)}_{nameof(ImageType.Name)}");
+        builder.HasIndex(x => new { x.Entity, Type = x.Slug }).IsUnique()
+            .HasDatabaseName($"UK_{nameof(ImageType)}_{nameof(ImageType.Entity)}_{nameof(ImageType.Slug)}");
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.IsActive)}");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(ImageType)}_{nameof(ImageType.DeletedAt)}");

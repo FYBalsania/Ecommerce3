@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface ICategoryRepository : IRepository<Category>
+public interface ICategoryRepository : IEntityWithImagesRepository<Category, CategoryImage> //IRepository<Category>
 {
     Task<Category?> GetByIdAsync(int id, CategoryInclude includes, bool trackChanges,
         CancellationToken cancellationToken);

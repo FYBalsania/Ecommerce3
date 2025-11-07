@@ -4,6 +4,7 @@ public record AddImageTypeCommand
 {
     public string? Entity { get; init; }
     public string Name { get; init; }
+    public string Slug { get; init; }
     public string? Description { get; init; }
     public bool IsActive { get; init; }
     public int CreatedBy { get; init; }

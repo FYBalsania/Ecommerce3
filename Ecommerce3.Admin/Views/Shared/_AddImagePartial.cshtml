@@ -1,92 +1,94 @@
+@using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Image.AddImageViewModel
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col">
         <div class="mb-3">
-            <label class="form-label fw-bold">Type</label>
-            <select class="form-select" asp-for="ImageTypeId" asp-items="@Model.ImageTypes">
-                <option asp-for="" selected="selected">Select Type</option>
+            <label class="form-label fw-bold" asp-for="ImageTypeId">Type:</label>
+            <select class="form-select" id="add_ImageTypeId" asp-for="ImageTypeId" asp-items="@Model.ImageTypes">
+                <option value="">Select...</option>
             </select>
-            <span asp-validation-for="ImageTypeId"></span>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label class="form-label fw-bold">Image</label>
-            <input type="file" class="form-control" accept="image/*">
+            <span class="text-danger" asp-validation-for="ImageTypeId" id="add_ImageTypeIdError"></span>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <label class="form-label fw-bold">Size</label>
-            <select class="form-select">
-                <option value="">Select Size</option>
-                <option value="xsmall">X-Small</option>
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-                <option value="xlarge">X-Large</option>
+            <label class="form-label fw-bold" asp-for="ImageSize">Size:</label>
+            <select class="form-select" id="add_ImageSize" asp-for="ImageSize">
+                <option value="">Select...</option>
+                <option value="@ImageSize.XSmall">X Small</option>
+                <option value="@ImageSize.Small">Small</option>
+                <option value="@ImageSize.Medium">Medium</option>
+                <option value="@ImageSize.Large">Large</option>
+                <option value="@ImageSize.XLarge">X Large</option>
             </select>
+            <span class="text-danger" asp-validation-for="ImageSize" id="add_ImageSizeError"></span>
         </div>
     </div>
     <div class="col-md-6">
         <div class="mb-3">
-            <label class="form-label fw-bold">Sort Order</label>
-            <input type="number" class="form-control" value="1">
+            <label class="form-label fw-bold" asp-for="File">File:</label>
+            <input type="file" class="form-control" id="add_File" accept="image/*"/>
+            <span class="text-danger" asp-validation-for="File" id="add_FileError"></span>
         </div>
-
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="mb-3">
+            <label class="form-label fw-bold" asp-for="AltText">Alt. text:</label>
+            <input type="text" class="form-control" id="add_AltText" asp-for="AltText"/>
+            <span class="text-danger" asp-validation-for="AltText" id="add_AltTextError"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="mb-3">
+            <label class="form-label fw-bold" asp-for="Title">Title:</label>
+            <input type="text" class="form-control" id="add_Title" asp-for="Title"/>
+            <span class="text-danger" asp-validation-for="Title" id="add_TitleError"></span>
+        </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <label class="form-label fw-bold">Image Name</label>
-            <input type="text" class="form-control">
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label class="form-label fw-bold">Alt Text</label>
-            <input type="text" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label class="form-label fw-bold">Title</label>
-            <input type="text" class="form-control">
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label class="form-label fw-bold">Loading</label>
-            <select class="form-select">
-                <option value="">Select Loading</option>
+            <label class="form-label fw-bold" asp-for="Loading">Loading:</label>
+            <select class="form-select" asp-for="Loading" id="add_Loading">
+                <option value="eager" selected="selected">Eager</option>
                 <option value="lazy">Lazy</option>
-                <option value="eager">Eager</option>
             </select>
+            <span class="text-danger" asp-validation-for="Loading" id="add_LoadingError"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label fw-bold" asp-for="SortOrder">Sort order:</label>
+            <input type="text" class="form-control" id="add_SortOrder" asp-for="SortOrder"/>
+            <span class="text-danger" asp-validation-for="SortOrder" id="add_SortOrderError"></span>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <label class="form-label fw-bold">Link</label>
-            <input type="url" class="form-control">
+            <label class="form-label fw-bold" asp-for="Link">Link:</label>
+            <input type="url" class="form-control" id="add_Link" asp-for="Link"/>
+            <span class="text-danger" asp-validation-for="Link" id="add_LinkError"></span>
         </div>
     </div>
     <div class="col-md-6">
         <div class="mb-3">
-            <label class="form-label fw-bold">Target</label>
-            <select class="form-select">
-                <option value="">Select Target</option>
+            <label class="form-label fw-bold" asp-for="LinkTarget">Link target:</label>
+            <select class="form-select" id="add_LinkTarget" asp-for="LinkTarget" disabled>
+                <option value="">Select...</option>
                 <option value="_blank">Blank</option>
-                <option value="_parent">Parent</option>
-                <option value="_top">Top</option>
+                <option value="_self">Self</option>
             </select>
+            <span class="text-danger" asp-validation-for="LinkTarget" id="add_LinkTargetError"></span>
         </div>
     </div>
 </div>

@@ -1,5 +1,3 @@
-using Ecommerce3.Domain.Enums;
-
 namespace Ecommerce3.Contracts.Filters;
 
 public sealed record ProductAttributeFilter

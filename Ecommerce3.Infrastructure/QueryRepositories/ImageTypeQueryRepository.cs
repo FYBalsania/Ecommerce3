@@ -15,7 +15,7 @@ internal class ImageTypeQueryRepository : IImageTypeQueryRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<PagedResult<ImageTypeListItemDTO>> GetListItemsAsync(ImageTypeFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
@@ -52,7 +52,7 @@ internal class ImageTypeQueryRepository : IImageTypeQueryRepository
             TotalItems = total
         };
     }
-    
+
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
         var query = _dbContext.ImageTypes.AsQueryable();
@@ -76,4 +76,13 @@ internal class ImageTypeQueryRepository : IImageTypeQueryRepository
                 IsActive = x.IsActive,
             }).FirstAsync(cancellationToken);
     }
+
+    public async Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity,
+        CancellationToken cancellationToken)
+        => await _dbContext.ImageTypes.OrderBy(x => x.Name)
+            .Where(x => x.Entity == entity)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+
+    public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
+        => await _dbContext.ImageTypes.AnyAsync(x => x.Id == id, cancellationToken);
 }

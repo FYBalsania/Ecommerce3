@@ -14,4 +14,5 @@ public interface IImageTypeService
     Task<ImageTypeDTO?> GetByImageTypeIdAsync(int id, CancellationToken cancellationToken);
     Task EditAsync(EditImageTypeCommand command, CancellationToken cancellationToken);
     Task DeleteAsync(int id, CancellationToken cancellationToken);
+    Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity, CancellationToken cancellationToken);
 }

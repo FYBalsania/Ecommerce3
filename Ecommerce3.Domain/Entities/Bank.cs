@@ -2,6 +2,7 @@ namespace Ecommerce3.Domain.Entities;
 
 public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, IDeletable
 {
+    public override string ImageNamePrefix => Slug;
     public string Name { get; private set; }
     public string Slug { get; private set; }
     public bool IsActive { get; private set; }

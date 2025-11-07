@@ -415,7 +415,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                     UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    Slug = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2449,6 +2450,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ImageType_Slug",
+                table: "ImageType",
+                column: "Slug")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ImageType_UpdatedBy",
                 table: "ImageType",
                 column: "UpdatedBy");
@@ -2457,6 +2465,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "UK_ImageType_Entity_Name",
                 table: "ImageType",
                 columns: new[] { "Entity", "Name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_ImageType_Entity_Slug",
+                table: "ImageType",
+                columns: new[] { "Entity", "Slug" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

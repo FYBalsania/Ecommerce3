@@ -4,6 +4,7 @@ namespace Ecommerce3.Domain.Entities;
 
 public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeletable
 {
+    public override string ImageNamePrefix => Path;
     public string Discriminator { get; private set; }
     public string? Path { get; private set; }
     public string MetaTitle { get; private set; }

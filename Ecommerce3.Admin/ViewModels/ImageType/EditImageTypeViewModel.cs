@@ -17,6 +17,11 @@ public class EditImageTypeViewModel
     [Display(Name = nameof(Name))]
     public string Name { get; set; }
     
+    [Required(ErrorMessage = $"{nameof(Slug)} is required.")]
+    [StringLength(128, MinimumLength = 1, ErrorMessage = $"{nameof(Slug)} must be between 1 and 128 characters.")]
+    [Display(Name = nameof(Slug))]
+    public string Slug { get; set; }
+    
     [StringLength(1024, MinimumLength = 1, ErrorMessage = $"{nameof(Description)} must be between 1 and 1024 characters.")]
     [Display(Name = nameof(Description))]
     public string? Description { get; set; }
@@ -31,6 +36,7 @@ public class EditImageTypeViewModel
         {
             Id = Id,
             Name = Name,
+            Slug = Slug,
             Entity = Entity,
             Description = Description,
             IsActive = IsActive,

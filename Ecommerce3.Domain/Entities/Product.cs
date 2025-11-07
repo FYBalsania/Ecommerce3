@@ -11,7 +11,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     private readonly List<ProductReview> _reviews = [];
     private readonly List<ProductProductAttribute> _attributes = [];
     private readonly List<string> _facets = [];
-
+    public override string ImageNamePrefix => Slug;
     public string SKU { get; private set; }
     public string? GTIN { get; private set; }
     public string? MPN { get; private set; }

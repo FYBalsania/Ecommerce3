@@ -10,4 +10,6 @@ public interface IImageTypeQueryRepository
         CancellationToken cancellationToken);
     public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
     public Task<ImageTypeDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity,CancellationToken cancellationToken);
+    Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
 }

@@ -112,4 +112,10 @@ public sealed class BrandService : IBrandService
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
+
+    public Type EntityType => typeof(Brand);
+    public async Task<bool> ExistsByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

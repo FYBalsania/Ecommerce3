@@ -1,7 +1,6 @@
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Entities;
 using Ecommerce3.Infrastructure.EntityTypeConfigurations;
-using Ecommerce3.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
