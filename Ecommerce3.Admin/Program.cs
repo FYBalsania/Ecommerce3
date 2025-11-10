@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Ecommerce3.Application;
 using Ecommerce3.Infrastructure;
 
@@ -5,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDataProtection();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(x => x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 

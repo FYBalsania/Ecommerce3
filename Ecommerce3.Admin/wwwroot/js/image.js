@@ -1,26 +1,60 @@
 $(document).ready(() => {
     const addImageModel = $('#addImageModal');
-    addImageModel.on('show.bs.modal', getAddImageView);
-    addImageModel.on('hidden.bs.modal', clearAddImageView);
+    addImageModel.on('show.bs.modal', showAddImageView);
+    addImageModel.on('hidden.bs.modal', hideAddImageView);
 
     $('#add_Save').on('click', add_SaveClicked)
 })
 
-async function getAddImageView() {
-    const data = {parentEntityType: $('#ParentEntityType').val()};
+async function showAddImageView() {
+    const data = {entity: $('#ParentEntityType').val()};
     try {
-        const response = await doAjax('/Images/Add', 'GET', data, true).promise();
-        $('#addImageModalBody').html(response);
+        //get image type ids and names.
+        const imageTypeIdAndNames = await doAjax('/api/imagetypes/IdAndNamesByEntity', 'GET', data, true).promise();
+
+        //populate image types dropdown.
+        const imageTypesElement = $('#add_ImageTypeId');
+        imageTypeIdAndNames.forEach(imageTypeIdAndName => {
+            const option = $('<option></option>');
+            option.attr('value', imageTypeIdAndName.key);
+            option.text(imageTypeIdAndName.value);
+            imageTypesElement.append(option);
+        })
+
+        //attach event handlers.
         $('#add_Link').on('change', add_LinkChanged);
     } catch (err) {
         alert('Error occured, please try again.')
     }
 }
 
-function clearAddImageView() {
-    $('#add_Link').off('change', add_LinkChanged);
+function hideAddImageView() {
+    const addLinkElement = $('#add_Link');
+    
+    //remove event handlers.
+    addLinkElement.off('change', add_LinkChanged);
+    
+    //reset validation errors.
+    $('#add_ImageTypeIdError').text('');
+    $('#add_ImageSizeError').text('');
+    $('#add_FileError').text('');
+    $('#add_AltTextError').text('');
+    $('#add_TitleError').text('');
+    $('#add_LoadingError').text('');
+    $('#add_SortOrderError').text('');
+    $('#add_LinkError').text('');
+    $('#add_LinkTargetError').text('');
 
-    $('#addImageModalBody').empty();
+    //reset input elements and set to default values.
+    $('#add_ImageTypeId option[value!=""]').remove();
+    $('#add_ImageSize').val('').prop('selected', true);
+    $('#add_File').val('');
+    $('#add_AltText').val('');
+    $('#add_Title').val('');
+    $('#add_Loading').val('eager');
+    $('#add_SortOrder').val('');
+    addLinkElement.val('');
+    $('#add_LinkTarget').val('').prop('disabled', true);
 }
 
 function add_LinkChanged(event) {

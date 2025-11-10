@@ -13,14 +13,15 @@ public class ImageTypesController : Controller
     private readonly IConfiguration _configuration;
     private readonly int _pageSize;
 
-    public ImageTypesController(IImageTypeService imageTypeService, IIPAddressService ipAddressService, IConfiguration configuration)
+    public ImageTypesController(IImageTypeService imageTypeService, IIPAddressService ipAddressService,
+        IConfiguration configuration)
     {
         _imageTypeService = imageTypeService;
         _ipAddressService = ipAddressService;
         _configuration = configuration;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Index(ImageTypeFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
@@ -32,7 +33,7 @@ public class ImageTypesController : Controller
             ImageTypes = result,
             PageTitle = "Image Types"
         };
-        
+
         ViewData["Title"] = "Image Types";
         return View(response);
     }
@@ -69,7 +70,7 @@ public class ImageTypesController : Controller
                     break;
             }
         }
-        
+
         return LocalRedirect("/ImageTypes/Index");
     }
 
