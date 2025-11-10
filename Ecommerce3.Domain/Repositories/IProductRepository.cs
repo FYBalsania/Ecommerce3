@@ -3,7 +3,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface IProductRepository : IRepository<Product>
+public interface IProductRepository : IEntityWithImagesRepository<Product, ProductImage>
 {
     public Task<(IEnumerable<Product> ListItems, int Count)?> GetProductsAsync(string? skuCode,
         string? gtin, string? mpn, string? mfc, string? ean, string? upc, string? name, string? slug, int? brandId,

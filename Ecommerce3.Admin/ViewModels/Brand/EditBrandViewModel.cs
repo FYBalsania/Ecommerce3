@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Commands.Brand;
 using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.DTOs.Image;
 
 namespace Ecommerce3.Admin.ViewModels.Brand;
 
@@ -55,7 +55,7 @@ public class EditBrandViewModel
     [Required(ErrorMessage = $"{nameof(H1)} is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(H1)} must be between 1 and 256 characters.")]
     [Display(Name = nameof(H1))]
-    public string H1 { get; set; }
+    public string? H1 { get; set; }
     
     [StringLength(512, MinimumLength = 1, ErrorMessage = "Short description must be between 1 and 512 characters.")]
     [Display(Name = "Short description")]
@@ -72,7 +72,7 @@ public class EditBrandViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
-    public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
+    public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
 
     public EditBrandCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
@@ -118,6 +118,7 @@ public class EditBrandViewModel
             FullDescription = dto.FullDescription,
             IsActive = dto.IsActive,
             SortOrder = dto.SortOrder,
+            Images = dto.Images
         };
     }
 }

@@ -55,26 +55,7 @@ public sealed class BrandService : IBrandService
 
     public async Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken)
     {
-        var brand = await _queryRepository.GetByIdAsync(id, cancellationToken);
-
-        return new BrandDTO
-        {
-            Id = brand.Id,
-            Name = brand.Name,
-            Slug = brand.Slug,
-            Display = brand.Display,
-            Breadcrumb = brand.Breadcrumb,
-            AnchorText = brand.AnchorText,
-            AnchorTitle = brand.AnchorTitle,
-            ShortDescription = brand.ShortDescription,
-            FullDescription = brand.FullDescription,
-            IsActive = brand.IsActive,
-            SortOrder = brand.SortOrder,
-            H1 = brand.H1,
-            MetaTitle = brand.MetaTitle,
-            MetaDescription = brand.MetaDescription,
-            MetaKeywords = brand.MetaKeywords
-        };
+        return await _queryRepository.GetByIdAsync(id, cancellationToken);
     }
 
     public async Task EditAsync(EditBrandCommand command, CancellationToken cancellationToken)
@@ -112,10 +93,4 @@ public sealed class BrandService : IBrandService
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
-
-    public Type EntityType => typeof(Brand);
-    public async Task<bool> ExistsByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
 }

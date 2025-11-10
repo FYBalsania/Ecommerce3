@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class PageRepository<T> : Repository<T>, IPageRepository<T> where T : Page
+internal class PageRepository<T> : EntityWithImagesRepository<T, PageImage>, IPageRepository<T> where T : Page
 {
     private readonly AppDbContext _dbContext;
 

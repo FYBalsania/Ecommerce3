@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;

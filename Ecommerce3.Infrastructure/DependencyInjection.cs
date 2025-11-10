@@ -60,6 +60,11 @@ public static class DependencyInjection
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBrandRepository>());
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<ICategoryRepository>());
 
+        services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
+
+        services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
+        services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

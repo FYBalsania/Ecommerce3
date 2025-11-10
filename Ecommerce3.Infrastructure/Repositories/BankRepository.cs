@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BankRepository : Repository<Bank>, IBankRepository
+internal class BankRepository : EntityWithImagesRepository<Bank, BankImage>, IBankRepository
 {
     private readonly AppDbContext _dbContext;
 

@@ -19,8 +19,9 @@ public class ImageTypeConfiguration : IEntityTypeConfiguration<ImageType>
         //Properties.
         builder.Property(x => x.Entity).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(2);
         builder.Property(x => x.Name).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(3);
-        builder.Property(x => x.Description).HasMaxLength(1024).HasColumnType("varchar(1024)").HasColumnOrder(4);
-        builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(5);
+        builder.Property(x => x.Slug).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(4);
+        builder.Property(x => x.Description).HasMaxLength(1024).HasColumnType("varchar(1024)").HasColumnOrder(5);
+        builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(6);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);

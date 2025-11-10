@@ -4,5 +4,6 @@ namespace Ecommerce3.Contracts.QueryRepositories;
 
 public interface IImageQueryRepository
 {
-    Task<IReadOnlyList<ImageListItemDTO>> GetByBrandIdAsync(int brandId, CancellationToken cancellationToken);
+    Type ImageType { get; }
+    Task<IReadOnlyList<ImageDTO>> GetByParentIdAsync(int parentId, CancellationToken cancellationToken);
 }

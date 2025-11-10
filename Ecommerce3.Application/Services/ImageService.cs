@@ -1,6 +1,5 @@
 using Ecommerce3.Application.Commands.Image;
 using Ecommerce3.Application.Services.Interfaces;
-using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Policies;
 using Ecommerce3.Domain.Repositories;
@@ -12,14 +11,20 @@ public class ImageService : IImageService
     private readonly IImageTypeDetector _imageTypeDetector;
     private readonly IImageTypeRepository _imageTypeRepository;
     private readonly IEnumerable<IImageEntityRepository> _imageEntityRepositories;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IImageRepository<Image> _imageRepository;
 
     public ImageService(IImageTypeDetector imageTypeDetector,
         IImageTypeRepository imageTypeRepository,
-        IEnumerable<IImageEntityRepository> imageEntityRepositories)
+        IEnumerable<IImageEntityRepository> imageEntityRepositories,
+        IUnitOfWork unitOfWork,
+        IImageRepository<Image> imageRepository)
     {
         _imageTypeDetector = imageTypeDetector;
         _imageTypeRepository = imageTypeRepository;
         _imageEntityRepositories = imageEntityRepositories;
+        _unitOfWork = unitOfWork;
+        _imageRepository = imageRepository;
     }
 
     public async Task AddImageAsync(AddImageCommand command, CancellationToken cancellationToken)
@@ -60,7 +65,7 @@ public class ImageService : IImageService
             $"{GetEntitySlug(parent)}-{imageType.Slug}-{command.ImageSize}-{Path.GetRandomFileName()}{fileNameExtension}";
 
         //Create an image instance.
-        var image = Image.Create(imageEntityRepository.EntityType, command.FileName, imageFileName, fileNameExtension,
+        var image = Image.Create(imageEntityRepository.ImageType, command.FileName, imageFileName, fileNameExtension,
             command.ImageTypeId, command.ImageSize, command.AltText, command.Title, command.Loading, command.Link,
             command.LinkTarget, parent.Id, command.SortOrder, command.CreatedBy, command.CreatedAt,
             command.CreatedByIp);
@@ -69,7 +74,9 @@ public class ImageService : IImageService
         var fileNameWithPath = Path.Combine(command.ImageFolderPath, imageFileName);
         await File.WriteAllBytesAsync(fileNameWithPath, command.File, cancellationToken);
 
-        //Save image to database.
+        //Save the image to a database.
+        await _imageRepository.AddAsync(image, cancellationToken);
+        await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task EditImageAsync(EditImageCommand command, CancellationToken cancellationToken)

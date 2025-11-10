@@ -1,5 +1,6 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs.Brand;
+using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
@@ -65,7 +66,7 @@ internal class BrandQueryRepository : IBrandQueryRepository
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _dbContext.Brands.MaxAsync(x => x.SortOrder, cancellationToken);
-    
+
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
         var query = _dbContext.Brands.AsQueryable();
@@ -89,7 +90,6 @@ internal class BrandQueryRepository : IBrandQueryRepository
     public async Task<BrandDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await (from b in _dbContext.Brands
-            join p in _dbContext.Pages on b.Id equals p.BrandId
             where b.Id == id
             select new BrandDTO
             {
@@ -104,10 +104,31 @@ internal class BrandQueryRepository : IBrandQueryRepository
                 SortOrder = b.SortOrder,
                 ShortDescription = b.ShortDescription,
                 FullDescription = b.FullDescription,
-                H1 = p.H1,
-                MetaTitle = p.MetaTitle,
-                MetaDescription = p.MetaDescription,
-                MetaKeywords = p.MetaKeywords
+                H1 = b.Page!.H1,
+                MetaTitle = b.Page.MetaTitle,
+                MetaDescription = b.Page.MetaDescription,
+                MetaKeywords = b.Page.MetaKeywords,
+                Images = b.Images.OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
+                    .Select(x => new ImageDTO
+                    {
+                        Id = x.Id,
+                        OgFileName = x.OgFileName,
+                        FileName = x.FileName,
+                        FileExtension = x.FileExtension,
+                        ImageTypeName = x.ImageType!.Name,
+                        ImageTypeSlug = x.ImageType!.Slug,
+                        Size = x.Size,
+                        AltText = x.AltText,
+                        Title = x.Title,
+                        Loading = x.Loading,
+                        Link = x.Link,
+                        LinkTarget = x.LinkTarget,
+                        SortOrder = x.SortOrder,
+                        CreatedAppUserFullName = x.CreatedByUser!.FullName,
+                        CreatedAt = x.CreatedAt,
+                        UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
+                        UpdatedAt = x.UpdatedAt
+                    }).ToList().AsReadOnly()
             }).FirstAsync(cancellationToken);
     }
 }

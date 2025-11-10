@@ -1,4 +1,4 @@
-using Ecommerce3.Admin.ViewModels.Image;
+using Ecommerce3.Contracts.DTOs.Image;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +14,7 @@ public class ImagesViewComponent : ViewComponent
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Type parentEntityType, int parentEntityId, Type imageEntityType,
-        IReadOnlyList<ImageListItemViewModel> images)
+        IReadOnlyList<ImageDTO> images)
     {
         return View(ValueTuple.Create(
             _dataProtector.Protect(parentEntityType.AssemblyQualifiedName!),

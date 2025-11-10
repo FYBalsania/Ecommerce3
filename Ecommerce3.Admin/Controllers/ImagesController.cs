@@ -1,9 +1,7 @@
 using Ecommerce3.Admin.ViewComponents;
 using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Services.Interfaces;
-using Ecommerce3.Domain.Entities;
-using Ecommerce3.Domain.Extensions;
-using Ecommerce3.Domain.Repositories;
+using Ecommerce3.Contracts.QueryRepositories;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,16 +14,19 @@ public class ImagesController : Controller
     private readonly IImageTypeService _imageTypeService;
     private readonly IIPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
+    private readonly IEnumerable<IImageQueryRepository> _imageQueryRepositories;
     private readonly IDataProtector _dataProtector;
 
     public ImagesController(IImageService imageService, IImageTypeService imageTypeService,
         IIPAddressService ipAddressService, IConfiguration configuration,
-        IDataProtectionProvider dataProtectionProvider)
+        IDataProtectionProvider dataProtectionProvider,
+        IEnumerable<IImageQueryRepository> imageQueryRepositories)
     {
         _imageService = imageService;
         _imageTypeService = imageTypeService;
         _ipAddressService = ipAddressService;
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _imageQueryRepositories = imageQueryRepositories;
         _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
     }
 
@@ -62,12 +63,20 @@ public class ImagesController : Controller
         var imageFolderPath = _configuration.GetValue<string>("Images:Path");
         var tempImageFolderPath = _configuration.GetValue<string>("Images:TempPath");
         var addImageCommand = model.ToCommand(parentEntityType!, parentEntityId, imageEntityType!,
-            memoryStream.ToArray(), maxFileSizeKb, model.File.FileName, tempImageFolderPath!, imageFolderPath!, userId, createdAt,
+            memoryStream.ToArray(), maxFileSizeKb, model.File.FileName, tempImageFolderPath!, imageFolderPath!, userId,
+            createdAt,
             _ipAddressService.GetClientIpAddress(HttpContext));
 
         await _imageService.AddImageAsync(addImageCommand, cancellationToken);
 
-        return PartialView("_Images", model);
+        var imageQueryRepository =
+            _imageQueryRepositories.FirstOrDefault(x => x.ImageType == addImageCommand.ImageEntityType);
+        if (imageQueryRepository is null)
+            throw new NotImplementedException("Specific Image query repository not found.");
+
+        var imageListItemDTOs =
+            await imageQueryRepository.GetByParentIdAsync(addImageCommand.ParentEntityId, cancellationToken);
+        return PartialView("_ImagesPartial", imageListItemDTOs);
     }
 
     [HttpGet]

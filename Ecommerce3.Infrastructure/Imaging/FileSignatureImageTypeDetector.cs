@@ -41,7 +41,7 @@ internal class FileSignatureImageTypeDetector : IImageTypeDetector
         var ext = Path.GetExtension(fileName)?.ToLowerInvariant();
         var kind = Detect(fileBytes);
 
-        bool ok = ext switch
+        var ok = ext switch
         {
             ".jpg" or ".jpeg" => kind == ImageKind.Jpeg,
             ".png" => kind == ImageKind.Png,

@@ -3,7 +3,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface IProductGroupRepository : IRepository<ProductGroup>
+public interface IProductGroupRepository : IEntityWithImagesRepository<ProductGroup, ProductGroupImage>
 {
     public Task<ProductGroup?> GetByNameAsync(string name, ProductGroupInclude includes, bool trackChanges,
         CancellationToken cancellationToken);

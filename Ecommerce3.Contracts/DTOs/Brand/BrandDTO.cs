@@ -14,10 +14,10 @@ public class BrandDTO
     public string MetaTitle { get; set; }
     public string? MetaDescription { get; set; }
     public string? MetaKeywords { get; set; }
-    public string H1 { get; set; }
+    public string? H1 { get; set; }
     public string? ShortDescription { get; set; }
     public string? FullDescription { get; set; }
     public bool IsActive { get; set; }
     public int SortOrder { get; set; }
-    public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
+    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 }
