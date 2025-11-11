@@ -30,7 +30,7 @@ internal class FileSignatureImageTypeDetector : IImageTypeDetector
         // WEBP (RIFF....WEBP)
         if (fileBytes.Length >= 12 &&
             fileBytes[0] == 0x52 && fileBytes[1] == 0x49 && fileBytes[2] == 0x46 && fileBytes[3] == 0x46 && // "RIFF"
-            fileBytes[8] == 0x57 && fileBytes[9] == 0x45 && fileBytes[10] == 0x42 && fileBytes[11] == 0x50)   // "WEBP"
+            fileBytes[8] == 0x57 && fileBytes[9] == 0x45 && fileBytes[10] == 0x42 && fileBytes[11] == 0x50) // "WEBP"
             return ImageKind.WebP;
 
         return ImageKind.Unknown;
@@ -52,6 +52,6 @@ internal class FileSignatureImageTypeDetector : IImageTypeDetector
         };
 
         if (!ok)
-            throw new InvalidOperationException($"File content does not match its extension ({ext ?? "unknown"}).");
+            throw new ArgumentOutOfRangeException(nameof(fileName), "File content does not match its extension.");
     }
 }

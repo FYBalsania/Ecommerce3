@@ -7,7 +7,8 @@ namespace Ecommerce3.Admin.ViewModels.Image;
 
 public class AddImageViewModel
 {
-    [Required(AllowEmptyStrings = false)] public string? ParentEntityType { get; set; } //Brand, Category, Product etc.
+    [Required(AllowEmptyStrings = false)]
+    public string? ParentEntityType { get; set; } //Brand, Category, Product etc.
 
     [Required(AllowEmptyStrings = false)]
     public string? ParentEntityId { get; set; } //BrandId, CategoryId, ProductId etc.
@@ -40,9 +41,7 @@ public class AddImageViewModel
 
     [Required(ErrorMessage = "Sort order is required.")]
     public int SortOrder { get; set; }
-
-    public SelectList ImageTypes { get; set; }
-
+    
     public AddImageCommand ToCommand(Type parentEntityType, int parentEntityId, Type imageEntityType, byte[] file,
         int maxFileSizeKb, string fileName, string tempPath, string path, int createdBy, DateTime createdAt,
         string createdByIp)

@@ -89,7 +89,7 @@ async function add_SaveClicked(event) {
     console.log(data);
 
     try {
-        await doAjax('/Images/Add', 'POST', data).promise();
+        await doAjax('/api/images', 'POST', data, false, false).promise();
     } catch (err) {
         console.log(err);
         alert('Error occured, please try again.');

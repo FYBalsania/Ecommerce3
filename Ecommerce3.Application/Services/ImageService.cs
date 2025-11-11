@@ -54,7 +54,7 @@ public class ImageService : IImageService
         if (command.File is null)
             throw new ArgumentNullException(nameof(command.File), "File is required.");
         if (command.File.Length > command.MaxFileSizeKb)
-            throw new ArgumentException($"File size exceeds maximum allowed size of {command.MaxFileSizeKb} bytes.",
+            throw new ArgumentOutOfRangeException($"File size exceeds maximum allowed size of {command.MaxFileSizeKb} bytes.",
                 nameof(command.File));
         _imageTypeDetector.EnsureMatchesExtension(command.File, command.FileName);
         //Validation end.
