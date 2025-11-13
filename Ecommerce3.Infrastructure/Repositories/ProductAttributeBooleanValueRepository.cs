@@ -4,7 +4,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductAttributeBooleanValueRepository : ProductAttributeValueRepository<ProductAttributeBooleanValue>,
+internal sealed class ProductAttributeBooleanValueRepository : ProductAttributeValueRepository<ProductAttributeBooleanValue>,
     IProductAttributeBooleanValueRepository
 {
     private readonly AppDbContext _dbContext;

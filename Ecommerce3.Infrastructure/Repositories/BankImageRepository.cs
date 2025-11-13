@@ -4,7 +4,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BankImageRepository : ImageRepository<BankImage>, IBankImageRepository
+internal sealed class BankImageRepository : ImageRepository<BankImage>, IBankImageRepository
 {
     private readonly AppDbContext _dbContext;
 

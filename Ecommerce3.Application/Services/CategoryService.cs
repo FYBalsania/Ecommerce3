@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class CategoryService : ICategoryService
+internal sealed class CategoryService : ICategoryService
 {
     private readonly ICategoryQueryRepository _queryRepository;
     private readonly ICategoryRepository _repository;

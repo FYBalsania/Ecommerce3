@@ -4,7 +4,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductAttributeDateOnlyValueRepository : ProductAttributeValueRepository<ProductAttributeDateOnlyValue>,
+internal sealed class ProductAttributeDateOnlyValueRepository : ProductAttributeValueRepository<ProductAttributeDateOnlyValue>,
     IProductAttributeDateOnlyValueRepository
 {
     private readonly AppDbContext _dbContext;

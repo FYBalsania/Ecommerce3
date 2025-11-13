@@ -405,6 +405,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Entity = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Name = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
+                    Slug = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -415,8 +416,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     DeletedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Slug = table.Column<string>(type: "text", nullable: false)
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {

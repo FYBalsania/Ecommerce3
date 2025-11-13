@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductPageRepository : PageRepository<ProductPage>, IProductPageRepository
+internal sealed class ProductPageRepository : PageRepository<ProductPage>, IProductPageRepository
 {
     private readonly AppDbContext _dbContext;
 

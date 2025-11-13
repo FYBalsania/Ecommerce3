@@ -1,22 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Image;
 using Ecommerce3.Domain.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.ViewModels.Image;
 
 public class AddImageViewModel
 {
-    [Required(AllowEmptyStrings = false)]
-    public string? ParentEntityType { get; set; } //Brand, Category, Product etc.
+    [Required(AllowEmptyStrings = false)] public string ParentEntityType { get; set; } //Brand, Category, Product etc.
 
     [Required(AllowEmptyStrings = false)]
-    public string? ParentEntityId { get; set; } //BrandId, CategoryId, ProductId etc.
+    public string ParentEntityId { get; set; } //BrandId, CategoryId, ProductId etc.
 
     [Required(AllowEmptyStrings = false)]
-    public string? ImageEntityType { get; set; } //BrandImage, CategoryImage, ProductImage etc.
+    public string ImageEntityType { get; set; } //BrandImage, CategoryImage, ProductImage etc.
 
     [Required(ErrorMessage = "Image type is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Image type is invalid.")]
     public int ImageTypeId { get; set; }
 
     [Required(ErrorMessage = "Image size is required.")]
@@ -30,8 +29,7 @@ public class AddImageViewModel
     public string? Title { get; set; }
 
     [Required(ErrorMessage = "Loading is required.")]
-    [MaxLength(8, ErrorMessage = "Loading may be between 1 and 8 characters.")]
-    public string Loading { get; set; } = "eager";
+    public ImageLoading Loading { get; set; }
 
     [MaxLength(256, ErrorMessage = "Link may be between 1 and 256 characters.")]
     public string? Link { get; set; }
@@ -41,10 +39,10 @@ public class AddImageViewModel
 
     [Required(ErrorMessage = "Sort order is required.")]
     public int SortOrder { get; set; }
-    
-    public AddImageCommand ToCommand(Type parentEntityType, int parentEntityId, Type imageEntityType, byte[] file,
-        int maxFileSizeKb, string fileName, string tempPath, string path, int createdBy, DateTime createdAt,
-        string createdByIp)
+
+    public AddImageCommand ToCommand(string parentEntityType, string parentEntityId, string imageEntityType,
+        byte[] file, int maxFileSizeKb, string fileName, string tempPath, string path, int createdBy,
+        DateTime createdAt, string createdByIp)
     {
         return new AddImageCommand
         {

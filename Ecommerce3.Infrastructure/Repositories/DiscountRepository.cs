@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class DiscountRepository : Repository<Discount>, IDiscountRepository
+internal sealed class DiscountRepository : Repository<Discount>, IDiscountRepository
 {
     public DiscountRepository(AppDbContext dbContext) : base(dbContext)
     {

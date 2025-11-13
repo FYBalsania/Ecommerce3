@@ -2,7 +2,7 @@ using Ecommerce3.Application.Services.Interfaces;
 
 namespace Ecommerce3.Application.Services;
 
-public class CartService : ICartService
+internal sealed class CartService : ICartService
 {
     
 }

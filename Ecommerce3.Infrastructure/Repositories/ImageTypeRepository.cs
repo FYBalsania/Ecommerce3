@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ImageTypeRepository : Repository<ImageType>, IImageTypeRepository
+internal sealed class ImageTypeRepository : Repository<ImageType>, IImageTypeRepository
 {
     private readonly AppDbContext _dbContext;
 

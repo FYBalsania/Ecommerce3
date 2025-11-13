@@ -4,9 +4,9 @@ namespace Ecommerce3.Application.Commands.Image;
 
 public record AddImageCommand
 {
-    public required Type ParentEntityType { get; init; }
-    public required int ParentEntityId { get; init; }
-    public required Type ImageEntityType { get; init; }
+    public required string ParentEntityType { get; init; }
+    public required string ParentEntityId { get; init; }
+    public required string ImageEntityType { get; init; }
     public required int ImageTypeId { get; init; }
     public required ImageSize ImageSize { get; init; }
     public required byte[] File { get; init; }
@@ -14,7 +14,7 @@ public record AddImageCommand
     public required string FileName { get; init; }
     public string? AltText { get; init; }
     public string? Title { get; init; }
-    public required string Loading { get; init; }
+    public required ImageLoading Loading { get; init; }
     public string? Link { get; init; }
     public string? LinkTarget { get; init; }
     public required int SortOrder { get; init; }

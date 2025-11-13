@@ -4,7 +4,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BankPageRepository : PageRepository<BankPage>, IBankPageRepository
+internal sealed class BankPageRepository : PageRepository<BankPage>, IBankPageRepository
 {
     private readonly AppDbContext _dbContext;
 

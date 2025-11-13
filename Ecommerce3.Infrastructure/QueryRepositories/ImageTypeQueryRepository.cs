@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class ImageTypeQueryRepository : IImageTypeQueryRepository
+internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
 {
     private readonly AppDbContext _dbContext;
 

@@ -11,7 +11,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class ProductGroupService : IProductGroupService
+internal sealed class ProductGroupService : IProductGroupService
 {
     private readonly IProductGroupRepository _repository;
     private readonly IProductGroupQueryRepository _queryRepository;

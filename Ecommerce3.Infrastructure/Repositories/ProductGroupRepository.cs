@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductGroupRepository : EntityWithImagesRepository<ProductGroup, ProductGroupImage>,
+internal sealed class ProductGroupRepository : EntityWithImagesRepository<ProductGroup, ProductGroupImage>,
     IProductGroupRepository
 {
     private readonly AppDbContext _dbContext;

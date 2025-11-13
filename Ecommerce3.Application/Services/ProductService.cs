@@ -8,7 +8,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class ProductService : IProductService
+internal sealed class ProductService : IProductService
 {
     private readonly IProductRepository _repository;
     private readonly IProductQueryRepository _queryRepository;

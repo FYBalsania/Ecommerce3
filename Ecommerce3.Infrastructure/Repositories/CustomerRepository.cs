@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class CustomerRepository : Repository<Customer>, ICustomerRepository
+internal sealed class CustomerRepository : Repository<Customer>, ICustomerRepository
 {
     public CustomerRepository(AppDbContext dbContext) : base(dbContext)
     {

@@ -17,7 +17,7 @@ namespace Ecommerce3.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "9.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
@@ -1457,7 +1457,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("Entity")
                         .HasMaxLength(256)
@@ -1466,7 +1466,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1476,7 +1476,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("citext")
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")

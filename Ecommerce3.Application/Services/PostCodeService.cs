@@ -11,7 +11,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class PostCodeService : IPostCodeService
+internal sealed class PostCodeService : IPostCodeService
 {
     private readonly IPostCodeRepository _repository;
     private readonly IPostCodeQueryRepository _queryRepository;

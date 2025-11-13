@@ -11,7 +11,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class BrandService : IBrandService
+internal sealed class BrandService : IBrandService
 {
     private readonly IBrandRepository _repository;
     private readonly IBrandQueryRepository _queryRepository;

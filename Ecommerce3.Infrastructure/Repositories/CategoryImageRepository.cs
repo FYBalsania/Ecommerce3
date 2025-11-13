@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class CategoryImageRepository : ImageRepository<CategoryImage>, ICategoryImageRepository
+internal sealed class CategoryImageRepository : ImageRepository<CategoryImage>, ICategoryImageRepository
 {
     public CategoryImageRepository(AppDbContext dbContext) : base(dbContext)
     {

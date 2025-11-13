@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class CategoryPageRepository : PageRepository<CategoryPage>, ICategoryPageRepository
+internal sealed class CategoryPageRepository : PageRepository<CategoryPage>, ICategoryPageRepository
 {
     private readonly AppDbContext _dbContext;
 

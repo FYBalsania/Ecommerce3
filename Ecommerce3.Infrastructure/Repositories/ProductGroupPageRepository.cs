@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductGroupPageRepository : PageRepository<ProductGroupPage>, IProductGroupPageRepository
+internal sealed class ProductGroupPageRepository : PageRepository<ProductGroupPage>, IProductGroupPageRepository
 {
     private readonly AppDbContext _dbContext;
 

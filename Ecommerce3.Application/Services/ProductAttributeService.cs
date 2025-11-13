@@ -10,7 +10,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class ProductAttributeService : IProductAttributeService
+internal sealed class ProductAttributeService : IProductAttributeService
 {
     private readonly IProductAttributeRepository _repository;
     private readonly IProductAttributeQueryRepository _queryRepository;

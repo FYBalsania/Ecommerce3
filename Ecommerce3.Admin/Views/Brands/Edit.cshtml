@@ -152,11 +152,13 @@
         </div>
 
         <!-- Images -->
-        @await Html.PartialAsync("_ImagePartial", (
-            ParentEntityType: typeof(Brand),
-            ParentEntityId: Model.Id,
-            ImageEntityType: typeof(BrandImage),
-            Model.Images))
+        @await Component.InvokeAsync("Images", new
+        {
+            parentEntityType = typeof(Brand),
+            parentEntityId = Model.Id,
+            imageEntityType = typeof(BrandImage),
+            images = Model.Images 
+        })
 
         <div class="row mb-7">
             <div class="col-xl-12">

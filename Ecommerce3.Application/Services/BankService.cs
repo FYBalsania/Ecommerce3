@@ -11,7 +11,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class BankService : IBankService
+internal sealed class BankService : IBankService
 {
     private readonly IBankRepository _repository;
     private readonly IBankQueryRepository _queryRepository;

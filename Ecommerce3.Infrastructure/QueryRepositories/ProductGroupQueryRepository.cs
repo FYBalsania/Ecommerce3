@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class ProductGroupQueryRepository : IProductGroupQueryRepository
+internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
 {
     private readonly AppDbContext _dbContext;
 

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class PostCodeQueryRepository  : IPostCodeQueryRepository
+internal sealed class PostCodeQueryRepository  : IPostCodeQueryRepository
 {
     private readonly AppDbContext _dbContext;
 

@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductImageRepository : ImageRepository<ProductImage>, IProductImageRepository
+internal sealed class ProductImageRepository : ImageRepository<ProductImage>, IProductImageRepository
 {
     private readonly AppDbContext _dbContext;
 

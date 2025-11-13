@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251107143205_SeedData")]
-    partial class SeedData
+    [Migration("20251112131439_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "9.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
@@ -1460,7 +1460,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("Entity")
                         .HasMaxLength(256)
@@ -1469,7 +1469,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1479,7 +1479,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("citext")
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")

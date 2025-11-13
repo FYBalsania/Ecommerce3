@@ -12,7 +12,7 @@ public sealed class ProductImage : Image
     }
     
     internal ProductImage(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
-        string? altText, string? title, string loading, string? link, string? linkTarget, int productId, int sortOrder,
+        string? altText, string? title, ImageLoading loading, string? link, string? linkTarget, int productId, int sortOrder,
         int createdBy, DateTime createdAt, string createdByIp)
         : base(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading, link, linkTarget,
             sortOrder, createdBy, createdAt, createdByIp)

@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductAttributeColourValueRepository : ProductAttributeValueRepository<ProductAttributeColourValue>,
+internal sealed class ProductAttributeColourValueRepository : ProductAttributeValueRepository<ProductAttributeColourValue>,
     IProductAttributeColourValueRepository
 {
     private readonly AppDbContext _dbContext;

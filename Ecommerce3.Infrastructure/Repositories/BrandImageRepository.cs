@@ -5,7 +5,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BrandImageRepository : ImageRepository<BrandImage>, IBrandImageRepository
+internal sealed class BrandImageRepository : ImageRepository<BrandImage>, IBrandImageRepository
 {
     private readonly AppDbContext _dbContext;
 

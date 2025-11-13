@@ -1,3 +1,4 @@
+@using Ecommerce3.Domain.Enums
 @model (string ParentEntityType, string ParentEntityId, string ImageEntityType, IReadOnlyList<Ecommerce3.Contracts.DTOs.Image.ImageDTO> Images)
 
 <div class="card mb-4">
@@ -31,7 +32,7 @@
                         <th class="text-center">Action</th>
                     </tr>
                     </thead>
-                    <partial name="_ImagesPartial" model="@Model.Images"/>
+                    <partial name="_ImageListPartial" model="@Model.Images"/>
                 </table>
             </div>
         </div>
@@ -49,6 +50,97 @@
             </div>
 
             <div class="modal-body" id="addImageModalBody">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_ImageTypeId">Type:</label>
+                            <select class="form-select" id="add_ImageTypeId">
+                                <option value="">Select...</option>
+                            </select>
+                            <span class="text-danger" id="add_ImageTypeIdError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_ImageSize">Size:</label>
+                            <select class="form-select" id="add_ImageSize">
+                                <option value="">Select...</option>
+                                <option value="@ImageSize.XSmall">X Small</option>
+                                <option value="@ImageSize.Small">Small</option>
+                                <option value="@ImageSize.Medium">Medium</option>
+                                <option value="@ImageSize.Large">Large</option>
+                                <option value="@ImageSize.XLarge">X Large</option>
+                            </select>
+                            <span class="text-danger" id="add_ImageSizeError"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_File">File:</label>
+                            <input type="file" class="form-control" id="add_File" accept="image/*"/>
+                            <span class="text-danger" id="add_FileError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_AltText">Alt. text:</label>
+                            <input type="text" class="form-control" id="add_AltText" />
+                            <span class="text-danger" id="add_AltTextError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_Title">Title:</label>
+                            <input type="text" class="form-control" id="add_Title"/>
+                            <span class="text-danger" id="add_TitleError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_Loading">Loading:</label>
+                            <select class="form-select" id="add_Loading">
+                                <option value="eager" selected="selected">Eager</option>
+                                <option value="lazy">Lazy</option>
+                            </select>
+                            <span class="text-danger" id="add_LoadingError"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_SortOrder">Sort order:</label>
+                            <input type="text" class="form-control" id="add_SortOrder"/>
+                            <span class="text-danger" id="add_SortOrderError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_Link">Link:</label>
+                            <input type="url" class="form-control" id="add_Link"/>
+                            <span class="text-danger" id="add_LinkError"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="add_LinkTarget">Link target:</label>
+                            <select class="form-select" id="add_LinkTarget" disabled>
+                                <option value="">Select...</option>
+                                <option value="_blank">Blank</option>
+                                <option value="_self">Self</option>
+                            </select>
+                            <span class="text-danger" id="add_LinkTargetError"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="modal-footer">

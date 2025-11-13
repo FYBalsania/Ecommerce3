@@ -12,7 +12,7 @@ public sealed class BrandImage : Image
     }
 
     internal BrandImage(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
-        string? altText, string? title, string loading, string? link, string? linkTarget, int brandId, int sortOrder,
+        string? altText, string? title, ImageLoading loading, string? link, string? linkTarget, int brandId, int sortOrder,
         int createdBy, DateTime createdAt, string createdByIp)
         : base(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading, link, linkTarget,
             sortOrder, createdBy, createdAt, createdByIp)

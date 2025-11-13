@@ -1,105 +1,57 @@
 using Ecommerce3.Admin.ViewComponents;
 using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Services.Interfaces;
-using Ecommerce3.Contracts.QueryRepositories;
-using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.Controllers;
 
 public class ImagesController : Controller
 {
     private readonly IImageService _imageService;
-    private readonly IImageTypeService _imageTypeService;
     private readonly IIPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
-    private readonly IEnumerable<IImageQueryRepository> _imageQueryRepositories;
     private readonly IDataProtector _dataProtector;
 
-    public ImagesController(IImageService imageService, IImageTypeService imageTypeService,
+    public ImagesController(IImageService imageService,
         IIPAddressService ipAddressService, IConfiguration configuration,
-        IDataProtectionProvider dataProtectionProvider,
-        IEnumerable<IImageQueryRepository> imageQueryRepositories)
+        IDataProtectionProvider dataProtectionProvider)
     {
         _imageService = imageService;
-        _imageTypeService = imageTypeService;
         _ipAddressService = ipAddressService;
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        _imageQueryRepositories = imageQueryRepositories;
         _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> Add(string parentEntityType, CancellationToken cancellationToken)
-    // {
-    //     ArgumentException.ThrowIfNullOrWhiteSpace(parentEntityType);
-    //
-    //     var parentType = Type.GetType(_dataProtector.Unprotect(parentEntityType));
-    //     var imageTypes =
-    //         await _imageTypeService.GetIdAndNamesByEntityAsync(parentType!.Name, cancellationToken);
-    //     var selectList = new SelectList(imageTypes, "Key", "Value");
-    //
-    //     return PartialView("_AddImagePartial", new AddImageViewModel { ImageTypes = selectList });
-    // }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Add(AddImageViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Add([FromForm] AddImageViewModel model, CancellationToken cancellationToken)
     {
         ModelState.Remove("ImageTypes");
-        if (!ModelState.IsValid) return BadRequest();
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
-        var parentEntityType = Type.GetType(_dataProtector.Unprotect(model.ParentEntityType!));
-        var parentEntityId = Convert.ToInt32(_dataProtector.Unprotect(model.ParentEntityId!));
-        var imageEntityType = Type.GetType(_dataProtector.Unprotect(model.ImageEntityType!));
+        var parentEntityType = _dataProtector.Unprotect(model.ParentEntityType);
+        var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
+        var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
         var createdAt = DateTime.Now;
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
 
+        //File
         using var memoryStream = new MemoryStream();
         await model.File.CopyToAsync(memoryStream, cancellationToken);
 
         var maxFileSizeKb = _configuration.GetValue<int>("Images:MaxFileSizeKB") * 1024;
         var imageFolderPath = _configuration.GetValue<string>("Images:Path");
         var tempImageFolderPath = _configuration.GetValue<string>("Images:TempPath");
-        var addImageCommand = model.ToCommand(parentEntityType!, parentEntityId, imageEntityType!,
-            memoryStream.ToArray(), maxFileSizeKb, model.File.FileName, tempImageFolderPath!, imageFolderPath!, userId,
-            createdAt,
-            _ipAddressService.GetClientIpAddress(HttpContext));
+        var addImageCommand = model.ToCommand(parentEntityType, parentEntityId, imageEntityType, memoryStream.ToArray(),
+            maxFileSizeKb, model.File.FileName, tempImageFolderPath!, imageFolderPath!, userId, createdAt, ipAddress);
 
-        try
-        {
-            await _imageService.AddImageAsync(addImageCommand, cancellationToken);
-        }
-        catch (Exception e)
-        {
-            if (e is ArgumentException argumentException)
-            {
-                if (argumentException.ParamName == nameof(addImageCommand.ImageTypeId))
-                    ModelState.AddModelError(nameof(addImageCommand.ImageTypeId), argumentException.Message);
-            }
-            else if (e is ArgumentOutOfRangeException argumentOutOfRangeException)
-            {
-                if (argumentOutOfRangeException.ParamName == nameof(addImageCommand.File))
-                    ModelState.AddModelError(nameof(addImageCommand.File), argumentOutOfRangeException.Message);
-            }
-            else if (e is ArgumentNullException argumentNullException)
-            {
-                    
-            }
-            Console.WriteLine(e);
-            throw;
-        }
+        await _imageService.AddImageAsync(addImageCommand, cancellationToken);
+        var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
+            Convert.ToInt32(parentEntityId), cancellationToken);
 
-        var imageQueryRepository =
-            _imageQueryRepositories.FirstOrDefault(x => x.ImageType == addImageCommand.ImageEntityType);
-        if (imageQueryRepository is null)
-            throw new NotImplementedException("Specific Image query repository not found.");
-
-        var imageListItemDTOs =
-            await imageQueryRepository.GetByParentIdAsync(addImageCommand.ParentEntityId, cancellationToken);
-        return PartialView("_ImagesPartial", imageListItemDTOs);
+        return PartialView("_ImageListPartial", imageDTOs);
     }
 
     [HttpGet]

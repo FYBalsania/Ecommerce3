@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class BrandPageRepository : PageRepository<BrandPage>, IBrandPageRepository
+internal sealed class BrandPageRepository : PageRepository<BrandPage>, IBrandPageRepository
 {
     private readonly AppDbContext _dbContext;
 

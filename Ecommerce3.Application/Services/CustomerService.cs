@@ -2,7 +2,7 @@ using Ecommerce3.Application.Services.Interfaces;
 
 namespace Ecommerce3.Application.Services;
 
-public class CustomerService : ICustomerService
+internal sealed class CustomerService : ICustomerService
 {
     
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class PageQueryRepository : IPageQueryRepository
+internal sealed class PageQueryRepository : IPageQueryRepository
 {
     private readonly AppDbContext _dbContext;
 

@@ -13,7 +13,7 @@ public record ImageDTO
     public required ImageSize Size { get; init; }
     public required string? AltText { get; init; }
     public required string? Title { get; init; }
-    public required string Loading { get; init; }
+    public required ImageLoading Loading { get; init; }
     public required string? Link { get; init; }
     public required string? LinkTarget { get; init; }
     public required int SortOrder { get; init; }

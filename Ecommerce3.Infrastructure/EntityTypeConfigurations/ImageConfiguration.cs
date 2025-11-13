@@ -39,7 +39,8 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             .HasColumnOrder(7);
         builder.Property(x => x.AltText).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(8);
         builder.Property(x => x.Title).HasMaxLength(128).HasColumnType("citext").HasColumnOrder(9);
-        builder.Property(x => x.Loading).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(10);
+        builder.Property(x => x.Loading).HasConversion<string>().HasMaxLength(8).HasColumnType("varchar(8)")
+            .HasColumnOrder(10);
         builder.Property(x => x.Link).HasMaxLength(256).HasColumnType("varchar(256)").HasColumnOrder(11);
         builder.Property(x => x.LinkTarget).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(12);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(19);

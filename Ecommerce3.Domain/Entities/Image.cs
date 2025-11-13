@@ -13,7 +13,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
     public ImageSize Size { get; private set; }
     public string? AltText { get; private set; }
     public string? Title { get; private set; }
-    public string Loading { get; private set; }
+    public ImageLoading Loading { get; private set; }
     public string? Link { get; private set; }
     public string? LinkTarget { get; private set; }
     public int SortOrder { get; private set; }
@@ -29,35 +29,39 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
-    
+
     private protected Image()
     {
     }
 
     internal Image(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
-        string? altText, string? title, string loading, string? link, string? linkTarget, int sortOrder, int createdBy,
-        DateTime createdAt, string createdByIp)
+        string? altText, string? title, ImageLoading loading, string? link, string? linkTarget, int sortOrder,
+        int createdBy, DateTime createdAt, string createdByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(ogFileName, nameof(ogFileName));
-        ArgumentException.ThrowIfNullOrWhiteSpace(fileName, nameof(fileName));
-        ArgumentException.ThrowIfNullOrWhiteSpace(fileExtension, nameof(fileExtension));
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(imageTypeId, 0, nameof(imageTypeId));
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(createdBy, 0, nameof(createdBy));
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
+        if (string.IsNullOrWhiteSpace(ogFileName))
+            throw new ArgumentException("OGFilename is required", nameof(ogFileName));
 
-        //loading.
-        ArgumentException.ThrowIfNullOrWhiteSpace(loading, nameof(loading));
-        if (loading != "eager" && loading != "lazy")
-        {
-            throw new ArgumentException("Loading must be either 'eager' or 'lazy'", nameof(loading));
-        }
+        if (string.IsNullOrWhiteSpace(fileName))
+            throw new ArgumentException("Filename is required", nameof(fileName));
+
+        if (string.IsNullOrWhiteSpace(fileExtension))
+            throw new ArgumentException("FileExtension is required", nameof(fileExtension));
+
+        if (imageTypeId <= 0)
+            throw new ArgumentOutOfRangeException(nameof(imageTypeId), "Invalid ImageTypeId.");
+        
+        if (createdBy <= 0)
+            throw new ArgumentOutOfRangeException(nameof(createdBy), "Invalid CreatedBy.");
+        
+        if (string.IsNullOrWhiteSpace(createdByIp))
+            throw new ArgumentException("CreatedByIp is required", nameof(createdByIp));
 
         //link & linkTarget.
         if (!string.IsNullOrWhiteSpace(link))
         {
             //link.
             if (!Uri.TryCreate(link, UriKind.RelativeOrAbsolute, out _))
-                throw new ArgumentException("Link must be a valid URL", nameof(link));
+                throw new ArgumentException("Link must be a valid URL", nameof(Image.Link));
 
             //linkTarget.
             if (string.IsNullOrWhiteSpace(linkTarget))
@@ -99,7 +103,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
     }
 
     public static Image Create(Type imageType, string ogFileName, string fileName, string fileExtension,
-        int imageTypeId, ImageSize size, string? altText, string? title, string loading, string? link,
+        int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading, string? link,
         string? linkTarget, int parentId, int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
     {
         if (imageType == typeof(BrandImage))

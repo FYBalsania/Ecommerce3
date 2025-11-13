@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class PostCodeRepository : Repository<PostCode>, IPostCodeRepository
+internal sealed class PostCodeRepository : Repository<PostCode>, IPostCodeRepository
 {
     private readonly AppDbContext _dbContext;
 

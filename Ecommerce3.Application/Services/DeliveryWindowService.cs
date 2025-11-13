@@ -10,7 +10,7 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class DeliveryWindowService : IDeliveryWindowService
+internal sealed class DeliveryWindowService : IDeliveryWindowService
 {
     private readonly IDeliveryWindowRepository _repository;
     private readonly IDeliveryWindowQueryRepository _queryRepository;

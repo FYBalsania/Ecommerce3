@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class IPAddressService : IIPAddressService
+internal sealed class IPAddressService : IIPAddressService
 {
     public string GetClientIpAddress(HttpContext context)
     {

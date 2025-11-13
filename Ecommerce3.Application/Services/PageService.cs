@@ -4,7 +4,7 @@ using Ecommerce3.Contracts.QueryRepositories;
 
 namespace Ecommerce3.Application.Services;
 
-public class PageService : IPageService
+internal sealed class PageService : IPageService
 {
     private readonly IPageQueryRepository _pageQueryRepository;
 

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class DeliveryWindowQueryRepository : IDeliveryWindowQueryRepository
+internal sealed class DeliveryWindowQueryRepository : IDeliveryWindowQueryRepository
 {
     private readonly AppDbContext _dbContext;
 

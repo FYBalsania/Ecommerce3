@@ -4,7 +4,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class CartLineRepository : Repository<CartLine>, ICartLineRepository
+internal sealed class CartLineRepository : Repository<CartLine>, ICartLineRepository
 {
     public CartLineRepository(AppDbContext dbContext) : base(dbContext)
     {

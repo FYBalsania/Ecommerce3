@@ -4,7 +4,7 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class ProductAttributeDecimalValueRepository : ProductAttributeValueRepository<ProductAttributeDecimalValue>,
+internal sealed class ProductAttributeDecimalValueRepository : ProductAttributeValueRepository<ProductAttributeDecimalValue>,
     IProductAttributeDecimalValueRepository
 {
     private readonly AppDbContext _dbContext;

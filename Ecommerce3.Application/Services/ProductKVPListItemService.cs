@@ -2,7 +2,7 @@ using Ecommerce3.Application.Services.Interfaces;
 
 namespace Ecommerce3.Application.Services;
 
-public class ProductKVPListItemService : IProductKVPListItemService
+internal class ProductKVPListItemService : IProductKVPListItemService
 {
     
 }

@@ -7,8 +7,7 @@ using Npgsql;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class CategoryRepository : EntityWithImagesRepository<Category, CategoryImage>, ICategoryRepository
-//Repository<Category>, ICategoryRepository
+internal sealed class CategoryRepository : EntityWithImagesRepository<Category, CategoryImage>, ICategoryRepository
 {
     private readonly AppDbContext _dbContext;
 
