@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Middlewares;
 
+[Obsolete( "This middleware is obsolete and will be removed in future versions.")]
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;

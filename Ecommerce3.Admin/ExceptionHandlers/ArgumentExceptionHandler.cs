@@ -15,13 +15,14 @@ public sealed class ArgumentExceptionHandler : IExceptionHandler
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        if (exception is not ArgumentException argumentException) return false;
-
+        if (exception.GetType() != typeof(ArgumentException)) return false;
+        
+        var argumentException = exception as ArgumentException;
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
             Title = "Bad Request",
-            Detail = argumentException.Message,
+            Detail = argumentException!.Message,
             Extensions =
             {
                 { argumentException.ParamName!, argumentException.Message }

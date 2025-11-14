@@ -1,4 +1,6 @@
+using Ecommerce3.Admin.ViewComponents;
 using Ecommerce3.Application.Services.Interfaces;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers.API;
@@ -8,20 +10,23 @@ namespace Ecommerce3.Admin.Controllers.API;
 public class ImageTypesController : ControllerBase
 {
     private readonly IImageTypeService _imageTypeService;
+    private readonly IDataProtector _dataProtector;
 
-    public ImageTypesController(IImageTypeService imageTypeService)
+    public ImageTypesController(IImageTypeService imageTypeService,
+        IDataProtectionProvider dataProtectionProvider)
     {
         _imageTypeService = imageTypeService;
+        _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
     }
 
     [HttpGet("IdAndNamesByEntity")]
     public async Task<ActionResult<IEnumerable<object[]>>> IdAndNamesByEntity([FromQuery] string entity,
         CancellationToken cancellationToken)
     {
-        var entityType = Type.GetType(entity) is null ? string.Empty : Type.GetType(entity)!.Name;
+        var unprotectedEntity = _dataProtector.Unprotect(entity);
+        var entityType = Type.GetType(unprotectedEntity) is null ? string.Empty : Type.GetType(unprotectedEntity)!.Name;
         var dictionary = await _imageTypeService.GetIdAndNamesByEntityAsync(entityType, cancellationToken);
-        var result = dictionary.Select(kvp => new { kvp.Key, kvp.Value }).ToList();
 
-        return Ok(result);
+        return Ok(dictionary.Select(kvp => new { kvp.Key, kvp.Value }).ToList());
     }
 }

@@ -1,16 +1,16 @@
 using System.Text.Json;
 using Ecommerce3.Admin.ExceptionHandlers;
-using Ecommerce3.Admin.Middlewares;
 using Ecommerce3.Application;
 using Ecommerce3.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ArgumentExceptionHandler>();
 builder.Services.AddExceptionHandler<ArgumentNullExceptionHandler>();
 builder.Services.AddExceptionHandler<ArgumentOutOfRangeExceptionHandler>();
-builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<FallbackExceptionHandler>();
 builder.Services.AddDataProtection();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(x => x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
@@ -18,6 +18,8 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -27,8 +29,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseExceptionHandler();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 

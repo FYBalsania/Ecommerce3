@@ -15,13 +15,14 @@ public sealed class ArgumentOutOfRangeExceptionHandler : IExceptionHandler
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        if (exception is not ArgumentOutOfRangeException argumentOutOfRangeException) return false;
-
+        if (exception.GetType() != typeof(ArgumentOutOfRangeException)) return false;
+        
+        var argumentOutOfRangeException = exception as ArgumentOutOfRangeException;
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
             Title = "Bad Request",
-            Detail = argumentOutOfRangeException.Message,
+            Detail = argumentOutOfRangeException!.Message,
             Extensions =
             {
                 { argumentOutOfRangeException.ParamName!, argumentOutOfRangeException.Message }

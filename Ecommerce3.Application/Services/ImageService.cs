@@ -39,7 +39,7 @@ internal sealed class ImageService : IImageService
         var parentEntityType = Type.GetType(command.ParentEntityType);
         if (parentEntityType is null)
             throw new ArgumentNullException(nameof(command.ParentEntityType), "ParentEntityType is required.");
-        if (!typeof(EntityWithImages<>).IsAssignableFrom(parentEntityType))
+        if (parentEntityType.BaseType == typeof(EntityWithImages<>))
             throw new ArgumentOutOfRangeException(nameof(command.ParentEntityType),
                 "ParentEntityType must be of type EntityWithImages<>");
 

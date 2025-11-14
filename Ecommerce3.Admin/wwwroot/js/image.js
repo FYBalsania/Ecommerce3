@@ -30,10 +30,10 @@ async function showAddImageView() {
 
 function hideAddImageView() {
     const addLinkElement = $('#add_Link');
-    
+
     //remove event handlers.
     addLinkElement.off('change', add_LinkChanged);
-    
+
     //reset validation errors.
     $('#add_ImageTypeIdError').text('');
     $('#add_ImageSizeError').text('');
@@ -89,7 +89,7 @@ async function add_SaveClicked(event) {
     console.log(data);
 
     try {
-        await doAjax('/api/images', 'POST', data, false, false).promise();
+        const result = await doAjax('/images/Add', 'POST', data, false, false).promise();
     } catch (err) {
         console.log(err);
         alert('Error occured, please try again.');
