@@ -6,7 +6,18 @@ using Ecommerce3.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddProblemDetails();
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Status = StatusCodes.Status422UnprocessableEntity;
+        context.ProblemDetails.Title = "Validation errors occurred.";
+        context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+        context.ProblemDetails.Extensions["traceId"] = context.HttpContext.TraceIdentifier;
+        context.ProblemDetails.Extensions["requestId"] = context.HttpContext.Connection.Id;
+    };
+});
+
 builder.Services.AddExceptionHandler<ArgumentExceptionHandler>();
 builder.Services.AddExceptionHandler<ArgumentNullExceptionHandler>();
 builder.Services.AddExceptionHandler<ArgumentOutOfRangeExceptionHandler>();

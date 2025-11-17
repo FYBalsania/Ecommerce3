@@ -1,4 +1,6 @@
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -6,18 +8,18 @@ public sealed class CategoryImage : Image
 {
     public int CategoryId { get; private set; }
     public Category? Category { get; private set; }
-    
+
     private CategoryImage() : base()
     {
     }
 
     internal CategoryImage(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
-        string? altText, string? title, ImageLoading loading, string? link, string? linkTarget, int categoryId, int sortOrder,
-        int createdBy, DateTime createdAt, string createdByIp)
+        string? altText, string? title, ImageLoading loading, string? link, string? linkTarget, int categoryId,
+        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
         : base(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading, link, linkTarget,
             sortOrder, createdBy, createdAt, createdByIp)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(categoryId, 0, nameof(categoryId));
+        if (categoryId <= 0) throw new DomainException(DomainErrors.ImageErrors.InvalidCategoryId);
         CategoryId = categoryId;
     }
 }

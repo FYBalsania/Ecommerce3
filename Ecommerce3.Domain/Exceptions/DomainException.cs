@@ -1,12 +1,14 @@
+using Ecommerce3.Domain.Errors;
+
 namespace Ecommerce3.Domain.Exceptions;
 
 [Serializable]
-public abstract class DomainException : Exception
+public class DomainException : Exception
 {
-    public string ErrorCode { get; }
+    public DomainError Error { get; }
 
-    protected DomainException(string message, string errorCode) : base(message)
+    public DomainException(DomainError error) : base(error.Message)
     {
-        ErrorCode = errorCode;
+        Error = error;
     }
 }

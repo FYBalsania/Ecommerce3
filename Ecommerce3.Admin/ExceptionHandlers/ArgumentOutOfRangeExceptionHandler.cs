@@ -20,8 +20,8 @@ public sealed class ArgumentOutOfRangeExceptionHandler : IExceptionHandler
         var argumentOutOfRangeException = exception as ArgumentOutOfRangeException;
         var problemDetails = new ProblemDetails
         {
-            Status = StatusCodes.Status400BadRequest,
-            Title = "Bad Request",
+            Status = StatusCodes.Status422UnprocessableEntity,
+            Title = "Validation errors occurred. ",
             Detail = argumentOutOfRangeException!.Message,
             Extensions =
             {

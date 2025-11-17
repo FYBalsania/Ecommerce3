@@ -86,15 +86,23 @@ async function add_SaveClicked(event) {
     data.append('Link', $('#add_Link').val());
     data.append('LinkTarget', $('#add_LinkTarget').val());
 
-    console.log(data);
-
     try {
-        const result = await doAjax('/images/Add', 'POST', data, false, false).promise();
+        const res = await fetch('/Images/Add', {method: 'POST', body: data, credentials: 'same-origin'});
+        if (res.ok) {
+
+        } else {
+            const response = await res.json();
+            console.log(response);
+            // for (const key in response.errors) {
+            //     console.log(key, response.errors[key]);
+            //     const errorElement = $('#add_' + key + 'Error');
+            //     errorElement.text(response.errors[key]);
+            // }
+        }
     } catch (err) {
         console.log(err);
         alert('Error occured, please try again.');
     }
-
 }
 
 function add_Validate() {

@@ -47,10 +47,10 @@ internal sealed class ImageService : IImageService
         var imageEntityType = Type.GetType(command.ImageEntityType);
         if (imageEntityType is null)
             throw new ArgumentNullException(nameof(command.ImageEntityType), "ImageEntityType is required.");
-        if (!typeof(Image).IsAssignableFrom(imageEntityType))
+        if (imageEntityType.BaseType != typeof(Image))
             throw new ArgumentOutOfRangeException(nameof(command.ImageEntityType),
                 "ImageEntityType must be of type Image.");
-
+        
         //ParentEntityId.
         if (!int.TryParse(command.ParentEntityId, out int parentEntityId))
             throw new ArgumentOutOfRangeException(nameof(command.ParentEntityId), "ParentEntityId is not an integer.");
@@ -67,7 +67,7 @@ internal sealed class ImageService : IImageService
 
         //ImageTypeId.
         var imageType = await _imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
-        if (imageType is null)
+        if (imageType is not null)
             throw new ArgumentOutOfRangeException(nameof(command.ImageTypeId), "Invalid ImageTypeId.");
 
         //File.

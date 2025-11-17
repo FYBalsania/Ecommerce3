@@ -1,4 +1,6 @@
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -39,53 +41,41 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         int createdBy, DateTime createdAt, string createdByIp)
     {
         if (string.IsNullOrWhiteSpace(ogFileName))
-            throw new ArgumentException("OGFilename is required", nameof(ogFileName));
+            throw new DomainException(DomainErrors.ImageErrors.OriginalFileNameRequired);
 
         if (string.IsNullOrWhiteSpace(fileName))
-            throw new ArgumentException("Filename is required", nameof(fileName));
+            throw new DomainException(DomainErrors.ImageErrors.FileNameRequired);
 
         if (string.IsNullOrWhiteSpace(fileExtension))
-            throw new ArgumentException("FileExtension is required", nameof(fileExtension));
+            throw new DomainException(DomainErrors.ImageErrors.FileExtensionRequired);
+        if (fileExtension.Length > 8)
+            throw new DomainException(DomainErrors.ImageErrors.FileExtensionTooLong);
 
         if (imageTypeId <= 0)
-            throw new ArgumentOutOfRangeException(nameof(imageTypeId), "Invalid ImageTypeId.");
+            throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
         
-        if (createdBy <= 0)
-            throw new ArgumentOutOfRangeException(nameof(createdBy), "Invalid CreatedBy.");
-        
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new ArgumentException("CreatedByIp is required", nameof(createdByIp));
-
         //link & linkTarget.
         if (!string.IsNullOrWhiteSpace(link))
         {
             //link.
             if (!Uri.TryCreate(link, UriKind.RelativeOrAbsolute, out _))
-                throw new ArgumentException("Link must be a valid URL", nameof(Image.Link));
+                throw new DomainException(DomainErrors.ImageErrors.InvalidLink);
 
             //linkTarget.
             if (string.IsNullOrWhiteSpace(linkTarget))
-                throw new ArgumentException("LinkTarget is required when Link is provided",
-                    nameof(linkTarget));
+                throw new DomainException(DomainErrors.ImageErrors.LinkTargetRequiredWhenLinkProvided);
             if (linkTarget != "_self" && linkTarget != "_blank")
-                throw new ArgumentException("LinkTarget must be either '_self' or '_blank'",
-                    nameof(linkTarget));
+                throw new DomainException(DomainErrors.ImageErrors.InvalidLinkTarget);
         }
 
-        //linkTarget
-        if (link != null)
-        {
-            if (string.IsNullOrWhiteSpace(linkTarget))
-            {
-                throw new ArgumentException("LinkTarget is required when Link is provided", nameof(linkTarget));
-            }
-
-            if (linkTarget != "_self" && linkTarget != "_blank")
-            {
-                throw new ArgumentException("LinkTarget must be either '_self' or '_blank'", nameof(linkTarget));
-            }
-        }
-
+        if (createdBy <= 0)
+            throw new DomainException(DomainErrors.ImageErrors.InvalidCreatedByUser);
+        
+        if (string.IsNullOrWhiteSpace(createdByIp))
+            throw new DomainException(DomainErrors.ImageErrors.CreatedByIpRequired);
+        if (!System.Net.IPAddress.TryParse(createdByIp, out _))
+            throw new DomainException(DomainErrors.ImageErrors.InvalidCreatedIp);
+        
         OgFileName = ogFileName;
         FileName = fileName;
         FileExtension = fileExtension;
