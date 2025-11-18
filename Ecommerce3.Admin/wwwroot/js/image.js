@@ -1,12 +1,17 @@
 $(document).ready(() => {
     const addImageModel = $('#addImageModal');
-    addImageModel.on('show.bs.modal', showAddImageView);
-    addImageModel.on('hidden.bs.modal', hideAddImageView);
+    addImageModel.on('show.bs.modal', show_AddImageView);
+    addImageModel.on('hidden.bs.modal', hide_AddImageView);
 
+    const editImageModel = $('#editImageModal');
+    editImageModel.on('show.bs.modal', show_EditImageView);
+    editImageModel.on('hidden.bs.modal', hide_EditImageView);
+    
     $('#add_Save').on('click', add_SaveClicked)
+    $('#edit_Save').on('click', edit_SaveClicked)
 })
 
-async function showAddImageView() {
+async function show_AddImageView(event) {
     const data = {entity: $('#ParentEntityType').val()};
     try {
         //get image type ids and names.
@@ -28,7 +33,34 @@ async function showAddImageView() {
     }
 }
 
-function hideAddImageView() {
+async function show_EditImageView(event) {
+    const imageId = $(event.relatedTarget).data('image-id');
+    const data = {entity: $('#ParentEntityType').val()};
+    try {
+        //get image type ids and names.
+        const imageTypeIdAndNames = await doAjax('/api/imagetypes/IdAndNamesByEntity', 'GET', data, true).promise();
+
+        //populate image types dropdown.
+        const imageTypesElement = $('#edit_ImageTypeId');
+        imageTypeIdAndNames.forEach(imageTypeIdAndName => {
+            const option = $('<option></option>');
+            option.attr('value', imageTypeIdAndName.key);
+            option.text(imageTypeIdAndName.value);
+            imageTypesElement.append(option);
+        })
+
+        //fetch image details.
+
+        //populate image details.
+
+        //attach event handlers.
+        // $('#edit_Link').on('change', edit_LinkChanged);
+    } catch (err) {
+        alert('Error occured, please try again.')
+    }
+}
+
+function hide_AddImageView() {
     const addLinkElement = $('#add_Link');
 
     //remove event handlers.
@@ -55,6 +87,9 @@ function hideAddImageView() {
     $('#add_SortOrder').val('');
     addLinkElement.val('');
     $('#add_LinkTarget').val('').prop('disabled', true);
+}
+
+function hide_EditImageView() {
 }
 
 function add_LinkChanged(event) {
@@ -95,15 +130,15 @@ async function add_SaveClicked(event) {
         } else {
             const error = await result.json();
             for (const key in error.errors) {
-                if (key.endsWith('ImageTypeId')) 
+                if (key.endsWith('ImageTypeId'))
                     $('#add_ImageTypeIdError').text(error.errors[key]);
-                if (key.endsWith('File')) 
+                if (key.endsWith('File'))
                     $('#add_FileError').text(error.errors[key]);
-                if (key.endsWith('SortOrder')) 
+                if (key.endsWith('SortOrder'))
                     $('#add_SortOrderError').text(error.errors[key]);
-                if (key.endsWith('Link')) 
+                if (key.endsWith('Link'))
                     $('#add_LinkError').text(error.errors[key]);
-                if (key.endsWith('LinkTarget')) 
+                if (key.endsWith('LinkTarget'))
                     $('#add_LinkTargetError').text(error.errors[key]);
             }
         }
@@ -172,4 +207,7 @@ function add_Validate() {
     }
 
     return isValid;
+}
+
+function edit_SaveClicked(event) {
 }
