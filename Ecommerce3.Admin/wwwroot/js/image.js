@@ -87,21 +87,28 @@ async function add_SaveClicked(event) {
     data.append('LinkTarget', $('#add_LinkTarget').val());
 
     try {
-        const res = await fetch('/Images/Add', {method: 'POST', body: data, credentials: 'same-origin'});
-        if (res.ok) {
-
+        const result = await fetch('/Images/Add', {method: 'POST', body: data, credentials: 'same-origin'});
+        if (result.ok) {
+            const response = await result.text();
+            $('#imagesTableBody').replaceWith(response);
+            $('#addImageModal').modal('hide');
         } else {
-            const response = await res.json();
-            console.log(response);
-            // for (const key in response.errors) {
-            //     console.log(key, response.errors[key]);
-            //     const errorElement = $('#add_' + key + 'Error');
-            //     errorElement.text(response.errors[key]);
-            // }
+            const error = await result.json();
+            for (const key in error.errors) {
+                if (key.endsWith('ImageTypeId')) 
+                    $('#add_ImageTypeIdError').text(error.errors[key]);
+                if (key.endsWith('File')) 
+                    $('#add_FileError').text(error.errors[key]);
+                if (key.endsWith('SortOrder')) 
+                    $('#add_SortOrderError').text(error.errors[key]);
+                if (key.endsWith('Link')) 
+                    $('#add_LinkError').text(error.errors[key]);
+                if (key.endsWith('LinkTarget')) 
+                    $('#add_LinkTargetError').text(error.errors[key]);
+            }
         }
     } catch (err) {
-        console.log(err);
-        alert('Error occured, please try again.');
+        alert('Error occured while saving image, please try again.');
     }
 }
 

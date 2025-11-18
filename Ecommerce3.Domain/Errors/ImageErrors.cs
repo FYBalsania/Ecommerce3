@@ -17,6 +17,18 @@ public static partial class DomainErrors
 
         public static readonly DomainError FileExtensionTooLong =
             new($"{nameof(Image)}.{nameof(Image.FileExtension)}", "File extension cannot exceed 8 characters.");
+        
+        public static readonly DomainError InvalidFormat =
+            new($"{nameof(Image)}.File", "File format is invalid.");
+        
+        public static readonly DomainError EmptyFile =
+            new($"{nameof(Image)}.File", "Image file cannot be empty.");
+        
+        public static readonly DomainError FileRequired =
+            new($"{nameof(Image)}.File", "Image file is required.");
+        
+        public static readonly DomainError FileSizeTooLarge =
+            new($"{nameof(Image)}.File", "Image file size cannot exceed allowed limit.");
 
         public static readonly DomainError InvalidImageTypeId =
             new($"{nameof(Image)}.{nameof(Image.ImageTypeId)}", "Image type Id is invalid.");
@@ -56,5 +68,23 @@ public static partial class DomainErrors
 
         public static readonly DomainError InvalidPageId =
             new($"{nameof(Image)}.{nameof(PageImage.PageId)}", "Page Id is invalid.");
+
+        public static readonly DomainError ParentEntityTypeRequired =
+            new($"{nameof(Image)}.ParentEntityType", "Parent entity type is required.");
+        
+        public static readonly DomainError InvalidParentEntityType =
+            new($"{nameof(Image)}.ParentEntityType", "Parent entity type is invalid.");
+        
+        public static readonly DomainError ParentEntityIdRequired =
+            new($"{nameof(Image)}.ParentEntityId", "Parent entity id. is required.");
+        
+        public static readonly DomainError InvalidParentEntityId =
+            new($"{nameof(Image)}.ParentEntityId", "Parent entity id. is invalid.");
+        
+        public static readonly DomainError ImageEntityTypeRequired =
+            new($"{nameof(Image)}.ImageEntityType", "Image entity type is required.");
+        
+        public static readonly DomainError InvalidImageEntityType =
+            new($"{nameof(Image)}.ImageEntityType", "Image entity type is invalid.");
     }
 }

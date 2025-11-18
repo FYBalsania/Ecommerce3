@@ -1,4 +1,6 @@
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Policies;
 
 namespace Ecommerce3.Infrastructure.Imaging;
@@ -52,6 +54,6 @@ internal class FileSignatureImageTypeDetector : IImageTypeDetector
         };
 
         if (!ok)
-            throw new ArgumentOutOfRangeException(nameof(fileName), "File content does not match its extension.");
+            throw new DomainException(DomainErrors.ImageErrors.InvalidFormat);
     }
 }

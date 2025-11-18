@@ -21,6 +21,7 @@ builder.Services.AddProblemDetails(options =>
 builder.Services.AddExceptionHandler<ArgumentExceptionHandler>();
 builder.Services.AddExceptionHandler<ArgumentNullExceptionHandler>();
 builder.Services.AddExceptionHandler<ArgumentOutOfRangeExceptionHandler>();
+builder.Services.AddExceptionHandler<DomainExceptionHandler>();
 builder.Services.AddExceptionHandler<FallbackExceptionHandler>();
 builder.Services.AddDataProtection();
 builder.Services.AddControllersWithViews()

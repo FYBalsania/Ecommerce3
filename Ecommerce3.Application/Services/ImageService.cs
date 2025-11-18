@@ -3,6 +3,8 @@ using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Policies;
 using Ecommerce3.Domain.Repositories;
 
@@ -38,52 +40,50 @@ internal sealed class ImageService : IImageService
         //ParentEntityType.
         var parentEntityType = Type.GetType(command.ParentEntityType);
         if (parentEntityType is null)
-            throw new ArgumentNullException(nameof(command.ParentEntityType), "ParentEntityType is required.");
+            throw new DomainException(DomainErrors.ImageErrors.ParentEntityTypeRequired);
         if (parentEntityType.BaseType == typeof(EntityWithImages<>))
-            throw new ArgumentOutOfRangeException(nameof(command.ParentEntityType),
-                "ParentEntityType must be of type EntityWithImages<>");
+            throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityType);
 
         //ImageEntityType.
         var imageEntityType = Type.GetType(command.ImageEntityType);
         if (imageEntityType is null)
-            throw new ArgumentNullException(nameof(command.ImageEntityType), "ImageEntityType is required.");
+            throw new DomainException(DomainErrors.ImageErrors.ImageEntityTypeRequired);
         if (imageEntityType.BaseType != typeof(Image))
-            throw new ArgumentOutOfRangeException(nameof(command.ImageEntityType),
-                "ImageEntityType must be of type Image.");
-        
+            throw new DomainException(DomainErrors.ImageErrors.InvalidImageEntityType);
+
         //ParentEntityId.
+        if (string.IsNullOrWhiteSpace(command.ParentEntityId))
+            throw new DomainException(DomainErrors.ImageErrors.ParentEntityIdRequired);
         if (!int.TryParse(command.ParentEntityId, out int parentEntityId))
-            throw new ArgumentOutOfRangeException(nameof(command.ParentEntityId), "ParentEntityId is not an integer.");
+            throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
         if (parentEntityId <= 0)
-            throw new ArgumentOutOfRangeException(nameof(command.ParentEntityId),
-                "Invalid ParentEntityId.");
+            throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
         var imageEntityRepository = _imageEntityRepositories
             .FirstOrDefault(x => x.EntityType == parentEntityType && x.ImageType == imageEntityType);
         if (imageEntityRepository is null)
-            throw new ArgumentNullException(nameof(command.ParentEntityId),
-                "Specific ImageEntityRepository not found.");
+            throw new DomainException(new DomainError("ImageEntityRepository", "ImageEntityRepository not found."));
         var parent = await imageEntityRepository.GetByIdAsync(parentEntityId, cancellationToken);
-        if (parent is null) throw new ArgumentNullException(nameof(command.ParentEntityId), "Invalid ParentEntityId.");
+        if (parent is null) throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
 
         //ImageTypeId.
         var imageType = await _imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
-        if (imageType is not null)
-            throw new ArgumentOutOfRangeException(nameof(command.ImageTypeId), "Invalid ImageTypeId.");
+        if (imageType is null)
+            throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
 
         //File.
         if (command.File is null)
-            throw new ArgumentNullException(nameof(command.File), "File is required.");
+            throw new DomainException(DomainErrors.ImageErrors.FileRequired);
+        if (command.File.Length == 0)
+            throw new DomainException(DomainErrors.ImageErrors.EmptyFile);
         if (command.File.Length > command.MaxFileSizeKb)
-            throw new ArgumentOutOfRangeException(
-                $"File size exceeds maximum allowed size of {command.MaxFileSizeKb} bytes.",
-                nameof(command.File));
+            throw new DomainException(DomainErrors.ImageErrors.FileSizeTooLarge);
         _imageTypeDetector.EnsureMatchesExtension(command.File, command.FileName);
         //Validation end.
 
         //Generate image name.
         var fileNameExtension = Path.GetExtension(command.FileName);
         var imageFileName =
-            $"{GetEntitySlug(parent)}-{imageType.Slug}-{command.ImageSize}-{Path.GetRandomFileName()}{fileNameExtension}";
+            $"{GetEntitySlug(parent)}-{imageType.Slug}-{command.ImageSize.ToString().ToLower()}-{Path.GetRandomFileName().Replace(".", "")}{fileNameExtension}";
 
         //Create an image instance.
         var image = Image.Create(imageEntityRepository.ImageType, command.FileName, imageFileName, fileNameExtension,
