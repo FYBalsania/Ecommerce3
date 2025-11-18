@@ -52,7 +52,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.Property(x => x.BreadcrumbsJson).HasColumnType("text").HasColumnOrder(27);
         builder.Property(x => x.HreflangMapJson).HasColumnType("text").HasColumnOrder(28);
         builder.Property(x => x.SitemapPriority).HasColumnType("decimal(18,2)").HasColumnOrder(29);
-        builder.Property(x => x.SitemapFrequency).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(30);
+        builder.Property(x => x.SitemapFrequency).HasConversion<string>().HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(30);
         builder.Property(x => x.RedirectFromJson).HasColumnType("text").HasColumnOrder(31);
         builder.Property(x => x.IsIndexed).HasColumnType("boolean").HasColumnOrder(32);
         builder.Property(x => x.HeaderScripts).HasColumnType("text").HasColumnOrder(33);

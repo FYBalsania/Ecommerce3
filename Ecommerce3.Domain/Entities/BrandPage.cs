@@ -10,7 +10,7 @@ public sealed class BrandPage : Page
     {
     }
 
-    public BrandPage(string? path, string metaTitle, string? metaDescription, string? metaKeywords, string? metaRobots,
+    public BrandPage(string path, string metaTitle, string? metaDescription, string? metaKeywords, string? metaRobots,
         string? h1, string? canonicalUrl, string? ogTitle, string? ogDescription, string? ogImageUrl, string? ogType,
         string? twitterCard, string? contentHtml, string? summary, string? schemaJsonLd, string? breadcrumbsJson,
         string? hreflangMapJson, decimal sitemapPriority, SiteMapFrequency sitemapFrequency, string? redirectFromJson,

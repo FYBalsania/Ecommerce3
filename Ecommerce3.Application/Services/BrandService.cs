@@ -6,6 +6,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
@@ -34,18 +35,17 @@ internal sealed class BrandService : IBrandService
     public async Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
+        if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
+        if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateSlug);
 
         var brand = new Brand(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
             command.AnchorTitle, command.ShortDescription, command.FullDescription, command.IsActive, command.SortOrder,
             command.CreatedBy, command.CreatedByIp);
 
-        var page = new BrandPage(null, command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
-            command.H1,
-            null, null, null, null, null, null, null, null,
+        var page = new BrandPage($"/{command.Slug}/b", command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
+            command.H1, null, null, null, null, null, null, null, null,
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, brand);
         await _repository.AddAsync(brand, cancellationToken);

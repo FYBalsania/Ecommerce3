@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.Brand;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ public class BrandsController : Controller
             Brands = result,
             PageTitle = "Brands"
         };
-        
+
         ViewData["Title"] = "Brands";
         return View(response);
     }
@@ -62,19 +63,38 @@ public class BrandsController : Controller
         {
             await _brandService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(Brand)}.{nameof(Brand.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.CreatedBy)}":
+                case $"{nameof(Brand)}.{nameof(Brand.CreatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }
-        
+
         return LocalRedirect("/Brands/Index");
     }
 
@@ -101,19 +121,34 @@ public class BrandsController : Controller
         {
             await _brandService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (ArgumentNullException e)
+        catch (DomainException domainException)
         {
-            ModelState.AddModelError(string.Empty, e.Message);
-        }
-        catch (DuplicateException e)
-        {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(Brand)}.{nameof(Brand.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.UpdatedBy)}":
+                case $"{nameof(Brand)}.{nameof(Brand.UpdatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }
