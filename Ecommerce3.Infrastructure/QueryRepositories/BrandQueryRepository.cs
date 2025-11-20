@@ -115,6 +115,7 @@ internal sealed class BrandQueryRepository : IBrandQueryRepository
                         OgFileName = x.OgFileName,
                         FileName = x.FileName,
                         FileExtension = x.FileExtension,
+                        ImageTypeId = x.ImageTypeId,
                         ImageTypeName = x.ImageType!.Name,
                         ImageTypeSlug = x.ImageType!.Slug,
                         Size = x.Size,

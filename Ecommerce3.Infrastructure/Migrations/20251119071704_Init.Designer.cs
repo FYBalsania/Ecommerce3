@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251112131502_SeedData")]
-    partial class SeedData
+    [Migration("20251119071704_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1778,6 +1778,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(21);
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("citext")
                         .HasColumnOrder(12);

@@ -1,26 +1,25 @@
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.QueryRepositories;
-using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class CategoryImageQueryRepository : ImageQueryRepository
+internal abstract class ImageQueryRepository : IImageQueryRepository
 {
     private readonly AppDbContext _dbContext;
 
-    public CategoryImageQueryRepository(AppDbContext dbContext) : base(dbContext)
+    public ImageQueryRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-
-    public override Type ImageType => typeof(CategoryImage);
     
-    public override async Task<IReadOnlyList<ImageDTO>> GetByParentIdAsync(int parentId, CancellationToken cancellationToken)
+    public abstract Type ImageType { get; }
+    public abstract Task<IReadOnlyList<ImageDTO>> GetByParentIdAsync(int parentId, CancellationToken cancellationToken);
+    
+    public async Task<ImageDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.CategoryImages.Where(x => x.CategoryId == parentId)
-            .OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
+        return await _dbContext.Images.Where(x => x.Id == id)
             .Select(x => new ImageDTO
             {
                 Id = x.Id,
@@ -41,7 +40,6 @@ internal sealed class CategoryImageQueryRepository : ImageQueryRepository
                 CreatedAt = x.CreatedAt,
                 UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
                 UpdatedAt = x.UpdatedAt
-            })
-            .ToListAsync(cancellationToken);
+            }).FirstAsync(cancellationToken);
     }
 }

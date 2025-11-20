@@ -76,23 +76,23 @@ public partial class SeedData : Migration
             "Page",
             new[] 
             { 
-                "Id", "Discriminator", "MetaTitle", "MetaDescription", "MetaKeywords", 
+                "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords", 
                 "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed", 
                 "Language", "Region", "SeoScore", "BrandId", "IsActive", 
                 "CreatedBy", "CreatedAt", "CreatedByIp" 
             },
             new object[,]
             {
-                { 1, "BrandPage", "KTM", "KTM Official Brand Page", "KTM, Bikes, Motorcycles, Racing", "KTM", 0.80, "Yearly", true, "en", "UK", 85, 1, true, 1, DateTime.Now, "::1" },
-                { 2, "BrandPage", "Facebook", "Facebook Brand Information", "Facebook, Meta, Social Media, Connect", "Facebook", 0.75, "Monthly", true, "en", "US", 82, 2, true, 1, DateTime.Now, "::1" },
-                { 3, "BrandPage", "Google", "Google Search Engine and Services", "Google, Search, Cloud, Gmail, Android", "Google", 0.90, "Weekly", true, "en", "US", 90, 3, true, 1, DateTime.Now, "::1" },
-                { 4, "BrandPage", "Apple", "Apple Brand Page", "Apple, iPhone, MacBook, iPad", "Apple", 0.85, "Monthly", true, "en", "US", 88, 4, true, 1, DateTime.Now, "::1" },
-                { 5, "BrandPage", "Microsoft", "Microsoft Products and Solutions", "Microsoft, Windows, Office, Azure", "Microsoft", 0.80, "Monthly", true, "en", "US", 87, 5, true, 1, DateTime.Now, "::1" },
-                { 6, "BrandPage", "Tesla", "Tesla Electric Vehicles", "Tesla, EV, Elon Musk, Cars, Energy", "Tesla", 0.88, "Monthly", true, "en", "US", 89, 6, true, 1, DateTime.Now, "::1" },
-                { 7, "BrandPage", "Sony", "Sony Electronics and Entertainment", "Sony, PlayStation, Cameras, TVs", "Sony", 0.80, "Yearly", true, "en", "JP", 83, 7, true, 1, DateTime.Now, "::1" },
-                { 8, "BrandPage", "NVIDIA", "NVIDIA Graphics and AI", "NVIDIA, GPU, RTX, AI, DLSS", "NVIDIA", 0.85, "Monthly", true, "en", "US", 88, 8, true, 1, DateTime.Now, "::1" },
-                { 9, "BrandPage", "Amazon", "Amazon Online Marketplace", "Amazon, eCommerce, Prime, Shopping", "Amazon", 0.90, "Weekly", true, "en", "US", 91, 9, true, 1, DateTime.Now, "::1" },
-                { 10, "BrandPage", "Intel", "Intel Processors and Technology", "Intel, CPU, Chipsets, Performance", "Intel", 0.78, "Yearly", true, "en", "US", 84, 10, true, 1, DateTime.Now, "::1" }
+                { 1, "BrandPage", "ktm/brand", "KTM", "KTM Official Brand Page", "KTM, Bikes, Motorcycles, Racing", "KTM", 0.80, "Yearly", true, "en", "UK", 85, 1, true, 1, DateTime.Now, "::1" },
+                { 2, "BrandPage", "facebook/brand", "Facebook", "Facebook Brand Information", "Facebook, Meta, Social Media, Connect", "Facebook", 0.75, "Monthly", true, "en", "US", 82, 2, true, 1, DateTime.Now, "::1" },
+                { 3, "BrandPage", "google/brand", "Google", "Google Search Engine and Services", "Google, Search, Cloud, Gmail, Android", "Google", 0.90, "Weekly", true, "en", "US", 90, 3, true, 1, DateTime.Now, "::1" },
+                { 4, "BrandPage", "apple/brand", "Apple", "Apple Brand Page", "Apple, iPhone, MacBook, iPad", "Apple", 0.85, "Monthly", true, "en", "US", 88, 4, true, 1, DateTime.Now, "::1" },
+                { 5, "BrandPage", "microsoft/brand", "Microsoft", "Microsoft Products and Solutions", "Microsoft, Windows, Office, Azure", "Microsoft", 0.80, "Monthly", true, "en", "US", 87, 5, true, 1, DateTime.Now, "::1" },
+                { 6, "BrandPage", "tesla/brand", "Tesla", "Tesla Electric Vehicles", "Tesla, EV, Elon Musk, Cars, Energy", "Tesla", 0.88, "Monthly", true, "en", "US", 89, 6, true, 1, DateTime.Now, "::1" },
+                { 7, "BrandPage", "sony/brand", "Sony", "Sony Electronics and Entertainment", "Sony, PlayStation, Cameras, TVs", "Sony", 0.80, "Yearly", true, "en", "JP", 83, 7, true, 1, DateTime.Now, "::1" },
+                { 8, "BrandPage", "nvidia/brand", "NVIDIA", "NVIDIA Graphics and AI", "NVIDIA, GPU, RTX, AI, DLSS", "NVIDIA", 0.85, "Monthly", true, "en", "US", 88, 8, true, 1, DateTime.Now, "::1" },
+                { 9, "BrandPage", "amazon/brand", "Amazon", "Amazon Online Marketplace", "Amazon, eCommerce, Prime, Shopping", "Amazon", 0.90, "Weekly", true, "en", "US", 91, 9, true, 1, DateTime.Now, "::1" },
+                { 10, "BrandPage", "inter/brand", "Intel", "Intel Processors and Technology", "Intel, CPU, Chipsets, Performance", "Intel", 0.78, "Yearly", true, "en", "US", 84, 10, true, 1, DateTime.Now, "::1" }
             });
         
         //Category
@@ -122,23 +122,23 @@ public partial class SeedData : Migration
             "Page",
             new[] 
             { 
-                "Id", "Discriminator", "MetaTitle", "MetaDescription", "MetaKeywords", 
+                "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords", 
                 "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed", 
                 "Language", "Region", "SeoScore", "CategoryId", "IsActive", 
                 "CreatedBy", "CreatedAt", "CreatedByIp" 
             },
             new object[,]
             {
-                { 11, "CategoryPage", "Motorcycles", "All types of motorcycles and related products", "Motorcycles, Bikes, Racing", "Motorcycles", 0.85, "Monthly", true, "en", "UK", 86, 1, true, 1, DateTime.Now, "::1" },
-                { 12, "CategoryPage", "Super Bikes", "Premium high-speed motorcycles", "Super Bikes, Racing, Speed", "Super Bikes", 0.88, "Monthly", true, "en", "UK", 88, 2, true, 1, DateTime.Now, "::1" },
-                { 13, "CategoryPage", "Electric Bikes", "Eco-friendly electric motorcycles and scooters", "Electric Bikes, EV, Green", "Electric Bikes", 0.90, "Yearly", true, "en", "UK", 90, 3, true, 1, DateTime.Now, "::1" },
-                { 14, "CategoryPage", "Electronics", "Electronics and smart devices", "Electronics, Gadgets, Tech", "Electronics", 0.82, "Weekly", true, "en", "US", 83, 4, true, 1, DateTime.Now, "::1" },
-                { 15, "CategoryPage", "Laptops", "Find the best laptops for work and gaming", "Laptops, Computers, Technology", "Laptops", 0.87, "Weekly", true, "en", "US", 87, 5, true, 1, DateTime.Now, "::1" },
-                { 16, "CategoryPage", "Smartphones", "Latest smartphones and mobile devices", "Smartphones, Mobile, Android, iPhone", "Smartphones", 0.90, "Weekly", true, "en", "US", 91, 6, true, 1, DateTime.Now, "::1" },
-                { 17, "CategoryPage", "Accessories", "Apparel and fashion accessories", "Accessories, Apparel, Fashion", "Accessories", 0.80, "Yearly", true, "en", "US", 82, 7, true, 1, DateTime.Now, "::1" },
-                { 18, "CategoryPage", "Helmets", "Protective helmets for bikers and sports", "Helmets, Safety, Motorcycles", "Helmets", 0.84, "Monthly", true, "en", "UK", 85, 8, true, 1, DateTime.Now, "::1" },
-                { 19, "CategoryPage", "Gaming", "All about gaming gear and consoles", "Gaming, Consoles, Accessories", "Gaming", 0.88, "Weekly", true, "en", "US", 89, 9, true, 1, DateTime.Now, "::1" },
-                { 20, "CategoryPage", "Consoles", "Next-gen gaming consoles and devices", "Consoles, PlayStation, Xbox, Nintendo", "Consoles", 0.92, "Weekly", true, "en", "US", 93, 10, true, 1, DateTime.Now, "::1" }
+                { 11, "CategoryPage", "motorcycles/category", "Motorcycles", "All types of motorcycles and related products", "Motorcycles, Bikes, Racing", "Motorcycles", 0.85, "Monthly", true, "en", "UK", 86, 1, true, 1, DateTime.Now, "::1" },
+                { 12, "CategoryPage", "super-bikes/category", "Super Bikes", "Premium high-speed motorcycles", "Super Bikes, Racing, Speed", "Super Bikes", 0.88, "Monthly", true, "en", "UK", 88, 2, true, 1, DateTime.Now, "::1" },
+                { 13, "CategoryPage", "electric-bikes/category", "Electric Bikes", "Eco-friendly electric motorcycles and scooters", "Electric Bikes, EV, Green", "Electric Bikes", 0.90, "Yearly", true, "en", "UK", 90, 3, true, 1, DateTime.Now, "::1" },
+                { 14, "CategoryPage", "electronics/category", "Electronics", "Electronics and smart devices", "Electronics, Gadgets, Tech", "Electronics", 0.82, "Weekly", true, "en", "US", 83, 4, true, 1, DateTime.Now, "::1" },
+                { 15, "CategoryPage", "laptops/category", "Laptops", "Find the best laptops for work and gaming", "Laptops, Computers, Technology", "Laptops", 0.87, "Weekly", true, "en", "US", 87, 5, true, 1, DateTime.Now, "::1" },
+                { 16, "CategoryPage", "smartphones/category", "Smartphones", "Latest smartphones and mobile devices", "Smartphones, Mobile, Android, iPhone", "Smartphones", 0.90, "Weekly", true, "en", "US", 91, 6, true, 1, DateTime.Now, "::1" },
+                { 17, "CategoryPage", "accessories/category", "Accessories", "Apparel and fashion accessories", "Accessories, Apparel, Fashion", "Accessories", 0.80, "Yearly", true, "en", "US", 82, 7, true, 1, DateTime.Now, "::1" },
+                { 18, "CategoryPage", "helmets/category", "Helmets", "Protective helmets for bikers and sports", "Helmets, Safety, Motorcycles", "Helmets", 0.84, "Monthly", true, "en", "UK", 85, 8, true, 1, DateTime.Now, "::1" },
+                { 19, "CategoryPage", "gaming/category", "Gaming", "All about gaming gear and consoles", "Gaming, Consoles, Accessories", "Gaming", 0.88, "Weekly", true, "en", "US", 89, 9, true, 1, DateTime.Now, "::1" },
+                { 20, "CategoryPage", "consoles/category", "Consoles", "Next-gen gaming consoles and devices", "Consoles, PlayStation, Xbox, Nintendo", "Consoles", 0.92, "Weekly", true, "en", "US", 93, 10, true, 1, DateTime.Now, "::1" }
             });
         
         // ProductAttribute
@@ -191,23 +191,23 @@ public partial class SeedData : Migration
             "Page",
             new[]
             {
-                "Id", "Discriminator", "MetaTitle", "MetaDescription", "MetaKeywords",
+                "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
                 "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
                 "Language", "Region", "SeoScore", "ProductGroupId", "IsActive",
                 "CreatedBy", "CreatedAt", "CreatedByIp"
             },
             new object[,]
             {
-                { 21, "ProductGroupPage", "iPhone", "Apple iPhone Series Overview", "iPhone, Apple, Smartphones, iOS", "iPhone", 0.90, "Monthly", true, "en", "US", 92, 1, true, 1, DateTime.Now, "::1" },
-                { 22, "ProductGroupPage", "Duke", "KTM Duke Motorcycles", "KTM, Duke, Motorcycles, Bikes", "Duke", 0.85, "Monthly", true, "en", "IN", 88, 2, true, 1, DateTime.Now, "::1" },
-                { 23, "ProductGroupPage", "Galaxy", "Samsung Galaxy Smartphones", "Samsung, Galaxy, Android, Phones", "Galaxy", 0.88, "Monthly", true, "en", "US", 89, 3, true, 1, DateTime.Now, "::1" },
-                { 24, "ProductGroupPage", "PlayStation", "Sony PlayStation Consoles", "PlayStation, PS5, Gaming, Sony", "PlayStation", 0.80, "Monthly", true, "en", "JP", 85, 4, true, 1, DateTime.Now, "::1" },
-                { 25, "ProductGroupPage", "ThinkPad", "Lenovo ThinkPad Laptops", "ThinkPad, Lenovo, Laptops, Business", "ThinkPad", 0.78, "Yearly", true, "en", "US", 83, 5, true, 1, DateTime.Now, "::1" },
-                { 26, "ProductGroupPage", "Surface", "Microsoft Surface Devices", "Surface, Microsoft, Laptop, Tablet", "Surface", 0.82, "Monthly", true, "en", "US", 86, 6, true, 1, DateTime.Now, "::1" },
-                { 27, "ProductGroupPage", "Model S", "Tesla Model S Electric Car", "Tesla, Model S, EV, Electric Car", "Model S", 0.90, "Monthly", true, "en", "US", 91, 7, true, 1, DateTime.Now, "::1" },
-                { 28, "ProductGroupPage", "Legion", "Lenovo Legion Gaming Series", "Legion, Lenovo, Gaming, Laptop", "Legion", 0.84, "Monthly", true, "en", "US", 87, 8, true, 1, DateTime.Now, "::1" },
-                { 29, "ProductGroupPage", "ROG", "ASUS ROG Gaming Products", "ASUS, ROG, Gaming, Laptop, PC", "ROG", 0.86, "Monthly", true, "en", "US", 88, 9, true, 1, DateTime.Now, "::1" },
-                { 30, "ProductGroupPage", "Echo", "Amazon Echo Smart Devices", "Amazon, Echo, Alexa, Smart Home", "Echo", 0.83, "Weekly", true, "en", "US", 85, 10, true, 1, DateTime.Now, "::1" }
+                { 21, "ProductGroupPage", "iphone/productgroup", "iPhone", "Apple iPhone Series Overview", "iPhone, Apple, Smartphones, iOS", "iPhone", 0.90, "Monthly", true, "en", "US", 92, 1, true, 1, DateTime.Now, "::1" },
+                { 22, "ProductGroupPage", "duke/productgroup", "Duke", "KTM Duke Motorcycles", "KTM, Duke, Motorcycles, Bikes", "Duke", 0.85, "Monthly", true, "en", "IN", 88, 2, true, 1, DateTime.Now, "::1" },
+                { 23, "ProductGroupPage", "galaxy/productgroup", "Galaxy", "Samsung Galaxy Smartphones", "Samsung, Galaxy, Android, Phones", "Galaxy", 0.88, "Monthly", true, "en", "US", 89, 3, true, 1, DateTime.Now, "::1" },
+                { 24, "ProductGroupPage", "playstation/productgroup", "PlayStation", "Sony PlayStation Consoles", "PlayStation, PS5, Gaming, Sony", "PlayStation", 0.80, "Monthly", true, "en", "JP", 85, 4, true, 1, DateTime.Now, "::1" },
+                { 25, "ProductGroupPage", "thinkpad/productgroup", "ThinkPad", "Lenovo ThinkPad Laptops", "ThinkPad, Lenovo, Laptops, Business", "ThinkPad", 0.78, "Yearly", true, "en", "US", 83, 5, true, 1, DateTime.Now, "::1" },
+                { 26, "ProductGroupPage", "surface/productgroup", "Surface", "Microsoft Surface Devices", "Surface, Microsoft, Laptop, Tablet", "Surface", 0.82, "Monthly", true, "en", "US", 86, 6, true, 1, DateTime.Now, "::1" },
+                { 27, "ProductGroupPage", "models/productgroup", "Model S", "Tesla Model S Electric Car", "Tesla, Model S, EV, Electric Car", "Model S", 0.90, "Monthly", true, "en", "US", 91, 7, true, 1, DateTime.Now, "::1" },
+                { 28, "ProductGroupPage", "legion/productgroup", "Legion", "Lenovo Legion Gaming Series", "Legion, Lenovo, Gaming, Laptop", "Legion", 0.84, "Monthly", true, "en", "US", 87, 8, true, 1, DateTime.Now, "::1" },
+                { 29, "ProductGroupPage", "rog/productgroup", "ROG", "ASUS ROG Gaming Products", "ASUS, ROG, Gaming, Laptop, PC", "ROG", 0.86, "Monthly", true, "en", "US", 88, 9, true, 1, DateTime.Now, "::1" },
+                { 30, "ProductGroupPage", "echo/productgroup", "Echo", "Amazon Echo Smart Devices", "Amazon, Echo, Alexa, Smart Home", "Echo", 0.83, "Weekly", true, "en", "US", 85, 10, true, 1, DateTime.Now, "::1" }
             });
         
         // DeliveryWindow

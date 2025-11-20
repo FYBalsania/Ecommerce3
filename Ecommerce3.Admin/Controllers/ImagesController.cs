@@ -62,9 +62,23 @@ public class ImagesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(EditImageViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Edit([FromForm] EditImageViewModel model, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        ModelState.Remove("ImageTypes");
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        
+        var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
+        var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
+        var userId = 1;
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        
+        var editImageCommand = model.ToCommand(userId, ipAddress);
+
+        await _imageService.EditImageAsync(editImageCommand, cancellationToken);
+        var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
+            Convert.ToInt32(parentEntityId), cancellationToken);
+
+        return PartialView("_ImageListPartial", imageDTOs);
     }
 
     [HttpGet]

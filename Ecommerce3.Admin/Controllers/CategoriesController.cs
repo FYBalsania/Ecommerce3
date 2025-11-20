@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.Category;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -70,15 +71,34 @@ public class CategoriesController : Controller
         {
             await _categoryService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(Category)}.{nameof(Category.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.CreatedBy)}":
+                case $"{nameof(Category)}.{nameof(Category.CreatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }
@@ -113,15 +133,34 @@ public class CategoriesController : Controller
         {
             ModelState.AddModelError(string.Empty, e.Message);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(Category)}.{nameof(Category.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.UpdatedBy)}":
+                case $"{nameof(Category)}.{nameof(Category.UpdatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }

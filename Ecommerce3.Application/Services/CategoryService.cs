@@ -66,29 +66,7 @@ internal sealed class CategoryService : ICategoryService
 
     public async Task<CategoryDTO?> GetByCategoryIdAsync(int id, CancellationToken cancellationToken)
     {
-        var category = await _queryRepository.GetByIdAsync(id, cancellationToken);
-
-        return new CategoryDTO()
-        {
-            Id = category.Id,
-            Name = category.Name,
-            Slug = category.Slug,
-            Display = category.Display,
-            Breadcrumb = category.Breadcrumb,
-            AnchorText = category.AnchorText,
-            AnchorTitle = category.AnchorTitle,
-            ParentId = category.ParentId,
-            GoogleCategory = category.GoogleCategory,
-            Path = category.Path,
-            ShortDescription = category.ShortDescription,
-            FullDescription = category.FullDescription,
-            IsActive = category.IsActive,
-            SortOrder = category.SortOrder,
-            H1 = category.H1,
-            MetaTitle = category.MetaTitle,
-            MetaDescription = category.MetaDescription,
-            MetaKeywords = category.MetaKeywords
-        };
+        return await _queryRepository.GetByIdAsync(id, cancellationToken);
     }
 
     public async Task EditAsync(EditCategoryCommand command, CancellationToken cancellationToken)

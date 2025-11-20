@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class BrandImageQueryRepository : IImageQueryRepository
+internal sealed class BrandImageQueryRepository : ImageQueryRepository
 {
     private readonly AppDbContext _dbContext;
 
-    public BrandImageQueryRepository(AppDbContext dbContext)
+    public BrandImageQueryRepository(AppDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public Type ImageType => typeof(BrandImage);
+    public override Type ImageType => typeof(BrandImage);
 
-    public async Task<IReadOnlyList<ImageDTO>> GetByParentIdAsync(int parentId, CancellationToken cancellationToken)
+    public override async Task<IReadOnlyList<ImageDTO>> GetByParentIdAsync(int parentId, CancellationToken cancellationToken)
     {
         return await _dbContext.BrandImages.Where(x => x.BrandId == parentId)
             .OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
@@ -27,6 +27,7 @@ internal sealed class BrandImageQueryRepository : IImageQueryRepository
                 OgFileName = x.OgFileName,
                 FileName = x.FileName,
                 FileExtension = x.FileExtension,
+                ImageTypeId = x.ImageTypeId,
                 ImageTypeName = x.ImageType!.Name,
                 ImageTypeSlug = x.ImageType!.Slug,
                 Size = x.Size,

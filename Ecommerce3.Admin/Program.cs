@@ -2,6 +2,8 @@ using System.Text.Json;
 using Ecommerce3.Admin.ExceptionHandlers;
 using Ecommerce3.Application;
 using Ecommerce3.Infrastructure;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +49,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(builder.Configuration.GetValue<string>("Images:Path")!),
+    RequestPath = new PathString("/Images"),
+    HttpsCompression = HttpsCompressionMode.Default
+});
 
 app.MapControllerRoute(
         name: "default",

@@ -122,4 +122,52 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
 
         throw new ArgumentException("Invalid image type", nameof(imageType));
     }
+    
+    public bool Update(int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading, 
+        string? link, string? linkTarget, int sortOrder, int updatedBy, string updatedByIp)
+    {
+        if (ImageTypeId == imageTypeId && Size == size && AltText == altText && Title == title && Loading == loading &&
+            Link == link && LinkTarget == linkTarget && SortOrder == sortOrder)
+            return false;
+
+        if (imageTypeId <= 0)
+            throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
+        
+        //link & linkTarget.
+        if (!string.IsNullOrWhiteSpace(link))
+        {
+            //link.
+            if (!Uri.TryCreate(link, UriKind.RelativeOrAbsolute, out _))
+                throw new DomainException(DomainErrors.ImageErrors.InvalidLink);
+
+            //linkTarget.
+            if (string.IsNullOrWhiteSpace(linkTarget))
+                throw new DomainException(DomainErrors.ImageErrors.LinkTargetRequiredWhenLinkProvided);
+            if (linkTarget != "_self" && linkTarget != "_blank")
+                throw new DomainException(DomainErrors.ImageErrors.InvalidLinkTarget);
+        }
+
+        if (updatedBy <= 0)
+            throw new DomainException(DomainErrors.ImageErrors.InvalidCreatedByUser);
+        
+        if (string.IsNullOrWhiteSpace(updatedByIp))
+            throw new DomainException(DomainErrors.ImageErrors.CreatedByIpRequired);
+        
+        if (!System.Net.IPAddress.TryParse(updatedByIp, out _))
+            throw new DomainException(DomainErrors.ImageErrors.InvalidCreatedIp);
+        
+        ImageTypeId = imageTypeId;
+        Size = size;
+        AltText = altText;
+        Title = title;
+        Loading = loading;
+        Link = link;
+        LinkTarget = linkTarget;
+        SortOrder = sortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = DateTime.Now;
+        UpdatedByIp = updatedByIp;
+        
+        return true;
+    }
 }

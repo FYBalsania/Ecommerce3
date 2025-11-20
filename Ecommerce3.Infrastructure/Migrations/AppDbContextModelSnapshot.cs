@@ -1775,6 +1775,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(21);
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("citext")
                         .HasColumnOrder(12);

@@ -2,13 +2,17 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
 internal class ImageRepository<T> : Repository<T>, IImageRepository<T> where T : Image
 {
+    private readonly AppDbContext _dbContext;
+
     public ImageRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
     public Type ImageType  => typeof(T);
@@ -19,5 +23,13 @@ internal class ImageRepository<T> : Repository<T>, IImageRepository<T> where T :
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
+    }
+    
+    public async Task<Image?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
+    {
+        var query = trackChanges
+            ? _dbContext.Images.AsQueryable()
+            : _dbContext.Images.AsNoTracking();
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

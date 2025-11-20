@@ -18,13 +18,15 @@ internal sealed class ImageService : IImageService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageRepository<Image> _imageRepository;
     private readonly IEnumerable<IImageQueryRepository> _imageQueryRepositories;
+    private readonly IImageQueryRepository _imageQueryRepository;
 
     public ImageService(IImageTypeDetector imageTypeDetector,
         IImageTypeRepository imageTypeRepository,
         IEnumerable<IImageEntityRepository> imageEntityRepositories,
         IUnitOfWork unitOfWork,
         IImageRepository<Image> imageRepository,
-        IEnumerable<IImageQueryRepository> imageQueryRepositories)
+        IEnumerable<IImageQueryRepository> imageQueryRepositories,
+        IImageQueryRepository imageQueryRepository)
     {
         _imageTypeDetector = imageTypeDetector;
         _imageTypeRepository = imageTypeRepository;
@@ -32,6 +34,7 @@ internal sealed class ImageService : IImageService
         _unitOfWork = unitOfWork;
         _imageRepository = imageRepository;
         _imageQueryRepositories = imageQueryRepositories;
+        _imageQueryRepository = imageQueryRepository;
     }
 
     public async Task AddImageAsync(AddImageCommand command, CancellationToken cancellationToken)
@@ -102,7 +105,25 @@ internal sealed class ImageService : IImageService
 
     public async Task EditImageAsync(EditImageCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        //ImageTypeId.
+        var imageType = await _imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
+        if (imageType is null)
+            throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
+        
+        //Get Image
+        var image = await _imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
+        if (image is null) throw new ArgumentNullException(nameof(command.Id), "Image not found.");
+        
+        //Create an image instance.
+        var imageUpdated = image.Update(command.ImageTypeId, command.ImageSize, command.AltText, command.Title, 
+            command.Loading, command.Link, command.LinkTarget, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
+
+        //Save the image to a database.
+        if (imageUpdated)
+        {
+            _imageRepository.Update(image);
+            await _unitOfWork.CompleteAsync(cancellationToken);
+        }
     }
 
     public async Task DeleteImageAsync(DeleteImageCommand command, CancellationToken cancellationToken)
@@ -131,4 +152,9 @@ internal sealed class ImageService : IImageService
         Page pg => pg.Path, // Path used for Page
         _ => throw new ArgumentException("Entity is not of type EntityWithImages<>.", nameof(entity))
     };
+    
+    public async Task<ImageDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await _imageQueryRepository.GetByIdAsync(id, cancellationToken);
+    }
 }

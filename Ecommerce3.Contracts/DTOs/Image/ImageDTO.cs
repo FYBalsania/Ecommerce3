@@ -8,6 +8,7 @@ public record ImageDTO
     public required string OgFileName { get; init; }
     public required string FileName { get; init ; }
     public required string FileExtension { get; init; }
+    public required int ImageTypeId { get; init; }
     public required string ImageTypeName { get; init; }
     public required string ImageTypeSlug { get; init; }
     public required ImageSize Size { get; init; }

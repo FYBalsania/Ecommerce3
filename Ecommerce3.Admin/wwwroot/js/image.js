@@ -6,7 +6,7 @@ $(document).ready(() => {
     const editImageModel = $('#editImageModal');
     editImageModel.on('show.bs.modal', show_EditImageView);
     editImageModel.on('hidden.bs.modal', hide_EditImageView);
-    
+
     $('#add_Save').on('click', add_SaveClicked)
     $('#edit_Save').on('click', edit_SaveClicked)
 })
@@ -50,11 +50,21 @@ async function show_EditImageView(event) {
         })
 
         //fetch image details.
+        const imageDetails = await doAjax('/api/image/' + imageId, 'GET', null, true).promise();
 
         //populate image details.
-
-        //attach event handlers.
-        // $('#edit_Link').on('change', edit_LinkChanged);
+        $('#edit_Id').val(imageDetails.id);
+        $('#edit_File').val(imageDetails.fileName);
+        $('#edit_ImageTypeId').val(imageDetails.imageTypeId);
+        $('#edit_ImageSize').val(imageDetails.size);
+        $('#edit_AltText').val(imageDetails.altText);
+        $('#edit_Title').val(imageDetails.title);
+        $('#edit_Loading').val(String(imageDetails.loading).trim());
+        $('#edit_SortOrder').val(imageDetails.sortOrder);
+        $('#edit_Link').val(imageDetails.link);
+        edit_LinkChanged();
+        $('#edit_LinkTarget').val(imageDetails.linkTarget);
+        $('#edit_Image').attr('src', imageDetails.path);
     } catch (err) {
         alert('Error occured, please try again.')
     }
@@ -90,13 +100,50 @@ function hide_AddImageView() {
 }
 
 function hide_EditImageView() {
+    const addLinkElement = $('#edit_Link');
+
+    //remove event handlers.
+    addLinkElement.off('change', edit_LinkChanged);
+
+    //reset validation errors.
+    $('#edit_ImageTypeIdError').text('');
+    $('#edit_ImageSizeError').text('');
+    $('#edit_FileError').text('');
+    $('#edit_AltTextError').text('');
+    $('#edit_TitleError').text('');
+    $('#edit_LoadingError').text('');
+    $('#edit_SortOrderError').text('');
+    $('#edit_LinkError').text('');
+    $('#edit_LinkTargetError').text('');
+
+    //reset input elements and set to default values.
+    $('#edit_Id').val('');
+    $('#edit_ImageTypeId option[value!=""]').remove();
+    $('#edit_ImageSize').val('').prop('selected', true);
+    $('#edit_AltText').val('');
+    $('#edit_Title').val('');
+    $('#edit_Loading').val('eager');
+    $('#edit_SortOrder').val('');
+    addLinkElement.val('');
+    $('#edit_LinkTarget').val('').prop('disabled', true);
 }
 
 function add_LinkChanged(event) {
     const link = $(event.target);
     const linkTarget = $('#add_LinkTarget');
 
-    if (link.val() === '') {
+    if (link.val().trim() === '') {
+        linkTarget.val('').prop('disabled', true);
+    } else {
+        linkTarget.prop('disabled', false);
+    }
+}
+
+function edit_LinkChanged(event) {
+    const link = event ? $(event.target) : $('#edit_Link');   // works with or without event
+    const linkTarget = $('#edit_LinkTarget');
+
+    if (link.val().trim() === '') {
         linkTarget.val('').prop('disabled', true);
     } else {
         linkTarget.prop('disabled', false);
@@ -140,6 +187,50 @@ async function add_SaveClicked(event) {
                     $('#add_LinkError').text(error.errors[key]);
                 if (key.endsWith('LinkTarget'))
                     $('#add_LinkTargetError').text(error.errors[key]);
+            }
+        }
+    } catch (err) {
+        alert('Error occured while saving image, please try again.');
+    }
+}
+
+async function edit_SaveClicked(event) {
+    if (!edit_Validate()) return;
+
+    const data = new FormData();
+    data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
+    data.append('ParentEntityType', $('#ParentEntityType').val());
+    data.append('Id', $('#edit_Id').val());
+    data.append('ParentEntityId', $('#ParentEntityId').val());
+    data.append('ImageEntityType', $('#ImageEntityType').val());
+    data.append('ImageTypeId', $('#edit_ImageTypeId').val());
+    data.append('ImageSize', $('#edit_ImageSize').val());
+    data.append('AltText', $('#edit_AltText').val());
+    data.append('Title', $('#edit_Title').val());
+    data.append('Loading', $('#edit_Loading').val());
+    data.append('SortOrder', $('#edit_SortOrder').val());
+    data.append('Link', $('#edit_Link').val());
+    data.append('LinkTarget', $('#edit_LinkTarget').val());
+
+    try {
+        const result = await fetch('/Images/Edit', {method: 'POST', body: data, credentials: 'same-origin'});
+        if (result.ok) {
+            const response = await result.text();
+            $('#imagesTableBody').replaceWith(response);
+            $('#editImageModal').modal('hide');
+        } else {
+            const error = await result.json();
+            for (const key in error.errors) {
+                if (key.endsWith('ImageTypeId'))
+                    $('#edit_ImageTypeIdError').text(error.errors[key]);
+                if (key.endsWith('File'))
+                    $('#edit_FileError').text(error.errors[key]);
+                if (key.endsWith('SortOrder'))
+                    $('#edit_SortOrderError').text(error.errors[key]);
+                if (key.endsWith('Link'))
+                    $('#edit_LinkError').text(error.errors[key]);
+                if (key.endsWith('LinkTarget'))
+                    $('#edit_LinkTargetError').text(error.errors[key]);
             }
         }
     } catch (err) {
@@ -209,5 +300,58 @@ function add_Validate() {
     return isValid;
 }
 
-function edit_SaveClicked(event) {
+function edit_Validate() {
+    let isValid = true;
+    const imageTypeIdError = $('#edit_ImageTypeIdError');
+    const imageSizeError = $('#edit_ImageSizeError');
+    const fileError = $('#edit_FileError');
+    const sortOrderError = $('#edit_SortOrderError');
+    const linkError = $('#edit_LinkError');
+    const linkTarget = $('#edit_LinkTargetError');
+
+    //clear errors.
+    imageTypeIdError.text('');
+    imageSizeError.text('');
+    fileError.text('');
+    sortOrderError.text('');
+    linkError.text('');
+    linkTarget.text('');
+
+    //validate.
+    //Image type.
+    if ($('#edit_ImageTypeId').val() === '') {
+        imageTypeIdError.text('Image type is required.');
+        isValid = false;
+    }
+
+    //Image size.
+    if ($('#edit_ImageSize').val() === '') {
+        imageSizeError.text('Image size is required.');
+        isValid = false;
+    }
+
+    //Sort order.
+    const sortOrder = $('#edit_SortOrder');
+    if (sortOrder.val() === '') {
+        sortOrderError.text('Please enter sort order.');
+        isValid = false;
+    } else if (!isValidNumberStrict(sortOrder.val())) {
+        sortOrderError.text('Please enter a valid sort order.');
+        isValid = false;
+    }
+
+    //Link.
+    const link = $('#edit_Link');
+    if (link.val() !== '' && !isHttpsOrRelativeUrl(link.val())) {
+        linkError.text('Please enter a valid link.');
+        isValid = false;
+    }
+
+    //Link target.
+    if (link.val() !== '' && $('#edit_LinkTarget').val() === '') {
+        linkTarget.text('Please select link target.');
+        isValid = false;
+    }
+
+    return isValid;
 }

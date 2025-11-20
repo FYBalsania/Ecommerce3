@@ -11,4 +11,6 @@ public interface IImageRepository<T> : IRepository<T> where T : Image
         int? imageTypeId, ImageSize? imageSize, string? title, string? link, int? brandId, int? categoryId,
         int? productId, int? pageId, int? productGroupId, ImageInclude includes, bool trackChanges,
         int pageNumber, int pageSize, CancellationToken cancellationToken);
+    
+    public Task<Image?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken);
 }

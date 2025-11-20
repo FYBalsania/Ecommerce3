@@ -1,3 +1,4 @@
+@using Ecommerce3.Domain.Entities
 @model Ecommerce3.Admin.ViewModels.Category.EditCategoryViewModel
 
 <div class="content-section">
@@ -158,83 +159,13 @@
         </div>
         
         <!-- Images -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 text-muted py-2">
-                    <i class="fas fa-image"></i> Images
-                </h5>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addImageModal">
-                    <i class="fas fa-plus"></i> Add Image
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Image Name</th>
-                                <th>Size</th>
-                                <th>Alt Text</th>
-                                <th>Title</th>
-                                <th>Loading</th>
-                                <th>Link</th>
-                                <th>Target</th>
-                                <th class="text-end">Sort Order</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <img src="https://placehold.co/60x60" class="img-fluid rounded">
-                                </td>
-                                <td>electronics-1.jpg</td>
-                                <td>Large</td>
-                                <td>Main Category Banner</td>
-                                <td>Category Banner</td>
-                                <td>Lazy</td>
-                                <td><a href="#">https://example.com</a></td>
-                                <td>_blank</td>
-                                <td class="text-end">1</td>
-                                <td class="text-center">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editImageModal1">
-                                        <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteImageModal1">
-                                        <i class="fas fa-trash fs-6 text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="https://placehold.co/60x60" class="img-fluid rounded">
-                                </td>
-                                <td>fashion.png</td>
-                                <td>Small</td>
-                                <td>Category Thumbnail</td>
-                                <td>Thumbnail Image</td>
-                                <td>Eager</td>
-                                <td><a href="#">https://example.com/category</a></td>
-                                <td>_parent</td>
-                                <td class="text-end">2</td>
-                                <td class="text-center">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editImageModal1">
-                                        <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteImageModal1">
-                                        <i class="fas fa-trash fs-6 text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        @await Component.InvokeAsync("Images", new
+        {
+            parentEntityType = typeof(Category),
+            parentEntityId = Model.Id,
+            imageEntityType = typeof(CategoryImage),
+            images = Model.Images 
+        })
         
         <div class="row mb-7">
             <div class="col-xl-12">
@@ -253,7 +184,6 @@
 @section Scripts
 {
     <script src="~/js/category.js"></script>
-    <!-- Quill RTE JS for this page only -->
     <script src="~/js/quill.min.js"></script>
     <script>
     // Initialize Quill
@@ -278,4 +208,5 @@
         document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
     });
     </script>
+    <script src="~/js/image.js"></script>
 }
