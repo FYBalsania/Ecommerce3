@@ -1,5 +1,6 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs.Bank;
+using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
@@ -79,15 +80,37 @@ internal sealed class BankQueryRepository : IBankQueryRepository
 
     public async Task<BankDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Banks
-            .Where(x => x.Id == id)
-            .Select(x => new BankDTO
+        return await (from b in _dbContext.Banks
+            where b.Id == id
+            select new BankDTO
             {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                IsActive = x.IsActive,
-                SortOrder = x.SortOrder,
+                Id = b.Id,
+                Name = b.Name,
+                Slug = b.Slug,
+                IsActive = b.IsActive,
+                SortOrder = b.SortOrder,
+                Images = b.Images.OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
+                    .Select(x => new ImageDTO
+                    {
+                        Id = x.Id,
+                        OgFileName = x.OgFileName,
+                        FileName = x.FileName,
+                        FileExtension = x.FileExtension,
+                        ImageTypeId = x.ImageTypeId,
+                        ImageTypeName = x.ImageType!.Name,
+                        ImageTypeSlug = x.ImageType!.Slug,
+                        Size = x.Size,
+                        AltText = x.AltText,
+                        Title = x.Title,
+                        Loading = x.Loading,
+                        Link = x.Link,
+                        LinkTarget = x.LinkTarget,
+                        SortOrder = x.SortOrder,
+                        CreatedAppUserFullName = x.CreatedByUser!.FullName,
+                        CreatedAt = x.CreatedAt,
+                        UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
+                        UpdatedAt = x.UpdatedAt
+                    }).ToList().AsReadOnly()
             }).FirstAsync(cancellationToken);
     }
 }

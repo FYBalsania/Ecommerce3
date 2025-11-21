@@ -29,10 +29,12 @@ public static class DependencyInjection
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
         services.AddScoped<IBrandPageRepository, BrandPageRepository>();
+        services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
 
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
         services.AddScoped<ICategoryPageRepository, CategoryPageRepository>();
+        services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
 
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
@@ -53,17 +55,16 @@ public static class DependencyInjection
 
         services.AddScoped<IBankRepository, BankRepository>();
         services.AddScoped<IBankQueryRepository, BankQueryRepository>();
+        services.AddScoped<IImageQueryRepository, BankImageQueryRepository>();
 
         services.AddScoped<IPostCodeRepository, PostCodeRepository>();
         services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();
 
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBrandRepository>());
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<ICategoryRepository>());
+        services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBankRepository>());
 
         services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
-
-        services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
-        services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -1,3 +1,5 @@
+using Ecommerce3.Contracts.DTOs.Image;
+
 namespace Ecommerce3.Contracts.DTOs.Bank;
 
 public class BankDTO
@@ -7,4 +9,5 @@ public class BankDTO
     public string Slug { get; set; }
     public bool IsActive { get; set; }
     public int SortOrder { get; set; }
+    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 }

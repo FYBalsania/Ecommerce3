@@ -1,3 +1,4 @@
+@using Ecommerce3.Domain.Entities
 @model Ecommerce3.Admin.ViewModels.Bank.EditBankViewModel
 
 <div class="content-section">
@@ -53,6 +54,15 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Images -->
+        @await Component.InvokeAsync("Images", new
+        {
+            parentEntityType = typeof(Bank),
+            parentEntityId = Model.Id,
+            imageEntityType = typeof(BankImage),
+            images = Model.Images 
+        })
 
         <div class="row mb-7">
             <div class="col-xl-12">
@@ -65,4 +75,5 @@
 @section Scripts
 {
     <script src="~/js/bank.js"></script>
+    <script src="~/js/image.js"></script>
 }

@@ -55,26 +55,7 @@ internal sealed class ProductGroupService : IProductGroupService
 
     public async Task<ProductGroupDTO?> GetByProductGroupIdAsync(int id, CancellationToken cancellationToken)
     {
-        var productGroup = await _queryRepository.GetByIdAsync(id, cancellationToken);
-
-        return new ProductGroupDTO
-        {
-            Id = productGroup.Id,
-            Name = productGroup.Name,
-            Slug = productGroup.Slug,
-            Display = productGroup.Display,
-            Breadcrumb = productGroup.Breadcrumb,
-            AnchorText = productGroup.AnchorText,
-            AnchorTitle = productGroup.AnchorTitle,
-            ShortDescription = productGroup.ShortDescription,
-            FullDescription = productGroup.FullDescription,
-            IsActive = productGroup.IsActive,
-            SortOrder = productGroup.SortOrder,
-            H1 = productGroup.H1,
-            MetaTitle = productGroup.MetaTitle,
-            MetaDescription = productGroup.MetaDescription,
-            MetaKeywords = productGroup.MetaKeywords
-        };
+        return await _queryRepository.GetByIdAsync(id, cancellationToken);
     }
     
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)

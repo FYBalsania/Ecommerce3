@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Commands.ProductGroup;
+using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 
 namespace Ecommerce3.Admin.ViewModels.ProductGroup;
@@ -71,8 +72,10 @@ public class EditProductGroupViewModel
     [Required(ErrorMessage = "Sort order is required.")]
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
-
-    public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
+    
+    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
+    
+    //public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
     
     public EditProductGroupCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
@@ -118,6 +121,7 @@ public class EditProductGroupViewModel
             FullDescription = dto.FullDescription,
             IsActive = dto.IsActive,
             SortOrder = dto.SortOrder,
+            Images = dto.Images
         };
     }
 }

@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.Bank;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,15 +63,19 @@ public class BanksController : Controller
         {
             await _bankService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(Bank)}.{nameof(Bank.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.CreatedBy)}":
+                case $"{nameof(Bank)}.{nameof(Bank.CreatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }
@@ -105,15 +110,19 @@ public class BanksController : Controller
         {
             ModelState.AddModelError(string.Empty, e.Message);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(Bank)}.{nameof(Bank.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.UpdatedBy)}":
+                case $"{nameof(Bank)}.{nameof(Bank.UpdatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }

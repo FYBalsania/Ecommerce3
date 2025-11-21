@@ -1,4 +1,5 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
@@ -89,7 +90,6 @@ internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
     public async Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await (from pg in _dbContext.ProductGroups
-            join p in _dbContext.Pages on pg.Id equals p.ProductGroupId
             where pg.Id == id
             select new ProductGroupDTO
             {
@@ -104,10 +104,32 @@ internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
                 SortOrder = pg.SortOrder,
                 ShortDescription = pg.ShortDescription,
                 FullDescription = pg.FullDescription,
-                H1 = p.H1,
-                MetaTitle = p.MetaTitle,
-                MetaDescription = p.MetaDescription,
-                MetaKeywords = p.MetaKeywords
+                H1 = pg.Page!.H1,
+                MetaTitle = pg.Page!.MetaTitle,
+                MetaDescription = pg.Page!.MetaDescription,
+                MetaKeywords = pg.Page!.MetaKeywords,
+                Images = pg.Images.OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
+                    .Select(x => new ImageDTO
+                    {
+                        Id = x.Id,
+                        OgFileName = x.OgFileName,
+                        FileName = x.FileName,
+                        FileExtension = x.FileExtension,
+                        ImageTypeId = x.ImageTypeId,
+                        ImageTypeName = x.ImageType!.Name,
+                        ImageTypeSlug = x.ImageType!.Slug,
+                        Size = x.Size,
+                        AltText = x.AltText,
+                        Title = x.Title,
+                        Loading = x.Loading,
+                        Link = x.Link,
+                        LinkTarget = x.LinkTarget,
+                        SortOrder = x.SortOrder,
+                        CreatedAppUserFullName = x.CreatedByUser!.FullName,
+                        CreatedAt = x.CreatedAt,
+                        UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
+                        UpdatedAt = x.UpdatedAt
+                    }).ToList().AsReadOnly()
             }).FirstAsync(cancellationToken);
     }
 }

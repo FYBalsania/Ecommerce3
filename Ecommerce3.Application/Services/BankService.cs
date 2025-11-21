@@ -45,16 +45,7 @@ internal sealed class BankService : IBankService
 
     public async Task<BankDTO?> GetByBankIdAsync(int id, CancellationToken cancellationToken)
     {
-        var bank = await _queryRepository.GetByIdAsync(id, cancellationToken);
-
-        return new BankDTO
-        {
-            Id = bank.Id,
-            Name = bank.Name,
-            Slug = bank.Slug,
-            IsActive = bank.IsActive,
-            SortOrder = bank.SortOrder,
-        };
+        return await _queryRepository.GetByIdAsync(id, cancellationToken);
     }
 
     public async Task EditAsync(EditBankCommand command, CancellationToken cancellationToken)

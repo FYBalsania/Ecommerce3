@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Bank;
 using Ecommerce3.Contracts.DTOs.Bank;
+using Ecommerce3.Contracts.DTOs.Image;
 
 namespace Ecommerce3.Admin.ViewModels.Bank;
 
@@ -27,6 +28,8 @@ public class EditBankViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
     
+    public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
+    
     public EditBankCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         return new EditBankCommand()
@@ -51,6 +54,7 @@ public class EditBankViewModel
             Slug = dto.Slug,
             IsActive = dto.IsActive,
             SortOrder = dto.SortOrder,
+            Images = dto.Images
         };
     }
 }

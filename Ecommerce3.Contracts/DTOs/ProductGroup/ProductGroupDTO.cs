@@ -19,5 +19,5 @@ public class ProductGroupDTO
     public string? FullDescription { get; set; }
     public bool IsActive { get; set; }
     public int SortOrder { get; set; }
-    public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
+    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 }
