@@ -51,8 +51,9 @@
                 <table class="table align-middle">
                     <thead>
                     <tr>
-                        <th style="width: 70%;">Name/Slug</th>
+                        <th style="width: 65%;">Name/Slug</th>
                         <th class="text-end" style="width: 10%;">Sort Order</th>
+                        <th class="text-end" style="width: 5%;">Images</th>
                         <th class="text-end" style="width: 15%;">Created</th>
                         <th class="text-center" style="width: 5%;">Action</th>
                     </tr>
@@ -66,6 +67,7 @@
                                 <span class="text-muted">@bank.Slug</span>
                             </td>
                             <td class="text-end">@bank.SortOrder</td>
+                            <td class="text-end">@bank.ImageCount</td>
                             <td class="text-end">@bank.CreatedUserFullName <br/>@bank.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
                             </td>
                             <td class="text-center">

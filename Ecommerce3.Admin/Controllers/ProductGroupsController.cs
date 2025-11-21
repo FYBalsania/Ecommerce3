@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.ProductGroup;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,15 +63,34 @@ public class ProductGroupsController : Controller
         {
             await _productGroupService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedBy)}":
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }
@@ -81,11 +101,11 @@ public class ProductGroupsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        var brand = await _productGroupService.GetByProductGroupIdAsync(id, cancellationToken);
-        if (brand is null) return NotFound();
+        var ProductGroup = await _productGroupService.GetByProductGroupIdAsync(id, cancellationToken);
+        if (ProductGroup is null) return NotFound();
 
-        ViewData["Title"] = $"Edit Brand - {brand.Name}";
-        return View(EditProductGroupViewModel.FromDTO(brand));
+        ViewData["Title"] = $"Edit ProductGroup - {ProductGroup.Name}";
+        return View(EditProductGroupViewModel.FromDTO(ProductGroup));
     }
 
     [HttpPost]
@@ -105,15 +125,34 @@ public class ProductGroupsController : Controller
         {
             ModelState.AddModelError(string.Empty, e.Message);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedBy)}":
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedByIp)}":
+                    ModelState.AddModelError(string.Empty, domainException.Message);
                     break;
             }
         }

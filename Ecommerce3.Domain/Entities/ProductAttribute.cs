@@ -1,4 +1,6 @@
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -30,14 +32,12 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     public ProductAttribute(string name, string slug, string display, string breadcrumb, DataType dataType, int sortOrder,
         int createdBy, string createdByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
-        
-        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
-        ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
-        ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
-        ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
+        ValidateName(name);
+        ValidateSlug(slug);
+        ValidateDisplay(display);
+        ValidateBreadcrumb(breadcrumb);
+        ValidateCreatedBy(createdBy);
+        ValidateCreatedByIp(createdByIp);
 
         Name = name;
         Slug = slug;
@@ -48,5 +48,53 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         CreatedBy = createdBy;
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
+    }
+    
+    private static void ValidateCreatedByIp(string createdByIp)
+    {
+        if (string.IsNullOrWhiteSpace(createdByIp))
+            throw new DomainException(DomainErrors.ProductAttributeErrors.CreatedByIpRequired);
+        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.ProductAttributeErrors.CreatedByIpTooLong);
+    }
+
+    private static void ValidateCreatedBy(int createdBy)
+    {
+        if (createdBy <= 0) throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidCreatedBy);
+    }
+    
+    private static void ValidateUpdatedBy(int updatedBy)
+    {
+        if (updatedBy <= 0) throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidUpdatedBy);
+    }
+
+    private static void ValidateBreadcrumb(string breadcrumb)
+    {
+        if (string.IsNullOrWhiteSpace(breadcrumb))
+            throw new DomainException(DomainErrors.ProductAttributeErrors.BreadcrumbRequired);
+        if (breadcrumb.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.BreadcrumbTooLong);
+    }
+
+    private static void ValidateDisplay(string display)
+    {
+        if (string.IsNullOrWhiteSpace(display)) throw new DomainException(DomainErrors.ProductAttributeErrors.DisplayRequired);
+        if (display.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.DisplayTooLong);
+    }
+
+    private static void ValidateSlug(string slug)
+    {
+        if (string.IsNullOrWhiteSpace(slug)) throw new DomainException(DomainErrors.ProductAttributeErrors.SlugRequired);
+        if (slug.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.SlugTooLong);
+    }
+
+    private static void ValidateName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.ProductAttributeErrors.NameRequired);
+        if (name.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.NameTooLong);
+    }
+    
+    private static void ValidateUpdatedByIp(string updatedByIp)
+    {
+        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.ProductAttributeErrors.UpdatedByIpRequired);
+        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
     }
 }

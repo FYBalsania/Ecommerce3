@@ -1,3 +1,6 @@
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
@@ -19,10 +22,9 @@ public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
     
     public PostCode(string code, bool isActive, int createdBy, string createdByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(code, nameof(code));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(code.Length, 16, nameof(code));
-        
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
+        ValidateCode(code);
+        ValidateCreatedBy(createdBy);
+        ValidateCreatedByIp(createdByIp);
         
         Code = code;
         IsActive = isActive;
@@ -33,6 +35,10 @@ public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
     
     public bool Update(string code, bool isActive, int updatedBy, string updatedByIp)
     {
+        ValidateCode(code);
+        ValidateUpdatedBy(updatedBy);
+        ValidateUpdatedByIp(updatedByIp);
+        
         if (Code == code && IsActive == isActive)
             return false;
 
@@ -43,5 +49,34 @@ public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedByIp = updatedByIp;
 
         return true;
+    }
+    
+    private static void ValidateCode(string code)
+    {
+        if (string.IsNullOrWhiteSpace(code)) throw new DomainException(DomainErrors.PostCodeErrors.CodeRequired);
+        if (code.Length > 16) throw new DomainException(DomainErrors.PostCodeErrors.CodeTooLong);
+    }
+
+    private static void ValidateCreatedBy(int createdBy)
+    {
+        if (createdBy <= 0) throw new DomainException(DomainErrors.PostCodeErrors.InvalidCreatedBy);
+    }
+    
+    private static void ValidateCreatedByIp(string createdByIp)
+    {
+        if (string.IsNullOrWhiteSpace(createdByIp))
+            throw new DomainException(DomainErrors.PostCodeErrors.CreatedByIpRequired);
+        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.PostCodeErrors.CreatedByIpTooLong);
+    }
+    
+    private static void ValidateUpdatedBy(int updatedBy)
+    {
+        if (updatedBy <= 0) throw new DomainException(DomainErrors.PostCodeErrors.InvalidUpdatedBy);
+    }
+    
+    private static void ValidateUpdatedByIp(string updatedByIp)
+    {
+        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.PostCodeErrors.UpdatedByIpRequired);
+        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.PostCodeErrors.UpdatedByIpTooLong);
     }
 }

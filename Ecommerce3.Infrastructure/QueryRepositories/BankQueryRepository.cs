@@ -41,6 +41,7 @@ internal sealed class BankQueryRepository : IBankQueryRepository
                 Slug = x.Slug,
                 SortOrder = x.SortOrder,
                 IsActive = x.IsActive,
+                ImageCount = x.Images.Count,
                 CreatedUserFullName = x.CreatedByUser!.FullName,
                 CreatedAt = x.CreatedAt
             })
