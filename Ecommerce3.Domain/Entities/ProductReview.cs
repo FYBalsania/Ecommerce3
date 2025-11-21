@@ -42,4 +42,11 @@ public sealed class ProductReview : Entity, ICreatable, IUpdatable, IDeletable
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

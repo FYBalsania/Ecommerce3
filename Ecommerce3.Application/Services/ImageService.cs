@@ -128,7 +128,12 @@ internal sealed class ImageService : IImageService
 
     public async Task DeleteImageAsync(DeleteImageCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        //Get Image
+        var image = await _imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
+        if (image is null) throw new ArgumentNullException(nameof(command.Id), "Image not found.");
+        
+        _imageRepository.Remove(image);
+        await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<ImageDTO>> GetImagesByImageTypeAndParentIdAsync(Type imageEntityType, int parentId,

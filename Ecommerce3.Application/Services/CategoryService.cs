@@ -6,6 +6,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -41,10 +42,10 @@ internal sealed class CategoryService : ICategoryService
     public async Task AddAsync(AddCategoryCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
+        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
+        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
 
         var parent = command.ParentId is not null
             ? await _repository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false,
@@ -72,10 +73,10 @@ internal sealed class CategoryService : ICategoryService
     public async Task EditAsync(EditCategoryCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(command.Name)} already exists.", nameof(Category.Name));
+        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(Category.Slug)} already exists.", nameof(Category.Slug));
+        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
 
         var category =
             await _repository.GetByIdAsync(command.Id, CategoryInclude.None, true, cancellationToken);

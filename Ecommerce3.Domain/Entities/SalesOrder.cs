@@ -45,4 +45,11 @@ public sealed class SalesOrder : Entity, IDeletable
     public IReadOnlyList<SalesOrderLine> Lines => _lines;
     
     private SalesOrder(){}
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

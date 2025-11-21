@@ -45,4 +45,11 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

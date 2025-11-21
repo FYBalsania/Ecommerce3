@@ -81,10 +81,24 @@ public class ImagesController : Controller
         return PartialView("_ImageListPartial", imageDTOs);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Delete(Type imageType, int id, CancellationToken cancellationToken)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete([FromForm] DeleteImageViewModel model, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        
+        var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
+        var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
+        var userId = 1;
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        
+        var deleteImageCommand = model.ToCommand(userId, ipAddress);
+        
+        await _imageService.DeleteImageAsync(deleteImageCommand, cancellationToken);
+        var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
+            Convert.ToInt32(parentEntityId), cancellationToken);
+
+        return PartialView("_ImageListPartial", imageDTOs);
     }
 
     [NonAction]

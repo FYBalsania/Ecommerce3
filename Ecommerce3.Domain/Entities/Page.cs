@@ -314,4 +314,11 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
 
         return true;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

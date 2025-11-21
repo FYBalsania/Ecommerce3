@@ -1,4 +1,6 @@
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -32,9 +34,10 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
     public DeliveryWindow(string name, DeliveryUnit deliveryUnit, uint minValue, uint? maxValue, int sortOrder,
         bool isActive, int createdBy, string createdByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
+        ValidateName(name);
+        ValidateUnit(deliveryUnit.ToString());
+        ValidateCreatedBy(createdBy);
+        ValidateCreatedByIp(createdByIp);
         if (maxValue <= minValue) throw new ArgumentException("MaxValue must be greater than MinValue.", nameof(maxValue));
         
         Name = name;
@@ -67,12 +70,14 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
     public bool Update(string name, DeliveryUnit deliveryUnit, uint minValue, uint? maxValue, bool isActive, int sortOrder,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
+        ValidateName(name);
+        ValidateUnit(deliveryUnit.ToString());
+        ValidateUpdatedBy(updatedBy);
+        ValidateUpdatedByIp(updatedByIp);
+        
         if (Name == name && Unit == deliveryUnit && MinValue == minValue && MaxValue == maxValue && IsActive == isActive && SortOrder == sortOrder)
             return false;
         
-        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 256, nameof(name));
-        ArgumentException.ThrowIfNullOrWhiteSpace(updatedByIp, nameof(updatedByIp));
         if (maxValue <= minValue) throw new ArgumentException("MaxValue must be greater than MinValue.", nameof(maxValue));
         
         Name = name;
@@ -102,5 +107,47 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedByIp = updatedByIp;
         
         return true;
+    }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
+    
+    private static void ValidateCreatedByIp(string createdByIp)
+    {
+        if (string.IsNullOrWhiteSpace(createdByIp))
+            throw new DomainException(DomainErrors.DeliveryWindowErrors.CreatedByIpRequired);
+        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.DeliveryWindowErrors.CreatedByIpTooLong);
+    }
+
+    private static void ValidateCreatedBy(int createdBy)
+    {
+        if (createdBy <= 0) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidCreatedBy);
+    }
+    
+    private static void ValidateUpdatedBy(int updatedBy)
+    {
+        if (updatedBy <= 0) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidUpdatedBy);
+    }
+    
+    private static void ValidateUpdatedByIp(string updatedByIp)
+    {
+        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.DeliveryWindowErrors.UpdatedByIpRequired);
+        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.DeliveryWindowErrors.UpdatedByIpTooLong);
+    }
+    
+    private static void ValidateName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.DeliveryWindowErrors.NameRequired);
+        if (name.Length > 256) throw new DomainException(DomainErrors.DeliveryWindowErrors.NameTooLong);
+    }
+    
+    private static void ValidateUnit(string deliveryUnit)
+    {
+        if (string.IsNullOrWhiteSpace(deliveryUnit)) throw new DomainException(DomainErrors.DeliveryWindowErrors.UnitRequired);
+        if (deliveryUnit.Length > 8) throw new DomainException(DomainErrors.DeliveryWindowErrors.UnitTooLong);
     }
 }

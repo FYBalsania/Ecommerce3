@@ -136,6 +136,13 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 
     private void ValidateParent(Category? parent)
     {

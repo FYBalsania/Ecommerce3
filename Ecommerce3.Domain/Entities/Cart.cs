@@ -35,6 +35,13 @@ public sealed class Cart : Entity, ICreatable, IUpdatable, IDeletable
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 
     private CartLine? FindCartLineByProductId(int productId) => _lines.FirstOrDefault(l => l.ProductId == productId);
 }

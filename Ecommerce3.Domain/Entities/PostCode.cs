@@ -79,4 +79,11 @@ public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
         if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.PostCodeErrors.UpdatedByIpRequired);
         if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.PostCodeErrors.UpdatedByIpTooLong);
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

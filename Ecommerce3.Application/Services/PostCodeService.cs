@@ -6,6 +6,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
@@ -31,7 +32,7 @@ internal sealed class PostCodeService : IPostCodeService
     public async Task AddAsync(AddPostCodeCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByCodeAsync(command.Code, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Code} already exists.", nameof(PostCode.Code));
+        if (exists) throw new DomainException(DomainErrors.PostCodeErrors.DuplicateCode);
 
         var postCode = new PostCode(command.Code, command.IsActive, command.CreatedBy, command.CreatedByIp);
         
@@ -54,7 +55,7 @@ internal sealed class PostCodeService : IPostCodeService
     public async Task EditAsync(EditPostCodeCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByCodeAsync(command.Code, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Code} already exists.", nameof(PostCode.Code));
+        if (exists) throw new DomainException(DomainErrors.PostCodeErrors.DuplicateCode);
 
         var postCode = await _repository.GetByIdAsync(command.Id, PostCodeInclude.None, true, cancellationToken);
         if (postCode is null) throw new ArgumentNullException(nameof(command.Id), "PostCode not found.");

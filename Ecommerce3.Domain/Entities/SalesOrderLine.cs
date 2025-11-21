@@ -32,4 +32,11 @@ public sealed class SalesOrderLine : Entity, IDeletable
     public string? DeletedByIp { get; private set; }
     
     private SalesOrderLine(){}
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

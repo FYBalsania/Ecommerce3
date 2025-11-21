@@ -165,4 +165,11 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
 
         return true;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

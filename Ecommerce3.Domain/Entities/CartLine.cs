@@ -26,4 +26,11 @@ public sealed class CartLine : Entity, ICreatable, IUpdatable, IDeletable
     private CartLine()
     {
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

@@ -16,11 +16,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContext<AppDbContext>((sp, options) =>
+        {
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>());
+        });
 
         services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
+        services.AddSingleton<SoftDeleteInterceptor>();
 
         services.AddScoped<IBankImageRepository, BankImageRepository>();
         services.AddScoped<IBankPageRepository, BankPageRepository>();

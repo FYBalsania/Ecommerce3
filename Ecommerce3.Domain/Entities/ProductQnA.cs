@@ -42,4 +42,11 @@ public sealed class ProductQnA : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
         SortOrder = sortOrder;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

@@ -5,6 +5,7 @@ using Ecommerce3.Contracts.DTOs.ImageType;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
@@ -31,7 +32,10 @@ internal sealed class ImageTypeService : IImageTypeService
     public async Task AddAsync(AddImageTypeCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ImageType.Name));
+        if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateName);
+        
+        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
 
         var imageType = new ImageType(command.Entity, command.Name, command.Slug, command.Description, command.IsActive,
             command.CreatedBy, command.CreatedByIp);
@@ -57,7 +61,10 @@ internal sealed class ImageTypeService : IImageTypeService
     public async Task EditAsync(EditImageTypeCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ImageType.Name));
+        if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateName);
+        
+        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
 
         var imageType = await _repository.GetByIdAsync(command.Id, true, cancellationToken);
         if (imageType is null) throw new ArgumentNullException(nameof(command.Id), "Image type not found.");

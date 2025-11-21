@@ -62,6 +62,16 @@ internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
 
         return await query.AnyAsync(x => x.Name == name, cancellationToken);
     }
+    
+    public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.ImageTypes.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
+
+        return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
+    }
 
     public async Task<ImageTypeDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {

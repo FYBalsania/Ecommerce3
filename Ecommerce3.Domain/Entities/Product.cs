@@ -62,10 +62,10 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public IAppUser? UpdatedByUser { get; }
     public DateTime? UpdatedAt { get; }
     public string? UpdatedByIp { get; }
-    public int? DeletedBy { get; }
+    public int? DeletedBy { get; set; }
     public IAppUser? DeletedByUser { get; }
-    public DateTime? DeletedAt { get; }
-    public string? DeletedByIp { get; }
+    public DateTime? DeletedAt { get; set; }
+    public string? DeletedByIp { get; set; }
 
     public IReadOnlyList<ProductCategory> Categories => _categories;
     public IReadOnlyList<ProductTextListItem> TextListItems => _textListItems;
@@ -128,6 +128,13 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
+    }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
     }
 }
 

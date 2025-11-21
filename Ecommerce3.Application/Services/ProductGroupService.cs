@@ -6,6 +6,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
@@ -34,10 +35,10 @@ internal sealed class ProductGroupService : IProductGroupService
     public async Task AddAsync(AddProductGroupCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ProductGroup.Name));
+        if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(ProductGroup.Slug)} already exists.", nameof(ProductGroup.Slug));
+        if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateSlug);
 
         var productGroup = new ProductGroup(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
             command.AnchorTitle, command.ShortDescription, command.FullDescription, command.IsActive, command.SortOrder,
@@ -61,10 +62,10 @@ internal sealed class ProductGroupService : IProductGroupService
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(ProductGroup.Name));
+        if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(ProductGroup.Slug)} already exists.", nameof(ProductGroup.Slug));
+        if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateSlug);
 
         var productGroup = await _repository.GetByIdAsync(command.Id, ProductGroupInclude.None, true, cancellationToken);
         if (productGroup is null) throw new ArgumentNullException(nameof(command.Id), "Product Group not found.");

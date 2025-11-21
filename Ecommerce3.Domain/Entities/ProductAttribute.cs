@@ -50,6 +50,13 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         CreatedByIp = createdByIp;
     }
     
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
+    
     private static void ValidateCreatedByIp(string createdByIp)
     {
         if (string.IsNullOrWhiteSpace(createdByIp))

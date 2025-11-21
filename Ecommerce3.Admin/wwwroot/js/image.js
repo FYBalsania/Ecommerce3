@@ -6,9 +6,14 @@ $(document).ready(() => {
     const editImageModel = $('#editImageModal');
     editImageModel.on('show.bs.modal', show_EditImageView);
     editImageModel.on('hidden.bs.modal', hide_EditImageView);
+    
+    const deleteImageModel = $('#deleteImageModal');
+    deleteImageModel.on('show.bs.modal', show_DeleteImageView);
+    deleteImageModel.on('hidden.bs.modal', hide_DeleteImageView);
 
     $('#add_Save').on('click', add_SaveClicked)
     $('#edit_Save').on('click', edit_SaveClicked)
+    $('#delete').on('click', deleteClicked)
 })
 
 async function show_AddImageView(event) {
@@ -70,6 +75,16 @@ async function show_EditImageView(event) {
     }
 }
 
+async function show_DeleteImageView(event) {
+    const imageId = $(event.relatedTarget).data('image-id');
+    const imageName = $(event.relatedTarget).data('image-name');
+    const data = {entity: $('#ParentEntityType').val()};
+    
+    //populate image details.
+    $('#delete_Id').val(imageId);
+    $('#delete_ImageName').text(imageName);
+}
+
 function hide_AddImageView() {
     const addLinkElement = $('#add_Link');
 
@@ -126,6 +141,12 @@ function hide_EditImageView() {
     $('#edit_SortOrder').val('');
     addLinkElement.val('');
     $('#edit_LinkTarget').val('').prop('disabled', true);
+}
+
+function hide_DeleteImageView() {
+    //reset input elements and set to default values.
+    $('#delete_Id').val('');
+    $('#delete_ImageName').text('');
 }
 
 function add_LinkChanged(event) {
@@ -218,6 +239,40 @@ async function edit_SaveClicked(event) {
             const response = await result.text();
             $('#imagesTableBody').replaceWith(response);
             $('#editImageModal').modal('hide');
+        } else {
+            const error = await result.json();
+            for (const key in error.errors) {
+                if (key.endsWith('ImageTypeId'))
+                    $('#edit_ImageTypeIdError').text(error.errors[key]);
+                if (key.endsWith('File'))
+                    $('#edit_FileError').text(error.errors[key]);
+                if (key.endsWith('SortOrder'))
+                    $('#edit_SortOrderError').text(error.errors[key]);
+                if (key.endsWith('Link'))
+                    $('#edit_LinkError').text(error.errors[key]);
+                if (key.endsWith('LinkTarget'))
+                    $('#edit_LinkTargetError').text(error.errors[key]);
+            }
+        }
+    } catch (err) {
+        alert('Error occured while saving image, please try again.');
+    }
+}
+
+async function deleteClicked(event) {
+    const data = new FormData();
+    data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
+    data.append('ParentEntityType', $('#ParentEntityType').val());
+    data.append('Id', $('#delete_Id').val());
+    data.append('ParentEntityId', $('#ParentEntityId').val());
+    data.append('ImageEntityType', $('#ImageEntityType').val());
+
+    try {
+        const result = await fetch('/Images/Delete', {method: 'POST', body: data, credentials: 'same-origin'});
+        if (result.ok) {
+            const response = await result.text();
+            $('#imagesTableBody').replaceWith(response);
+            $('#deleteImageModal').modal('hide');
         } else {
             const error = await result.json();
             for (const key in error.errors) {

@@ -69,6 +69,13 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
         return true;
     }
     
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
+    
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.ImageTypeErrors.NameRequired);

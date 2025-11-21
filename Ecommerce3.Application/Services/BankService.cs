@@ -6,6 +6,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
@@ -31,10 +32,10 @@ internal sealed class BankService : IBankService
     public async Task AddAsync(AddBankCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Bank.Name));
+        if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(Bank.Slug)} already exists.", nameof(Bank.Slug));
+        if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateSlug);
 
         var bank = new Bank(command.Name, command.Slug, command.IsActive, command.SortOrder,
             command.CreatedBy, command.CreatedByIp);
@@ -51,10 +52,10 @@ internal sealed class BankService : IBankService
     public async Task EditAsync(EditBankCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Bank.Name));
+        if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(Bank.Slug)} already exists.", nameof(Bank.Slug));
+        if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateSlug);
 
         var bank = await _repository.GetByIdAsync(command.Id, BankInclude.None, true, cancellationToken);
         if (bank is null) throw new ArgumentNullException(nameof(command.Id), "Bank not found.");

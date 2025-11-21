@@ -20,4 +20,16 @@ public abstract class TextListItem : Entity, ICreatable, IUpdatable, IDeletable
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
+
+    private protected TextListItem()
+    {
+        
+    }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

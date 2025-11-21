@@ -5,6 +5,7 @@ using Ecommerce3.Contracts.DTOs.DeliveryWindow;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
 
@@ -30,7 +31,7 @@ internal sealed class DeliveryWindowService : IDeliveryWindowService
     public async Task AddAsync(AddDeliveryWindowCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(DeliveryWindow.Name));
+        if (exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.DuplicateName);
 
         var deliveryWindow = new DeliveryWindow(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value,
             command.SortOrder, command.IsActive, command.CreatedBy, command.CreatedByIp);
@@ -58,16 +59,14 @@ internal sealed class DeliveryWindowService : IDeliveryWindowService
     public async Task EditAsync(EditDeliveryWindowCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(DeliveryWindow.Name));
+        if (exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.DuplicateName);
 
         var deliveryWindow = await _repository.GetByIdAsync(command.Id, true, cancellationToken);
         if (deliveryWindow is null) throw new ArgumentNullException(nameof(command.Id), "Delivery window not found.");
         
-
         var deliveryWindowUpdated = deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value,
             command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-
+        
         if (deliveryWindowUpdated)
         {
             _repository.Update(deliveryWindow);

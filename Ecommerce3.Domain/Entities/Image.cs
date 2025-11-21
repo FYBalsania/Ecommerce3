@@ -170,4 +170,11 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         
         return true;
     }
+    
+    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
+    }
 }

@@ -61,10 +61,10 @@ internal sealed class BrandService : IBrandService
     public async Task EditAsync(EditBrandCommand command, CancellationToken cancellationToken)
     {
         var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Name} already exists.", nameof(Brand.Name));
+        if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateName);
 
         exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
-        if (exists) throw new DuplicateException($"{nameof(Brand.Slug)} already exists.", nameof(Brand.Slug));
+        if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateSlug);
 
         var brand = await _repository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
         if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
