@@ -5,6 +5,6 @@ public enum DataType
     Boolean,
     Colour,
     DateOnly,
-    Number,
+    Decimal,
     Text
 }

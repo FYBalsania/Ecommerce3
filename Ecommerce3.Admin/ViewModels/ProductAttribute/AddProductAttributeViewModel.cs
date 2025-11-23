@@ -29,7 +29,7 @@ public class AddProductAttributeViewModel
     
     [Required(ErrorMessage = "Data type is required.")]
     [Display(Name = "Data type")]
-    public DataType DataType { get; set; }
+    public DataType? DataType { get; set; }
     
     [Required(ErrorMessage = "Sort order is required.")]
     [Display(Name = "Sort order")]
@@ -43,7 +43,7 @@ public class AddProductAttributeViewModel
             Slug = Slug,
             Display = Display,
             Breadcrumb = Breadcrumb,
-            DataType = DataType,
+            DataType = DataType!.Value,
             SortOrder = SortOrder,
             CreatedBy = createdBy,
             CreatedAt = createdAt,

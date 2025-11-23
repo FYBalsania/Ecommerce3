@@ -58,7 +58,8 @@ public class ProductAttributesController : Controller
 
         try
         {
-            await _productAttributeService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await _productAttributeService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
+                cancellationToken);
         }
         catch (DuplicateException e)
         {
@@ -71,6 +72,10 @@ public class ProductAttributesController : Controller
                     ModelState.AddModelError(nameof(model.Slug), e.Message);
                     break;
             }
+        }
+        catch (Exception exception)
+        {
+            
         }
         
         return LocalRedirect("/ProductAttributes/Index");
