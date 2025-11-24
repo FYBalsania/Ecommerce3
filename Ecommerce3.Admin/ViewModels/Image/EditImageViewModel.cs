@@ -7,6 +7,9 @@ namespace Ecommerce3.Admin.ViewModels.Image;
 
 public record EditImageViewModel()
 {
+    [Required(AllowEmptyStrings = false)] 
+    public string ParentEntityType { get; set; } //Brand, Category, Product etc.
+    
     [Required(AllowEmptyStrings = false)]
     public string ParentEntityId { get; set; } //BrandId, CategoryId, ProductId etc.
 
@@ -38,14 +41,18 @@ public record EditImageViewModel()
 
     [Required(ErrorMessage = "Sort order is required.")]
     public int SortOrder { get; set; }
-
-    public EditImageCommand ToCommand(int updatedBy, string updatedByIp)
+    
+    public EditImageCommand ToCommand(string parentEntityType, string parentEntityId, string imageEntityType, string path, int updatedBy, string updatedByIp)
     {
         return new EditImageCommand
         {
+            ParentEntityType = parentEntityType,
+            ParentEntityId = parentEntityId,
+            ImageEntityType = imageEntityType,
             Id = Id,
             ImageTypeId = ImageTypeId,
             ImageSize = ImageSize,
+            ImageFolderPath = path,
             AltText = AltText,
             Title = Title,
             Loading = Loading,

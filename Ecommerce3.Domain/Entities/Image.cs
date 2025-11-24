@@ -124,7 +124,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
     }
     
     public bool Update(int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading, 
-        string? link, string? linkTarget, int sortOrder, int updatedBy, string updatedByIp)
+        string fileName, string? link, string? linkTarget, int sortOrder, int updatedBy, string updatedByIp)
     {
         if (ImageTypeId == imageTypeId && Size == size && AltText == altText && Title == title && Loading == loading &&
             Link == link && LinkTarget == linkTarget && SortOrder == sortOrder)
@@ -156,6 +156,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         if (!System.Net.IPAddress.TryParse(updatedByIp, out _))
             throw new DomainException(DomainErrors.ImageErrors.InvalidCreatedIp);
         
+        FileName = fileName;
         ImageTypeId = imageTypeId;
         Size = size;
         AltText = altText;

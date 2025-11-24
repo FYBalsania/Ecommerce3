@@ -18,8 +18,11 @@ public sealed class SoftDeleteInterceptor : SaveChangesInterceptor
         
         foreach (var entry in context.ChangeTracker.Entries<IDeletable>())
         {
+            if (entry.State == EntityState.Deleted)
+            {
                 entry.State = EntityState.Modified;
                 entry.Entity.Delete(userId, DateTime.Now, ipAddress);
+            }
         }
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);

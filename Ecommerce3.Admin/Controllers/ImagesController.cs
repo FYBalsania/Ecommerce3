@@ -67,12 +67,14 @@ public class ImagesController : Controller
         ModelState.Remove("ImageTypes");
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
         
+        var parentEntityType = _dataProtector.Unprotect(model.ParentEntityType);
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
         
-        var editImageCommand = model.ToCommand(userId, ipAddress);
+        var imageFolderPath = _configuration.GetValue<string>("Images:Path");
+        var editImageCommand = model.ToCommand(parentEntityType, parentEntityId, imageEntityType, imageFolderPath!, userId, ipAddress);
 
         await _imageService.EditImageAsync(editImageCommand, cancellationToken);
         var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,

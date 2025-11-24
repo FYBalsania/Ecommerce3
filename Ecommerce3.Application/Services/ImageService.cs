@@ -105,6 +105,34 @@ internal sealed class ImageService : IImageService
 
     public async Task EditImageAsync(EditImageCommand command, CancellationToken cancellationToken)
     {
+        //ParentEntityType.
+        var parentEntityType = Type.GetType(command.ParentEntityType);
+        if (parentEntityType is null)
+            throw new DomainException(DomainErrors.ImageErrors.ParentEntityTypeRequired);
+        if (parentEntityType.BaseType == typeof(EntityWithImages<>))
+            throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityType);
+
+        //ImageEntityType.
+        var imageEntityType = Type.GetType(command.ImageEntityType);
+        if (imageEntityType is null)
+            throw new DomainException(DomainErrors.ImageErrors.ImageEntityTypeRequired);
+        if (imageEntityType.BaseType != typeof(Image))
+            throw new DomainException(DomainErrors.ImageErrors.InvalidImageEntityType);
+        
+        //ParentEntityId.
+        if (string.IsNullOrWhiteSpace(command.ParentEntityId))
+            throw new DomainException(DomainErrors.ImageErrors.ParentEntityIdRequired);
+        if (!int.TryParse(command.ParentEntityId, out int parentEntityId))
+            throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
+        if (parentEntityId <= 0)
+            throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
+        var imageEntityRepository = _imageEntityRepositories
+            .FirstOrDefault(x => x.EntityType == parentEntityType && x.ImageType == imageEntityType);
+        if (imageEntityRepository is null)
+            throw new DomainException(new DomainError("ImageEntityRepository", "ImageEntityRepository not found."));
+        var parent = await imageEntityRepository.GetByIdAsync(parentEntityId, cancellationToken);
+        if (parent is null) throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
+        
         //ImageTypeId.
         var imageType = await _imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
         if (imageType is null)
@@ -114,9 +142,21 @@ internal sealed class ImageService : IImageService
         var image = await _imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
         if (image is null) throw new ArgumentNullException(nameof(command.Id), "Image not found.");
         
+        // Detect whether rename is required and rename it
+        var oldFileName = image.FileName;
+        string? newFileName = null;
+        if (image.ImageTypeId != command.ImageTypeId || image.Size != command.ImageSize)
+        {
+            var fileNameExtension = Path.GetExtension(oldFileName);
+            newFileName = $"{GetEntitySlug(parent)}-{imageType.Slug}-{command.ImageSize.ToString().ToLower()}-{Path.GetRandomFileName().Replace(".", "")}{fileNameExtension}";
+            var oldPath = Path.Combine(command.ImageFolderPath, oldFileName);
+            var newPath = Path.Combine(command.ImageFolderPath, newFileName);
+            File.Move(oldPath, newPath);
+        }
+        
         //Create an image instance.
         var imageUpdated = image.Update(command.ImageTypeId, command.ImageSize, command.AltText, command.Title, 
-            command.Loading, command.Link, command.LinkTarget, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
+            command.Loading, newFileName ?? oldFileName, command.Link, command.LinkTarget, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
         //Save the image to a database.
         if (imageUpdated)

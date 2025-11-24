@@ -220,8 +220,8 @@ async function edit_SaveClicked(event) {
 
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
-    data.append('ParentEntityType', $('#ParentEntityType').val());
     data.append('Id', $('#edit_Id').val());
+    data.append('ParentEntityType', $('#ParentEntityType').val());
     data.append('ParentEntityId', $('#ParentEntityId').val());
     data.append('ImageEntityType', $('#ImageEntityType').val());
     data.append('ImageTypeId', $('#edit_ImageTypeId').val());

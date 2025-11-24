@@ -247,16 +247,16 @@ public partial class SeedData : Migration
             },
             new object[,]
             {
-                { 1, "Brand", "Brand Banner", "brand_banner", "Main banner image displayed on the brand page.", true, 1, DateTime.Now, "::1" },
-                { 2, "Brand", "Brand Logo","brand_logo", "Primary logo image for the brand.", true, 1, DateTime.Now, "::1" },
-                { 3, "Category", "Category Banner", "category_banner" ,"Banner displayed at the top of category pages.", true, 1, DateTime.Now, "::1" },
-                { 4, "Category", "Category Thumbnail", "category_thumbnail" ,"Small thumbnail for category listings.", true, 1, DateTime.Now, "::1" },
-                { 5, "ProductGroup", "Group Banner", "group_banner", "Banner used for product group sections.", true, 1, DateTime.Now, "::1" },
-                { 6, "Product", "Main Image","main_image", "Primary product image shown on product details page.", true, 1, DateTime.Now, "::1" },
-                { 7, "Product", "Gallery Image","gallery_image", "Additional product gallery image.", true, 1, DateTime.Now, "::1" },
-                { 8, "Page", "Home Page Slide 1","home_page_slider_1", "Main slider image on homepage (first slide).", true, 1, DateTime.Now, "::1" },
-                { 9, "Page", "Home Page Slide 2","home_page_slider_2", "Main slider image on homepage (second slide).", true, 1, DateTime.Now, "::1" },
-                { 10, "Page", "Promo Banner","promo_banner", "Promotional banner displayed on homepage.", true, 1, DateTime.Now, "::1" }
+                { 1, "Brand", "Brand Banner", "brand-banner", "Main banner image displayed on the brand page.", true, 1, DateTime.Now, "::1" },
+                { 2, "Brand", "Brand Logo","brand-logo", "Primary logo image for the brand.", true, 1, DateTime.Now, "::1" },
+                { 3, "Category", "Category Banner", "category-banner" ,"Banner displayed at the top of category pages.", true, 1, DateTime.Now, "::1" },
+                { 4, "Category", "Category Thumbnail", "category-thumbnail" ,"Small thumbnail for category listings.", true, 1, DateTime.Now, "::1" },
+                { 5, "ProductGroup", "Group Banner", "group-banner", "Banner used for product group sections.", true, 1, DateTime.Now, "::1" },
+                { 6, "Product", "Main Image","main-image", "Primary product image shown on product details page.", true, 1, DateTime.Now, "::1" },
+                { 7, "Product", "Gallery Image","gallery-image", "Additional product gallery image.", true, 1, DateTime.Now, "::1" },
+                { 8, "Page", "Home Page Slide 1","home-page-slider-1", "Main slider image on homepage (first slide).", true, 1, DateTime.Now, "::1" },
+                { 9, "Page", "Home Page Slide 2","home-page-slider-2", "Main slider image on homepage (second slide).", true, 1, DateTime.Now, "::1" },
+                { 10, "Page", "Promo Banner","promo-banner", "Promotional banner displayed on homepage.", true, 1, DateTime.Now, "::1" }
             });
         
         // Bank
