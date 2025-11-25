@@ -8,6 +8,6 @@ namespace Ecommerce3.Infrastructure.Migrations
     public partial class SeedData : Migration
     {
         /// <inheritdoc />
-
+ 
     }
 }

@@ -13,5 +13,4 @@ public class ProductAttributeDTO
     public int SortOrder { get; set; }
     public DataType DataType { get; set; }
     public IReadOnlyList<ProductAttributeValueDTO> Values { get; set; } = [];
-
 }

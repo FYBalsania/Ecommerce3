@@ -1,6 +1,6 @@
 namespace Ecommerce3.Domain.Entities;
 
-public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
+public abstract class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
 {
     public int ProductAttributeId { get; private set; }
     public ProductAttribute? ProductAttribute { get; private set; }

@@ -19,7 +19,8 @@ internal sealed class ProductAttributeQueryRepository : IProductAttributeQueryRe
         _dbContext = dbContext;
     }
 
-    public async Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter, int pageNumber, int pageSize,
+    public async Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter,
+        int pageNumber, int pageSize,
         CancellationToken cancellationToken)
     {
         var query = _dbContext.ProductAttributes.AsQueryable();
@@ -79,15 +80,20 @@ internal sealed class ProductAttributeQueryRepository : IProductAttributeQueryRe
 
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
-    
+
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _dbContext.ProductAttributes.MaxAsync(x => x.SortOrder, cancellationToken);
-    
+
     public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.ProductAttributes
+            .AsNoTracking()
+            .Include(x => x.Values)
+                .ThenInclude(productAttributeValue => productAttributeValue.CreatedByUser)
             .FirstOrDefaultAsync(pa => pa.Id == id, cancellationToken);
     
+        if (entity == null) return null;
+
         return new ProductAttributeDTO
         {
             Id = entity.Id,
@@ -97,29 +103,25 @@ internal sealed class ProductAttributeQueryRepository : IProductAttributeQueryRe
             Breadcrumb = entity.Breadcrumb,
             SortOrder = entity.SortOrder,
             DataType = entity.DataType,
-            Values = entity.Values
-                .Select(x => x switch
-                {
-                    ProductAttributeBooleanValue b => 
-                        new ProductAttributeBooleanValueDTO(
-                            b.Id, b.Value, b.Slug, b.Display, b.Breadcrumb, b.SortOrder, 
-                            b.CreatedByUser?.FullName, b.CreatedAt, b.BooleanValue),
-                    //
-                    // ProductAttributeDecimalValue d => 
-                    //     new ProductAttributeDecimalValueDTO(
-                    //         d.Id, d.Value, d.Slug, d.Display, d.Breadcrumb, d.SortOrder, 
-                    //         d.CreatedByUser?.FullName, d.CreatedAt, d.DecimalValue),
-                    //
-                    // ProductAttributeDateOnlyValue don => 
-                    //     new ProductAttributeDateOnlyValueDTO(
-                    //         don.Id, don.Value, don.Slug, don.Display, don.Breadcrumb, don.SortOrder, 
-                    //         don.CreatedByUser?.FullName, don.CreatedAt, don.DateOnlyValue),
-                    //
-                    // ProductAttributeColourValue c => 
-                    //     new ProductAttributeColourValueDTO(
-                    //         c.Id, c.Value, c.Slug, c.Display, c.Breadcrumb, c.SortOrder, 
-                    //         c.CreatedByUser?.FullName, c.CreatedAt, c.HexCode, c.ColourFamily, c.ColourFamilyHexCode),
-                }).ToList().AsReadOnly()
+            Values = entity.Values.Select(MapToValueDTO).ToList()
+        };
+    }
+    
+    private static ProductAttributeValueDTO MapToValueDTO(ProductAttributeValue value)
+    {
+        return value switch
+        {
+            ProductAttributeColourValue cv => new ProductAttributeColourValueDTO(
+                cv.Id, cv.Value, cv.Slug, cv.Display, cv.Breadcrumb, cv.SortOrder, 
+                cv.CreatedByUser!.FullName, cv.CreatedAt, cv.HexCode, 
+                cv.ColourFamily, cv.ColourFamilyHexCode),
+        
+            ProductAttributeBooleanValue bv => new ProductAttributeBooleanValueDTO(
+                bv.Id, bv.Value, bv.Slug, bv.Display, bv.Breadcrumb, bv.SortOrder, 
+                bv.CreatedByUser!.FullName, bv.CreatedAt, bv.BooleanValue),
+        
+            _ => throw new NotSupportedException(
+                $"Product attribute value type '{value.GetType().Name}' is not supported.")
         };
     }
 }

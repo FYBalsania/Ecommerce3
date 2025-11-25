@@ -13,7 +13,7 @@ public abstract class ProductAttributeValueDTO
     public string CreatedUserFullName { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
-    public ProductAttributeValueDTO(int id, string value, string slug, string display, string breadcrumb, 
+    protected ProductAttributeValueDTO(int id, string value, string slug, string display, string breadcrumb, 
         int sortOrder, string createdUserFullName, DateTime createdAt)
     {
         Id = id;
