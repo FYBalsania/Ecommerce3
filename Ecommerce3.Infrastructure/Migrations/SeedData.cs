@@ -151,7 +151,7 @@ public partial class SeedData : Migration
             },
             new object[,]
             {
-                { 1, "Color", "color", "Color", "Color", "Text", 1, 1, DateTime.Now, "::1" },
+                { 1, "Colour", "colour", "Colour", "Colour", "Colour", 1, 1, DateTime.Now, "::1" },
                 { 2, "Storage", "storage", "Storage", "Storage", "Text", 2, 1, DateTime.Now, "::1" },
                 { 3, "RAM", "ram", "RAM", "RAM", "Text", 3, 1, DateTime.Now, "::1" },
                 { 4, "Screen Size", "screen-size", "Screen Size", "Screen Size", "Text", 4, 1, DateTime.Now, "::1" },
@@ -161,6 +161,21 @@ public partial class SeedData : Migration
                 { 8, "Weight", "weight", "Weight", "Weight", "Text", 8, 1, DateTime.Now, "::1" },
                 { 9, "Warranty", "warranty", "Warranty", "Warranty", "Text", 9, 1, DateTime.Now, "::1" },
                 { 10, "Connectivity", "connectivity", "Connectivity", "Connectivity", "Text", 10, 1, DateTime.Now, "::1" }
+            });
+        
+        // ProductAttribute
+        migrationBuilder.InsertData(
+            "ProductAttributeValue",
+            new[]
+            { 
+                "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "HexCode", "ColourFamily", "ColourFamilyHexCode",
+                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+            },
+            new object[,]
+            {
+                { 1, 1, "ProductAttributeColourValue", "Blood Red", "blood-red", "Blood Red", "Blood Red", "#8A0303", "Red", "#FF0000", 1, 1, DateTime.Now, "::1" },
+                { 2, 1, "ProductAttributeColourValue", "Pale Yellow", "pale-yellow", "Pale Yellow", "Pale Yellow", "#FFFF99", "Yellow", "#FFFF99", 2, 1, DateTime.Now, "::1" },
+                { 3, 1, "ProductAttributeColourValue", "Emerald Green", "emerald-green", "Emerald Green", "Emerald Green", "#50C878", "Green", "#50C878", 3, 1, DateTime.Now, "::1" },
             });
         
         // ProductGroup

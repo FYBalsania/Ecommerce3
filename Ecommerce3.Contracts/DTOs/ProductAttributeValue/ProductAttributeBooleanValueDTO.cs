@@ -1,0 +1,12 @@
+namespace Ecommerce3.Contracts.DTOs;
+
+public class ProductAttributeBooleanValueDTO : ProductAttributeValueDTO
+{
+    public bool BooleanValue { get; private set; }
+
+    public ProductAttributeBooleanValueDTO(int id, string value, string slug, string display, string breadcrumb, int sortOrder, string createdUserFullName, DateTime createdAt, bool booleanValue) 
+        : base(id, value, slug, display, breadcrumb, sortOrder, createdUserFullName, createdAt)
+    {
+        BooleanValue = booleanValue;
+    }
+}

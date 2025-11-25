@@ -84,8 +84,11 @@ public class ProductAttributesController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        ViewData["Title"] = "Edit Product Attribute - Color";
-        return View();
+        var productAttribute = await _productAttributeService.GetByIdAsync(id, cancellationToken);
+        if (productAttribute is null) return NotFound();
+
+        ViewData["Title"] = $"Edit Product Attribute - {productAttribute.Name}";
+        return View(EditProductAttributeViewModel.FromDTO(productAttribute));
     }
 
     [HttpPost]

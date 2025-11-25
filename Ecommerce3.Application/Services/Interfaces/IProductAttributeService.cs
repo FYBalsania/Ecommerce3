@@ -9,7 +9,7 @@ public interface IProductAttributeService
 {
     Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
-
+    Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task AddAsync(AddProductAttributeCommand command, CancellationToken cancellationToken);
     Task EditAsync(EditProductAttributeCommand command, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);

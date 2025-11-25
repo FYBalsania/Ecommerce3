@@ -1,7 +1,10 @@
+using System.Diagnostics;
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTOs;
 using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -79,4 +82,44 @@ internal sealed class ProductAttributeQueryRepository : IProductAttributeQueryRe
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _dbContext.ProductAttributes.MaxAsync(x => x.SortOrder, cancellationToken);
+    
+    public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var entity = await _dbContext.ProductAttributes
+            .FirstOrDefaultAsync(pa => pa.Id == id, cancellationToken);
+    
+        return new ProductAttributeDTO
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            Slug = entity.Slug,
+            Display = entity.Display,
+            Breadcrumb = entity.Breadcrumb,
+            SortOrder = entity.SortOrder,
+            DataType = entity.DataType,
+            Values = entity.Values
+                .Select(x => x switch
+                {
+                    ProductAttributeBooleanValue b => 
+                        new ProductAttributeBooleanValueDTO(
+                            b.Id, b.Value, b.Slug, b.Display, b.Breadcrumb, b.SortOrder, 
+                            b.CreatedByUser?.FullName, b.CreatedAt, b.BooleanValue),
+                    //
+                    // ProductAttributeDecimalValue d => 
+                    //     new ProductAttributeDecimalValueDTO(
+                    //         d.Id, d.Value, d.Slug, d.Display, d.Breadcrumb, d.SortOrder, 
+                    //         d.CreatedByUser?.FullName, d.CreatedAt, d.DecimalValue),
+                    //
+                    // ProductAttributeDateOnlyValue don => 
+                    //     new ProductAttributeDateOnlyValueDTO(
+                    //         don.Id, don.Value, don.Slug, don.Display, don.Breadcrumb, don.SortOrder, 
+                    //         don.CreatedByUser?.FullName, don.CreatedAt, don.DateOnlyValue),
+                    //
+                    // ProductAttributeColourValue c => 
+                    //     new ProductAttributeColourValueDTO(
+                    //         c.Id, c.Value, c.Slug, c.Display, c.Breadcrumb, c.SortOrder, 
+                    //         c.CreatedByUser?.FullName, c.CreatedAt, c.HexCode, c.ColourFamily, c.ColourFamilyHexCode),
+                }).ToList().AsReadOnly()
+        };
+    }
 }

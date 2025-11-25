@@ -1,10 +1,11 @@
+@using Ecommerce3.Contracts.DTOs
 @using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.ProductAttribute.EditProductAttributeViewModel
 
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Product Attribute - Colour</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Product Attribute - @Model.Name</h2>
     </div>
 
     <!-- General -->
@@ -16,59 +17,54 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" value="Colour">
+                        <label class="form-label fw-bold required" asp-for="Name"></label>
+                        <input type="text" class="form-control" asp-for="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Slug <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" value="colour">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Display <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" value="Colour">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Breadcrumb <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" value="Home > Attributes > Edit > Colour">
+                        <label class="form-label fw-bold required" asp-for="Slug"></label>
+                        <input type="text" class="form-control" asp-for="Slug">
+                        <span asp-validation-for="Slug" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Sort Order <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" value="1">
+                        <label class="form-label fw-bold required" asp-for="Display">Display</label>
+                        <input type="text" class="form-control" asp-for="Display">
+                        <span asp-validation-for="Display" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Is Active <span class="text-danger">*</span></label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="isActive" checked>
-                            <label class="form-check-label" for="isActive">Yes</label>
-                        </div>
+                        <label class="form-label fw-bold required" asp-for="Breadcrumb"></label>
+                        <input type="text" class="form-control" asp-for="Breadcrumb">
+                        <span asp-validation-for="Breadcrumb" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Data Type <span class="text-danger">*</span></label>
-                        <select class="form-select">
+                        <label class="form-label fw-bold required" asp-for="SortOrder"></label>
+                        <input type="number" class="form-control" asp-for="SortOrder">
+                        <span asp-validation-for="SortOrder" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold required" asp-for="DataType"></label>
+                        <select class="form-select" asp-for="DataType">
                             <option value="">Select Data Type</option>
                             <option value="Text" selected>Text</option>
                             <option value="Number">Number</option>
                             <option value="DateOnly">DateOnly</option>
                             <option value="Boolean">Boolean</option>
                         </select>
+                        <span asp-validation-for="DataType" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -170,10 +166,10 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0 text-muted py-2">
-                <i class="fas fa-pencil"></i> Storage Values (for reference - will be dynamic)
+                <i class="fas fa-pencil"></i> Values
             </h5>
             <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#addProductAttributeValueModal">
+                    data-bs-target="#addProductAttributeColourValueModal">
                 <i class="fas fa-plus"></i> Add Value
             </button>
         </div>
@@ -182,73 +178,67 @@
                 <div class="table-responsive">
                     <table class="table align-middle">
                         <thead>
-                        <tr>
-                            <th>Value & Slug</th>
-                            <th class="text-end">Sort Order</th>
-                            <th class="text-end">Created</th>
-                            <th class="text-center">Action</th>
-                        </tr>
+                            <tr>
+                                @if (Model.DataType == DataType.Colour)
+                                    {
+                                        <th style="width: 35%;">Name/Slug</th>
+                                        <th style="width: 10%;">Hex</th>
+                                        <th style="width: 10%;">Colour Family</th>
+                                        <th style="width: 15%;">Colour Family Hex</th>
+                                    }
+                                    else
+                                    {
+                                        <th style="width: 60%;">Name/Slug</th>
+                                        <th style="width: 10%;">Value</th>
+                                    }
+                                <th class="text-end" style="width: 10%;">Sort Order</th>
+                                <th class="text-end" style="width: 15%;">Created</th>
+                                <th class="text-center" style="width: 5%;">Action</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                128 GB <span class="badge bg-success ms-2"> </span><br/>
-                                <span class="text-muted">128-gb</span>
-                            </td>
-                            <td class="text-end">1</td>
-                            <td class="text-end">John Doe <br/>25-Sept-2025 09:15</td>
-                            <td class="text-center">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
-                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                </a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
-                                    <i class="fas fa-trash fs-6 text-danger"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>256 GB</td>
-                            <td>256-gb</td>
-                            <td class="text-end">2</td>
-                            <td class="text-end">Jane Doe<br/>25-Sept-2025 09:15</td>
-                            <td class="text-center">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
-                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                </a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
-                                    <i class="fas fa-trash fs-6 text-danger"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>512 GB</td>
-                            <td>512-gb</td>
-                            <td class="text-end">3</td>
-                            <td class="text-end">John Doe<br/>25-Sept-2025 09:15</td>
-                            <td class="text-center">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
-                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                </a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
-                                    <i class="fas fa-trash fs-6 text-danger"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1 TB</td>
-                            <td>1-tb</td>
-                            <td class="text-end">4</td>
-                            <td class="text-end">John Doe<br/>25-Sept-2025 09:15</td>
-                            <td class="text-center">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeValueModal">
-                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
-                                </a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeValueModal">
-                                    <i class="fas fa-trash fs-6 text-danger"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
+                                @foreach (var val in Model.Values)
+                                {
+                                    <tr>
+                                        <td>
+                                            @val.Value <br/>
+                                            <span class="text-muted">@val.Slug</span>
+                                        </td>
+                                        @if (Model.DataType == DataType.Colour)
+                                        {
+                                            var colour = val as ProductAttributeColourValueDTO;
+
+                                            <td>@colour?.HexCode</td>
+                                            <td>@colour?.ColourFamily</td>
+                                            <td>@colour?.ColourFamilyHexCode</td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @{
+                                                    var display = Model.DataType switch
+                                                    {
+                                                        DataType.Boolean => (val as ProductAttributeBooleanValueDTO)?.BooleanValue.ToString(),
+                                                        DataType.Decimal => (val as ProductAttributeDecimalValueDTO)?.DecimalValue.ToString(),
+                                                        DataType.DateOnly => (val as ProductAttributeDateOnlyValueDTO)?.DateOnlyValue.ToString(),
+                                                    };
+                                                }
+                                                @display
+                                            </td>
+                                        }
+                                        <td class="text-end">@val.SortOrder</td>
+                                        <td class="text-end">@val.CreatedUserFullName <br/>@val.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
+                                        <td class="text-center">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editProductAttributeColourValueModal">
+                                                <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                            </a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductAttributeColourValueModal">
+                                                <i class="fas fa-trash fs-6 text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -442,20 +432,219 @@
             </div>
         </div>
         break;
+    
     case DataType.Boolean:
         @:<!-- Edit Product Attribute Boolean Value Modal -->
         break;
+        
     case DataType.Colour:
         // Add Product Attribute Colour Value Modal.
-        <div class="modal" id="add_ProductAttributeColourValueModal" tabindex="-1"></div>
+        <div class="modal fade" id="addProductAttributeColourValueModal" tabindex="-1"
+             aria-labelledby="addProductAttributeColourValueModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-muted" id="addProductAttributeColourValueModalLabel">
+                            <i class="fas fa-plus"></i> Add Value
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="hidden" value="ProductAttributeColourValue"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourValue">Value</label>
+                                    <input type="text" class="form-control" id="add_ColourValue">
+                                    <span class="text-danger" id="add_ColourValueError"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourSlug">Slug</label>
+                                    <input type="text" class="form-control" id="add_ColourSlug">
+                                    <span class="text-danger" id="add_ColourSlugError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourDisplay">Display</label>
+                                    <input type="text" class="form-control" id="add_ColourDisplay">
+                                    <span class="text-danger" id="add_ColourDisplayError"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourBreadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="add_ColourBreadcrumb">
+                                    <span class="text-danger" id="add_ColourBreadcrumbError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourSortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="add_ColourSortOrder">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourHexCode">Hex Code</label>
+                                    <input type="text" class="form-control" id="add_ColourHexCode">
+                                    <span class="text-danger" id="add_ColourHexCodeError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourFamily">Colour Family</label>
+                                    <input type="text" class="form-control" id="add_ColourFamily">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_ColourFamilyHexCode">Colour Family Hex Code</label>
+                                    <input type="text" class="form-control" id="add_ColourFamilyHexCode">
+                                    <span class="text-danger" id="add_ColourFamilyHexCodeError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="addProductAttributeColour_Save">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         // Edit Product Attribute Colour Value Modal.
-        <div class="modal" id="edit_ProductAttributeColourValueModal" tabindex="-1"></div>
+        <div class="modal fade" id="editProductAttributeColourValueModal" tabindex="-1"
+             aria-labelledby="editProductAttributeColourValueModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-muted" id="editProductAttributeColourValueModalLabel">
+                            <i class="fas fa-plus"></i> Edit Value
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="hidden" value="ProductAttributeColourValue"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourValue">Value</label>
+                                    <input type="text" class="form-control" id="edit_ColourValue">
+                                    <span class="text-danger" id="edit_ColourValueError"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourSlug">Slug</label>
+                                    <input type="text" class="form-control" id="edit_ColourSlug">
+                                    <span class="text-danger" id="edit_ColourSlugError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourDisplay">Display</label>
+                                    <input type="text" class="form-control" id="edit_ColourDisplay">
+                                    <span class="text-danger" id="edit_ColourDisplayError"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourBreadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="edit_ColourBreadcrumb">
+                                    <span class="text-danger" id="edit_ColourBreadcrumbError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourSortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="edit_ColourSortOrder">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourHexCode">Hex Code</label>
+                                    <input type="text" class="form-control" id="edit_ColourHexCode">
+                                    <span class="text-danger" id="edit_ColourHexCodeError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourFamily">Colour Family</label>
+                                    <input type="text" class="form-control" id="edit_ColourFamily">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_ColourFamilyHexCode">Colour Family Hex Code</label>
+                                    <input type="text" class="form-control" id="edit_ColourFamilyHexCode">
+                                    <span class="text-danger" id="edit_ColourFamilyHexCodeError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="editProductAttributeColour_Save">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         // Delete Product Attribute Colour Value Modal.
-        <div class="modal" id="delete_ProductAttributeColourValueModal" tabindex="-1"></div>
+        <div class="modal fade" id="deleteProductAttributeColourValueModal" tabindex="-1"
+             aria-labelledby="deleteProductAttributeColourValueModalLabel" aria-hidden="true">>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header text-danger">
+                        <h5 class="modal-title" id="deleteProductAttributeColourValueModalLabel">
+                            <i class="fas fa-trash"></i> Delete Colour Value
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
 
+                    <div class="modal-body">
+                        <p class="text-muted">
+                            Are you sure you want to delete <span class="text-danger" id="delete_ColourValue">Red</span>?
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="hidden" id="delete_Id"/>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="deleteProductAttributeColour">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         break;
+        
     case DataType.DateOnly:
         // Add Product Attribute DateOnly Value Modal.
         <div class="modal" id="add_ProductAttributeDateOnlyValueModal" tabindex="-1"></div>
@@ -467,6 +656,7 @@
         <div class="modal" id="delete_ProductAttributeDateOnlyValueModal" tabindex="-1"></div>
 
         break;
+        
     case DataType.Decimal:
         // Add Product Attribute Decimal Value Modal.
         <div class="modal" id="add_ProductAttributeDecimalValueModal" tabindex="-1"></div>

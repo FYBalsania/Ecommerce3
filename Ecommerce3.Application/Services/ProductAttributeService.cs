@@ -50,4 +50,9 @@ internal sealed class ProductAttributeService : IProductAttributeService
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
+    
+    public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await _queryRepository.GetByIdAsync(id, cancellationToken);
+    }
 }
