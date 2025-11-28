@@ -13,4 +13,6 @@ public interface IProductAttributeRepository : IRepository<ProductAttribute>
 
     public Task<ProductAttribute?> GetByIdAsync(int id, ProductAttributeInclude includes, bool trackChanges,
         CancellationToken cancellationToken);
+    
+    Task<ProductAttributeValue?> GetByProductAttributeValueIdAsync(int id, bool trackChanges, CancellationToken cancellationToken);
 }

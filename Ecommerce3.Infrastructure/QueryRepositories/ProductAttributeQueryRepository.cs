@@ -87,7 +87,6 @@ internal sealed class ProductAttributeQueryRepository : IProductAttributeQueryRe
     public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.ProductAttributes
-            .AsNoTracking()
             .Include(x => x.Values)
                 .ThenInclude(productAttributeValue => productAttributeValue.CreatedByUser)
             .FirstOrDefaultAsync(pa => pa.Id == id, cancellationToken);
@@ -111,17 +110,61 @@ internal sealed class ProductAttributeQueryRepository : IProductAttributeQueryRe
     {
         return value switch
         {
+            ProductAttributeBooleanValue bv => new ProductAttributeBooleanValueDTO(
+                bv.Id, bv.Value, bv.Slug, bv.Display, bv.Breadcrumb, bv.SortOrder, 
+                bv.CreatedByUser!.FullName, bv.CreatedAt, bv.BooleanValue),
+            
             ProductAttributeColourValue cv => new ProductAttributeColourValueDTO(
                 cv.Id, cv.Value, cv.Slug, cv.Display, cv.Breadcrumb, cv.SortOrder, 
                 cv.CreatedByUser!.FullName, cv.CreatedAt, cv.HexCode, 
                 cv.ColourFamily, cv.ColourFamilyHexCode),
-        
-            ProductAttributeBooleanValue bv => new ProductAttributeBooleanValueDTO(
-                bv.Id, bv.Value, bv.Slug, bv.Display, bv.Breadcrumb, bv.SortOrder, 
-                bv.CreatedByUser!.FullName, bv.CreatedAt, bv.BooleanValue),
+            
+            ProductAttributeDecimalValue dv => new ProductAttributeDecimalValueDTO(
+                dv.Id, dv.Value, dv.Slug, dv.Display, dv.Breadcrumb, dv.SortOrder, 
+                dv.CreatedByUser!.FullName, dv.CreatedAt, dv.DecimalValue),
+            
+            ProductAttributeDateOnlyValue dv => new ProductAttributeDateOnlyValueDTO(
+                dv.Id, dv.Value, dv.Slug, dv.Display, dv.Breadcrumb, dv.SortOrder, 
+                dv.CreatedByUser!.FullName, dv.CreatedAt, dv.DateOnlyValue),
         
             _ => throw new NotSupportedException(
                 $"Product attribute value type '{value.GetType().Name}' is not supported.")
         };
+    }
+    
+    public async Task<bool> ExistsByValueNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.ProductAttributes.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
+
+        return await query.AnyAsync(pa => pa.Values.Any(v => v.Value == name), cancellationToken);
+    }
+
+    public async Task<bool> ExistsByValueSlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.ProductAttributes.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
+
+        return await query.AnyAsync(pa => pa.Values.Any(v => v.Slug == slug), cancellationToken);
+    }
+    
+    public async Task<IReadOnlyList<ProductAttributeValueDTO?>> GetValuesByProductAttributeIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var productAttributeValues = await _dbContext.ProductAttributeValues
+            .Where(x => x.ProductAttributeId == id)
+            .Include(x => x.CreatedByUser) 
+            .ToListAsync(cancellationToken);
+        
+        return productAttributeValues.Select(MapToValueDTO).ToList();
+    }
+    
+    public async Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var productAttributeValue = await _dbContext.ProductAttributeValues.Include(x => x.CreatedByUser).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return MapToValueDTO(productAttributeValue);
     }
 }

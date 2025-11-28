@@ -8,4 +8,6 @@ public interface IProductAttributeColourValueRepository : IProductAttributeValue
     public Task<(IReadOnlyCollection<ProductAttributeColourValue> ListItems, int Count)>
         GetProductAttributeColourValuesAsync(string? name, ProductAttributeColourValueInclude includes,
             bool trackChanges, int pageNumber, int pageSize, CancellationToken cancellationToken);
+    
+    Task<ProductAttributeColourValue?> GetColourValueByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken);
 }

@@ -30,8 +30,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     public IReadOnlyList<ProductAttributeValue> Values => _values;
 
     public ProductAttribute(string name, string slug, string display, string breadcrumb, DataType dataType,
-        int sortOrder,
-        int createdBy, string createdByIp)
+        int sortOrder, int createdBy, string createdByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
@@ -116,5 +115,10 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         if (string.IsNullOrWhiteSpace(updatedByIp))
             throw new DomainException(DomainErrors.ProductAttributeErrors.UpdatedByIpRequired);
         if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
+    }
+
+    public void AddValue(ProductAttributeValue value)
+    {
+        _values.Add(value);
     }
 }

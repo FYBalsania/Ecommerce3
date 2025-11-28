@@ -1,4 +1,5 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTOs;
 using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.Filters;
 
@@ -12,4 +13,9 @@ public interface IProductAttributeQueryRepository
     public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     public Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    public Task<bool> ExistsByValueNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
+    public Task<bool> ExistsByValueSlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ProductAttributeValueDTO?>> GetValuesByProductAttributeIdAsync(int id, CancellationToken cancellationToken);
+    Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken);
+
 }

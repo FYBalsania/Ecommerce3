@@ -42,6 +42,10 @@ public static class DependencyInjection
 
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
+        services.AddScoped<IProductAttributeColourValueRepository, ProductAttributeColourValueRepository>();
+        services.AddScoped<IProductAttributeDecimalValueRepository, ProductAttributeDecimalValueRepository>();
+        services.AddScoped<IProductAttributeDateOnlyValueRepository, ProductAttributeDateOnlyValueRepository>();
+        services.AddScoped<IProductAttributeBooleanValueRepository, ProductAttributeBooleanValueRepository>();
 
         services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
         services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();

@@ -1,0 +1,31 @@
+@model IReadOnlyList<Ecommerce3.Contracts.DTOs.ProductAttributeBooleanValueDTO>
+
+<tbody id="valuesTableBody">
+@foreach (var value in Model)
+{
+    <tr>
+        <td>
+            @value.Value <br/>
+            <span class="text-muted">@value.Slug</span>
+        </td>
+        <td>@value.BooleanValue</td>
+        <td class="text-end">@value.SortOrder</td>
+        <td class="text-end">@value.CreatedUserFullName <br/>@value.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
+        <td class="text-center">
+            <a href="#"
+               data-bs-toggle="modal"
+               data-value-id="@value.Id" 
+               data-bs-target="#editProductAttributeBooleanValueModal">
+                <i class="fas fa-edit me-2 fs-6 text-success"></i>
+            </a>
+            <a href="#"
+               data-bs-toggle="modal"
+               data-value-id="@value.Id" 
+               data-value="@value.Value"
+               data-bs-target="#deleteProductAttributeBooleanValueModal">
+                <i class="fas fa-trash fs-6 text-danger"></i>
+            </a>
+        </td>
+    </tr>
+}
+</tbody>

@@ -1,0 +1,33 @@
+@model IReadOnlyList<Ecommerce3.Contracts.DTOs.ProductAttributeColourValueDTO>
+
+<tbody id="valuesTableBody">
+@foreach (var value in Model)
+{
+    <tr>
+        <td>
+            @value.Value <br/>
+            <span class="text-muted">@value.Slug</span>
+        </td>
+        <td>@value?.HexCode</td>
+        <td>@value?.ColourFamily</td>
+        <td>@value?.ColourFamilyHexCode</td>
+        <td class="text-end">@value.SortOrder</td>
+        <td class="text-end">@value.CreatedUserFullName <br/>@value.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
+        <td class="text-center">
+            <a href="#"
+               data-bs-toggle="modal"
+               data-value-id="@value.Id" 
+               data-bs-target="#editProductAttributeColourValueModal">
+                <i class="fas fa-edit me-2 fs-6 text-success"></i>
+            </a>
+            <a href="#"
+               data-bs-toggle="modal"
+               data-value-id="@value.Id" 
+               data-value="@value.Value"
+               data-bs-target="#deleteProductAttributeColourValueModal">
+                <i class="fas fa-trash fs-6 text-danger"></i>
+            </a>
+        </td>
+    </tr>
+}
+</tbody>

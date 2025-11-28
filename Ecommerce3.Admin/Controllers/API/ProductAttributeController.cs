@@ -1,3 +1,4 @@
+using Ecommerce3.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers.API;
@@ -6,14 +7,21 @@ namespace Ecommerce3.Admin.Controllers.API;
 [ApiController]
 public class ProductAttributeController : Controller
 {
-    public ProductAttributeController()
+    private readonly IProductAttributeService _productAttributeService;
+
+    public ProductAttributeController(IProductAttributeService productAttributeService)
     {
-        
+        _productAttributeService = productAttributeService;
     }
     
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
-        return Ok();
+        var productAttributeValue = await _productAttributeService.GetByProductAttributeValueIdAsync(id, cancellationToken);
+        
+        if (productAttributeValue == null)
+            return NotFound("Product attribute value not found");
+        
+        return Ok(productAttributeValue);
     }
 }

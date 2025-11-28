@@ -52,6 +52,15 @@ internal sealed class ProductAttributeRepository : Repository<ProductAttribute>,
     public async Task<ProductAttribute?> GetByIdAsync(int id, ProductAttributeInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var query = GetQuery(includes, trackChanges);
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+    
+    public async Task<ProductAttributeValue?> GetByProductAttributeValueIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
+    {
+        var query = trackChanges
+            ? _dbContext.ProductAttributeValues.AsQueryable()
+            : _dbContext.ProductAttributeValues.AsNoTracking();
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken); 
     }
 }
