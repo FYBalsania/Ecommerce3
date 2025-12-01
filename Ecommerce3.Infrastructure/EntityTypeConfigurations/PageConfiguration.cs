@@ -20,7 +20,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Discriminator.
-        builder.HasDiscriminator(x => x.Discriminator)
+        builder.HasDiscriminator<string>("Discriminator")
             .HasValue<Page>(nameof(Page))
             .HasValue<BankPage>(nameof(BankPage))
             .HasValue<BrandPage>(nameof(BrandPage))
@@ -33,7 +33,7 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
-        builder.Property(x => x.Discriminator).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(11);
+        builder.Property("Discriminator").HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(11);
         builder.Property(x => x.Path).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(12);
         builder.Property(x => x.MetaTitle).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(13);
         builder.Property(x => x.MetaDescription).HasMaxLength(2048).HasColumnType("varchar(2048)").HasColumnOrder(14);

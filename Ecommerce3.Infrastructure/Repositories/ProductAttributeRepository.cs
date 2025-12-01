@@ -18,7 +18,7 @@ internal sealed class ProductAttributeRepository : Repository<ProductAttribute>,
     private IQueryable<ProductAttribute> GetQuery(ProductAttributeInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.ProductAttributes.AsQueryable()
+            ? _dbContext.ProductAttributes.AsTracking()
             : _dbContext.ProductAttributes.AsNoTracking();
 
         // Use bitwise checks (avoid Enum.HasFlag boxing).
@@ -55,12 +55,13 @@ internal sealed class ProductAttributeRepository : Repository<ProductAttribute>,
         var query = GetQuery(includes, trackChanges);
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
-    
-    public async Task<ProductAttributeValue?> GetByProductAttributeValueIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
+
+    public async Task<ProductAttributeValue?> GetByProductAttributeValueIdAsync(int id, bool trackChanges,
+        CancellationToken cancellationToken)
     {
         var query = trackChanges
             ? _dbContext.ProductAttributeValues.AsQueryable()
             : _dbContext.ProductAttributeValues.AsNoTracking();
-        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken); 
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

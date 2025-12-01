@@ -6,5 +6,5 @@ public enum DataType
     Colour,
     DateOnly,
     Decimal,
-    Text
+    Default
 }

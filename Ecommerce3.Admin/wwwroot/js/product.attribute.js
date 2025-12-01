@@ -1,88 +1,69 @@
 $(document).ready(() => {
-    $($('#Name')).on('change', name_changed);
-    
+    // const delete_ValueModal = $('#delete_ValueModal');
+    // delete_ValueModal.on('show.bs.modal', show_DeleteValueView);
+    // delete_ValueModal.on('hidden.bs.modal', hide_DeleteValueView);
+    // $('#delete_Value').on('click', delete_ValueClicked);
+    //Product attribute value.
+
     //Product attribute boolean value
-    const editProductAttributeBooleanValueModal = $('#editProductAttributeBooleanValueModal');
-    editProductAttributeBooleanValueModal.on('show.bs.modal', show_EditProductAttributeBooleanValueView);
-    editProductAttributeBooleanValueModal.on('hidden.bs.modal', hide_EditProductAttributeBooleanValueView);
+    // const editProductAttributeBooleanValueModal = $('#editProductAttributeBooleanValueModal');
+    // editProductAttributeBooleanValueModal.on('show.bs.modal', show_EditProductAttributeBooleanValueView);
+    // editProductAttributeBooleanValueModal.on('hidden.bs.modal', hide_EditProductAttributeBooleanValueView);
+    //
+    // $('#editProductAttributeBooleanValue_Save').on('click', editProductAttributeBooleanValue_SaveClicked)
 
-    $('#editProductAttributeBooleanValue_Save').on('click', editProductAttributeBooleanValue_SaveClicked)
-    
     //Product attribute colour value
-    const addProductAttributeColourValueModal = $('#addProductAttributeColourValueModal');
-    addProductAttributeColourValueModal.on('hidden.bs.modal', hide_AddProductAttributeColourValueView);
-    
-    const editProductAttributeColourValueModal = $('#editProductAttributeColourValueModal');
-    editProductAttributeColourValueModal.on('show.bs.modal', show_EditProductAttributeColourValueView);
-    editProductAttributeColourValueModal.on('hidden.bs.modal', hide_EditProductAttributeColourValueView);
+    // const addProductAttributeColourValueModal = $('#addProductAttributeColourValueModal');
+    // addProductAttributeColourValueModal.on('hidden.bs.modal', hide_AddProductAttributeColourValueView);
+    //
+    // const editProductAttributeColourValueModal = $('#editProductAttributeColourValueModal');
+    // editProductAttributeColourValueModal.on('show.bs.modal', show_EditProductAttributeColourValueView);
+    // editProductAttributeColourValueModal.on('hidden.bs.modal', hide_EditProductAttributeColourValueView);
+    //
+    // const deleteProductAttributeColourValueModal = $('#deleteProductAttributeColourValueModal');
+    // deleteProductAttributeColourValueModal.on('show.bs.modal', show_DeleteProductAttributeColourValueView);
+    // deleteProductAttributeColourValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeColourValueView);
+    //
+    // $('#addProductAttributeColourValue_Save').on('click', addProductAttributeColourValue_SaveClicked)
+    // $('#editProductAttributeColourValue_Save').on('click', editProductAttributeColourValue_SaveClicked)
+    // $('#deleteProductAttributeColourValue').on('click', deleteProductAttributeColourValueClicked)
 
-    const deleteProductAttributeColourValueModal = $('#deleteProductAttributeColourValueModal');
-    deleteProductAttributeColourValueModal.on('show.bs.modal', show_DeleteProductAttributeColourValueView);
-    deleteProductAttributeColourValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeColourValueView);
-
-    $('#addProductAttributeColourValue_Save').on('click', addProductAttributeColourValue_SaveClicked)
-    $('#editProductAttributeColourValue_Save').on('click', editProductAttributeColourValue_SaveClicked)
-    $('#deleteProductAttributeColourValue').on('click', deleteProductAttributeColourValueClicked)
-    
     //Product attribute date only value
-    const addProductAttributeDateOnlyValueModal = $('#addProductAttributeDateOnlyValueModal');
-    addProductAttributeDateOnlyValueModal.on('hidden.bs.modal', hide_AddProductAttributeDateOnlyValueView);
-
-    const editProductAttributeDateOnlyValueModal = $('#editProductAttributeDateOnlyValueModal');
-    editProductAttributeDateOnlyValueModal.on('show.bs.modal', show_EditProductAttributeDateOnlyValueView);
-    editProductAttributeDateOnlyValueModal.on('hidden.bs.modal', hide_EditProductAttributeDateOnlyValueView);
-
-    const deleteProductAttributeDateOnlyValueModal = $('#deleteProductAttributeDateOnlyValueModal');
-    deleteProductAttributeDateOnlyValueModal.on('show.bs.modal', show_DeleteProductAttributeDateOnlyValueView);
-    deleteProductAttributeDateOnlyValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeDateOnlyValueView);
-
-    $('#addProductAttributeDateOnlyValue_Save').on('click', addProductAttributeDateOnlyValue_SaveClicked)
-    $('#editProductAttributeDateOnlyValue_Save').on('click', editProductAttributeDateOnlyValue_SaveClicked)
-    $('#deleteProductAttributeDateOnlyValue').on('click', deleteProductAttributeDateOnlyValueClicked)
+    // const addProductAttributeDateOnlyValueModal = $('#addProductAttributeDateOnlyValueModal');
+    // addProductAttributeDateOnlyValueModal.on('hidden.bs.modal', hide_AddProductAttributeDateOnlyValueView);
+    //
+    // const editProductAttributeDateOnlyValueModal = $('#editProductAttributeDateOnlyValueModal');
+    // editProductAttributeDateOnlyValueModal.on('show.bs.modal', show_EditProductAttributeDateOnlyValueView);
+    // editProductAttributeDateOnlyValueModal.on('hidden.bs.modal', hide_EditProductAttributeDateOnlyValueView);
+    //
+    // const deleteProductAttributeDateOnlyValueModal = $('#deleteProductAttributeDateOnlyValueModal');
+    // deleteProductAttributeDateOnlyValueModal.on('show.bs.modal', show_DeleteProductAttributeDateOnlyValueView);
+    // deleteProductAttributeDateOnlyValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeDateOnlyValueView);
+    //
+    // $('#addProductAttributeDateOnlyValue_Save').on('click', addProductAttributeDateOnlyValue_SaveClicked)
+    // $('#editProductAttributeDateOnlyValue_Save').on('click', editProductAttributeDateOnlyValue_SaveClicked)
+    // $('#deleteProductAttributeDateOnlyValue').on('click', deleteProductAttributeDateOnlyValueClicked)
 
     //Product attribute decimal value
-    const addProductAttributeDecimalValueModal = $('#addProductAttributeDecimalValueModal');
-    addProductAttributeDecimalValueModal.on('hidden.bs.modal', hide_AddProductAttributeDecimalValueView);
-
-    const editProductAttributeDecimalValueModal = $('#editProductAttributeDecimalValueModal');
-    editProductAttributeDecimalValueModal.on('show.bs.modal', show_EditProductAttributeDecimalValueView);
-    editProductAttributeDecimalValueModal.on('hidden.bs.modal', hide_EditProductAttributeDecimalValueView);
-
-    const deleteProductAttributeDecimalValueModal = $('#deleteProductAttributeDecimalValueModal');
-    deleteProductAttributeDecimalValueModal.on('show.bs.modal', show_DeleteProductAttributeDecimalValueView);
-    deleteProductAttributeDecimalValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeDecimalValueView);
-
-    $('#addProductAttributeDecimalValue_Save').on('click', addProductAttributeDecimalValue_SaveClicked)
-    $('#editProductAttributeDecimalValue_Save').on('click', editProductAttributeDecimalValue_SaveClicked)
-    $('#deleteProductAttributeDecimalValue').on('click', deleteProductAttributeDecimalValueClicked)
-
-    //Product attribute Text value
-    const addProductAttributeTextValueModal = $('#addProductAttributeTextValueModal');
-    addProductAttributeTextValueModal.on('hidden.bs.modal', hide_AddProductAttributeTextValueView);
-
-    const editProductAttributeTextValueModal = $('#editProductAttributeTextValueModal');
-    editProductAttributeTextValueModal.on('show.bs.modal', show_EditProductAttributeTextValueView);
-    editProductAttributeTextValueModal.on('hidden.bs.modal', hide_EditProductAttributeTextValueView);
-
-    const deleteProductAttributeTextValueModal = $('#deleteProductAttributeTextValueModal');
-    deleteProductAttributeTextValueModal.on('show.bs.modal', show_DeleteProductAttributeTextValueView);
-    deleteProductAttributeTextValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeTextValueView);
-
-    $('#addProductAttributeTextValue_Save').on('click', addProductAttributeTextValue_SaveClicked)
-    $('#editProductAttributeTextValue_Save').on('click', editProductAttributeTextValue_SaveClicked)
-    $('#deleteProductAttributeTextValue').on('click', deleteProductAttributeTextValueClicked)
+    // const addProductAttributeDecimalValueModal = $('#addProductAttributeDecimalValueModal');
+    // addProductAttributeDecimalValueModal.on('hidden.bs.modal', hide_AddProductAttributeDecimalValueView);
+    //
+    // const editProductAttributeDecimalValueModal = $('#editProductAttributeDecimalValueModal');
+    // editProductAttributeDecimalValueModal.on('show.bs.modal', show_EditProductAttributeDecimalValueView);
+    // editProductAttributeDecimalValueModal.on('hidden.bs.modal', hide_EditProductAttributeDecimalValueView);
+    //
+    // const deleteProductAttributeDecimalValueModal = $('#deleteProductAttributeDecimalValueModal');
+    // deleteProductAttributeDecimalValueModal.on('show.bs.modal', show_DeleteProductAttributeDecimalValueView);
+    // deleteProductAttributeDecimalValueModal.on('hidden.bs.modal', hide_DeleteProductAttributeDecimalValueView);
+    //
+    // $('#addProductAttributeDecimalValue_Save').on('click', addProductAttributeDecimalValue_SaveClicked)
+    // $('#editProductAttributeDecimalValue_Save').on('click', editProductAttributeDecimalValue_SaveClicked)
+    // $('#deleteProductAttributeDecimalValue').on('click', deleteProductAttributeDecimalValueClicked)
 });
 
-function name_changed(event) {
-    const name = $(event.target).val();
-    const slug = toSlug(name);
-
-    $('#Slug').val(slug);
-    $('#Display').val(name);
-    $('#Breadcrumb').val(name);
+function valueChanged(value) {
+    return {slug: toSlug(value), display: value, breadcrumb: value};
 }
-
-
 
 async function show_EditProductAttributeBooleanValueView(event) {
     const productAttributeValueId = $(event.relatedTarget).data('value-id');
@@ -153,7 +134,11 @@ async function editProductAttributeBooleanValue_SaveClicked(event) {
     data.append('BooleanValue', boolean.val());
 
     try {
-        const result = await fetch('/ProductAttributes/AddBooleanValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/AddBooleanValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -179,8 +164,6 @@ async function editProductAttributeBooleanValue_SaveClicked(event) {
         alert('Error occured while saving image, please try again.');
     }
 }
-
-
 
 
 function hide_AddProductAttributeColourValueView() {
@@ -287,7 +270,7 @@ async function addProductAttributeColourValue_SaveClicked(event) {
     if (!colourValidate(value, slug, display, breadcrumb, sortOrder, hexCode, colourFamily, colourFamilyHexCode,
         valueError, slugError, displayError, breadcrumbError, sortOrderError, hexCodeError, colourFamilyError, colourFamilyHexCodeError))
         return;
-    
+
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
     data.append('ProductAttributeID', $("#productAttributeId").val());
@@ -302,7 +285,11 @@ async function addProductAttributeColourValue_SaveClicked(event) {
     data.append('ColourFamilyHexCode', colourFamilyHexCode.val());
 
     try {
-        const result = await fetch('/ProductAttributes/AddColourValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/AddColourValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -370,7 +357,11 @@ async function editProductAttributeColourValue_SaveClicked(event) {
     data.append('ColourFamilyHexCode', colourFamilyHexCode.val());
 
     try {
-        const result = await fetch('/ProductAttributes/EditColourValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/EditColourValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -408,7 +399,11 @@ async function deleteProductAttributeColourValueClicked(event) {
     data.append('ProductAttributeID', $("#productAttributeId").val());
 
     try {
-        const result = await fetch('/ProductAttributes/DeleteColourValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/DeleteColourValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -421,8 +416,6 @@ async function deleteProductAttributeColourValueClicked(event) {
         alert('Error occured while deleting colour value, please try again.');
     }
 }
-
-
 
 
 function hide_AddProductAttributeDateOnlyValueView() {
@@ -497,7 +490,7 @@ function hide_DeleteProductAttributeDateOnlyValueView() {
 }
 
 async function addProductAttributeDateOnlyValue_SaveClicked(event) {
-    
+
     const discriminator = $('#add_DateOnlyDiscriminator');
     const value = $('#add_DateOnlyValue');
     const slug = $('#add_DateOnlySlug');
@@ -511,11 +504,11 @@ async function addProductAttributeDateOnlyValue_SaveClicked(event) {
     const breadcrumbError = $('#add_DateOnlyBreadcrumbError');
     const sortOrderError = $('#add_DateOnlySortOrderError');
     const dateOnlyError = $('#add_DateOnlyError');
-    
+
     if (!dateOnlyValidate(value, slug, display, breadcrumb, sortOrder, dateOnly,
         valueError, slugError, displayError, breadcrumbError, sortOrderError, dateOnlyError))
         return;
-    
+
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
     data.append('ProductAttributeID', $("#productAttributeId").val());
@@ -528,7 +521,11 @@ async function addProductAttributeDateOnlyValue_SaveClicked(event) {
     data.append('DateOnlyValue', dateOnly.val());
 
     try {
-        const result = await fetch('/ProductAttributes/EditDateOnlyValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/EditDateOnlyValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -577,7 +574,7 @@ async function editProductAttributeDateOnlyValue_SaveClicked(event) {
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
     data.append('Id', $('#edit_DateOnlyValueId').val());
-    data.append('ProductAttributeID', $("#productAttributeId").val());    
+    data.append('ProductAttributeID', $("#productAttributeId").val());
     data.append('Value', value.val());
     data.append('Slug', slug.val());
     data.append('Display', display.val());
@@ -586,7 +583,11 @@ async function editProductAttributeDateOnlyValue_SaveClicked(event) {
     data.append('DateOnlyValue', dateOnly.val());
 
     try {
-        const result = await fetch('/ProductAttributes/AddDateOnlyValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/AddDateOnlyValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -620,7 +621,11 @@ async function deleteProductAttributeDateOnlyValueClicked(event) {
     data.append('ProductAttributeID', $("#productAttributeId").val());
 
     try {
-        const result = await fetch('/ProductAttributes/DeleteDateOnlyValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/DeleteDateOnlyValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -633,7 +638,6 @@ async function deleteProductAttributeDateOnlyValueClicked(event) {
         alert('Error occured while deleting dateonly value, please try again.');
     }
 }
-
 
 
 function hide_AddProductAttributeDecimalValueView() {
@@ -708,7 +712,7 @@ function hide_DeleteProductAttributeDecimalValueView() {
 }
 
 async function addProductAttributeDecimalValue_SaveClicked(event) {
-    
+
     const discriminator = $('#add_DecimalDiscriminator');
     const value = $('#add_DecimalValue');
     const slug = $('#add_DecimalSlug');
@@ -722,11 +726,11 @@ async function addProductAttributeDecimalValue_SaveClicked(event) {
     const breadcrumbError = $('#add_DecimalBreadcrumbError');
     const sortOrderError = $('#add_DecimalSortOrderError');
     const decimalError = $('#add_DecimalError');
-    
+
     if (!decimalValidate(value, slug, display, breadcrumb, sortOrder, Decimal,
         valueError, slugError, displayError, breadcrumbError, sortOrderError, decimalError))
         return;
-    
+
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
     data.append('ProductAttributeID', $("#productAttributeId").val());
@@ -739,7 +743,11 @@ async function addProductAttributeDecimalValue_SaveClicked(event) {
     data.append('DecimalValue', decimal.val());
 
     try {
-        const result = await fetch('/ProductAttributes/AddDecimalValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/AddDecimalValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -767,7 +775,7 @@ async function addProductAttributeDecimalValue_SaveClicked(event) {
 }
 
 async function editProductAttributeDecimalValue_SaveClicked(event) {
-    
+
     const value = $('#edit_DecimalValue');
     const slug = $('#edit_DecimalSlug');
     const display = $('#edit_DecimalDisplay');
@@ -797,7 +805,11 @@ async function editProductAttributeDecimalValue_SaveClicked(event) {
     data.append('DecimalValue', decimal.val());
 
     try {
-        const result = await fetch('/ProductAttributes/EditDecimalValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/EditDecimalValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -831,7 +843,11 @@ async function deleteProductAttributeDecimalValueClicked(event) {
     data.append('ProductAttributeID', $("#productAttributeId").val());
 
     try {
-        const result = await fetch('/ProductAttributes/DeleteDecimalValue', {method: 'POST', body: data, credentials: 'same-origin'});
+        const result = await fetch('/ProductAttributes/DeleteDecimalValue', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
         if (result.ok) {
             const response = await result.text();
             $('#valuesTableBody').replaceWith(response);
@@ -846,208 +862,9 @@ async function deleteProductAttributeDecimalValueClicked(event) {
 }
 
 
-
-function hide_AddProductAttributeTextValueView() {
-    //reset validation errors.
-    $('#add_TextValueError').text('')
-    $('#add_TextSlugError').text('')
-    $('#add_TextDisplayError').text('')
-    $('#add_TextBreadcrumbError').text('')
-    $('#add_TextSortOrderError').text('')
-
-    //reset input elements and set to default values.
-    $('#add_TextValue').val('');
-    $('#add_TextSlug').val('')
-    $('#add_TextDisplay').val('')
-    $('#add_TextBreadcrumb').val('')
-    $('#add_TextSortOrder').val('')
-}
-
-async function show_EditProductAttributeTextValueView(event) {
-    const productAttributeValueId = $(event.relatedTarget).data('value-id');
-
-    try {
-        //fetch product attribute details details.
-        const response = await doAjax('/api/productattribute/' + productAttributeValueId, 'GET', null, true).promise();
-
-        //populate image details.
-        $('#edit_TextValueId').val(response.id);
-        $('#edit_TextValue').val(response.value);
-        $('#edit_TextSlug').val(response.slug);
-        $('#edit_TextDisplay').val(response.display);
-        $('#edit_TextBreadcrumb').val(response.breadcrumb);
-        $('#edit_TextSortOrder').val(response.sortOrder);
-    } catch (err) {
-        alert('Error occured, please try again.')
-    }
-}
-
-function hide_EditProductAttributeTextValueView() {
-    //reset validation errors.
-    $('#edit_TextValueError').text('')
-    $('#edit_TextSlugError').text('')
-    $('#edit_TextDisplayError').text('')
-    $('#edit_TextBreadcrumbError').text('')
-    $('#edit_TextSortOrderError').text('')
-
-    //reset input elements and set to default values.
-    $('#edit_TextValue').val('');
-    $('#edit_TextSlug').val('')
-    $('#edit_TextDisplay').val('')
-    $('#edit_TextBreadcrumb').val('')
-    $('#edit_TextSortOrder').val('')
-}
-
-async function show_DeleteProductAttributeTextValueView(event) {
-    const valueId = $(event.relatedTarget).data('value-id');
-    const value = $(event.relatedTarget).data('value');
-
-    //populate image details.
-    $('#delete_Id').val(valueId);
-    $('#delete_TextValue').text(value);
-}
-
-function hide_DeleteProductAttributeTextValueView() {
-    //reset input elements and set to default values.
-    $('#delete_Id').val('');
-    $('#delete_TextValue').text('');
-}
-
-async function addProductAttributeTextValue_SaveClicked(event) {
-    
-    const discriminator = $('#add_TextDiscriminator');
-    const value = $('#add_TextValue');
-    const slug = $('#add_TextSlug');
-    const display = $('#add_TextDisplay');
-    const breadcrumb = $('#add_TextBreadcrumb');
-    const sortOrder = $('#add_TextSortOrder');
-    const valueError = $('#add_TextValueError');
-    const slugError = $('#add_TextSlugError');
-    const displayError = $('#add_TextDisplayError');
-    const breadcrumbError = $('#add_TextBreadcrumbError');
-    const sortOrderError = $('#add_TextSortOrderError');
-
-
-    if (!validate(value, slug, display, breadcrumb, sortOrder,
-        valueError, slugError, displayError, breadcrumbError, sortOrderError))
-        return;
-    
-    const data = new FormData();
-    data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
-    data.append('ProductAttributeID', $("#productAttributeId").val());
-    data.append('Discriminator', discriminator.val());
-    data.append('Value', value.val());
-    data.append('Slug', slug.val());
-    data.append('Display', display.val());
-    data.append('Breadcrumb', breadcrumb.val());
-    data.append('SortOrder', sortOrder.val());
-
-    try {
-        const result = await fetch('/ProductAttributes/AddTextValue', {method: 'POST', body: data, credentials: 'same-origin'});
-        if (result.ok) {
-            const response = await result.text();
-            $('#valuesTableBody').replaceWith(response);
-            $('#addProductAttributeTextValueModal').modal('hide');
-        } else {
-            const error = await result.json();
-            for (const key in error.errors) {
-                if (key.endsWith('Value'))
-                    valueError.text(error.errors[key]);
-                if (key.endsWith('Slug'))
-                    slugError.text(error.errors[key]);
-                if (key.endsWith('Display'))
-                    displayError.text(error.errors[key]);
-                if (key.endsWith('Breadcrumb'))
-                    breadcrumbError.text(error.errors[key]);
-                if (key.endsWith('SortOrder'))
-                    sortOrderError.text(error.errors[key]);
-            }
-        }
-    } catch (err) {
-        alert('Error occured while saving image, please try again.');
-    }
-}
-
-async function editProductAttributeTextValue_SaveClicked(event) {
-
-    const value = $('#edit_TextValue');
-    const slug = $('#edit_TextSlug');
-    const display = $('#edit_TextDisplay');
-    const breadcrumb = $('#edit_TextBreadcrumb');
-    const sortOrder = $('#edit_TextSortOrder');
-    const valueError = $('#edit_TextValueError');
-    const slugError = $('#edit_TextSlugError');
-    const displayError = $('#edit_TextDisplayError');
-    const breadcrumbError = $('#edit_TextBreadcrumbError');
-    const sortOrderError = $('#edit_TextSortOrderError');
-
-
-    if (!validate(value, slug, display, breadcrumb, sortOrder,
-        valueError, slugError, displayError, breadcrumbError, sortOrderError))
-        return;
-
-    const data = new FormData();
-    data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
-    data.append('Id', $('#edit_TextValueId').val());
-    data.append('ProductAttributeID', $("#productAttributeId").val());
-    data.append('Value', value.val());
-    data.append('Slug', slug.val());
-    data.append('Display', display.val());
-    data.append('Breadcrumb', breadcrumb.val());
-    data.append('SortOrder', sortOrder.val());
-
-    try {
-        const result = await fetch('/ProductAttributes/EditTextValue', {method: 'POST', body: data, credentials: 'same-origin'});
-        if (result.ok) {
-            const response = await result.text();
-            $('#valuesTableBody').replaceWith(response);
-            $('#editProductAttributeTextValueModal').modal('hide');
-        } else {
-            const error = await result.json();
-            for (const key in error.errors) {
-                if (key.endsWith('Value'))
-                    valueError.text(error.errors[key]);
-                if (key.endsWith('Slug'))
-                    slugError.text(error.errors[key]);
-                if (key.endsWith('Display'))
-                    displayError.text(error.errors[key]);
-                if (key.endsWith('Breadcrumb'))
-                    breadcrumbError.text(error.errors[key]);
-                if (key.endsWith('SortOrder'))
-                    sortOrderError.text(error.errors[key]);
-            }
-        }
-    } catch (err) {
-        alert('Error occured while saving image, please try again.');
-    }
-}
-
-async function deleteProductAttributeTextValueClicked(event) {
-    const data = new FormData();
-    data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
-    data.append('Id', $('#delete_Id').val());
-    data.append('ProductAttributeID', $("#productAttributeId").val());
-
-    try {
-        const result = await fetch('/ProductAttributes/DeleteTextValue', {method: 'POST', body: data, credentials: 'same-origin'});
-        if (result.ok) {
-            const response = await result.text();
-            $('#valuesTableBody').replaceWith(response);
-            $('#deleteProductAttributeColourValueModal').modal('hide');
-        } else {
-            const error = await result.json();
-            console.log(error);
-        }
-    } catch (err) {
-        alert('Error occured while deleting text value, please try again.');
-    }
-}
-
-
-
 function colourValidate(value, slug, display, breadcrumb, sortOrder, hexCode, colourFamily, colourFamilyHexCode,
-    valueError, slugError, displayError, breadcrumbError, sortOrderError, hexCodeError, colourFamilyError, colourFamilyHexCodeError) {
-    
+                        valueError, slugError, displayError, breadcrumbError, sortOrderError, hexCodeError, colourFamilyError, colourFamilyHexCodeError) {
+
     let isValid = true;
 
     // clear all errors for this type
@@ -1059,7 +876,7 @@ function colourValidate(value, slug, display, breadcrumb, sortOrder, hexCode, co
     if (!validate(value, slug, display, breadcrumb, sortOrder,
         valueError, slugError, displayError, breadcrumbError, sortOrderError))
         isValid = false;
-    
+
     // colour-specific checks
     if (hexCode.val().trim() === '') {
         hexCodeError.text('Hex code is required.');
@@ -1080,7 +897,7 @@ function colourValidate(value, slug, display, breadcrumb, sortOrder, hexCode, co
 }
 
 function dateOnlyValidate(value, slug, display, breadcrumb, sortOrder, dateOnly,
-    valueError, slugError, displayError, breadcrumbError, sortOrderError, dateOnlyError) {
+                          valueError, slugError, displayError, breadcrumbError, sortOrderError, dateOnlyError) {
 
     let isValid = true;
 
@@ -1091,7 +908,7 @@ function dateOnlyValidate(value, slug, display, breadcrumb, sortOrder, dateOnly,
     if (!validate(value, slug, display, breadcrumb, sortOrder,
         valueError, slugError, displayError, breadcrumbError, sortOrderError))
         isValid = false;
-    
+
     // Date only specific check
     if (dateOnly.val().trim() === '') {
         dateOnlyError.text('Date only value is required.');
@@ -1102,7 +919,7 @@ function dateOnlyValidate(value, slug, display, breadcrumb, sortOrder, dateOnly,
 }
 
 function decimalValidate(value, slug, display, breadcrumb, sortOrder, decimal,
-    valueError, slugError, displayError, breadcrumbError, sortOrderError, decimalError) {
+                         valueError, slugError, displayError, breadcrumbError, sortOrderError, decimalError) {
 
     let isValid = true;
 
@@ -1125,7 +942,6 @@ function decimalValidate(value, slug, display, breadcrumb, sortOrder, decimal,
 
 function booleanValidate(value, slug, display, breadcrumb, sortOrder, boolean,
                          valueError, slugError, displayError, breadcrumbError, sortOrderError, booleanError) {
-
     let isValid = true;
 
     // clear all errors for this type
@@ -1139,49 +955,6 @@ function booleanValidate(value, slug, display, breadcrumb, sortOrder, boolean,
     // Decimal specific check
     if (boolean.val().trim() === '') {
         booleanError.text('Boolean value is required.');
-        isValid = false;
-    }
-
-    return isValid;
-}
-
-function validate(value, slug, display, breadcrumb, sortOrder, valueError, slugError, displayError, breadcrumbError, sortOrderError) {
-
-    let isValid = true;
-
-    //clear all comman errors
-    valueError.text('');
-    slugError.text('');
-    displayError.text('');
-    breadcrumbError.text('');
-    sortOrderError.text('');
-
-    if (value.val().trim() === '') {
-        valueError.text('Value is required.');
-        isValid = false;
-    }
-
-    if (slug.val().trim() === '') {
-        slugError.text('Slug is required.');
-        isValid = false;
-    }
-
-    if (display.val().trim() === '') {
-        displayError.text('Display is required.');
-        isValid = false;
-    }
-
-    if (breadcrumb.val().trim() === '') {
-        breadcrumbError.text('Breadcrumb is required.');
-        isValid = false;
-    }
-
-    const sortVal = sortOrder.val().trim();
-    if (sortVal === '') {
-        sortOrderError.text('Sort order is required.');
-        isValid = false;
-    } else if (!isValidNumberStrict(sortVal)) {
-        sortOrderError.text('Enter a valid number.');
         isValid = false;
     }
 

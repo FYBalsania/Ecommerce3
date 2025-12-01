@@ -1,8 +1,8 @@
 using Ecommerce3.Contracts.DTOs;
 
-namespace Ecommerce3.Application.Services.Interfaces;
+namespace Ecommerce3.Contracts.QueryRepositories;
 
-public interface IProductAttributeValueService
+public interface IProductAttributeValueQueryRepository
 {
     Task<ProductAttributeValueDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }

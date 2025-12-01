@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Contracts.DTOs;
 using Ecommerce3.Contracts.DTOs.ProductAttribute;
-using Ecommerce3.Domain.Entities;
 using DataType = Ecommerce3.Domain.Enums.DataType;
 
 namespace Ecommerce3.Admin.ViewModels.ProductAttribute;

@@ -27,7 +27,7 @@ internal sealed class PageQueryRepository : IPageQueryRepository
             .OrderBy(b => b.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new PageListItemDTO(x.Id, x.Discriminator, x.Path, x.BrandId, x.CategoryId, x.ProductId, x.ProductGroupId , x.IsActive, x.CreatedByUser!.FullName, x.CreatedAt))
+            .Select(x => new PageListItemDTO(x.Id, "", x.Path, x.BrandId, x.CategoryId, x.ProductId, x.ProductGroupId , x.IsActive, x.CreatedByUser!.FullName, x.CreatedAt))
             .ToListAsync(cancellationToken);
 
         return (pages, total);

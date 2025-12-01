@@ -5,11 +5,11 @@ namespace Ecommerce3.Admin.Controllers.API;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductAttributeController : Controller
+public class ProductAttributesController : Controller
 {
     private readonly IProductAttributeService _productAttributeService;
 
-    public ProductAttributeController(IProductAttributeService productAttributeService)
+    public ProductAttributesController(IProductAttributeService productAttributeService)
     {
         _productAttributeService = productAttributeService;
     }

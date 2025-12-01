@@ -17,7 +17,7 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Discriminator.
-        builder.HasDiscriminator(x => x.Discriminator)
+        builder.HasDiscriminator<string>("Discriminator")
             .HasValue<ProductAttributeValue>(nameof(ProductAttributeValue))
             .HasValue<ProductAttributeColourValue>(nameof(ProductAttributeColourValue))
             .HasValue<ProductAttributeBooleanValue>(nameof(ProductAttributeBooleanValue))
@@ -26,7 +26,7 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
 
         //Properties.
         builder.Property(x => x.ProductAttributeId).HasColumnType("integer").HasColumnOrder(2);
-        builder.Property(x => x.Discriminator).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
+        builder.Property("Discriminator").HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(3);
         builder.Property(x => x.Value).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
         builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(6);
@@ -46,9 +46,6 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Indexes.
-        builder.HasIndex(x => x.Discriminator)
-            .HasDatabaseName($"IX_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.Discriminator)}");
-        
         builder.HasIndex(x => new { x.ProductAttributeId, x.Value }).IsUnique()
             .HasDatabaseName(
                 $"UK_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.ProductAttributeId)}_{nameof(ProductAttributeValue.Value)}");
@@ -68,10 +65,10 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
                 $"IX_{nameof(ProductAttributeValue)}_{nameof(ProductAttributeValue.ProductAttributeId)}_{nameof(ProductAttributeValue.SortOrder)}_{nameof(ProductAttributeValue.Value)}");
 
         //Relations.
-        builder.HasOne(x => x.ProductAttribute)
-            .WithMany(x => x.Values)
-            .HasForeignKey(x => x.ProductAttributeId)
-            .OnDelete(DeleteBehavior.Restrict);
+        // builder.HasOne(x => x.ProductAttribute)
+        //     .WithMany(x => x.Values)
+        //     .HasForeignKey(x => x.ProductAttributeId)
+        //     .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)

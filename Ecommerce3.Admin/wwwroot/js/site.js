@@ -89,3 +89,98 @@ function isValidNumberStrict(value) {
     const num = Number(str);
     return Number.isFinite(num);
 }
+
+function validateDecimal(inputEl, errorEl, min, max) {
+    const value = inputEl.value.trim();
+
+    // Auto-clear error on typing
+    inputEl.addEventListener("input", () => {
+        errorEl.textContent = "";
+    });
+
+    // Strict decimal: 123, -123, 12.34, -12.34 (but no ".", no "-.", etc.)
+    const regex = /^-?\d+(\.\d+)?$/;
+
+    if (!regex.test(value)) {
+        errorEl.textContent = "Please enter a valid whole/decimal number.";
+        return false;
+    }
+
+    const numeric = Number(value);
+
+    // Min check (if min is provided)
+    if (typeof min === "number" && numeric < min) {
+        errorEl.textContent = `Value must be at least ${min}.`;
+        return false;
+    }
+
+    // Max check (if max is provided)
+    if (typeof max === "number" && numeric > max) {
+        errorEl.textContent = `Value must not exceed ${max}.`;
+        return false;
+    }
+
+    return true;
+}
+
+function validateString(inputEl, errorEl, maxLength) {
+    const raw = inputEl.value;
+
+    // Reset error display
+    errorEl.textContent = "";
+
+    // Check null/undefined
+    if (raw == null) {
+        errorEl.textContent = "Value is missing.";
+        return false;
+    }
+
+    // Normalize to string
+    const str = String(raw);
+
+    // Remove whitespace + invisible characters
+    const cleaned = str.replace(/[\s\u200B-\u200D\u2060\uFEFF]/g, "");
+
+    // Empty or whitespace check
+    if (cleaned.length === 0) {
+        errorEl.textContent = "This field cannot be empty.";
+        return false;
+    }
+
+    // Optional max length
+    if (typeof maxLength === "number" && str.length > maxLength) {
+        errorEl.textContent = `Maximum length is ${maxLength} characters.`;
+        return false;
+    }
+
+    // If everything is fine
+    return true;
+}
+
+function validateSlug(inputEl, errorEl) {
+    // Reset error text
+    errorEl.textContent = "";
+
+    const raw = inputEl.value;
+
+    // Check null/undefined
+    if (raw == null) {
+        errorEl.textContent = "Value is missing.";
+        return false;
+    }
+
+    // Generate slug from input
+    const slug = toSlug(String(raw));
+
+    // Validate that slug is not empty
+    if (!slug || slug.length === 0) {
+        errorEl.textContent = "Slug is invalid. Please use letters, numbers, or hyphens.";
+        return false;
+    }
+
+    // Optional: Update the input field with cleaned slug
+    // inputEl.value = slug;
+
+    return true;
+}
+

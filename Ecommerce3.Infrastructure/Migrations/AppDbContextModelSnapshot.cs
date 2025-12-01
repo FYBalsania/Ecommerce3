@@ -1383,9 +1383,6 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("DeletedBy");
 
-                    b.HasIndex("Discriminator")
-                        .HasDatabaseName("IX_Image_Discriminator");
-
                     b.HasIndex("FileName")
                         .HasDatabaseName("IX_Image_FileName");
 
@@ -2530,9 +2527,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedBy");
-
-                    b.HasIndex("Discriminator")
-                        .HasDatabaseName("IX_ProductAttributeValue_Discriminator");
 
                     b.HasIndex("Display")
                         .HasDatabaseName("IX_ProductAttributeValue_Display");
@@ -4730,7 +4724,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasOne("Ecommerce3.Domain.Entities.ProductAttribute", "ProductAttribute")
                         .WithMany("Values")
                         .HasForeignKey("ProductAttributeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "UpdatedByUser")

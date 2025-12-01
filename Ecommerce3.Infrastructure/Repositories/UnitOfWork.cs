@@ -10,7 +10,9 @@ internal sealed class UnitOfWork : IUnitOfWork
     public UnitOfWork(AppDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<int> CompleteAsync(CancellationToken cancellationToken)
-        => await _dbContext.SaveChangesAsync(cancellationToken);
+    {
+       return await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 
     public bool HasChanges() => _dbContext.ChangeTracker.HasChanges();
 

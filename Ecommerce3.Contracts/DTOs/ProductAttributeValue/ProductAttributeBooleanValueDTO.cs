@@ -1,6 +1,6 @@
 namespace Ecommerce3.Contracts.DTOs;
 
-public class ProductAttributeBooleanValueDTO : ProductAttributeValueDTO
+public record ProductAttributeBooleanValueDTO : ProductAttributeValueDTO
 {
     public bool BooleanValue { get; private set; }
 

@@ -1,10 +1,12 @@
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
+
 namespace Ecommerce3.Domain.Entities;
 
-public abstract class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
+public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
 {
     public int ProductAttributeId { get; private set; }
     public ProductAttribute? ProductAttribute { get; private set; }
-    public string Discriminator { get; private set; } = string.Empty;
     public string Value { get; protected set; }
     public string Slug { get; protected set; }
     public string Display { get; protected set; }
@@ -30,11 +32,12 @@ public abstract class ProductAttributeValue : Entity, ICreatable, IUpdatable, ID
     public ProductAttributeValue(string value, string slug, string display, string breadcrumb, int sortOrder,
         int createdBy, DateTime createdAt, string createdByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(value, nameof(value));
-        ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
-        ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
-        ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
+        ValidateValue(value);
+        ValidateSlug(slug);
+        ValidateDisplay(display);
+        ValidateBreadcrumb(breadcrumb);
+        ValidateCreatedBy(createdBy);
+        ValidateCreatedByIp(createdByIp);
 
         Value = value;
         Slug = slug;
@@ -45,22 +48,26 @@ public abstract class ProductAttributeValue : Entity, ICreatable, IUpdatable, ID
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+
+    internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
+        ValidateDeletedBy(deletedBy);
+        ValidateDeletedByIp(deletedByIp);
+
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
-    
-    public bool Update(string value, string slug, string display, string breadcrumb, int sortOrder, 
-         int updatedBy, string updatedByIp)
+
+    internal bool Update(string value, string slug, string display, string breadcrumb, int sortOrder, int updatedBy,
+        DateTime updatedAt, string updatedByIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(value, nameof(value));
-        ArgumentException.ThrowIfNullOrWhiteSpace(slug, nameof(slug));
-        ArgumentException.ThrowIfNullOrWhiteSpace(display, nameof(display));
-        ArgumentException.ThrowIfNullOrWhiteSpace(breadcrumb, nameof(breadcrumb));
-        ArgumentException.ThrowIfNullOrWhiteSpace(updatedByIp, nameof(updatedByIp));
+        ValidateValue(value);
+        ValidateSlug(slug);
+        ValidateDisplay(display);
+        ValidateBreadcrumb(breadcrumb);
+        ValidateUpdatedBy(updatedBy);
+        ValidateUpdatedByIp(updatedByIp);
 
         if (Value == value && Slug == slug && Display == display && Breadcrumb == breadcrumb && SortOrder == sortOrder)
             return false;
@@ -71,9 +78,77 @@ public abstract class ProductAttributeValue : Entity, ICreatable, IUpdatable, ID
         Breadcrumb = breadcrumb;
         SortOrder = sortOrder;
         UpdatedBy = updatedBy;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
 
         return true;
+    }
+
+    private static void ValidateValue(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.ValueRequired);
+        if (name.Length > 256) throw new DomainException(DomainErrors.ProductAttributeValueErrors.ValueTooLong);
+    }
+
+    private static void ValidateSlug(string slug)
+    {
+        if (string.IsNullOrWhiteSpace(slug))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.SlugRequired);
+        if (slug.Length > 256) throw new DomainException(DomainErrors.ProductAttributeValueErrors.SlugTooLong);
+    }
+
+    private static void ValidateDisplay(string display)
+    {
+        if (string.IsNullOrWhiteSpace(display))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.DisplayRequired);
+        if (display.Length > 256) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DisplayTooLong);
+    }
+
+    private static void ValidateBreadcrumb(string breadcrumb)
+    {
+        if (string.IsNullOrWhiteSpace(breadcrumb))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.BreadcrumbRequired);
+        if (breadcrumb.Length > 256)
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.BreadcrumbTooLong);
+    }
+
+    private static void ValidateCreatedBy(int createdBy)
+    {
+        if (createdBy <= 0) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidCreatedBy);
+    }
+
+    private static void ValidateCreatedByIp(string createdByIp)
+    {
+        if (string.IsNullOrWhiteSpace(createdByIp))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.CreatedByIpRequired);
+        if (createdByIp.Length > 128)
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.CreatedByIpTooLong);
+    }
+
+    private static void ValidateUpdatedBy(int updatedBy)
+    {
+        if (updatedBy <= 0) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidUpdatedBy);
+    }
+
+    private static void ValidateUpdatedByIp(string updatedByIp)
+    {
+        if (string.IsNullOrWhiteSpace(updatedByIp))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.UpdatedByIpRequired);
+        if (updatedByIp.Length > 128)
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.UpdatedByIpTooLong);
+    }
+
+    private static void ValidateDeletedBy(int deletedBy)
+    {
+        if (deletedBy <= 0) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidDeletedBy);
+    }
+
+    private static void ValidateDeletedByIp(string deletedByIp)
+    {
+        if (string.IsNullOrWhiteSpace(deletedByIp))
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.DeletedByIpRequired);
+        if (deletedByIp.Length > 128)
+            throw new DomainException(DomainErrors.ProductAttributeValueErrors.DeletedByIpTooLong);
     }
 }

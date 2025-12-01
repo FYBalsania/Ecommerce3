@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class BrandErrors
     {
+        public static readonly DomainError InvalidBrandId =
+            new($"{nameof(Brand)}.{nameof(Brand.Id)}", "Brand ID is invalid.");
+        
         public static readonly DomainError NameRequired =
             new($"{nameof(Brand)}.{nameof(Brand.Name)}", "Name is required.");
 

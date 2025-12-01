@@ -1,9 +1,8 @@
 namespace Ecommerce3.Application.Commands.ProductAttribute;
 
-public record AddProductAttributeTextValueCommand
+public record AddProductAttributeValueCommand
 {
     public required int ProductAttributeId { get; init; }
-    public required string Discriminator { get; init; }
     public required string Value { get; init; }
     public required string Slug { get; init; }
     public required string Display { get; init; }

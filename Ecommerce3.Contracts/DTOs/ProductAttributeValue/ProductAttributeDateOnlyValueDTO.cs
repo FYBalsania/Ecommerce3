@@ -1,6 +1,6 @@
 namespace Ecommerce3.Contracts.DTOs;
 
-public class ProductAttributeDateOnlyValueDTO : ProductAttributeValueDTO
+public record ProductAttributeDateOnlyValueDTO : ProductAttributeValueDTO
 {
     public DateOnly DateOnlyValue { get; set; }
 

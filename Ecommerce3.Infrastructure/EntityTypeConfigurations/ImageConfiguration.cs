@@ -17,7 +17,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
 
         //Discriminator.
-        builder.HasDiscriminator(x => x.Discriminator)
+        builder.HasDiscriminator<string>("Discriminator")
             .HasValue<Image>(nameof(Image))
             .HasValue<BankImage>(nameof(BankImage))
             .HasValue<BrandImage>(nameof(BrandImage))
@@ -30,7 +30,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
         //Properties.
-        builder.Property(x => x.Discriminator).HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);
+        builder.Property("Discriminator").HasMaxLength(32).HasColumnType("varchar(32)").HasColumnOrder(2);
         builder.Property(x => x.OgFileName).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
         builder.Property(x => x.FileName).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
         builder.Property(x => x.FileExtension).HasMaxLength(8).HasColumnType("varchar(8)").HasColumnOrder(5);
@@ -55,7 +55,6 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
-        builder.HasIndex(x => x.Discriminator).HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.Discriminator)}");
         builder.HasIndex(x => x.OgFileName).HasMethod("gin").HasOperators("gin_trgm_ops")
             .HasDatabaseName($"IX_{nameof(Image)}_{nameof(Image.OgFileName)}");
         builder.HasIndex(x => x.FileName).HasMethod("gin").HasOperators("gin_trgm_ops")

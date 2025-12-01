@@ -1,5 +1,4 @@
 using Ecommerce3.Contracts.DTOs.Image;
-using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

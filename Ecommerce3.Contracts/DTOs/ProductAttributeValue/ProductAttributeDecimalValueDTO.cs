@@ -1,6 +1,6 @@
 namespace Ecommerce3.Contracts.DTOs;
 
-public class ProductAttributeDecimalValueDTO : ProductAttributeValueDTO
+public record ProductAttributeDecimalValueDTO : ProductAttributeValueDTO
 {
     public decimal DecimalValue { get; private set; }
 

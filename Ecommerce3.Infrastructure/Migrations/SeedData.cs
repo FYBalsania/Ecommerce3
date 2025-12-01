@@ -142,96 +142,95 @@ public partial class SeedData : Migration
             });
         
         // ProductAttribute
-        migrationBuilder.InsertData(
-            "ProductAttribute",
-            new[]
-            { 
-                "Id", "Name", "Slug", "Display", "Breadcrumb", "DataType",
-                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-            },
-            new object[,]
-            {
-                { 1, "Colour", "colour", "Colour", "Colour", "Colour", 1, 1, DateTime.Now, "::1" },
-                { 2, "Storage", "storage", "Storage", "Storage", "Text", 2, 1, DateTime.Now, "::1" },
-                { 3, "RAM", "ram", "RAM", "RAM", "DateOnly", 3, 1, DateTime.Now, "::1" },
-                { 4, "Screen Size", "screen-size", "Screen Size", "Screen Size", "Decimal", 4, 1, DateTime.Now, "::1" },
-                { 5, "Processor", "processor", "Processor", "Processor", "Text", 5, 1, DateTime.Now, "::1" },
-                { 6, "Battery Capacity", "battery-capacity", "Battery Capacity", "Battery Capacity", "Text", 6, 1, DateTime.Now, "::1" },
-                { 7, "Material", "material", "Material", "Material", "Text", 7, 1, DateTime.Now, "::1" },
-                { 8, "Weight", "weight", "Weight", "Weight", "Text", 8, 1, DateTime.Now, "::1" },
-                { 9, "Warranty", "warranty", "Warranty", "Warranty", "Text", 9, 1, DateTime.Now, "::1" },
-                { 10, "Connectivity", "connectivity", "Connectivity", "Connectivity", "Text", 10, 1, DateTime.Now, "::1" },
-                { 11, "ESim", "esim", "ESim", "ESim", "Boolean", 10, 1, DateTime.Now, "::1" }
-            });
+        // migrationBuilder.InsertData(
+        //     "ProductAttribute",
+        //     new[]
+        //     { 
+        //         "Id", "Name", "Slug", "Display", "Breadcrumb", "DataType",
+        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     },
+        //     new object[,]
+        //     {
+        //         { 1, "Colour", "colour", "Colour", "Colour", "Colour", 1, 1, DateTime.Now, "::1" },
+        //         { 2, "Storage", "storage", "Storage", "Storage", "Text", 2, 1, DateTime.Now, "::1" },
+        //         { 3, "RAM", "ram", "RAM", "RAM", "DateOnly", 3, 1, DateTime.Now, "::1" },
+        //         { 4, "Screen Size", "screen-size", "Screen Size", "Screen Size", "Decimal", 4, 1, DateTime.Now, "::1" },
+        //         { 5, "Processor", "processor", "Processor", "Processor", "Text", 5, 1, DateTime.Now, "::1" },
+        //         { 6, "Battery Capacity", "battery-capacity", "Battery Capacity", "Battery Capacity", "Text", 6, 1, DateTime.Now, "::1" },
+        //         { 7, "Material", "material", "Material", "Material", "Text", 7, 1, DateTime.Now, "::1" },
+        //         { 8, "Weight", "weight", "Weight", "Weight", "Text", 8, 1, DateTime.Now, "::1" },
+        //         { 9, "Warranty", "warranty", "Warranty", "Warranty", "Text", 9, 1, DateTime.Now, "::1" },
+        //         { 10, "Connectivity", "connectivity", "Connectivity", "Connectivity", "Text", 10, 1, DateTime.Now, "::1" },
+        //         { 11, "ESim", "esim", "ESim", "ESim", "Boolean", 10, 1, DateTime.Now, "::1" }
+        //     });
         
         // ProductAttribute
-        migrationBuilder.InsertData(
-            "ProductAttributeValue",
-            new[]
-            { 
-                "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "HexCode", "ColourFamily", "ColourFamilyHexCode",
-                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-            },
-            new object[,]
-            {
-                { 1, 1, "ProductAttributeColourValue", "Blood Red", "blood-red", "Blood Red", "Blood Red", "#8A0303", "Red", "#FF0000", 1, 1, DateTime.Now, "::1" },
-                { 2, 1, "ProductAttributeColourValue", "Pale Yellow", "pale-yellow", "Pale Yellow", "Pale Yellow", "#FFFF99", "Yellow", "#FFFF99", 2, 1, DateTime.Now, "::1" },
-                { 3, 1, "ProductAttributeColourValue", "Emerald Green", "emerald-green", "Emerald Green", "Emerald Green", "#50C878", "Green", "#50C878", 3, 1, DateTime.Now, "::1" },
-            });
-        
-        migrationBuilder.InsertData(
-            "ProductAttributeValue",
-            new[]
-            { 
-                "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb",
-                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-            },
-            new object[,]
-            {
-                { 4, 2, "ProductAttributeTextValue", "Hello", "hello", "Hello", "Hello", 1, 1, DateTime.Now, "::1" },
-                { 5, 2, "ProductAttributeTextValue", "Hi", "hi", "Hi", "Hi", 1, 1, DateTime.Now, "::1" },
-            });
-        
-        migrationBuilder.InsertData(
-            "ProductAttributeValue",
-            new[]
-            { 
-                "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "DateOnlyValue",
-                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-            },
-            new object[,]
-            {
-                { 6, 3, "ProductAttributeDateOnlyValue", "Hello", "hello", "Hello", "Hello", new DateOnly(2025, 01, 01), 1, 1, DateTime.Now, "::1" },
-                { 7, 3, "ProductAttributeDateOnlyValue", "Hi", "hi", "Hi", "Hi", new DateOnly(2025, 01, 02), 2, 1, DateTime.Now, "::1" }
-            });
-
-        
-        migrationBuilder.InsertData(
-            "ProductAttributeValue",
-            new[]
-            { 
-                "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "DecimalValue",
-                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-            },
-            new object[,]
-            {
-                { 8, 4, "ProductAttributeDecimalValue", "100.50", "100-50", "100.50", "100.50", 100.50m, 1, 1, DateTime.Now, "::1" },
-                { 9, 4, "ProductAttributeDecimalValue", "249.99", "249-99", "249.99", "249.99", 249.99m, 2, 1, DateTime.Now, "::1" }
-            });
-
-        migrationBuilder.InsertData(
-            "ProductAttributeValue",
-            new[]
-            { 
-                "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "BooleanValue",
-                "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-            },
-            new object[,]
-            {
-                { 10, 11, "ProductAttributeBooleanValue", "Yes", "yes", "Yes", "Yes", true, 1, 1, DateTime.Now, "::1" },
-                { 11, 11, "ProductAttributeBooleanValue", "No", "no", "No", "No", false, 2, 1, DateTime.Now, "::1" }
-            });
-
+        // migrationBuilder.InsertData(
+        //     "ProductAttributeValue",
+        //     new[]
+        //     { 
+        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "HexCode", "ColourFamily", "ColourFamilyHexCode",
+        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     },
+        //     new object[,]
+        //     {
+        //         { 1, 1, nameof(ProductAttributeColourValue), "Blood Red", "blood-red", "Blood Red", "Blood Red", "#8A0303", "Red", "#FF0000", 1, 1, DateTime.Now, "::1" },
+        //         { 2, 1, nameof(ProductAttributeColourValue), "Pale Yellow", "pale-yellow", "Pale Yellow", "Pale Yellow", "#FFFF99", "Yellow", "#FFFF99", 2, 1, DateTime.Now, "::1" },
+        //         { 3, 1, nameof(ProductAttributeColourValue), "Emerald Green", "emerald-green", "Emerald Green", "Emerald Green", "#50C878", "Green", "#50C878", 3, 1, DateTime.Now, "::1" },
+        //     });
+        //
+        // migrationBuilder.InsertData(
+        //     "ProductAttributeValue",
+        //     new[]
+        //     { 
+        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb",
+        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     },
+        //     new object[,]
+        //     {
+        //         { 4, 2, nameof(ProductAttributeValue), "Hello", "hello", "Hello", "Hello", 1, 1, DateTime.Now, "::1" },
+        //         { 5, 2, nameof(ProductAttributeValue), "Hi", "hi", "Hi", "Hi", 1, 1, DateTime.Now, "::1" },
+        //     });
+        //
+        // migrationBuilder.InsertData(
+        //     "ProductAttributeValue",
+        //     new[]
+        //     { 
+        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "DateOnlyValue",
+        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     },
+        //     new object[,]
+        //     {
+        //         { 6, 3, nameof(ProductAttributeDateOnlyValue), "Hello", "hello", "Hello", "Hello", new DateOnly(2025, 01, 01), 1, 1, DateTime.Now, "::1" },
+        //         { 7, 3, nameof(ProductAttributeDateOnlyValue), "Hi", "hi", "Hi", "Hi", new DateOnly(2025, 01, 02), 2, 1, DateTime.Now, "::1" }
+        //     });
+        //
+        //
+        // migrationBuilder.InsertData(
+        //     "ProductAttributeValue",
+        //     new[]
+        //     { 
+        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "DecimalValue",
+        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     },
+        //     new object[,]
+        //     {
+        //         { 8, 4, nameof(ProductAttributeDecimalValue), "100.50", "100-50", "100.50", "100.50", 100.50m, 1, 1, DateTime.Now, "::1" },
+        //         { 9, 4, nameof(ProductAttributeDecimalValue), "249.99", "249-99", "249.99", "249.99", 249.99m, 2, 1, DateTime.Now, "::1" }
+        //     });
+        //
+        // migrationBuilder.InsertData(
+        //     "ProductAttributeValue",
+        //     new[]
+        //     { 
+        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "BooleanValue",
+        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     },
+        //     new object[,]
+        //     {
+        //         { 10, 11, nameof(ProductAttributeBooleanValue), "Yes", "yes", "Yes", "Yes", true, 1, 1, DateTime.Now, "::1" },
+        //         { 11, 11, nameof(ProductAttributeBooleanValue), "No", "no", "No", "No", false, 2, 1, DateTime.Now, "::1" }
+        //     });
         
         // ProductGroup
         migrationBuilder.InsertData(

@@ -1,6 +1,6 @@
 namespace Ecommerce3.Contracts.DTOs;
 
-public class ProductAttributeColourValueDTO : ProductAttributeValueDTO
+public record ProductAttributeColourValueDTO : ProductAttributeValueDTO
 {
     public string? HexCode { get; private set; }
     public string ColourFamily { get; private set; }

@@ -6,7 +6,6 @@ namespace Ecommerce3.Domain.Entities;
 
 public class Image : Entity, ICreatable, IUpdatable, IDeletable
 {
-    public string Discriminator { get; private set; }
     public string OgFileName { get; private set; }
     public string FileName { get; private set; }
     public string FileExtension { get; private set; }

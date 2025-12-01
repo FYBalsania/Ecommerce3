@@ -762,7 +762,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         column: x => x.ProductAttributeId,
                         principalTable: "ProductAttribute",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -2357,11 +2357,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_Discriminator",
-                table: "Image",
-                column: "Discriminator");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Image_FileName",
                 table: "Image",
                 column: "FileName")
@@ -2899,11 +2894,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_ProductAttributeValue_DeletedBy",
                 table: "ProductAttributeValue",
                 column: "DeletedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductAttributeValue_Discriminator",
-                table: "ProductAttributeValue",
-                column: "Discriminator");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_Display",

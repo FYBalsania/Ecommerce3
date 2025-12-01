@@ -1,19 +1,17 @@
-using Ecommerce3.Domain.Entities;
-
 namespace Ecommerce3.Contracts.DTOs;
 
-public abstract class ProductAttributeValueDTO
+public record ProductAttributeValueDTO
 {
-    public int Id { get; private set; }
-    public string Value { get; private set; }
-    public string Slug { get;  private set; }
-    public string Display { get; private set; }
-    public string Breadcrumb { get; private set; }
-    public int SortOrder { get; private set; }
-    public string CreatedUserFullName { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public int Id { get; init; }
+    public string Value { get; init; }
+    public string Slug { get; init; }
+    public string Display { get; init; }
+    public string Breadcrumb { get; init; }
+    public int SortOrder { get; init; }
+    public string CreatedUserFullName { get; init; }
+    public DateTime CreatedAt { get; init; }
 
-    protected ProductAttributeValueDTO(int id, string value, string slug, string display, string breadcrumb, 
+    public ProductAttributeValueDTO(int id, string value, string slug, string display, string breadcrumb,
         int sortOrder, string createdUserFullName, DateTime createdAt)
     {
         Id = id;

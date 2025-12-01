@@ -59,7 +59,7 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
         builder.HasMany(x => x.Values)
             .WithOne(x => x.ProductAttribute)
             .HasForeignKey(x => x.ProductAttributeId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)

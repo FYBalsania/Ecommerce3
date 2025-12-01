@@ -1,5 +1,3 @@
-using Ecommerce3.Domain.Enums;
-
 namespace Ecommerce3.Admin.ViewModels.Image;
 
 public record ImageListItemModalViewModel

@@ -11,7 +11,7 @@ public record DeleteProductAttributeValueViewModel
     [Required(ErrorMessage = "Product attribute id is required.")]
     public int ProductAttributeId { get; set; }
 
-    public DeleteProductAttributeValueCommand ToCommand(int userId, string ipAddress)
+    public DeleteProductAttributeValueCommand ToCommand(int userId, DateTime dateTime, string ipAddress)
     {
         return new DeleteProductAttributeValueCommand
         {
@@ -19,7 +19,7 @@ public record DeleteProductAttributeValueViewModel
             ProductAttributeId = ProductAttributeId,
             DeletedBy = userId,
             DeletedByIp = ipAddress,
-            DeletedAt = DateTime.Now
+            DeletedAt = dateTime
         };
     }
 }

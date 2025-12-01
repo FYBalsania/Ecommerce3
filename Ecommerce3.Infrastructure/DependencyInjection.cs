@@ -3,6 +3,7 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Policies;
 using Ecommerce3.Domain.Repositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.EFCoreInterceptors;
 using Ecommerce3.Infrastructure.Imaging;
 using Ecommerce3.Infrastructure.QueryRepositories;
 using Ecommerce3.Infrastructure.Repositories;
@@ -16,65 +17,58 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<DeleteInterceptor>();
+        services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
+        
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>());
+                .AddInterceptors(sp.GetRequiredService<DeleteInterceptor>());
         });
-
-        services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
-        services.AddSingleton<SoftDeleteInterceptor>();
-
+        
+        //Repositories.
         services.AddScoped<IBankImageRepository, BankImageRepository>();
         services.AddScoped<IBankPageRepository, BankPageRepository>();
         services.AddScoped<IBankRepository, BankRepository>();
-
         services.AddScoped<IBrandRepository, BrandRepository>();
-        services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
         services.AddScoped<IBrandPageRepository, BrandPageRepository>();
-        services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
-
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
         services.AddScoped<ICategoryPageRepository, CategoryPageRepository>();
-        services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
-
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
         services.AddScoped<IProductAttributeColourValueRepository, ProductAttributeColourValueRepository>();
         services.AddScoped<IProductAttributeDecimalValueRepository, ProductAttributeDecimalValueRepository>();
         services.AddScoped<IProductAttributeDateOnlyValueRepository, ProductAttributeDateOnlyValueRepository>();
         services.AddScoped<IProductAttributeBooleanValueRepository, ProductAttributeBooleanValueRepository>();
-
         services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
-        services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
         services.AddScoped<IProductGroupPageRepository, ProductGroupPageRepository>();
-        services.AddScoped<IImageQueryRepository, ProductGroupImageQueryRepository>();
-
         services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
         services.AddScoped<IProductPageRepository, ProductPageRepository>();
-
         services.AddScoped<IDeliveryWindowRepository, DeliveryWindowRepository>();
-        services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
-
         services.AddScoped<IImageTypeRepository, ImageTypeRepository>();
-        services.AddScoped<IImageTypeQueryRepository, ImageTypeQueryRepository>();
-
         services.AddScoped<IBankRepository, BankRepository>();
-        services.AddScoped<IBankQueryRepository, BankQueryRepository>();
-        services.AddScoped<IImageQueryRepository, BankImageQueryRepository>();
-
         services.AddScoped<IPostCodeRepository, PostCodeRepository>();
-        services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();
-
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBrandRepository>());
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<ICategoryRepository>());
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBankRepository>());
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IProductGroupRepository>());
-
         services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
+        
+        //Query Repositories.
+        services.AddScoped<IBankQueryRepository, BankQueryRepository>();
+        services.AddScoped<IImageQueryRepository, BankImageQueryRepository>();
+        services.AddScoped<IImageQueryRepository, ProductGroupImageQueryRepository>();
+        services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
+        services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
+        services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
+        services.AddScoped<IProductAttributeValueQueryRepository, ProductAttributeValueQueryRepository>();
+        services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
+        services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();
+        services.AddScoped<IImageTypeQueryRepository, ImageTypeQueryRepository>();
+        services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
+        services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
+        services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

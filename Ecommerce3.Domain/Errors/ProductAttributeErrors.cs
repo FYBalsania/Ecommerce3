@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class ProductAttributeErrors
     {
+        public static readonly DomainError InvalidProductAttributeId =
+            new($"{nameof(ProductAttribute)}.{nameof(ProductAttribute.Id)}", "Product attribute Id is invalid.");
+        
         public static readonly DomainError NameRequired =
             new($"{nameof(ProductAttribute)}.{nameof(ProductAttribute.Name)}", "Name is required.");
 

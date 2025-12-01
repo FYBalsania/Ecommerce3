@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;

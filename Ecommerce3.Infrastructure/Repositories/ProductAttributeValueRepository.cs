@@ -8,8 +8,11 @@ namespace Ecommerce3.Infrastructure.Repositories;
 internal class ProductAttributeValueRepository<T> : Repository<T>, IProductAttributeValueRepository<T>
     where T : ProductAttributeValue
 {
+    private readonly AppDbContext _dbContext;
+
     public ProductAttributeValueRepository(AppDbContext dbContext) : base(dbContext)
     {
+        _dbContext = dbContext;
     }
 
     public async Task<(IReadOnlyCollection<T> ListItems, int Count)> GetProductAttributeValuesAsync(
