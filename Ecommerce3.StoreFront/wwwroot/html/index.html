@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="192x192" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="css/spice.css">
+    <link rel="stylesheet" href="css/splide.min.css">
+    <link rel="stylesheet" href="css/newmenu.css">
+    <script src="js/what-input.min.js"></script>
+    <script src="js/modernizr-custom.js"></script>
+	<title>Spice Mart</title>
+</head>
+<body id="homepage">
+    
+    <header class="top-header">
+        <div class="container">
+            <div class="top-header-content">
+                <div class="logo">
+                    <div class="bw-nav-open">
+                   <button class="bw-btn bw-navbtn" aria-controls="top-header" aria-label="Spicemart Navigation"> 
+                    </button> 
+                    </div>
+                   <a class="logo-icon" href="#"><img src="images\h-logo.svg" width="150" height="83" alt="Spice Mart"></a>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="SEARCH FOR PRODUCTS...">
+                    <button class="search-btn"><img src="images/search-icon.svg" width="22" height="22" alt="Search"></button>
+                </div>
+                
+                <div class="header-actions">
+                    <a href="#" class="action-item search">
+                        <img src="images/search-icon.svg" width="15" height="15" alt="Search">
+                        <span>Search</span>
+                    </a>
+                    <a href="#" class="action-item">
+                        <img src="images/favourites.svg" width="50" height="50" alt="Favourites">
+                        <span>Favourites</span>
+                    </a>
+                    <a href="#" class="action-item">
+                        <img src="images/myaccount.svg" width="50" height="50" alt="My Account">
+                        <span>My Account</span>
+                    </a>
+                    <button class="cart-btn-mob" id="cartview">
+                        <div class="cart-icon"><span class="cart-badge">0</span></div>                    
+                        <span>£0.00</span>
+                    </button>                    
+                </div>
+                <div class="trustpilot">
+                    <span class="trustpilot-text">Excellent</span>
+                    <span class="stars">★★★★★</span>
+                    <a href="#" class="trustpilot-link">10,856 reviews on</a>
+                    <span style="color: #00b67a; font-weight: bold;">★ Trustpilot</span>
+                </div>
+            </div>
+        </div>
+
+    <nav class="r-h-container" id="top-header">
+        <div class="bw-container">
+            <div class="bw-content">
+                <div class="bw-nav">
+                    <div class="bw-slide">
+                        <div class="bw-navtitle"><span></span></div>
+                        <div class="bw-menu">
+                            <div class="bw-menu-scrollbar">
+                                <ul class="bw-navitems bw-navlevel1 bw-translate-0">
+    
+                                   
+
+                                    <li class="bw-navitem b_c">
+                                        <a class="bw-navlink bw-navfold bw-navlinklevel1 mLinq">
+                                            Nuts, Seeds & Fruits
+                                        </a>
+                                        <div class="bw-navitems bw-navlevel2">
+                                            <div class="bw-wrap">
+                                                    <ul class="bw-column">
+                                                        <li class="bw-navitem">
+                                                            <span class="bw-navlink bw-navfold mLinq">Nuts</span>
+                                                            <div class="bw-navitems bw-navlevel3">
+                                                                <ul class="bw-navitems-group">
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Almonds</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Cashews</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Pistachios</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Walnuts</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Mixed Nuts</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    </ul>                                                
+                                                    <ul class="bw-column">
+                                                        <li class="bw-navitem">
+                                                            <span class="bw-navlink bw-navfold mLinq">Seeds</span>
+                                                            <div class="bw-navitems bw-navlevel3">
+                                                                <ul class="bw-navitems-group">
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Chia Seeds</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Flax Seeds</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Pumpkin Seeds</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Sunflower Seeds</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="bw-column">
+                                                        <li class="bw-navitem">
+                                                            <span class="bw-navlink bw-navfold mLinq">Dried Fruits</span>
+                                                            <div class="bw-navitems bw-navlevel3">
+                                                                <ul class="bw-navitems-group">
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Dates</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Raisins</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Apricots</a></li>
+                                                                    <li class="bw-navitem"><a href="#" class="bw-navlink">Figs</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Featured</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Organic Selection</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Best Sellers</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">New Arrivals</a></li>                                                                
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+
+                                    <li class="bw-navitem b_c">
+                                        <a class="bw-navlink bw-navfold bw-navlinklevel1 mLinq">
+                                            Food Cupboard
+                                        </a>
+                                        <div class="bw-navitems bw-navlevel2">
+                                            <div class="bw-wrap">
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Rice & Grains</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Basmati Rice</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Brown Rice</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Quinoa</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Oils & Condiments</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Cooking Oils</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Sauces</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Vinegars</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Pasta & Noodles</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Italian Pasta</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Asian Noodles</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Canned Goods</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Vegetables</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Beans</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+    
+                                    <li class="bw-navitem b_c">
+                                        <a class="bw-navlink bw-navfold bw-navlinklevel1 mLinq">
+                                            Snacks
+                                        </a>
+                                        <div class="bw-navitems bw-navlevel2">
+                                            <div class="bw-wrap">
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Healthy Snacks</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Trail Mix</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Protein Bars</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Fruit Bars</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Chips & Crisps</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Vegetable Chips</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Popcorn</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Sweet Treats</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Chocolate</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Candy</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="bw-column">
+                                                    <li class="bw-navitem">
+                                                        <span class="bw-navlink bw-navfold mLinq">Crackers</span>
+                                                        <div class="bw-navitems bw-navlevel3">
+                                                            <ul class="bw-navitems-group">
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Rice Crackers</a></li>
+                                                                <li class="bw-navitem"><a href="#" class="bw-navlink">Wheat Crackers</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>  
+                                    
+                                    
+                                    <li class="bw-navitem b_c"><a href="shop-by-brand" title="Shop By Brand"
+                                            class="bw-navlink bw-navfold bw-navlinklevel1 mLinq single_link">Chilled</a>
+                                    </li>
+                                     
+                                  
+    
+                                  
+    
+    
+                                    <li class="bw-navitem b_c"><a href="shop-by-brand" title="Shop By Brand"
+                                            class="bw-navlink bw-navfold bw-navlinklevel1 mLinq single_link">Welness</a>
+                                    </li>
+
+                                    <li class="bw-navitem b_c"><a href="shop-by-brand" title="Shop By Brand"
+                                            class="bw-navlink bw-navfold bw-navlinklevel1 mLinq single_link">Supplements</a>
+                                    </li>    
+    
+                                </ul>
+                                <button class="cart-btn single_link" id="cartview">
+                                    <div class="cart-icon"><span class="cart-badge">0</span></div>
+                                    <span>£0.00</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+        <div class="features-bar">
+                <div class="container">
+                    <div class="features splide" id="featureSlider">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                <li class="feature splide__slide">
+                                    <div class="trustpilot">
+                                        <span class="trustpilot-text">Excellent</span>
+                                        <span class="stars">★★★★★</span>
+                                        <a href="#" class="trustpilot-link">10,856 reviews on</a>
+                                        <span style="color: #00b67a; font-weight: bold;">★ Trustpilot</span>
+                                    </div>
+                                </li>
+                                <li class="feature splide__slide">
+                                    <span class="feature-icon"><img src="images/quality-assured.svg" width="50" height="50" alt="30-Day Return Guarantee"></span>
+                                    <span>30-Day Return Guarantee</span>
+                                </li>
+                                <li class="feature splide__slide">
+                                    <span class="feature-icon"><img src="images/delivery-van.svg" width="50" height="50" alt="Free Delivery on Orders Over £20"></span>
+                                    <span>Free Delivery on Orders Over £20</span>
+                                </li>
+                                <li class="feature splide__slide">
+                                    <span class="feature-icon"><img src="images/call-support.svg" width="50" height="50" alt="Speak to an Expert"></span>
+                                    <span>Speak to an Expert</span>
+                                </li>
+                                <li class="feature splide__slide">
+                                    <span class="feature-icon"><img src="images/call-icon.svg" width="50" height="50" alt="Call US"></span>
+                                    <span><strong>0116 262 4929</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+    </header>
+
+    
+    
+
+    
+    
+
+    
+    <section class="hero-slider-section container">
+        <div class="splide" id="hero-slider" aria-label="Hero Slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <picture>
+                            <source media="(min-width: 640px)" srcset="images/premium-nuts-banner.jpg">                            
+                            <img src="images/slide-1-mob.jpg" alt="Premium Spices Collection">
+                        </picture>                        
+                    </li>
+                    <li class="splide__slide">
+                        <picture>
+                            <source media="(min-width: 640px)" srcset="images/slide-2-desktop.jpg">                            
+                            <img src="images/slide-2-mob.jpg" alt="Premium Spices Collection">
+                        </picture>                        
+                    </li>
+                    <li class="splide__slide">
+                        <picture>
+                            <source media="(min-width: 640px)" srcset="images/slide-3-desktop.jpg">                            
+                            <img src="images/slide-3-mob.jpg" alt="Premium Spices Collection">
+                        </picture>                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="best-sellers-section container">
+        <h2 class="section-title">Shop Our Best Sellers</h2>
+        
+        <div class="splide" id="best-sellers-slider" aria-label="Best Sellers">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/turmeric-powder.jpg" width="350" height="350" alt="Organic Turmeric Powder">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Organic Turmeric Powder Double Strength</h3>
+                                <p class="product-price">From <span class="price">£3.49</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/redchilly-powder.jpg" width="350" height="350" alt="Red Chilli Powder">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Red Chilli Powder Extra Hot</h3>
+                                <p class="product-price">From <span class="price">£3.45</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/caraway-seeds.jpg" width="350" height="350" alt="Caraway Seeds">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Caraway Seeds</h3>
+                                <p class="product-price">From <span class="price">£3.25</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/cassia-broken.jpg" width="350" height="350" alt="Organic Cassia Broken">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Organic Cassia Broken Cleansed</h3>
+                                <p class="product-price">From <span class="price">£3.99</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/organic-turmeric.jpg" width="350" height="350" alt="Organic Turmeric Powder">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Organic Turmeric Powder Double Strength</h3>
+                                <p class="product-price">From <span class="price">£3.49</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/cumin-seeds.jpg" alt="Cumin Seeds">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Cumin Seeds Whole</h3>
+                                <p class="product-price">From <span class="price">£2.99</span></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <section class="shopby-category">
+        <div class="container">
+            <h2 class="section-title">Shop By Category</h2>
+            <div class="cat-cards-wrap">
+                <a href="#" class="cat-cards">
+                    <img class="cat-hover" src="images/mixed-nuts.jpg" width="350" height="350" alt="Mixed Nuts">
+                    <span>Mixed Nuts</span>
+                </a>
+                <a href="#" class="cat-cards">
+                    <img class="cat-hover" src="images/raisins.jpg" width="350" height="350" alt="Raisins">
+                    <span>Raisins</span>
+                </a>
+                <a href="#" class="cat-cards">
+                    <img class="cat-hover" src="images/almonds.jpg" width="350" height="350" alt="Almonds">
+                    <span>Almonds</span>
+                </a>
+                <a href="#" class="cat-cards">
+                    <img class="cat-hover" src="images/dried-apricot.jpg" width="350" height="350" alt="Dried Apricot">
+                    <span>Dried Apricot</span>
+                </a>
+                <a href="#" class="cat-cards">
+                    <img class="cat-hover" src="images/cashews.jpg" width="350" height="350" alt="cashews">
+                    <span>cashews</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="shopby-diet">
+        <div class="container">
+            <h2 class="section-title">Shop By Diet</h2>
+            <div class="diet-cards-wrap">
+                <a href="#" class="diet-cards">
+                    <span class="diet-icon-bg"><img src="images/vegan-icon.svg" width="100" height="100" alt="Vegan"></span>
+                    <span>Vegan <img src="images/circle-arrow.svg" width="30" height="30" alt="Vegan"></span>
+                </a>
+                <a href="#" class="diet-cards">
+                    <span class="diet-icon-bg"><img src="images/keto-icon.svg" width="100" height="100" alt="Keto"></span>
+                    <span>Keto <img src="images/circle-arrow.svg" width="30" height="30" alt="Keto"></span>
+                </a>
+                <a href="#" class="diet-cards">
+                    <span class="diet-icon-bg"><img src="images/gluten-free.svg" width="100" height="100" alt="Glutten Free"></span>
+                    <span>Glutten Free <img src="images/circle-arrow.svg" width="30" height="30" alt="Glutten Free"></span>
+                </a>
+                <a href="#" class="diet-cards">
+                    <span class="diet-icon-bg"><img src="images/organic-icon.svg" width="100" height="100" alt="Organic"></span>
+                    <span>Organic <img src="images/circle-arrow.svg" width="30" height="30" alt="Organic"></span>
+                </a>
+                <a href="#" class="diet-cards">
+                    <span class="diet-icon-bg"><img src="images/lactose-free.svg" width="100" height="100" alt="Lactose Free"></span>
+                    <span>Lactose Free <img src="images/circle-arrow.svg" width="30" height="30" alt="Lactose Free"></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="customer-reviews">
+        <div class="container">
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="reviews-content">
+                <!-- Column 1 - Text Review -->
+                <div class="text-review">
+                    <p class="review-text">Spice Mart has great customer service, prices are not too expensive, they have all sorts from fruit and nuts to sweets, I keep ordering for my husband, delivery is just a few days, I shall keep ordering,</p>
+                    <div class="star-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star half">★</span>
+                    </div>
+                    <div class="review-platforms">
+                        <div class="platform-badge">
+                            <span>Review Us On</span>
+                        </div>
+                        <div class="platform-links">
+                            <a href="#" class="platform-link">
+                                <img src="images/google-review.png" width="100" height="35" alt="Google Reviews">
+                            </a>
+                            <a href="#" class="platform-link">
+                                <img src="images/trustpilot-logo.png" width="100" height="35" alt="Trustpilot">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column 2 - Overall Rating -->
+                <div class="overall-rating">
+                    <div class="rating-header">
+                        <span class="excellent">Excellent</span>
+                        <div class="trust-stars">
+                            <span class="trust-star">★</span>
+                            <span class="trust-star">★</span>
+                            <span class="trust-star">★</span>
+                            <span class="trust-star">★</span>
+                            <span class="trust-star">★</span>
+                        </div>
+                    </div>
+                    <p class="review-count">Based on 34,556 reviews</p>
+                    <img src="images/trustpilot-logo.png" width="120" height="30" alt="Trustpilot" class="trustpilot-logo">
+                </div>
+                
+                <!-- Column 3 - Review Slider -->
+                <div class="reviews-slider-wrapper">
+                    <div class="splide" id="reviews-slider">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                <li class="splide__slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                            </div>
+                                            <span class="verified">✓ Verified</span>
+                                        </div>
+                                        <h4 class="review-title">Great food at fair prices</h4>
+                                        <p class="review-excerpt">Great food at fair prices. Love the unusual selection and super wide variety.</p>
+                                        <p class="reviewer-info"><strong>Jill hughes</strong>, 2 hours ago</p>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                            </div>
+                                            <span class="verified">✓ Verified</span>
+                                        </div>
+                                        <h4 class="review-title">Fast smooth great service</h4>
+                                        <p class="review-excerpt">Fast smooth great service</p>
+                                        <p class="reviewer-info"><strong>Gerard A McGuigan</strong>, 3 hours ago</p>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                            </div>
+                                            <span class="verified">✓ Verified</span>
+                                        </div>
+                                        <h4 class="review-title">Excellent quality products</h4>
+                                        <p class="review-excerpt">Amazing quality and fast delivery. Highly recommend!</p>
+                                        <p class="reviewer-info"><strong>Sarah Johnson</strong>, 5 hours ago</p>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                            </div>
+                                            <span class="verified">✓ Verified</span>
+                                        </div>
+                                        <h4 class="review-title">Best spice shop online</h4>
+                                        <p class="review-excerpt">Great variety and competitive prices. Customer service is top notch.</p>
+                                        <p class="reviewer-info"><strong>Mohammed Khan</strong>, 1 day ago</p>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                            </div>
+                                            <span class="verified">✓ Verified</span>
+                                        </div>
+                                        <h4 class="review-title">Always reliable</h4>
+                                        <p class="review-excerpt">Been ordering for years. Never disappointed with quality or service.</p>
+                                        <p class="reviewer-info"><strong>Priya Patel</strong>, 2 days ago</p>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                                <span class="review-star">★</span>
+                                            </div>
+                                            <span class="verified">✓ Verified</span>
+                                        </div>
+                                        <h4 class="review-title">Fantastic range</h4>
+                                        <p class="review-excerpt">Love the variety of spices available. Great prices too!</p>
+                                        <p class="reviewer-info"><strong>David Brown</strong>, 3 days ago</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="showing-latest">Showing our latest reviews</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="greenbg-heading">
+      <div class="container">
+          <h2 class="section-title">Newly Launched <span class="sm-heading">Checkout Some Of Our Latest Offerings</span></h2>
+      </div>
+    </div>
+    <section class="best-sellers-section container">
+        <div class="splide" id="newly-launched-slider" aria-label="Best Sellers">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/turmeric-powder.jpg" width="350" height="350" alt="Organic Turmeric Powder">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Organic Turmeric Powder Double Strength</h3>
+                                <p class="product-price">From <span class="price">£3.49</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/redchilly-powder.jpg" width="350" height="350" alt="Red Chilli Powder">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Red Chilli Powder Extra Hot</h3>
+                                <p class="product-price">From <span class="price">£3.45</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/caraway-seeds.jpg" width="350" height="350" alt="Caraway Seeds">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Caraway Seeds</h3>
+                                <p class="product-price">From <span class="price">£3.25</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/cassia-broken.jpg" width="350" height="350" alt="Organic Cassia Broken">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Organic Cassia Broken Cleansed</h3>
+                                <p class="product-price">From <span class="price">£3.99</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/organic-turmeric.jpg" width="350" height="350" alt="Organic Turmeric Powder">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Organic Turmeric Powder Double Strength</h3>
+                                <p class="product-price">From <span class="price">£3.49</span></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/cumin-seeds.jpg" alt="Cumin Seeds">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-brand">SPICE MART</p>
+                                <h3 class="product-title">Cumin Seeds Whole</h3>
+                                <p class="product-price">From <span class="price">£2.99</span></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    
+    <footer class="footer">
+        
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-top-content">
+                    <div class="paypal-info">
+                        <img src="images/paypal-logo.svg" width="50" height="50" alt="PayPal" class="paypal-logo">
+                        <span class="paypal-text"><strong>PAYPAL</strong> PAY IN 3 EASY PAYMENTS</span>
+                    </div>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Enter Your Email" class="newsletter-input">
+                        <button class="subscribe-btn">SUBSCRIBE</button>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon facebook"><img src="images/facebook.svg" width="50" height="50" alt="Facebook"></a>
+                        <a href="#" class="social-icon instagram"><img src="images/instagram.svg" width="50" height="50" alt="Instagram"></a>
+                        <a href="#" class="social-icon x"><img src="images/x-icon.svg" width="50" height="50" alt="X"></a>
+                        <a href="#" class="social-icon tiktok"><img src="images/tiktok.svg" width="50" height="50" alt="TikTok"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-content">
+                    
+                    <div class="footer-column-one">
+                        <div class="footer-logo">
+                            <img src="images\h-logo.svg" alt="Spice Mart" width="120">
+                        </div>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <span class="contact-icon"><img src="images/call-icon.svg" width="50" height="50" alt="Call US"></span>
+                                <span>(+44) 116 262 4929</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-icon"><img src="images/call-icon.svg" width="50" height="50" alt="Call US"></span>
+                                <span>(+44) 778 699 8333</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-icon"><img src="images/email-icon.svg" width="50" height="50" alt="Mail US"></span>
+                                <span>support@buyspiceonline.co.uk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="footerlink-wrapper">
+                        <div class="footer-column">
+                            <h3 class="footer-heading">CUSTOMER SERVICES</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                                <li><a href="#">Chilled Delivery Information</a></li>
+                                <li><a href="#">Quality Guarantee & Returns</a></li>
+                            </ul>
+                        </div>
+                        
+                        
+                        <div class="footer-column">
+                            <h3 class="footer-heading">MY ACCOUNT</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">My Information</a></li>
+                                <li><a href="#">Order History</a></li>
+                                <li><a href="#">Notification Preferences</a></li>
+                                <li><a href="#">BWFO Cash (previously Reward Points)</a></li>
+                                <li><a href="#">Recipes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    
+                    <div class="footer-column-three">
+                        <div class="business-hours">
+                            <div class="hours-row">
+                                <span class="day">Monday - Friday</span>
+                                <span class="time">09:00 - 17:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Saturday</span>
+                                <span class="time">Closed</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Sunday</span>
+                                <span class="time">09:00 - 14:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="payment-methods">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='32' viewBox='0 0 48 32'%3E%3Crect width='48' height='32' rx='4' fill='%231A1F71'/%3E%3Ctext x='24' y='20' font-family='Arial' font-size='12' font-weight='bold' fill='white' text-anchor='middle'%3EVISA%3C/text%3E%3C/svg%3E" alt="Visa">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='32' viewBox='0 0 48 32'%3E%3Crect width='48' height='32' rx='4' fill='%23EB001B'/%3E%3Ccircle cx='18' cy='16' r='10' fill='%23EB001B'/%3E%3Ccircle cx='30' cy='16' r='10' fill='%23F79E1B'/%3E%3C/svg%3E" alt="Mastercard">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='32' viewBox='0 0 48 32'%3E%3Crect width='48' height='32' rx='4' fill='%23016FD0'/%3E%3Ctext x='24' y='12' font-family='Arial' font-size='8' font-weight='bold' fill='white' text-anchor='middle'%3EDISCOVER%3C/text%3E%3Ctext x='24' y='22' font-family='Arial' font-size='6' fill='%23FF6000' text-anchor='middle'%3ENETWORK%3C/text%3E%3C/svg%3E" alt="Discover">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='32' viewBox='0 0 48 32'%3E%3Crect width='48' height='32' rx='4' fill='%23003087'/%3E%3Ctext x='14' y='12' font-family='Arial' font-size='8' font-weight='bold' fill='%2300457C' text-anchor='middle'%3EPay%3C/text%3E%3Ctext x='34' y='12' font-family='Arial' font-size='8' font-weight='bold' fill='%23009CDE' text-anchor='middle'%3EPal%3C/text%3E%3C/svg%3E" alt="PayPal">
+                        </div>
+                    </div>
+                </div>
+
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Shipping and Delivery Spice Mart</a>
+                <a href="#">Terms Conditions</a>
+            </div>                
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="copyright">
+                        <span>© Spicemart 2025 — All Right Reserved!</span>
+                    </div>                    
+                    <div class="company-info">
+                        <span>7, Constitution Hill, Unit 19, Matrix House. Leicester. LE1 1PL Registered in England & Wales. Company No: 12397320 VAT Registration Number: 340387509.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+<script src="js/splide.min.js"></script>
+<!-- <script src="js/menu.js" defer></script> -->
+<script src="js/spice.js" defer></script>
+<script src="js/newmenu.js" defer></script>
+
+
+</body>
+</html>

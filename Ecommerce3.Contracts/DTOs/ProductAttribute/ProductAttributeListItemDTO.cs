@@ -7,6 +7,7 @@ public record ProductAttributeListItemDTO
     public string Slug { get; init; }
     public string Display { get; init; }
     public string Breadcrumb { get; init; }
+    public int ValuesCount { get; init; }
     public string DataType { get; init; }
     public int SortOrder { get; init; }
     public string CreatedUserFullName { get; init; }

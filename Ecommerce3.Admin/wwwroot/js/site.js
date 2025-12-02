@@ -123,7 +123,7 @@ function validateDecimal(inputEl, errorEl, min, max) {
     return true;
 }
 
-function validateString(inputEl, errorEl, maxLength) {
+function validateString(inputEl, errorEl, maxLength = undefined) {
     const raw = inputEl.value;
 
     // Reset error display

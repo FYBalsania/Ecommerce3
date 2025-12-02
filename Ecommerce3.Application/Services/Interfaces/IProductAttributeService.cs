@@ -14,20 +14,32 @@ public interface IProductAttributeService
     Task AddAsync(AddProductAttributeCommand command, CancellationToken cancellationToken);
     Task EditAsync(EditProductAttributeCommand command, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
-    Task AddProductAttributeColourValueAsync(AddProductAttributeColourValueCommand command, CancellationToken cancellationToken);
-    Task AddProductAttributeDecimalValueAsync(AddProductAttributeDecimalValueCommand command, CancellationToken cancellationToken);
-    Task AddProductAttributeDateOnlyValueAsync(AddProductAttributeDateOnlyValueCommand command, CancellationToken cancellationToken);
-    Task AddProductAttributeBooleanValueAsync(AddProductAttributeBooleanValueCommand command, CancellationToken cancellationToken);
+    
+    #region ProductAttributeValue
     Task AddValueAsync(AddProductAttributeValueCommand command, CancellationToken cancellationToken);
-    Task EditProductAttributeColourValueAsync(EditProductAttributeColourValueCommand command, CancellationToken cancellationToken);
-    Task EditProductAttributeDecimalValueAsync(EditProductAttributeDecimalValueCommand command, CancellationToken cancellationToken);
-    Task EditProductAttributeDateOnlyValueAsync(EditProductAttributeDateOnlyValueCommand command, CancellationToken cancellationToken);
-    Task EditProductAttributeBooleanValueAsync(EditProductAttributeBooleanValueCommand command, CancellationToken cancellationToken);
-    Task EditProductAttributeValueAsync(EditProductAttributeValueCommand command, CancellationToken cancellationToken);
-    Task<IReadOnlyList<ProductAttributeValueDTO?>> GetValuesByProductAttributeIdAsync(int id, CancellationToken cancellationToken);
+    Task EditValueAsync(EditProductAttributeValueCommand command, CancellationToken cancellationToken);
+    Task DeleteValueAsync(DeleteProductAttributeValueCommand command, CancellationToken cancellationToken);
+    #endregion
+    
+    #region ProductAttributeDecimalValue
+    Task AddDecimalValueAsync(AddProductAttributeDecimalValueCommand command, CancellationToken cancellationToken);
+    Task EditDecimalValueAsync(EditProductAttributeDecimalValueCommand command, CancellationToken cancellationToken);
+    #endregion
+    
+    #region ProductAttributeDateOnlyValue
+    Task AddDateOnlyValueAsync(AddProductAttributeDateOnlyValueCommand command, CancellationToken cancellationToken);
+    Task EditDateOnlyValueAsync(EditProductAttributeDateOnlyValueCommand command, CancellationToken cancellationToken);
+    #endregion
+    
+    #region ProductAttributeColourValue
+    Task AddColourValueAsync(AddProductAttributeColourValueCommand command, CancellationToken cancellationToken);
+    Task EditColourValueAsync(EditProductAttributeColourValueCommand command, CancellationToken cancellationToken);
+    #endregion
+    
+    #region ProductAttributeBooleanValue
+    Task EditBooleanValueAsync(EditProductAttributeBooleanValueCommand command, CancellationToken cancellationToken);
+    #endregion
+    
     Task<ProductAttributeValueDTO?> GetByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken);
-    Task DeleteProductAttributeColourValueAsync(DeleteProductAttributeValueCommand command, CancellationToken cancellationToken);
-    Task DeleteProductAttributeDecimalValueAsync(DeleteProductAttributeValueCommand command, CancellationToken cancellationToken);
-    Task DeleteProductAttributeDateOnlyValueAsync(DeleteProductAttributeValueCommand command, CancellationToken cancellationToken);
-    Task DeleteProductAttributeValueAsync(DeleteProductAttributeValueCommand command, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id, CancellationToken cancellationToken);
 }

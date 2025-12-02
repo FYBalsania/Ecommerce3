@@ -51,9 +51,10 @@
                 <table class="table align-middle">
                     <thead>
                     <tr>
-                        <th style="width: 30%;">Name/Slug</th>
-                        <th style="width: 30%;">Dislay/Breadcrumb</th>
+                        <th style="width: 25%;">Name/Slug</th>
+                        <th style="width: 25%;">Dislay/Breadcrumb</th>
                         <th style="width: 10%;">Data Type</th>
+                        <th class="text-end" style="width: 10%;">Values</th>
                         <th class="text-end" style="width: 10%;">Sort Order</th>
                         <th class="text-end" style="width: 15%;">Created</th>
                         <th class="text-center" style="width: 5%;">Action</th>
@@ -73,6 +74,9 @@
                             </td>
                             <td>
                                 @productAttribute.DataType
+                            </td>
+                            <td class="text-end">
+                                @productAttribute.ValuesCount.ToString()
                             </td>
                             <td class="text-end">@productAttribute.SortOrder</td>
                             <td class="text-end">@productAttribute.CreatedUserFullName <br/>@productAttribute.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")

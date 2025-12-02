@@ -97,7 +97,7 @@
                                 <table class="table align-middle">
                                     <thead>
                                     <tr>
-                                        <th style="width: 35%;">Name/Slug</th>
+                                        <th style="width: 35%;">Value/Slug</th>
                                         <th style="width: 35%;">Display/Breadcrumb</th>
                                         <th class="text-end" style="width: 10%;">Sort Order</th>
                                         <th class="text-end" style="width: 15%;">Created</th>
@@ -111,7 +111,8 @@
                                 <table class="table align-middle">
                                     <thead>
                                     <tr>
-                                        <th style="width: 35%;">Name/Slug</th>
+                                        <th style="width: 35%;">Value/Slug</th>
+                                        <th style="width: 35%;">Display/Breadcrumb</th>
                                         <th class="text-end" style="width: 10%;">Sort Order</th>
                                         <th class="text-end" style="width: 15%;">Created</th>
                                         <th class="text-center" style="width: 5%;">Action</th>
@@ -848,9 +849,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DecimalSlug">Slug</label>
-                                    <input type="text" class="form-control" id="add_DecimalSlug">
-                                    <span class="text-danger" id="add_DecimalSlugError"></span>
+                                    <label class="form-label fw-bold" for="add_Slug">Slug</label>
+                                    <input type="text" class="form-control" id="add_Slug">
+                                    <span class="text-danger" id="add_SlugError"></span>
                                 </div>
                             </div>
                         </div>
@@ -858,16 +859,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DecimalDisplay">Display</label>
-                                    <input type="text" class="form-control" id="add_DecimalDisplay">
-                                    <span class="text-danger" id="add_DecimalDisplayError"></span>
+                                    <label class="form-label fw-bold" for="add_Display">Display</label>
+                                    <input type="text" class="form-control" id="add_Display">
+                                    <span class="text-danger" id="add_DisplayError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DecimalBreadcrumb">Breadcrumb</label>
-                                    <input type="text" class="form-control" id="add_DecimalBreadcrumb">
-                                    <span class="text-danger" id="add_DecimalBreadcrumbError"></span>
+                                    <label class="form-label fw-bold" for="add_Breadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="add_Breadcrumb">
+                                    <span class="text-danger" id="add_BreadcrumbError"></span>
                                 </div>
                             </div>
                         </div>
@@ -875,9 +876,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DecimalSortOrder">Sort Order</label>
-                                    <input type="number" class="form-control" id="add_DecimalSortOrder">
-                                    <span class="text-danger" id="add_DecimalSortOrderError"></span>
+                                    <label class="form-label fw-bold" for="add_SortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="add_SortOrder">
+                                    <span class="text-danger" id="add_SortOrderError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -887,7 +888,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="addP_DecimalValueSave">Submit
+                        <button type="button" class="btn btn-primary" id="add_DecimalValueSave">Submit
                         </button>
                     </div>
                 </div>
@@ -895,19 +896,19 @@
         </div>
 
         // Edit Product Attribute Decimal Value Model.
-        <div class="modal" id="editProductAttributeDecimalValueModal" tabindex="-1"
+        <div class="modal" id="edit_DecimalValueModal" tabindex="-1"
              aria-labelledby="editProductAttributeDecimalValueModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-muted" id="editProductAttributeDecimalValueModalLabel">
-                            <i class="fas fa-plus"></i> Edit Value
+                            <i class="fas fa-plus"></i> Edit Decimal Value
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-
+                    
+                    <input type="hidden" id="edit_ValueId"/>
                     <div class="modal-body">
-                        <input type="hidden" id="add_ColourDiscriminator" value="ProductAttributeDecimalValue"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -918,9 +919,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_DecimalSlug">Slug</label>
-                                    <input type="text" class="form-control" id="edit_DecimalSlug">
-                                    <span class="text-danger" id="edit_DecimalSlugError"></span>
+                                    <label class="form-label fw-bold" for="edit_Slug">Slug</label>
+                                    <input type="text" class="form-control" id="edit_Slug">
+                                    <span class="text-danger" id="edit_SlugError"></span>
                                 </div>
                             </div>
                         </div>
@@ -928,16 +929,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_DecimalDisplay">Display</label>
-                                    <input type="text" class="form-control" id="edit_DecimalDisplay">
-                                    <span class="text-danger" id="edit_DecimalDisplayError"></span>
+                                    <label class="form-label fw-bold" for="edit_Display">Display</label>
+                                    <input type="text" class="form-control" id="edit_Display">
+                                    <span class="text-danger" id="edit_DisplayError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_DecimalBreadcrumb">Breadcrumb</label>
-                                    <input type="text" class="form-control" id="edit_DecimalBreadcrumb">
-                                    <span class="text-danger" id="edit_DecimalBreadcrumbError"></span>
+                                    <label class="form-label fw-bold" for="edit_Breadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="edit_Breadcrumb">
+                                    <span class="text-danger" id="edit_BreadcrumbError"></span>
                                 </div>
                             </div>
                         </div>
@@ -945,17 +946,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_DecimalSortOrder">Sort Order</label>
-                                    <input type="number" class="form-control" id="edit_DecimalSortOrder">
-                                    <span class="text-danger" id="edit_DecimalSortOrderError"></span>
+                                    <label class="form-label fw-bold" for="edit_SortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="edit_SortOrder">
+                                    <span class="text-danger" id="edit_SortOrderError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_Decimal">Decimal Value</label>
-                                    <input type="number" class="form-control" id="edit_Decimal">
-                                    <span class="text-danger" id="edit_DecimalError"></span>
-                                </div>
                             </div>
                         </div>
 
@@ -963,7 +959,7 @@
                     <div class="modal-footer">
                         <input type="hidden" id="edit_DecimalValueId"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="editProductAttributeDecimalValue_Save">
+                        <button type="button" class="btn btn-primary" id="edit_DecimalValueSave">
                             Submit
                         </button>
                     </div>
@@ -972,7 +968,7 @@
         </div>
 
         // Delete Product Attribute Decimal Value Modal.
-        <div class="modal" id="deleteProductAttributeDecimalValueModal" tabindex="-1"
+        <div class="modal" id="delete_DecimalValueModal" tabindex="-1"
              aria-labelledby="deleteProductAttributeDecimalValueModalLabel" aria-hidden="true">>
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0 shadow-lg">

@@ -4,81 +4,70 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
 
-public class ProductAttributeValuesController : Controller
+public class ProductAttributeValuesController(
+    IProductAttributeService productAttributeService,
+    IIPAddressService ipAddressService)
+    : Controller
 {
-    private readonly IProductAttributeService _productAttributeService;
-    private readonly IConfiguration _configuration;
-    private readonly IIPAddressService _ipAddressService;
-
-    public ProductAttributeValuesController(IProductAttributeService productAttributeService,
-        IConfiguration configuration,
-        IIPAddressService ipAddressService)
-    {
-        _productAttributeService = productAttributeService;
-        _configuration = configuration;
-        _ipAddressService = ipAddressService;
-    }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddValue([FromForm] AddProductAttributeValueViewModel model,
+    public async Task<IActionResult> Add([FromForm] AddProductAttributeValueViewModel model,
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
 
-        await _productAttributeService.AddValueAsync(model.ToCommand(userId, createdAt, ipAddress),
+        await productAttributeService.AddValueAsync(model.ToCommand(userId, createdAt, ipAddress),
             cancellationToken);
 
         var productAttributeValuesDTO =
-            await _productAttributeService.GetValuesByProductAttributeIdAsync(model.ProductAttributeId,
+            await productAttributeService.GetValuesByIdAsync(model.ProductAttributeId,
                 cancellationToken);
         return PartialView("_ProductAttributeValueListPartial", productAttributeValuesDTO);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditValue([FromForm] EditProductAttributeValueViewModel model,
+    public async Task<IActionResult> Edit([FromForm] EditProductAttributeValueViewModel model,
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
         var userId = 1;
         var updatedAt = DateTime.Now;
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
 
         var editProductAttributeValueCommand = model.ToCommand(userId, updatedAt, ipAddress);
-        await _productAttributeService.EditProductAttributeValueAsync(editProductAttributeValueCommand,
+        await productAttributeService.EditValueAsync(editProductAttributeValueCommand,
             cancellationToken);
 
         var productAttributeValuesDTO =
-            await _productAttributeService.GetValuesByProductAttributeIdAsync(model.ProductAttributeId,
+            await productAttributeService.GetValuesByIdAsync(model.ProductAttributeId,
                 cancellationToken);
         return PartialView("_ProductAttributeValueListPartial", productAttributeValuesDTO);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteValue([FromForm] DeleteProductAttributeValueViewModel model,
+    public async Task<IActionResult> Delete([FromForm] DeleteProductAttributeValueViewModel model,
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
         var userId = 1;
         var deletedAt = DateTime.Now;
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
 
         var deleteProductAttributeValueCommand = model.ToCommand(userId, deletedAt, ipAddress);
-        await _productAttributeService.DeleteProductAttributeValueAsync(deleteProductAttributeValueCommand,
+        await productAttributeService.DeleteValueAsync(deleteProductAttributeValueCommand,
             cancellationToken);
         
         var productAttributeValuesDTO =
-            await _productAttributeService.GetValuesByProductAttributeIdAsync(model.ProductAttributeId,
+            await productAttributeService.GetValuesByIdAsync(model.ProductAttributeId,
                 cancellationToken);
-
         return PartialView("_ProductAttributeValueListPartial", productAttributeValuesDTO);
     }
 }

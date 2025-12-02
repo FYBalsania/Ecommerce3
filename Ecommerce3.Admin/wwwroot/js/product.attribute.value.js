@@ -12,31 +12,6 @@ $(document).ready(() => {
     delete_ValueModal.on('hidden.bs.modal', hide_DeleteValueView);
 });
 
-function validate() {
-    let isValid = true;
-
-    const value = $('#add_Value');
-    const slug = $('#add_Slug');
-    const display = $('#add_Display');
-    const breadcrumb = $('#add_Breadcrumb');
-    const sortOrder = $('#add_SortOrder');
-
-    const valueError = $('#add_ValueError');
-    const slugError = $('#add_SlugError');
-    const displayError = $('#add_DisplayError');
-    const breadcrumbError = $('#add_BreadcrumbError');
-    const sortOrderError = $('#add_SortOrderError');
-
-    isValid = validateString(value, valueError);
-    isValid = isValid && validateString(slug, slugError);
-    isValid = isValid && validateSlug(slug, slugError);
-    isValid = isValid && validateString(display, displayError);
-    isValid = isValid && validateString(breadcrumb, breadcrumbError);
-    isValid = isValid && validateDecimal(sortOrder, sortOrderError);
-
-    return isValid;
-}
-
 //Add start.
 function add_ValueChanged(event) {
     const result = valueChanged($(event.target).val());
@@ -58,13 +33,20 @@ async function add_ValueSaveClicked(event) {
     const display = $('#add_Display');
     const breadcrumb = $('#add_Breadcrumb');
     const sortOrder = $('#add_SortOrder');
+
     const valueError = $('#add_ValueError');
     const slugError = $('#add_SlugError');
     const displayError = $('#add_DisplayError');
     const breadcrumbError = $('#add_BreadcrumbError');
     const sortOrderError = $('#add_SortOrderError');
 
-    if (!validate) return;
+    let isValid = validateString(value[0], valueError[0], 256);
+    isValid = isValid && validateSlug(slug[0], slugError[0], 256);
+    isValid = isValid && validateString(display[0], displayError[0], 256);
+    isValid = isValid && validateString(breadcrumb[0], breadcrumbError[0], 256);
+    isValid = isValid && validateDecimal(sortOrder[0], sortOrderError[0]);
+
+    if (!isValid) return;
 
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
@@ -76,7 +58,7 @@ async function add_ValueSaveClicked(event) {
     data.append('SortOrder', sortOrder.val());
 
     try {
-        const result = await fetch('/ProductAttributeValues/AddValue', {
+        const result = await fetch('/ProductAttributeValues/Add/', {
             method: 'POST',
             body: data,
             credentials: 'same-origin'
@@ -180,13 +162,19 @@ async function edit_ValueSaveClicked(event) {
     const display = $('#edit_Display');
     const breadcrumb = $('#edit_Breadcrumb');
     const sortOrder = $('#edit_SortOrder');
+
     const valueError = $('#edit_ValueError');
     const slugError = $('#edit_SlugError');
     const displayError = $('#edit_DisplayError');
     const breadcrumbError = $('#edit_BreadcrumbError');
     const sortOrderError = $('#edit_SortOrderError');
 
-    if (!validate()) return;
+    let isValid = validateString(value[0], valueError[0], 256);
+    isValid = isValid && validateSlug(slug[0], slugError[0], 256);
+    isValid = isValid && validateString(display[0], displayError[0], 256);
+    isValid = isValid && validateString(breadcrumb[0], breadcrumbError[0], 256);
+    isValid = isValid && validateDecimal(sortOrder[0], sortOrderError[0]);
+    if (!isValid) return;
 
     const data = new FormData();
     data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
@@ -199,7 +187,7 @@ async function edit_ValueSaveClicked(event) {
     data.append('SortOrder', sortOrder.val());
 
     try {
-        const result = await fetch('/ProductAttributeValues/EditValue', {
+        const result = await fetch('/ProductAttributeValues/Edit/', {
             method: 'POST',
             body: data,
             credentials: 'same-origin'
@@ -251,7 +239,7 @@ async function delete_ValueClicked(event) {
     data.append('ProductAttributeID', $("#Id").val());
 
     try {
-        const result = await fetch('/ProductAttributeValues/DeleteValue', {
+        const result = await fetch('/ProductAttributeValues/Delete', {
             method: 'POST',
             body: data,
             credentials: 'same-origin'

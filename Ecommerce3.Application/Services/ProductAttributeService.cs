@@ -18,25 +18,13 @@ internal sealed class ProductAttributeService : IProductAttributeService
     private readonly IProductAttributeRepository _repository;
     private readonly IProductAttributeQueryRepository _queryRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IProductAttributeColourValueRepository _productAttributeColourValueRepository;
-    private readonly IProductAttributeDecimalValueRepository _productAttributeDecimalValueRepository;
-    private readonly IProductAttributeDateOnlyValueRepository _productAttributeDateOnlyValueRepository;
-    private readonly IProductAttributeBooleanValueRepository _productAttributeBooleanValueRepository;
 
     public ProductAttributeService(IProductAttributeRepository repository,
-        IProductAttributeQueryRepository queryRepository, IUnitOfWork unitOfWork,
-        IProductAttributeColourValueRepository productAttributeColourValueRepository,
-        IProductAttributeDecimalValueRepository productAttributeDecimalValueRepository,
-        IProductAttributeDateOnlyValueRepository productAttributeDateOnlyValueRepository,
-        IProductAttributeBooleanValueRepository productAttributeBooleanValueRepository)
+        IProductAttributeQueryRepository queryRepository, IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _queryRepository = queryRepository;
         _unitOfWork = unitOfWork;
-        _productAttributeColourValueRepository = productAttributeColourValueRepository;
-        _productAttributeDecimalValueRepository = productAttributeDecimalValueRepository;
-        _productAttributeDateOnlyValueRepository = productAttributeDateOnlyValueRepository;
-        _productAttributeBooleanValueRepository = productAttributeBooleanValueRepository;
     }
 
     public async Task<PagedResult<ProductAttributeListItemDTO>> GetListItemsAsync(ProductAttributeFilter filter,
@@ -74,198 +62,142 @@ internal sealed class ProductAttributeService : IProductAttributeService
         return await _queryRepository.GetByIdAsync(id, cancellationToken);
     }
 
-    public async Task AddProductAttributeColourValueAsync(AddProductAttributeColourValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var exists = await _queryRepository.ExistsByValueNameAsync(command.Value, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Value} already exists.", nameof(ProductAttribute.Name));
-
-        exists = await _queryRepository.ExistsByValueSlugAsync(command.Slug, null, cancellationToken);
-        if (exists)
-            throw new DuplicateException($"{nameof(ProductAttribute.Slug)} already exists.",
-                nameof(ProductAttribute.Slug));
-
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId,
-            ProductAttributeInclude.Values, true, cancellationToken);
-        if (productAttribute is null)
-            throw new ArgumentNullException(nameof(command.ProductAttributeId), "Product attribute not found.");
-
-        var productAttributeValue = new ProductAttributeColourValue(command.Value, command.Slug, command.Display,
-            command.Breadcrumb,
-            command.HexCode, command.ColourFamily, command.ColourFamilyHexCode, command.SortOrder, command.CreatedBy,
-            DateTime.Now, command.CreatedByIp);
-        productAttribute.AddValue(productAttributeValue);
-
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task AddProductAttributeDecimalValueAsync(AddProductAttributeDecimalValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var exists = await _queryRepository.ExistsByValueNameAsync(command.Value, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Value} already exists.", nameof(ProductAttribute.Name));
-
-        exists = await _queryRepository.ExistsByValueSlugAsync(command.Slug, null, cancellationToken);
-        if (exists)
-            throw new DuplicateException($"{nameof(ProductAttribute.Slug)} already exists.",
-                nameof(ProductAttribute.Slug));
-
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.None,
-            true, cancellationToken);
-        if (productAttribute is null)
-            throw new ArgumentNullException(nameof(command.ProductAttributeId), "Product attribute not found.");
-
-        var productAttributeValue = new ProductAttributeDecimalValue(command.Value, command.Slug, command.Display,
-            command.Breadcrumb,
-            command.DecimalValue, command.SortOrder, command.CreatedBy, DateTime.Now, command.CreatedByIp);
-        productAttribute.AddValue(productAttributeValue);
-
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task AddProductAttributeDateOnlyValueAsync(AddProductAttributeDateOnlyValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var exists = await _queryRepository.ExistsByValueNameAsync(command.Value, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Value} already exists.", nameof(ProductAttribute.Name));
-
-        exists = await _queryRepository.ExistsByValueSlugAsync(command.Slug, null, cancellationToken);
-        if (exists)
-            throw new DuplicateException($"{nameof(ProductAttribute.Slug)} already exists.",
-                nameof(ProductAttribute.Slug));
-
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.None,
-            true, cancellationToken);
-        if (productAttribute is null)
-            throw new ArgumentNullException(nameof(command.ProductAttributeId), "Product attribute not found.");
-
-        var productAttributeValue = new ProductAttributeDateOnlyValue(command.Value, command.Slug, command.Display,
-            command.Breadcrumb,
-            command.DateOnlyValue, command.SortOrder, command.CreatedBy, DateTime.Now, command.CreatedByIp);
-        productAttribute.AddValue(productAttributeValue);
-
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task AddProductAttributeBooleanValueAsync(AddProductAttributeBooleanValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var exists = await _queryRepository.ExistsByValueNameAsync(command.Value, null, cancellationToken);
-        if (exists) throw new DuplicateException($"{command.Value} already exists.", nameof(ProductAttribute.Name));
-
-        exists = await _queryRepository.ExistsByValueSlugAsync(command.Slug, null, cancellationToken);
-        if (exists)
-            throw new DuplicateException($"{nameof(ProductAttribute.Slug)} already exists.",
-                nameof(ProductAttribute.Slug));
-
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.None,
-            true, cancellationToken);
-        if (productAttribute is null)
-            throw new ArgumentNullException(nameof(command.ProductAttributeId), "Product attribute not found.");
-
-        var productAttributeValue = new ProductAttributeBooleanValue(command.Value, command.Slug, command.Display,
-            command.Breadcrumb,
-            command.BooleanValue, command.SortOrder, command.CreatedBy, DateTime.Now, command.CreatedByIp);
-        productAttribute.AddValue(productAttributeValue);
-
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
+    #region ProductAttributeValue
 
     public async Task AddValueAsync(AddProductAttributeValueCommand command, CancellationToken cancellationToken)
     {
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId,
-            ProductAttributeInclude.Values, true, cancellationToken);
-        if (productAttribute is null)
-            throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
-
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
         var productAttributeValue = new ProductAttributeValue(command.Value, command.Slug, command.Display,
             command.Breadcrumb, command.SortOrder, command.CreatedBy, DateTime.Now, command.CreatedByIp);
+
         productAttribute.AddValue(productAttributeValue);
-
         await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task EditProductAttributeColourValueAsync(EditProductAttributeColourValueCommand command,
+    public async Task EditValueAsync(EditProductAttributeValueCommand command,
         CancellationToken cancellationToken)
     {
-        var productAttributeValue =
-            await _productAttributeColourValueRepository.GetColourValueByIdAsync(command.Id, true, cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        // productAttributeValue.Update(command.Value, command.Slug, command.Display, command.Breadcrumb,
-        //     command.SortOrder, command.HexCode, command.ColourFamily, command.ColourFamilyHexCode,
-        //     command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        _productAttributeColourValueRepository.Update(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task EditProductAttributeDecimalValueAsync(EditProductAttributeDecimalValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttributeValue =
-            await _productAttributeDecimalValueRepository.GetDecimalValueByIdAsync(command.Id, true, cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        // productAttributeValue.Update(command.Value, command.Slug, command.Display, command.Breadcrumb,
-        //     command.SortOrder, command.DecimalValue, command.UpdatedBy, command.UpdatedByIp);
-
-        _productAttributeDecimalValueRepository.Update(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task EditProductAttributeDateOnlyValueAsync(EditProductAttributeDateOnlyValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttributeValue =
-            await _productAttributeDateOnlyValueRepository.GetDateOnlyValueByIdAsync(command.Id, true,
-                cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        // productAttributeValue.Update(command.Value, command.Slug, command.Display, command.Breadcrumb,
-        //     command.SortOrder, command.DateOnlyValue, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        _productAttributeDateOnlyValueRepository.Update(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task EditProductAttributeBooleanValueAsync(EditProductAttributeBooleanValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttributeValue =
-            await _productAttributeBooleanValueRepository.GetBooleanValueByIdAsync(command.Id, true, cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        // productAttributeValue.Update(command.Value, command.Slug, command.Display, command.Breadcrumb,
-        //     command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        _productAttributeBooleanValueRepository.Update(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task EditProductAttributeValueAsync(EditProductAttributeValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId,
-            ProductAttributeInclude.Values, true, cancellationToken);
-        if (productAttribute is null)
-            throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
-
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
         var updated = productAttribute.UpdateValue(command.Id, command.Value, command.Slug, command.Display,
             command.Breadcrumb, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         if (updated) await _unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<ProductAttributeValueDTO?>> GetValuesByProductAttributeIdAsync(int id,
+    public async Task DeleteValueAsync(DeleteProductAttributeValueCommand command, CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
+        productAttribute.DeleteValue(command.Id, command.DeletedBy, command.DeletedAt, command.DeletedByIp);
+        await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    #endregion
+
+    #region ProductAttributeDecimalValue
+
+    public async Task AddDecimalValueAsync(AddProductAttributeDecimalValueCommand command,
         CancellationToken cancellationToken)
     {
-        return await _queryRepository.GetValuesByProductAttributeIdAsync(id, cancellationToken);
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
+        var decimalValue = new ProductAttributeDecimalValue(command.DecimalValue, command.Slug, command.Display,
+            command.Breadcrumb, command.SortOrder, command.CreatedBy, command.CreatedAt, command.CreatedByIp);
+
+        productAttribute.AddValue(decimalValue);
+        await _unitOfWork.CompleteAsync(cancellationToken);
     }
+
+    public async Task EditDecimalValueAsync(EditProductAttributeDecimalValueCommand command,
+        CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
+        var updated = productAttribute.UpdateValue(command.Id, command.DecimalValue, command.Slug, command.Display,
+            command.Breadcrumb, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (updated) await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    #endregion
+
+    #region ProductAttributeDateOnlyValue
+
+    public async Task AddDateOnlyValueAsync(AddProductAttributeDateOnlyValueCommand command,
+        CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
+        var dateonlyValue = new ProductAttributeDateOnlyValue(command.DateOnlyValue, command.Slug, command.Display,
+            command.Breadcrumb, command.SortOrder, command.CreatedBy, DateTime.Now, command.CreatedByIp);
+
+        productAttribute.AddValue(dateonlyValue);
+        await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    public async Task EditDateOnlyValueAsync(EditProductAttributeDateOnlyValueCommand command,
+        CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values,
+            true, cancellationToken);
+        var updated = productAttribute.UpdateValue(command.Id, command.DateOnlyValue, command.Slug, command.Display,
+            command.Breadcrumb, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (updated) await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    #endregion
+
+    #region ProductAttributeColourValue
+
+    public async Task AddColourValueAsync(AddProductAttributeColourValueCommand command,
+        CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values, true,
+            cancellationToken);
+        var colourValue = new ProductAttributeColourValue(command.Value, command.Slug, command.Display,
+            command.Breadcrumb, command.HexCode, command.ColourFamily, command.ColourFamilyHexCode, command.SortOrder,
+            command.CreatedBy, DateTime.Now, command.CreatedByIp);
+
+        productAttribute.AddValue(colourValue);
+        await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    public async Task EditColourValueAsync(EditProductAttributeColourValueCommand command,
+        CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values, true,
+            cancellationToken);
+        var updated = productAttribute.UpdateValue(command.Id, command.Value, command.Slug, command.Display,
+            command.Breadcrumb, command.HexCode, command.ColourFamily, command.ColourFamilyHexCode, command.SortOrder,
+            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (updated) await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    #endregion
+
+    #region ProductAttributeBooleanValue
+
+    public async Task EditBooleanValueAsync(EditProductAttributeBooleanValueCommand command,
+        CancellationToken cancellationToken)
+    {
+        var productAttribute = await TryGetByIdAsync(command.ProductAttributeId, ProductAttributeInclude.Values, true,
+            cancellationToken);
+        var updated = productAttribute.UpdateValue(command.Id, command.Slug, command.Display, command.Breadcrumb,
+            command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (updated) await _unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    #endregion
+
+    private async Task<ProductAttribute> TryGetByIdAsync(int id, ProductAttributeInclude includes,
+        bool trackChanges, CancellationToken cancellationToken)
+        => await _repository.GetByIdAsync(id, includes, trackChanges, cancellationToken) ??
+           throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
 
     public async Task<ProductAttributeValueDTO?> GetByProductAttributeValueIdAsync(int id,
         CancellationToken cancellationToken)
@@ -273,52 +205,7 @@ internal sealed class ProductAttributeService : IProductAttributeService
         return await _queryRepository.GetValueByProductAttributeValueIdAsync(id, cancellationToken);
     }
 
-    public async Task DeleteProductAttributeColourValueAsync(DeleteProductAttributeValueCommand command,
+    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id,
         CancellationToken cancellationToken)
-    {
-        var productAttributeValue =
-            await _productAttributeColourValueRepository.GetColourValueByIdAsync(command.Id, true, cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        _productAttributeColourValueRepository.Remove(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task DeleteProductAttributeDecimalValueAsync(DeleteProductAttributeValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttributeValue =
-            await _productAttributeDecimalValueRepository.GetDecimalValueByIdAsync(command.Id, true, cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        _productAttributeDecimalValueRepository.Remove(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task DeleteProductAttributeDateOnlyValueAsync(DeleteProductAttributeValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttributeValue =
-            await _productAttributeDateOnlyValueRepository.GetDateOnlyValueByIdAsync(command.Id, true,
-                cancellationToken);
-        if (productAttributeValue is null)
-            throw new ArgumentNullException(nameof(command.Id), "Product attribute value not found.");
-
-        _productAttributeDateOnlyValueRepository.Remove(productAttributeValue);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
-
-    public async Task DeleteProductAttributeValueAsync(DeleteProductAttributeValueCommand command,
-        CancellationToken cancellationToken)
-    {
-        var productAttribute = await _repository.GetByIdAsync(command.ProductAttributeId,
-            ProductAttributeInclude.Values, true, cancellationToken);
-        if (productAttribute is null)
-            throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
-
-        productAttribute.DeleteValue(command.Id, command.DeletedBy, command.DeletedAt, command.DeletedByIp);
-        await _unitOfWork.CompleteAsync(cancellationToken);
-    }
+        => await _queryRepository.GetValuesByIdAsync(id, cancellationToken);
 }

@@ -1,0 +1,56 @@
+using Ecommerce3.Admin.ViewModels.ProductAttribute;
+using Ecommerce3.Application.Commands.ProductAttribute;
+using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTOs;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Ecommerce3.Admin.Controllers;
+
+public class ProductAttributeColourValuesController(
+    IProductAttributeService productAttributeService,
+    IIPAddressService ipAddressService)
+    : Controller
+{
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Add([FromForm] AddProductAttributeColourValueViewModel model,
+        CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        var userId = 1;
+        var createdAt = DateTime.Now;
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+
+        await productAttributeService.AddColourValueAsync(model.ToCommand(userId, createdAt, ipAddress),
+            cancellationToken);
+
+        var productAttributeValuesDTO =
+            await productAttributeService.GetValuesByIdAsync(model.ProductAttributeId,
+                cancellationToken);
+        return PartialView("_ProductAttributeColourValueListPartial",
+            productAttributeValuesDTO.OfType<ProductAttributeColourValueDTO>().ToList());
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit([FromForm] EditProductAttributeColourValueViewModel model,
+        CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        var userId = 1;
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var updatedAt = DateTime.Now;
+
+        var editProductAttributeColorValueCommand = model.ToCommand(userId, updatedAt, ipAddress);
+        await productAttributeService.EditColourValueAsync(editProductAttributeColorValueCommand,
+            cancellationToken);
+
+        var productAttributeValuesDTO =
+            await productAttributeService.GetValuesByIdAsync(model.ProductAttributeId,
+                cancellationToken);
+        return PartialView("_ProductAttributeColourValueListPartial",
+            productAttributeValuesDTO.OfType<ProductAttributeColourValueDTO>().ToList());
+    }
+}

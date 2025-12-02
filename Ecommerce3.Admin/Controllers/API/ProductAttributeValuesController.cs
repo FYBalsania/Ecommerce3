@@ -5,19 +5,12 @@ namespace Ecommerce3.Admin.Controllers.API;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductAttributeValuesController : ControllerBase
+public class ProductAttributeValuesController(IProductAttributeValueService productAttributeValueService)
+    : ControllerBase
 {
-    private readonly IProductAttributeValueService _productAttributeValueService;
-
-    public ProductAttributeValuesController(IProductAttributeValueService productAttributeValueService)
-    {
-        _productAttributeValueService = productAttributeValueService;
-    }
-
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
-        var productAttributeValueDTO = await _productAttributeValueService.GetByIdAsync(id, cancellationToken);
-        return Ok(productAttributeValueDTO);
+        return Ok(await productAttributeValueService.GetByIdAsync(id, cancellationToken));
     }
 }

@@ -10,32 +10,12 @@ internal class ProductAttributeValueRepository<T> : Repository<T>, IProductAttri
 {
     private readonly AppDbContext _dbContext;
 
-    public ProductAttributeValueRepository(AppDbContext dbContext) : base(dbContext)
+    internal ProductAttributeValueRepository(AppDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<(IReadOnlyCollection<T> ListItems, int Count)> GetProductAttributeValuesAsync(
-        string? name, ProductAttributeValueInclude include, bool trackChanges, int pageNumber, int pageSize,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<T?> GetByNameAsync(string name, ProductAttributeValueInclude include,
-        bool trackChanges, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<T?> GetBySlugAsync(string slug, ProductAttributeValueInclude include,
-        bool trackChanges, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<T?> GetByIdAsync(int id, ProductAttributeValueInclude include,
-        bool trackChanges, CancellationToken cancellationToken)
+    public async Task<T?> GetByIdAsync(int id, ProductAttributeValueInclude include, bool trackChanges, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

@@ -21,7 +21,7 @@ public sealed class ProductAttributeDecimalValue : ProductAttributeValue
     internal bool Update(decimal decimalValue, string slug, string display, string breadcrumb, int sortOrder,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        if (base.Update(decimalValue.ToString(CultureInfo.InvariantCulture), slug, display, breadcrumb, sortOrder,
+        if (!base.Update(decimalValue.ToString(CultureInfo.InvariantCulture), slug, display, breadcrumb, sortOrder,
                 updatedBy, updatedAt, updatedByIp) && DecimalValue == decimalValue) return false;
 
         DecimalValue = decimalValue;

@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Ecommerce3.Admin.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
 

@@ -7,42 +7,38 @@ public record EditProductAttributeDateOnlyValueViewModel
 {
     [Required(ErrorMessage = "Id is required.")]
     public int Id { get; set; }
-    
+
     [Required(ErrorMessage = "Product attribute id is required.")]
     public int ProductAttributeId { get; set; }
-    
-    [Required(ErrorMessage = "Value is required.")]
-    public string Value { get; set; }
-    
-    [Required(ErrorMessage = "Slug is required.")]
-    public string Slug { get; set; }
-    
-    [Required(ErrorMessage = "Display is required.")]
-    public string Display { get; set; }
-    
-    [Required(ErrorMessage = "Breadcrumb is required.")]
-    public string Breadcrumb { get; set; }
-    
-    [Required(ErrorMessage = "Sort order is required.")]
-    public int SortOrder { get; set; }
-    
+
     [Required(ErrorMessage = "Dateonly value is required.")]
     public DateOnly DateOnlyValue { get; set; }
-    
-    public EditProductAttributeDateOnlyValueCommand ToCommand(int updatedBy, string updatedByIp)
+
+    [Required(ErrorMessage = "Slug is required.")]
+    public string Slug { get; set; }
+
+    [Required(ErrorMessage = "Display is required.")]
+    public string Display { get; set; }
+
+    [Required(ErrorMessage = "Breadcrumb is required.")]
+    public string Breadcrumb { get; set; }
+
+    [Required(ErrorMessage = "Sort order is required.")]
+    public int SortOrder { get; set; }
+
+    public EditProductAttributeDateOnlyValueCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         return new EditProductAttributeDateOnlyValueCommand
         {
             Id = Id,
             ProductAttributeId = ProductAttributeId,
-            Value = Value,
             Slug = Slug,
             Display = Display,
             Breadcrumb = Breadcrumb,
             SortOrder = SortOrder,
             DateOnlyValue = DateOnlyValue,
             UpdatedBy = updatedBy,
-            UpdatedAt = DateTime.Now,
+            UpdatedAt = updatedAt,
             UpdatedByIp = updatedByIp,
         };
     }

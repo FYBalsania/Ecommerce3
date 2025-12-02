@@ -19,7 +19,7 @@ public sealed class ProductAttributeDateOnlyValue : ProductAttributeValue
     internal bool Update(DateOnly dateOnlyValue, string slug, string display, string breadcrumb, int sortOrder,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        if (base.Update(dateOnlyValue.ToString(Common.DateOnlyFormat), slug, display, breadcrumb, sortOrder, updatedBy,
+        if (!base.Update(dateOnlyValue.ToString(Common.DateOnlyFormat), slug, display, breadcrumb, sortOrder, updatedBy,
                 updatedAt, updatedByIp) && DateOnlyValue == dateOnlyValue) return false;
 
         DateOnlyValue = dateOnlyValue;

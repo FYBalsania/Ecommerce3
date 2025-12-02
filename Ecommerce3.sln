@@ -4,13 +4,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Domain", "Ecomme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Admin", "Ecommerce3.Admin\Ecommerce3.Admin.csproj", "{C391C62A-5896-4357-A971-65625DD5D597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Store", "Ecommerce3.Store\Ecommerce3.Store.csproj", "{ADB3E833-252C-4E21-9FF7-0EFF2BE0A5C0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Application", "Ecommerce3.Application\Ecommerce3.Application.csproj", "{1C36B787-9AE8-4E2D-91C8-9CB87C1FF009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Infrastructure", "Ecommerce3.Infrastructure\Ecommerce3.Infrastructure.csproj", "{129849A3-ACE4-4A82-A985-634AB96DE61C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.Contracts", "Ecommerce3.Contracts\Ecommerce3.Contracts.csproj", "{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce3.StoreFront", "Ecommerce3.StoreFront\Ecommerce3.StoreFront.csproj", "{52B22E9F-51CF-4575-AEA4-963230B6A499}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B299F47E-D6BA-48E3-B97F-992663D833AF}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +31,6 @@ Global
 		{C391C62A-5896-4357-A971-65625DD5D597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C391C62A-5896-4357-A971-65625DD5D597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C391C62A-5896-4357-A971-65625DD5D597}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADB3E833-252C-4E21-9FF7-0EFF2BE0A5C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADB3E833-252C-4E21-9FF7-0EFF2BE0A5C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADB3E833-252C-4E21-9FF7-0EFF2BE0A5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADB3E833-252C-4E21-9FF7-0EFF2BE0A5C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C36B787-9AE8-4E2D-91C8-9CB87C1FF009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C36B787-9AE8-4E2D-91C8-9CB87C1FF009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C36B787-9AE8-4E2D-91C8-9CB87C1FF009}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,5 +43,9 @@ Global
 		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F4CB494-1D9B-4596-841A-7CB6AC2128F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B22E9F-51CF-4575-AEA4-963230B6A499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B22E9F-51CF-4575-AEA4-963230B6A499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B22E9F-51CF-4575-AEA4-963230B6A499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B22E9F-51CF-4575-AEA4-963230B6A499}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

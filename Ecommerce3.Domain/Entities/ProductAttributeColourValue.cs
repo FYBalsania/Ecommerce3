@@ -35,7 +35,7 @@ public sealed class ProductAttributeColourValue : ProductAttributeValue
         ValidateColourFamily(colourFamily);
         if (colourFamilyHexCode is not null) ValidateColourFamilyHexCode(colourFamilyHexCode);
 
-        if (base.Update(value, slug, display, breadcrumb, sortOrder, updatedBy, updatedAt, updatedByIp) &&
+        if (!base.Update(value, slug, display, breadcrumb, sortOrder, updatedBy, updatedAt, updatedByIp) &&
             HexCode == hexCode && ColourFamily == colourFamily && ColourFamilyHexCode == colourFamilyHexCode)
             return false;
         
