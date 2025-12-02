@@ -1,0 +1,7 @@
+﻿services:
+  ecommerce3.storefront:
+    image: ecommerce3.storefront
+    build:
+      context: .
+      dockerfile: Ecommerce3.StoreFront/Dockerfile
+
