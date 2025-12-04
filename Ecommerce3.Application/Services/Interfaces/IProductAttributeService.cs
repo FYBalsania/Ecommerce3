@@ -40,6 +40,5 @@ public interface IProductAttributeService
     Task EditBooleanValueAsync(EditProductAttributeBooleanValueCommand command, CancellationToken cancellationToken);
     #endregion
     
-    Task<ProductAttributeValueDTO?> GetByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken);
     Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id, CancellationToken cancellationToken);
 }

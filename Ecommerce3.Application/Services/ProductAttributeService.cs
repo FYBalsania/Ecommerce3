@@ -199,12 +199,6 @@ internal sealed class ProductAttributeService : IProductAttributeService
         => await _repository.GetByIdAsync(id, includes, trackChanges, cancellationToken) ??
            throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
 
-    public async Task<ProductAttributeValueDTO?> GetByProductAttributeValueIdAsync(int id,
-        CancellationToken cancellationToken)
-    {
-        return await _queryRepository.GetValueByProductAttributeValueIdAsync(id, cancellationToken);
-    }
-
     public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id,
         CancellationToken cancellationToken)
         => await _queryRepository.GetValuesByIdAsync(id, cancellationToken);
