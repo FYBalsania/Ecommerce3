@@ -75,18 +75,21 @@
                 <h5 class="mb-0 text-muted py-2">
                     <i class="fas fa-pencil"></i> Values
                 </h5>
-                <a href="#" class="btn btn-sm btn-primary"
-                   data-bs-toggle="modal"
-                   data-bs-target="@(Model.DataType switch
-                                   {
-                                       DataType.Colour => "#addProductAttributeColourValueModal",
-                                       DataType.Default => "#add_ValueModal",
-                                       DataType.DateOnly => "#addProductAttributeDateOnlyValueModal",
-                                       DataType.Decimal => "#add_DecimalValueModal",
-                                       _ => ""
-                                   })">
-                    <i class="fas fa-plus"></i> Add Value
-                </a>
+                @if (Model.DataType != DataType.Boolean)
+                {
+                    <a href="#" class="btn btn-sm btn-primary"
+                       data-bs-toggle="modal"
+                       data-bs-target="@(Model.DataType switch
+                                       {
+                                           DataType.Colour => "#add_ColourValueModal",
+                                           DataType.Default => "#add_ValueModal",
+                                           DataType.DateOnly => "#add_DateOnlyValueModal",
+                                           DataType.Decimal => "#add_DecimalValueModal",
+                                           _ => ""
+                                       })">
+                        <i class="fas fa-plus"></i> Add Value
+                    </a>
+                }
             </div>
             <div class="card-body">
                 <div class="card-body">
@@ -126,7 +129,9 @@
                                 <table class="table align-middle">
                                     <thead>
                                     <tr>
-                                        <th style="width: 35%;">Name/Slug</th>
+                                        <th style="width: 25%;">Value/Slug</th>
+                                        <th style="width: 25%;">Display/Breadcrumb</th>
+                                        <th style="width: 20%">Colour Hex/Family/Family Hex</th>
                                         <th class="text-end" style="width: 10%;">Sort Order</th>
                                         <th class="text-end" style="width: 15%;">Created</th>
                                         <th class="text-center" style="width: 5%;">Action</th>
@@ -140,7 +145,7 @@
                                 <table class="table align-middle">
                                     <thead>
                                     <tr>
-                                        <th style="width: 35%;">Name/Slug</th>
+                                        <th style="width: 35%;">Value/Slug</th>
                                         <th class="text-end" style="width: 10%;">Sort Order</th>
                                         <th class="text-end" style="width: 15%;">Created</th>
                                         <th class="text-center" style="width: 5%;">Action</th>
@@ -154,7 +159,8 @@
                                 <table class="table align-middle">
                                     <thead>
                                     <tr>
-                                        <th style="width: 35%;">Name/Slug</th>
+                                        <th style="width: 35%;">Value/Slug</th>
+                                        <th style="width: 35%;">Display/Breadcrumb</th>
                                         <th class="text-end" style="width: 10%;">Sort Order</th>
                                         <th class="text-end" style="width: 15%;">Created</th>
                                         <th class="text-center" style="width: 5%;">Action</th>
@@ -180,7 +186,7 @@
 @switch (Model.DataType)
 {
     case DataType.Default:
-        // Add Product Attribute Text Value Modal.
+        // Add Product Attribute Value Modal.
         <div class="modal" id="add_ValueModal" tabindex="-1" aria-labelledby="add_ValueModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -244,7 +250,7 @@
             </div>
         </div>
 
-        // Edit Product Attribute Text Value Model.
+        // Edit Product Attribute Value Model.
         <div class="modal" id="edit_ValueModal" tabindex="-1"
              aria-labelledby="edit_ModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -312,7 +318,7 @@
             </div>
         </div>
 
-        // Delete Product Attribute Text Value Modal.
+        // Delete Product Attribute Value Modal.
         <div class="modal" id="delete_ValueModal" tabindex="-1"
              aria-labelledby="deleteProductAttributeValueModalLabel" aria-hidden="true">>
             <div class="modal-dialog modal-dialog-centered">
@@ -343,32 +349,32 @@
 
     case DataType.Boolean:
         <!-- Edit Product Attribute Boolean Value Modal -->
-        <div class="modal" id="editProductAttributeBooleanValueModal" tabindex="-1"
+        <div class="modal" id="edit_BooleanValueModal" tabindex="-1"
              aria-labelledby="editProductAttributeBooleanValueModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-muted" id="editProductAttributeBooleanValueModalLabel">
-                            <i class="fas fa-plus"></i> Edit Value
+                            <i class="fas fa-plus"></i> Edit Boolean Value
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body">
-                        <input type="hidden" value="ProductAttributeBooleanValue"/>
+                        <input type="hidden" id="edit_ValueId"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold" for="edit_BooleanValue">Value</label>
-                                    <input type="text" class="form-control" id="edit_BooleanValue">
+                                    <input type="text" class="form-control" id="edit_BooleanValue" disabled/>
                                     <span class="text-danger" id="edit_BooleanValueError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_BooleanSlug">Slug</label>
-                                    <input type="text" class="form-control" id="edit_BooleanSlug">
-                                    <span class="text-danger" id="edit_BooleanSlugError"></span>
+                                    <label class="form-label fw-bold" for="edit_Slug">Slug</label>
+                                    <input type="text" class="form-control" id="edit_Slug"/>
+                                    <span class="text-danger" id="edit_SlugError"></span>
                                 </div>
                             </div>
                         </div>
@@ -376,16 +382,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_BooleanDisplay">Display</label>
-                                    <input type="text" class="form-control" id="edit_BooleanDisplay">
-                                    <span class="text-danger" id="edit_BooleanDisplayError"></span>
+                                    <label class="form-label fw-bold" for="edit_Display">Display</label>
+                                    <input type="text" class="form-control" id="edit_Display"/>
+                                    <span class="text-danger" id="edit_DisplayError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_BooleanBreadcrumb">Breadcrumb</label>
-                                    <input type="text" class="form-control" id="edit_BooleanBreadcrumb">
-                                    <span class="text-danger" id="edit_BooleanBreadcrumbError"></span>
+                                    <label class="form-label fw-bold" for="edit_Breadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="edit_Breadcrumb"/>
+                                    <span class="text-danger" id="edit_BreadcrumbError"></span>
                                 </div>
                             </div>
                         </div>
@@ -393,27 +399,47 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_BooleanSortOrder">Sort Order</label>
-                                    <input type="number" class="form-control" id="edit_BooleanSortOrder">
-                                    <span class="text-danger" id="edit_BooleanSortOrderError"></span>
+                                    <label class="form-label fw-bold" for="edit_SortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="edit_SortOrder"/>
+                                    <span class="text-danger" id="edit_SortOrderError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_Boolean">Boolean Value</label>
-                                    <input type="text" class="form-control form-control-solid" id="edit_Boolean"
-                                           readonly>
-                                </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" id="edit_BooleanValueId"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="editProductAttributeBooleanValue_Save">
+                        <button type="button" class="btn btn-primary" id="edit_BooleanValueSave">
                             Submit
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        // Delete Product Attribute Boolean Value Modal.
+        <div class="modal" id="delete_BooleanValueModal" tabindex="-1"
+             aria-labelledby="deleteProductAttributeValueModalLabel" aria-hidden="true">>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header text-danger">
+                        <h5 class="modal-title" id="deleteProductAttributeValueModalLabel">
+                            <i class="fas fa-trash"></i> Delete Boolean Value
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p class="text-muted">
+                            Boolean product attribute values cannot be deleted.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -422,32 +448,31 @@
 
     case DataType.Colour:
         // Add Product Attribute Colour Value Modal.
-        <div class="modal fade" id="addProductAttributeColourValueModal" tabindex="-1"
+        <div class="modal" id="add_ColourValueModal" tabindex="-1"
              aria-labelledby="addProductAttributeColourValueModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-muted" id="addProductAttributeColourValueModalLabel">
-                            <i class="fas fa-plus"></i> Add Value
+                            <i class="fas fa-plus"></i> Add Colour Value
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body">
-                        <input type="hidden" id="add_ColourDiscriminator" value="ProductAttributeColourValue"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_ColourValue">Value</label>
-                                    <input type="text" class="form-control" id="add_ColourValue">
-                                    <span class="text-danger" id="add_ColourValueError"></span>
+                                    <label class="form-label fw-bold" for="add_Value">Value</label>
+                                    <input type="text" class="form-control" id="add_Value">
+                                    <span class="text-danger" id="add_ValueError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_ColourSlug">Slug</label>
-                                    <input type="text" class="form-control" id="add_ColourSlug">
-                                    <span class="text-danger" id="add_ColourSlugError"></span>
+                                    <label class="form-label fw-bold" for="add_Slug">Slug</label>
+                                    <input type="text" class="form-control" id="add_Slug">
+                                    <span class="text-danger" id="add_SlugError"></span>
                                 </div>
                             </div>
                         </div>
@@ -455,16 +480,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_ColourDisplay">Display</label>
-                                    <input type="text" class="form-control" id="add_ColourDisplay">
-                                    <span class="text-danger" id="add_ColourDisplayError"></span>
+                                    <label class="form-label fw-bold" for="add_Display">Display</label>
+                                    <input type="text" class="form-control" id="add_Display">
+                                    <span class="text-danger" id="add_DisplayError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_ColourBreadcrumb">Breadcrumb</label>
-                                    <input type="text" class="form-control" id="add_ColourBreadcrumb">
-                                    <span class="text-danger" id="add_ColourBreadcrumbError"></span>
+                                    <label class="form-label fw-bold" for="add_Breadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="add_Breadcrumb">
+                                    <span class="text-danger" id="add_BreadcrumbError"></span>
                                 </div>
                             </div>
                         </div>
@@ -472,21 +497,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_ColourSortOrder">Sort Order</label>
-                                    <input type="number" class="form-control" id="add_ColourSortOrder">
-                                    <span class="text-danger" id="add_ColourSortOrderError"></span>
+                                    <label class="form-label fw-bold" for="add_HexCode">Hex Code</label>
+                                    <input type="text" class="form-control" id="add_HexCode">
+                                    <span class="text-danger" id="add_HexCodeError"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_ColourHexCode">Hex Code</label>
-                                    <input type="text" class="form-control" id="add_ColourHexCode">
-                                    <span class="text-danger" id="add_ColourHexCodeError"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold" for="add_ColourFamily">Colour Family</label>
@@ -494,6 +509,9 @@
                                     <span class="text-danger" id="add_ColourFamilyError"></span>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold" for="add_ColourFamilyHexCode">Colour Family Hex
@@ -502,45 +520,50 @@
                                     <span class="text-danger" id="add_ColourFamilyHexCodeError"></span>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="add_SortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="add_SortOrder">
+                                    <span class="text-danger" id="add_SortOrderError"></span>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="addProductAttributeColourValue_Save">Submit
-                        </button>
+                        <button type="button" class="btn btn-primary" id="add_ColourValueSave">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
 
         // Edit Product Attribute Colour Value Modal.
-        <div class="modal fade" id="editProductAttributeColourValueModal" tabindex="-1"
+        <div class="modal" id="edit_ColourValueModal" tabindex="-1"
              aria-labelledby="editProductAttributeColourValueModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-muted" id="editProductAttributeColourValueModalLabel">
-                            <i class="fas fa-plus"></i> Edit Value
+                            <i class="fas fa-plus"></i> Edit Colour Value
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body">
-                        <input type="hidden" value="ProductAttributeColourValue"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_ColourValue">Value</label>
-                                    <input type="text" class="form-control" id="edit_ColourValue">
-                                    <span class="text-danger" id="edit_ColourValueError"></span>
+                                    <label class="form-label fw-bold" for="edit_Value">Value</label>
+                                    <input type="text" class="form-control" id="edit_Value">
+                                    <span class="text-danger" id="edit_ValueError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_ColourSlug">Slug</label>
-                                    <input type="text" class="form-control" id="edit_ColourSlug">
-                                    <span class="text-danger" id="edit_ColourSlugError"></span>
+                                    <label class="form-label fw-bold" for="edit_Slug">Slug</label>
+                                    <input type="text" class="form-control" id="edit_Slug">
+                                    <span class="text-danger" id="edit_SlugError"></span>
                                 </div>
                             </div>
                         </div>
@@ -548,16 +571,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_ColourDisplay">Display</label>
-                                    <input type="text" class="form-control" id="edit_ColourDisplay">
-                                    <span class="text-danger" id="edit_ColourDisplayError"></span>
+                                    <label class="form-label fw-bold" for="edit_Display">Display</label>
+                                    <input type="text" class="form-control" id="edit_Display">
+                                    <span class="text-danger" id="edit_DisplayError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_ColourBreadcrumb">Breadcrumb</label>
-                                    <input type="text" class="form-control" id="edit_ColourBreadcrumb">
-                                    <span class="text-danger" id="edit_ColourBreadcrumbError"></span>
+                                    <label class="form-label fw-bold" for="edit_Breadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="edit_Breadcrumb">
+                                    <span class="text-danger" id="edit_BreadcrumbError"></span>
                                 </div>
                             </div>
                         </div>
@@ -565,29 +588,21 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_ColourSortOrder">Sort Order</label>
-                                    <input type="number" class="form-control" id="edit_ColourSortOrder">
-                                    <span class="text-danger" id="Edit_ColourSortOrderError"></span>
+                                    <label class="form-label fw-bold" for="edit_HexCode">Hex Code</label>
+                                    <input type="text" class="form-control" id="edit_HexCode">
+                                    <span class="text-danger" id="edit_HexCodeError"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold" for="edit_ColourHexCode">Hex Code</label>
-                                    <input type="text" class="form-control" id="edit_ColourHexCode">
-                                    <span class="text-danger" id="edit_ColourHexCodeError"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold" for="edit_ColourFamily">Colour Family</label>
                                     <input type="text" class="form-control" id="edit_ColourFamily">
                                     <span class="text-danger" id="edit_ColourFamilyError"></span>
-
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold" for="edit_ColourFamilyHexCode">Colour Family Hex
@@ -596,13 +611,20 @@
                                     <span class="text-danger" id="edit_ColourFamilyHexCodeError"></span>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="edit_SortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="edit_SortOrder">
+                                    <span class="text-danger" id="Edit_SortOrderError"></span>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="edit_ColourValueId"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="editProductAttributeColourValue_Save">Submit
+                        <button type="button" class="btn btn-primary" id="edit_ColourValueSave">Submit
                         </button>
                     </div>
                 </div>
@@ -610,7 +632,7 @@
         </div>
 
         // Delete Product Attribute Colour Value Modal.
-        <div class="modal fade" id="deleteProductAttributeColourValueModal" tabindex="-1"
+        <div class="modal" id="delete_ColourValueModal" tabindex="-1"
              aria-labelledby="deleteProductAttributeColourValueModalLabel" aria-hidden="true">>
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0 shadow-lg">
@@ -624,14 +646,14 @@
 
                     <div class="modal-body">
                         <p class="text-muted">
-                            Are you sure you want to delete <span class="text-danger" id="delete_ColourValue">Red</span>?
+                            Are you sure you want to delete <span class="text-danger" id="delete_Value"></span>?
                         </p>
                     </div>
 
                     <div class="modal-footer">
                         <input type="hidden" id="delete_Id"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" id="deleteProductAttributeColourValue">Delete
+                        <button type="button" class="btn btn-danger" id="delete_ColourValue">Delete
                         </button>
                     </div>
                 </div>
@@ -641,19 +663,18 @@
 
     case DataType.DateOnly:
         // Add Product Attribute DateOnly Value Modal.
-        <div class="modal fade" id="addProductAttributeDateOnlyValueModal" tabindex="-1"
+        <div class="modal fade" id="add_DateOnlyValueModal" tabindex="-1"
              aria-labelledby="addProductAttributeDateOnlyValueModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-muted" id="addProductAttributeDateOnlyValueModalLabel">
-                            <i class="fas fa-plus"></i> Add Value
+                            <i class="fas fa-plus"></i> Add DateOnly Value
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body">
-                        <input type="hidden" id="add_ColourDiscriminator" value="ProductAttributeDateOnlyValue"/>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -664,9 +685,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DateOnlySlug">Slug</label>
-                                    <input type="text" class="form-control" id="add_DateOnlySlug">
-                                    <span class="text-danger" id="add_DateOnlySlugError"></span>
+                                    <label class="form-label fw-bold" for="add_Slug">Slug</label>
+                                    <input type="text" class="form-control" id="add_Slug">
+                                    <span class="text-danger" id="add_SlugError"></span>
                                 </div>
                             </div>
                         </div>
@@ -674,16 +695,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DateOnlyDisplay">Display</label>
-                                    <input type="text" class="form-control" id="add_DateOnlyDisplay">
-                                    <span class="text-danger" id="add_DateOnlyDisplayError"></span>
+                                    <label class="form-label fw-bold" for="add_Display">Display</label>
+                                    <input type="text" class="form-control" id="add_Display">
+                                    <span class="text-danger" id="add_DisplayError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DateOnlyBreadcrumb">Breadcrumb</label>
-                                    <input type="text" class="form-control" id="add_DateOnlyBreadcrumb">
-                                    <span class="text-danger" id="add_DateOnlyBreadcrumbError"></span>
+                                    <label class="form-label fw-bold" for="add_Breadcrumb">Breadcrumb</label>
+                                    <input type="text" class="form-control" id="add_Breadcrumb">
+                                    <span class="text-danger" id="add_BreadcrumbError"></span>
                                 </div>
                             </div>
                         </div>
@@ -691,24 +712,19 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DateOnlySortOrder">Sort Order</label>
-                                    <input type="number" class="form-control" id="add_DateOnlySortOrder">
-                                    <span class="text-danger" id="add_DateOnlySortOrderError"></span>
+                                    <label class="form-label fw-bold" for="add_SortOrder">Sort Order</label>
+                                    <input type="number" class="form-control" id="add_SortOrder">
+                                    <span class="text-danger" id="add_SortOrderError"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold" for="add_DateOnly">DateOnly Value</label>
-                                    <input type="text" class="form-control" id="add_DateOnly">
-                                    <span class="text-danger" id="add_DateOnlyError"></span>
-                                </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="addProductAttributeDateOnlyValue_Save">
+                        <button type="button" class="btn btn-primary" id="add_DateOnlyValueSave">
                             Submit
                         </button>
                     </div>
@@ -822,7 +838,6 @@
                 </div>
             </div>
         </div>
-
         break;
 
     case DataType.Decimal:
@@ -906,7 +921,7 @@
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    
+
                     <input type="hidden" id="edit_ValueId"/>
                     <div class="modal-body">
                         <div class="row">
@@ -983,24 +998,23 @@
                     <div class="modal-body">
                         <p class="text-muted">
                             Are you sure you want to delete <span class="text-danger"
-                                                                  id="delete_DecimalValue">Red</span>?
+                                                                  id="delete_DecimalValue"></span>?
                         </p>
                     </div>
 
                     <div class="modal-footer">
                         <input type="hidden" id="delete_Id"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" id="deleteProductAttributeDecimalValue">Delete
+                        <button type="button" class="btn btn-danger" id="delete_DecimalValueBtn">Delete
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
         break;
 
     default:
-            throw new ArgumentOutOfRangeException();
+        throw new ArgumentOutOfRangeException();
 }
 
 @section Scripts
@@ -1013,5 +1027,17 @@
     else if (Model.DataType == DataType.Decimal)
     {
         <script src="~/js/product.attribute.decimal.value.js"></script>
+    }
+    else if (Model.DataType == DataType.DateOnly)
+    {
+        <script src="~/js/product.attribute.dateonly.value.js"></script>
+    }
+    else if (Model.DataType == DataType.Boolean)
+    {
+        <script src="~/js/product.attribute.boolean.value.js"></script>
+    }
+    else if (Model.DataType == DataType.Colour)
+    {
+        <script src="~/js/product.attribute.colour.value.js"></script>
     }
 }

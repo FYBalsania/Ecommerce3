@@ -106,6 +106,7 @@ function hide_AddDecimalValueView() {
     $('#add_Breadcrumb').val('')
     $('#add_SortOrder').val('')
 }
+
 //Add end.
 
 //Edit start.
@@ -139,7 +140,7 @@ function hide_EditValueView() {
     //Deregister event handlers.
     $('#edit_DecimalValueSave').off('click', edit_DecimalValueChanged);
 
-    //reset validation errors.
+    //reset errors.
     $('#edit_DecimalValueError').text('')
     $('#edit_SlugError').text('')
     $('#edit_DisplayError').text('')
@@ -215,45 +216,45 @@ async function edit_DecimalValueSaveClicked(event) {
         alert('Error occured while saving, please try again.');
     }
 }
+
 //Edit end.
 
 //Delete start.
-{
-    async function show_DeleteValueView(event) {
-        $('#delete_Id').val($(event.relatedTarget).data('value-id'));
-        $('#delete_Value').text($(event.relatedTarget).data('value'))
-        $('#delete_ValueButton').on('click', delete_ValueClicked);
-    }
+async function show_DeleteValueView(event) {
+    $('#delete_Id').val($(event.relatedTarget).data('value-id'));
+    $('#delete_DecimalValue').text($(event.relatedTarget).data('value'))
+    $('#delete_DecimalValueBtn').on('click', delete_DecimalValueClick);
+}
 
-    function hide_DeleteValueView() {
-        //reset input elements and set to default values.
-        $('#delete_Id').val('');
-        $('#delete_Value').text('');
-        $('#delete_ValueButton').off('click', delete_ValueClicked);
-    }
+function hide_DeleteValueView() {
+    //reset input elements and set to default values.
+    $('#delete_Id').val('');
+    $('#delete_DecimalValue').text('');
+    $('#delete_DecimalValueBtn').off('click', delete_DecimalValueClick);
+}
 
-    async function delete_ValueClicked(event) {
-        const data = new FormData();
-        data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
-        data.append('Id', $('#delete_Id').val());
-        data.append('ProductAttributeID', $("#Id").val());
+async function delete_DecimalValueClick(event) {
+    const data = new FormData();
+    data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
+    data.append('Id', $('#delete_Id').val());
+    data.append('ProductAttributeID', $("#Id").val());
 
-        try {
-            const result = await fetch('/ProductAttributeValues/Delete', {
-                method: 'POST',
-                body: data,
-                credentials: 'same-origin'
-            });
-            if (result.ok) {
-                const response = await result.text();
-                $('#valuesTableBody').replaceWith(response);
-                $('#delete_ValueModal').modal('hide');
-            } else {
-                const error = await result.json();
-                console.log(error);
-            }
-        } catch (err) {
-            alert('Error occured while deleting value, please try again.');
+    try {
+        const result = await fetch('/ProductAttributeDecimalValues/Delete', {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin'
+        });
+        if (result.ok) {
+            const response = await result.text();
+            $('#valuesTableBody').replaceWith(response);
+            $('#delete_DecimalValueModal').modal('hide');
+        } else {
+            const error = await result.json();
+            console.log(error);
         }
+    } catch (err) {
+        alert('Error occured while deleting value, please try again.');
     }
 }
+    

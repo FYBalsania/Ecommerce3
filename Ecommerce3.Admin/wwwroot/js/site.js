@@ -157,30 +157,68 @@ function validateString(inputEl, errorEl, maxLength = undefined) {
     return true;
 }
 
+function validateOptionalString(inputEl, errorEl, maxLength = undefined) {
+    const raw = inputEl.value;
+
+    // Reset any previous error
+    errorEl.textContent = "";
+
+    // Null/undefined → treat as empty for optional fields
+    if (raw == null) {
+        return true;
+    }
+
+    const str = String(raw);
+    const cleaned = str.replace(/[\s\u200B-\u200D\u2060\uFEFF]/g, "");
+
+    // If optional and empty, it's valid
+    if (cleaned.length === 0) {
+        return true;
+    }
+
+    // If max length is provided, validate for non-empty entries
+    if (typeof maxLength === "number" && str.length > maxLength) {
+        errorEl.textContent = `Maximum length is ${maxLength} characters.`;
+        return false;
+    }
+
+    return true;
+}
+
+
 function validateSlug(inputEl, errorEl) {
     // Reset error text
     errorEl.textContent = "";
 
     const raw = inputEl.value;
 
-    // Check null/undefined
     if (raw == null) {
         errorEl.textContent = "Value is missing.";
         return false;
     }
 
-    // Generate slug from input
-    const slug = toSlug(String(raw));
-
-    // Validate that slug is not empty
-    if (!slug || slug.length === 0) {
-        errorEl.textContent = "Slug is invalid. Please use letters, numbers, or hyphens.";
+    //Reject whitespace
+    if (/\s/.test(raw)) {
+        errorEl.textContent = "Slug cannot contain spaces or whitespace.";
         return false;
     }
 
-    // Optional: Update the input field with cleaned slug
-    // inputEl.value = slug;
+    //Reject characters that are not allowed in slug BEFORE conversion
+    // Allowed: a-z A-Z 0-9 - _ ~ .
+    if (/[^a-zA-Z0-9\-_.~]/.test(raw)) {
+        errorEl.textContent = "Slug contains invalid characters. Allowed: letters, numbers, -, _, ., ~";
+        return false;
+    }
+
+    //Generate slug from input (for final check)
+    const slug = toSlug(String(raw));
+
+    if (!slug || slug.length === 0) {
+        errorEl.textContent = "Slug is invalid.";
+        return false;
+    }
 
     return true;
 }
+
 

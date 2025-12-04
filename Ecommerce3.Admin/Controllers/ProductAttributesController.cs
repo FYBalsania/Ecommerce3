@@ -60,27 +60,10 @@ public class ProductAttributesController : Controller
 
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
         const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var createdAt = DateTime.Now;
 
-        try
-        {
-            await _productAttributeService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
-                cancellationToken);
-        }
-        catch (DuplicateException e)
-        {
-            switch (e.ParamName)
-            {
-                case nameof(model.Name):
-                    ModelState.AddModelError(nameof(model.Name), e.Message);
-                    break;
-                case nameof(model.Slug):
-                    ModelState.AddModelError(nameof(model.Slug), e.Message);
-                    break;
-            }
-        }
-        catch (Exception exception)
-        {
-        }
+        await _productAttributeService.AddAsync(model.ToCommand(userId, createdAt, ipAddress),
+            cancellationToken);
 
         return LocalRedirect("/ProductAttributes/Index");
     }

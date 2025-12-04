@@ -28,6 +28,8 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     public string? DeletedByIp { get; private set; }
 
     public IReadOnlyList<ProductAttributeValue> Values => _values;
+    
+    private ProductAttribute(){}
 
     public ProductAttribute(string name, string slug, string display, string breadcrumb, DataType dataType,
         int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
@@ -49,13 +51,12 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
 
-        if (DataType == DataType.Boolean)
-        {
-            _values.Add(new ProductAttributeBooleanValue("Yes", "yes", "Yes", "Yes", true, 1, createdBy, DateTime.Now,
-                createdByIp));
-            _values.Add(new ProductAttributeBooleanValue("No", "no", "No", "No", false, 2, createdBy, DateTime.Now,
-                createdByIp));
-        }
+        if (DataType != DataType.Boolean) return;
+
+        _values.Add(new ProductAttributeBooleanValue(true, "yes", "Yes", "Yes", 1, createdBy, createdAt,
+            createdByIp));
+        _values.Add(new ProductAttributeBooleanValue(false, "no", "No", "No", 2, createdBy, createdAt,
+            createdByIp));
     }
 
     public bool Update(string name, string slug, string display, string breadcrumb, int sortOrder, int updatedBy,
@@ -151,26 +152,30 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         var stringComparer = StringComparer.OrdinalIgnoreCase;
         var exists = false;
 
-        if (value is ProductAttributeValue or ProductAttributeColourValue)
+        switch (value)
         {
-            exists = _values.Any(x => stringComparer.Equals(x.Value, value.Value));
-            if (exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DuplicateValue);
+            case ProductAttributeDecimalValue:
+            {
+                exists = _values.Any(x =>
+                    ((ProductAttributeDecimalValue)x).DecimalValue == ((ProductAttributeDecimalValue)value).DecimalValue);
+                break;
+            }
+            case ProductAttributeDateOnlyValue:
+            {
+                exists = _values.Any(x =>
+                    ((ProductAttributeDateOnlyValue)x).DateOnlyValue ==
+                    ((ProductAttributeDateOnlyValue)value).DateOnlyValue);
+                break;
+            }
+            case ProductAttributeValue or ProductAttributeColourValue:
+            {
+                exists = _values.Any(x => stringComparer.Equals(x.Value, value.Value));
+                break;
+            }
+            default:
+                throw new DomainException(DomainErrors.Common.OutOfRange);
         }
-        else if (value is ProductAttributeDecimalValue)
-        {
-            exists = _values.Any(x =>
-                ((ProductAttributeDecimalValue)x).DecimalValue == ((ProductAttributeDecimalValue)value).DecimalValue);
-            if (exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DuplicateValue);
-        }
-        else if (value is ProductAttributeDateOnlyValue)
-        {
-            exists = _values.Any(x =>
-                ((ProductAttributeDateOnlyValue)x).DateOnlyValue ==
-                ((ProductAttributeDateOnlyValue)value).DateOnlyValue);
-            if (exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DuplicateValue);
-        }
-        else
-            throw new DomainException(DomainErrors.Common.OutOfRange);
+        if (exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DuplicateValue);
 
         exists = _values.Any(x => stringComparer.Equals(x.Slug, value.Slug));
         if (exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DuplicateSlug);

@@ -5,6 +5,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -83,23 +84,23 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
 
     public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var entity = await dbContext.ProductAttributes
+        var productAttribute = await dbContext.ProductAttributes
             .Include(x => x.Values)
-            .ThenInclude(productAttributeValue => productAttributeValue.CreatedByUser)
-            .FirstOrDefaultAsync(pa => pa.Id == id, cancellationToken);
-
-        if (entity == null) return null;
-
+                .ThenInclude(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        
+        if (productAttribute == null) return null;
+        
         return new ProductAttributeDTO
         {
-            Id = entity.Id,
-            Name = entity.Name,
-            Slug = entity.Slug,
-            Display = entity.Display,
-            Breadcrumb = entity.Breadcrumb,
-            SortOrder = entity.SortOrder,
-            DataType = entity.DataType,
-            Values = entity.Values.Select(ProductAttributeValueQueryRepository.MapToValueDTO)
+            Id = productAttribute.Id,
+            Name = productAttribute.Name,
+            Slug = productAttribute.Slug,
+            Display = productAttribute.Display,
+            Breadcrumb = productAttribute.Breadcrumb,
+            SortOrder = productAttribute.SortOrder,
+            DataType = productAttribute.DataType,
+            Values = productAttribute.Values.Select(x => x.ToDTO())
                 .OrderBy(x => x.SortOrder)
                 .ThenBy(x => x.Value)
                 .ToList()
@@ -111,7 +112,7 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
     {
         return await dbContext.ProductAttributeValues
             .Include(x => x.CreatedByUser)
-            .Select(x => ProductAttributeValueQueryRepository.MapToValueDTO(x))
+            .Select(x => x.ToDTO())
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
@@ -122,7 +123,7 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
             .Where(x => x.ProductAttributeId == id)
             .OrderBy(x => x.SortOrder).ThenBy(x => x.Value)
             .Include(x => x.CreatedByUser)
-            .Select(x => ProductAttributeValueQueryRepository.MapToValueDTO(x))
+            .Select(x => x.ToDTO())
             .ToListAsync(cancellationToken);
     }
 }

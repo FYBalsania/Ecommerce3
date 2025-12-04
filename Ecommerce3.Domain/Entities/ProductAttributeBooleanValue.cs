@@ -8,9 +8,9 @@ public sealed class ProductAttributeBooleanValue : ProductAttributeValue
     {
     }
 
-    internal ProductAttributeBooleanValue(string value, string slug, string display, string breadcrumb,
-        bool booleanValue, int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
-        : base(value, slug, display, breadcrumb, sortOrder, createdBy, createdAt, createdByIp)
+    internal ProductAttributeBooleanValue(bool booleanValue, string slug, string display, string breadcrumb,
+        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        : base(booleanValue.ToString(), slug, display, breadcrumb, sortOrder, createdBy, createdAt, createdByIp)
     {
         BooleanValue = booleanValue;
     }

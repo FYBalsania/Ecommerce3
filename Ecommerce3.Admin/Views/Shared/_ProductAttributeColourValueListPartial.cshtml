@@ -8,23 +8,29 @@
             @value.Value <br/>
             <span class="text-muted">@value.Slug</span>
         </td>
-        <td>@value?.HexCode</td>
-        <td>@value?.ColourFamily</td>
-        <td>@value?.ColourFamilyHexCode</td>
+        <td>
+            @value.Display <br/>
+            <span class="text-muted">@value.Breadcrumb</span>
+        </td>
+        <td>
+            @value.HexCode <br/>
+            @value.ColourFamily <br/>
+            @value.ColourFamilyHexCode <br/>
+        </td>
         <td class="text-end">@value.SortOrder</td>
         <td class="text-end">@value.CreatedUserFullName <br/>@value.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
         <td class="text-center">
             <a href="#"
                data-bs-toggle="modal"
-               data-value-id="@value.Id" 
-               data-bs-target="#editProductAttributeColourValueModal">
+               data-value-id="@value.Id"
+               data-bs-target="#edit_ColourValueModal">
                 <i class="fas fa-edit me-2 fs-6 text-success"></i>
             </a>
             <a href="#"
                data-bs-toggle="modal"
-               data-value-id="@value.Id" 
+               data-value-id="@value.Id"
                data-value="@value.Value"
-               data-bs-target="#deleteProductAttributeColourValueModal">
+               data-bs-target="#delete_ColourValueModal">
                 <i class="fas fa-trash fs-6 text-danger"></i>
             </a>
         </td>

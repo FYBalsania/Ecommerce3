@@ -53,4 +53,26 @@ public class ProductAttributeColourValuesController(
         return PartialView("_ProductAttributeColourValueListPartial",
             productAttributeValuesDTO.OfType<ProductAttributeColourValueDTO>().ToList());
     }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete([FromForm] DeleteProductAttributeValueViewModel model,
+        CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        var userId = 1;
+        var deletedAt = DateTime.Now;
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+
+        var deleteProductAttributeValueCommand = model.ToCommand(userId, deletedAt, ipAddress);
+        await productAttributeService.DeleteValueAsync(deleteProductAttributeValueCommand,
+            cancellationToken);
+        
+        var productAttributeValuesDTO =
+            await productAttributeService.GetValuesByIdAsync(model.ProductAttributeId,
+                cancellationToken);
+        return PartialView("_ProductAttributeColourValueListPartial",
+            productAttributeValuesDTO.OfType<ProductAttributeColourValueDTO>().ToList());
+    }
 }
