@@ -17,4 +17,5 @@ public enum ProductInclude
     QnAs = 1 << 10,
     Reviews = 1 << 11,
     Attributes = 1 << 12,
+    UnitOfMeasure = 1 << 13,
 }

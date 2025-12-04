@@ -72,23 +72,24 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.ShowAvailability).HasColumnType("boolean").HasColumnOrder(26);
         builder.Property(x => x.FreeShipping).HasColumnType("boolean").HasColumnOrder(27);
         builder.Property(x => x.AdditionalShippingCharge).HasColumnType("decimal(18,2)").HasColumnOrder(28);
-        builder.Property(x => x.WeightKgs).HasColumnType("decimal(18,2)").HasColumnOrder(29);
-        builder.Property(x => x.DeliveryWindowId).HasColumnType("integer").HasColumnOrder(30);
-        builder.Property(x => x.MinOrderQuantity).HasColumnType("integer").HasColumnOrder(31);
-        builder.Property(x => x.MaxOrderQuantity).HasColumnType("integer").HasColumnOrder(32);
-        builder.Property(x => x.IsFeatured).HasColumnType("boolean").HasColumnOrder(33);
-        builder.Property(x => x.IsNew).HasColumnType("boolean").HasColumnOrder(34);
-        builder.Property(x => x.IsBestSeller).HasColumnType("boolean").HasColumnOrder(35);
-        builder.Property(x => x.IsReturnable).HasColumnType("boolean").HasColumnOrder(36);
-        builder.Property(x => x.ReturnPolicy).HasColumnType("text").HasColumnOrder(37);
+        builder.Property(x => x.UnitOfMeasureId).HasColumnType("integer").HasColumnOrder(29);
+        builder.Property(x => x.QuantityPerUnitOfMeasure).HasColumnType("decimal(18,3)").HasColumnOrder(30);
+        builder.Property(x => x.DeliveryWindowId).HasColumnType("integer").HasColumnOrder(31);
+        builder.Property(x => x.MinOrderQuantity).HasColumnType("integer").HasColumnOrder(32);
+        builder.Property(x => x.MaxOrderQuantity).HasColumnType("integer").HasColumnOrder(33);
+        builder.Property(x => x.IsFeatured).HasColumnType("boolean").HasColumnOrder(34);
+        builder.Property(x => x.IsNew).HasColumnType("boolean").HasColumnOrder(35);
+        builder.Property(x => x.IsBestSeller).HasColumnType("boolean").HasColumnOrder(36);
+        builder.Property(x => x.IsReturnable).HasColumnType("boolean").HasColumnOrder(37);
+        builder.Property(x => x.ReturnPolicy).HasColumnType("text").HasColumnOrder(38);
         builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(32).HasColumnType("varchar(32)")
-            .HasColumnOrder(38);
-        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(39);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(40);
+            .HasColumnOrder(39);
+        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(40);
+        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(41);
         builder.Property<List<string>>("_facets")
             .HasColumnName(nameof(Product.Facets))
             .HasColumnType("jsonb")
-            .HasColumnOrder(45)
+            .HasColumnOrder(42)
             .HasConversion(converter)
             .Metadata.SetValueComparer(comparer);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
@@ -157,6 +158,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasOne(x => x.DeliveryWindow)
             .WithMany()
             .HasForeignKey(x => x.DeliveryWindowId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.UnitOfMeasure)
+            .WithMany()
+            .HasForeignKey(x => x.UnitOfMeasureId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(x => x.Categories)
             .WithOne(x => x.Product)

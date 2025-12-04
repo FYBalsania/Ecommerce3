@@ -11,6 +11,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     private readonly List<ProductReview> _reviews = [];
     private readonly List<ProductProductAttribute> _attributes = [];
     private readonly List<string> _facets = [];
+
     public override string ImageNamePrefix => Slug;
     public string SKU { get; private set; }
     public string? GTIN { get; private set; }
@@ -41,7 +42,9 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public bool ShowAvailability { get; private set; }
     public bool FreeShipping { get; private set; }
     public decimal AdditionalShippingCharge { get; private set; }
-    public decimal WeightKgs { get; private set; }
+    public int UnitOfMeasureId { get; private set; }
+    public UnitOfMeasure UnitOfMeasure { get; private set; }
+    public decimal QuantityPerUnitOfMeasure { get; private set; }
     public int DeliveryWindowId { get; private set; }
     public DeliveryWindow DeliveryWindow { get; private set; }
     public int MinOrderQuantity { get; private set; }
@@ -84,9 +87,10 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int? brandId,
         int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews, decimal price,
         decimal? oldPrice, decimal? costPrice, int stock, int minStock, bool showAvailability, bool freeShipping,
-        decimal additionalShippingCharge, decimal weightKgs, int deliveryWindowId, int minOrderQuantity,
-        int? maxOrderQuantity, bool isFeatured, bool isNew, bool isBestSeller, bool isReturnable, string? returnPolicy,
-        ProductStatus status, string? redirectUrl, int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
+        int deliveryWindowId, int minOrderQuantity, int? maxOrderQuantity, bool isFeatured, bool isNew,
+        bool isBestSeller, bool isReturnable, string? returnPolicy, ProductStatus status, string? redirectUrl,
+        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
     {
         SKU = sku;
         GTIN = gtin;
@@ -113,7 +117,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         ShowAvailability = showAvailability;
         FreeShipping = freeShipping;
         AdditionalShippingCharge = additionalShippingCharge;
-        WeightKgs = weightKgs;
+        UnitOfMeasureId = unitOfMeasureId;
+        QuantityPerUnitOfMeasure = quantityPerUnitOfMeasure;
         DeliveryWindowId = deliveryWindowId;
         MinOrderQuantity = minOrderQuantity;
         MaxOrderQuantity = maxOrderQuantity;
@@ -129,7 +134,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
-    
+
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
         DeletedBy = deletedBy;
@@ -166,6 +171,8 @@ public class ProductBuilder
     private bool _freeShipping;
     private decimal _additionalShippingCharge;
     private decimal _weightKgs;
+    private int _unitOfMeasureId;
+    private decimal _quantityPerUnitOfMeasure;
     private int _deliveryWindowId;
     private int _minOrderQuantity;
     private int? _maxOrderQuantity;
@@ -182,7 +189,8 @@ public class ProductBuilder
     private string _createdByIp;
 
     public ProductBuilder(string sku, string name, string slug, string display, string breadcrumb, string anchorText,
-        int deliveryWindowId, ProductStatus status, int createdBy, DateTime createdAt, string createdByIp)
+        int unitOfMeasureId, decimal quantityPerUnitOfMeasure, int deliveryWindowId, ProductStatus status,
+        int createdBy, DateTime createdAt, string createdByIp)
     {
         _sku = sku;
         _name = name;
@@ -191,6 +199,8 @@ public class ProductBuilder
         _breadcrumb = breadcrumb;
         _anchorText = anchorText;
         _deliveryWindowId = deliveryWindowId;
+        _unitOfMeasureId = unitOfMeasureId;
+        _quantityPerUnitOfMeasure = quantityPerUnitOfMeasure;
         _status = status;
         _createdBy = createdBy;
         _createdAt = createdAt;
@@ -376,7 +386,8 @@ public class ProductBuilder
         return new Product(_sku, _gtin, _mpn, _mfc, _ean, _upc, _name, _slug, _display, _breadcrumb, _anchorText,
             _anchorTitle, _brandId, _productGroupId, _shortDescription, _fullDescription, _allowReviews, _price,
             _oldPrice, _costPrice, _stock, _minStock, _showAvailability, _freeShipping, _additionalShippingCharge,
-            _weightKgs, _deliveryWindowId, _minOrderQuantity, _maxOrderQuantity, _isFeatured, _isNew, _isBestSeller,
-            _isReturnable, _returnPolicy, _status, _redirectUrl, _sortOrder, _createdBy, _createdAt, _createdByIp);
+            _unitOfMeasureId, _quantityPerUnitOfMeasure, _deliveryWindowId, _minOrderQuantity, _maxOrderQuantity,
+            _isFeatured, _isNew, _isBestSeller, _isReturnable, _returnPolicy, _status, _redirectUrl, _sortOrder,
+            _createdBy, _createdAt, _createdByIp);
     }
 }
