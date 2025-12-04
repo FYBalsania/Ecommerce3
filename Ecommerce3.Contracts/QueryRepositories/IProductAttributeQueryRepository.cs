@@ -2,7 +2,6 @@ using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs;
 using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.Filters;
-using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Contracts.QueryRepositories;
 

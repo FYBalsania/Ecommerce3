@@ -3618,6 +3618,115 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.UnitOfMeasure", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(1);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BaseId")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(5);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)")
+                        .HasColumnOrder(2);
+
+                    b.Property<decimal>("ConversionFactor")
+                        .HasColumnType("decimal(18,3)")
+                        .HasColumnOrder(6);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(51);
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(50);
+
+                    b.Property<string>("CreatedByIp")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(52);
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(57);
+
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(56);
+
+                    b.Property<string>("DeletedByIp")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(58);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(54);
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("integer")
+                        .HasColumnOrder(53);
+
+                    b.Property<string>("UpdatedByIp")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnOrder(55);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BaseId");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("UK_UnitOfMeasure_Code");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_UnitOfMeasure_CreatedAt");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("IX_UnitOfMeasure_DeletedAt");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_UnitOfMeasure_IsActive");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("UK_UnitOfMeasure_Name");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("UnitOfMeasure", (string)null);
+                });
+
             modelBuilder.Entity("Ecommerce3.Infrastructure.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
@@ -5453,6 +5562,38 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("DeletedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("Ecommerce3.Domain.Entities.UnitOfMeasure", b =>
+                {
+                    b.HasOne("Ecommerce3.Domain.Entities.UnitOfMeasure", "Base")
+                        .WithMany()
+                        .HasForeignKey("BaseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "DeletedByUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Base");
 
                     b.Navigation("CreatedByUser");
 

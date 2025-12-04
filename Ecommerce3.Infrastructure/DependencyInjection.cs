@@ -54,6 +54,7 @@ public static class DependencyInjection
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBankRepository>());
         services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IProductGroupRepository>());
         services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
+        services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
         
         //Query Repositories.
         services.AddScoped<IBankQueryRepository, BankQueryRepository>();
@@ -69,6 +70,7 @@ public static class DependencyInjection
         services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
         services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
         services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+        services.AddScoped<IUnitOfMeasureQueryRepository, UnitOfMeasureQueryRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

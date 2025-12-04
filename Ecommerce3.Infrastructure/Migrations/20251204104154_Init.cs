@@ -577,6 +577,57 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UnitOfMeasure",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    Type = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
+                    BaseId = table.Column<int>(type: "integer", nullable: true),
+                    ConversionFactor = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitOfMeasure", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UnitOfMeasure_AppUser_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UnitOfMeasure_AppUser_DeletedBy",
+                        column: x => x.DeletedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UnitOfMeasure_AppUser_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UnitOfMeasure_UnitOfMeasure_BaseId",
+                        column: x => x.BaseId,
+                        principalTable: "UnitOfMeasure",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cart",
                 columns: table => new
                 {
@@ -3443,6 +3494,53 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_TextListItem_UpdatedBy",
                 table: "TextListItem",
                 column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_BaseId",
+                table: "UnitOfMeasure",
+                column: "BaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_CreatedAt",
+                table: "UnitOfMeasure",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_CreatedBy",
+                table: "UnitOfMeasure",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_DeletedAt",
+                table: "UnitOfMeasure",
+                column: "DeletedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_DeletedBy",
+                table: "UnitOfMeasure",
+                column: "DeletedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_IsActive",
+                table: "UnitOfMeasure",
+                column: "IsActive");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasure_UpdatedBy",
+                table: "UnitOfMeasure",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_UnitOfMeasure_Code",
+                table: "UnitOfMeasure",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_UnitOfMeasure_Name",
+                table: "UnitOfMeasure",
+                column: "Name",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -3495,6 +3593,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TextListItem");
+
+            migrationBuilder.DropTable(
+                name: "UnitOfMeasure");
 
             migrationBuilder.DropTable(
                 name: "Discount");

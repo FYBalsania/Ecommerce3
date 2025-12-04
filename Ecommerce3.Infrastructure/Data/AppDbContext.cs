@@ -57,6 +57,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
     public DbSet<SalesOrderLine> SalesOrderLines { get; set; }
     public DbSet<ShippingDiscount> ShippingDiscounts { get; set; }
     public DbSet<TextListItem> TextListItems { get; set; }
+    public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -120,6 +121,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new SalesOrderLineConfiguration());
         builder.ApplyConfiguration(new ShippingDiscountConfiguration());
         builder.ApplyConfiguration(new TextListItemConfiguration());
+        builder.ApplyConfiguration(new UnitOfMeasureConfiguration());
 
         // Rename Identity tables.
         builder.Entity<AppUser>().ToTable("AppUser");

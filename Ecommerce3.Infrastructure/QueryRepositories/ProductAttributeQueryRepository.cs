@@ -3,7 +3,6 @@ using Ecommerce3.Contracts.DTOs;
 using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
-using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
