@@ -3,18 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ExceptionHandlers;
 
-public sealed class FallbackExceptionHandler :IExceptionHandler
+public sealed class FallbackExceptionHandler(ILogger<FallbackExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<FallbackExceptionHandler> _logger;
-
-    public FallbackExceptionHandler(ILogger<FallbackExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
-    
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+        logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
         
         var problemDetails = new ProblemDetails
         {

@@ -6,19 +6,12 @@ namespace Ecommerce3.Admin.Controllers.API;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ImagesController : ControllerBase
+public class ImagesController(IImageService imageService) : ControllerBase
 {
-    private readonly IImageService _imageService;
-
-    public ImagesController(IImageService imageService)
-    {
-        _imageService = imageService;
-    }
-    
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
-        var image = await _imageService.GetByIdAsync(id, cancellationToken);
+        var image = await imageService.GetByIdAsync(id, cancellationToken);
 
         if (image == null)
             return NotFound("Image not found");

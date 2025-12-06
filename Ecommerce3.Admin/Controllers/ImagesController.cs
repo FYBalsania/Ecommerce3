@@ -6,22 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
 
-public class ImagesController : Controller
+public class ImagesController(
+    IImageService imageService,
+    IIPAddressService ipAddressService,
+    IConfiguration configuration,
+    IDataProtectionProvider dataProtectionProvider)
+    : Controller
 {
-    private readonly IImageService _imageService;
-    private readonly IIPAddressService _ipAddressService;
-    private readonly IConfiguration _configuration;
-    private readonly IDataProtector _dataProtector;
-
-    public ImagesController(IImageService imageService,
-        IIPAddressService ipAddressService, IConfiguration configuration,
-        IDataProtectionProvider dataProtectionProvider)
-    {
-        _imageService = imageService;
-        _ipAddressService = ipAddressService;
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
-    }
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -35,29 +27,23 @@ public class ImagesController : Controller
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
 
         //File
         using var memoryStream = new MemoryStream();
         await model.File.CopyToAsync(memoryStream, cancellationToken);
 
-        var maxFileSizeKb = _configuration.GetValue<int>("Images:MaxFileSizeKB") * 1024;
-        var imageFolderPath = _configuration.GetValue<string>("Images:Path");
-        var tempImageFolderPath = _configuration.GetValue<string>("Images:TempPath");
+        var maxFileSizeKb = configuration.GetValue<int>("Images:MaxFileSizeKB") * 1024;
+        var imageFolderPath = configuration.GetValue<string>("Images:Path");
+        var tempImageFolderPath = configuration.GetValue<string>("Images:TempPath");
         var addImageCommand = model.ToCommand(parentEntityType, parentEntityId, imageEntityType, memoryStream.ToArray(),
             maxFileSizeKb, model.File.FileName, tempImageFolderPath!, imageFolderPath!, userId, createdAt, ipAddress);
 
-        await _imageService.AddImageAsync(addImageCommand, cancellationToken);
-        var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
+        await imageService.AddImageAsync(addImageCommand, cancellationToken);
+        var imageDTOs = await imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
             Convert.ToInt32(parentEntityId), cancellationToken);
 
         return PartialView("_ImageListPartial", imageDTOs);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(Type imageType, int id, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
     }
 
     [HttpPost]
@@ -71,13 +57,13 @@ public class ImagesController : Controller
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         
-        var imageFolderPath = _configuration.GetValue<string>("Images:Path");
+        var imageFolderPath = configuration.GetValue<string>("Images:Path");
         var editImageCommand = model.ToCommand(parentEntityType, parentEntityId, imageEntityType, imageFolderPath!, userId, ipAddress);
 
-        await _imageService.EditImageAsync(editImageCommand, cancellationToken);
-        var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
+        await imageService.EditImageAsync(editImageCommand, cancellationToken);
+        var imageDTOs = await imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
             Convert.ToInt32(parentEntityId), cancellationToken);
 
         return PartialView("_ImageListPartial", imageDTOs);
@@ -92,20 +78,14 @@ public class ImagesController : Controller
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         
         var deleteImageCommand = model.ToCommand(userId, ipAddress);
         
-        await _imageService.DeleteImageAsync(deleteImageCommand, cancellationToken);
-        var imageDTOs = await _imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
+        await imageService.DeleteImageAsync(deleteImageCommand, cancellationToken);
+        var imageDTOs = await imageService.GetImagesByImageTypeAndParentIdAsync(Type.GetType(imageEntityType)!,
             Convert.ToInt32(parentEntityId), cancellationToken);
 
         return PartialView("_ImageListPartial", imageDTOs);
-    }
-
-    [NonAction]
-    private IImageService GetImageService(Type imageType)
-    {
-        throw new NotImplementedException();
     }
 }

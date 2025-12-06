@@ -3,19 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ExceptionHandlers;
 
-public sealed class ArgumentNullExceptionHandler :IExceptionHandler
+public sealed class ArgumentNullExceptionHandler(ILogger<ArgumentNullExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<ArgumentNullExceptionHandler> _logger;
-
-    public ArgumentNullExceptionHandler(ILogger<ArgumentNullExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
-    
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
+        CancellationToken cancellationToken)
     {
         if (exception.GetType() != typeof(ArgumentNullException)) return false;
-        
+
         var argumentNullException = exception as ArgumentNullException;
         var problemDetails = new ProblemDetails
         {

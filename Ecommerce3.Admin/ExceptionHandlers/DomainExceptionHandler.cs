@@ -4,15 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ExceptionHandlers;
 
-public class DomainExceptionHandler : IExceptionHandler
+public class DomainExceptionHandler(ILogger<DomainExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<DomainExceptionHandler> _logger;
-
-    public DomainExceptionHandler(ILogger<DomainExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
-
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {

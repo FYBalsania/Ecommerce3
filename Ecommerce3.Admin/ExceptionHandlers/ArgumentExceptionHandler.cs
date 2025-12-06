@@ -3,14 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ExceptionHandlers;
 
-public sealed class ArgumentExceptionHandler : IExceptionHandler
+public sealed class ArgumentExceptionHandler(ILogger<ArgumentExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<ArgumentExceptionHandler> _logger;
-
-    public ArgumentExceptionHandler(ILogger<ArgumentExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)

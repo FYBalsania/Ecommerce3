@@ -3,20 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ExceptionHandlers;
 
-public sealed class ArgumentOutOfRangeExceptionHandler : IExceptionHandler
+public sealed class ArgumentOutOfRangeExceptionHandler(ILogger<ArgumentOutOfRangeExceptionHandler> logger)
+    : IExceptionHandler
 {
-    private readonly ILogger<ArgumentOutOfRangeExceptionHandler> _logger;
-
-    public ArgumentOutOfRangeExceptionHandler(ILogger<ArgumentOutOfRangeExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
-
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
         if (exception.GetType() != typeof(ArgumentOutOfRangeException)) return false;
-        
+
         var argumentOutOfRangeException = exception as ArgumentOutOfRangeException;
         var problemDetails = new ProblemDetails
         {

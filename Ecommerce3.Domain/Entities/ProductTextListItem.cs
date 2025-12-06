@@ -13,7 +13,7 @@ public sealed class ProductTextListItem : TextListItem
     {
     }
 
-    public ProductTextListItem(int productId, TextListItemType type, string text, int sortOrder, int createdBy,
+    internal ProductTextListItem(int productId, TextListItemType type, string text, decimal sortOrder, int createdBy,
         DateTime createdAt, string createdByIp)
         : base(type, text, sortOrder, createdBy, createdAt, createdByIp)
     {

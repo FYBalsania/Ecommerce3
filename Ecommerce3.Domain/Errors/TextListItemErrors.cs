@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class TextListItemErrors
     {
+        public static readonly DomainError InvalidId =
+            new($"{nameof(TextListItem)}.{nameof(TextListItem.Id)}", "Id is invalid.");
+        
         public static readonly DomainError TextRequired =
             new DomainError($"{nameof(TextListItem)}.{nameof(TextListItem.Text)}", "Text is required.");
         

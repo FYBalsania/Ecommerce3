@@ -7,7 +7,7 @@ internal sealed class IPAddressService : IIPAddressService
 {
     public string GetClientIpAddress(HttpContext context)
     {
-        string ip = null;
+        string? ip = null;
     
         // Try X-Forwarded-For header
         var forwardedHeader = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();

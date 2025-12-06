@@ -27,7 +27,7 @@ public class TextListItemConfiguration : IEntityTypeConfiguration<TextListItem>
         builder.Property("Discriminator").HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(2);
         builder.Property(x => x.Type).HasConversion<string>().HasColumnOrder(3);
         builder.Property(x => x.Text).HasColumnType("citext").HasColumnOrder(4);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(5);
+        builder.Property(x => x.SortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(5);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
