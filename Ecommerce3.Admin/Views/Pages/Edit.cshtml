@@ -1,4 +1,5 @@
 @using Ecommerce3.Admin.ViewComponents
+@using Ecommerce3.Contracts.DTOs.Image
 @using Ecommerce3.Domain.Entities
 
 @{
@@ -10,7 +11,14 @@
 <html>
 <head>
     <title>title</title>
-    @await Component.InvokeAsync(typeof(ImagesViewComponent), new { Entity = typeof(Page), EntityId = 1 })
+    <!-- Images -->
+    @await Component.InvokeAsync("Images", new
+    {
+        parentEntityType = typeof(Page),
+        parentEntityId = 1,
+        imageEntityType = typeof(PageImage),
+        images = new List<ImageDTO>()
+    })
 </head>
 <body>
 <div>

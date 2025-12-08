@@ -6,8 +6,8 @@ namespace Ecommerce3.Domain.Entities;
 
 public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeletable
 {
-    public override string ImageNamePrefix => Path;
-    public string Path { get; private set; }
+    public override string ImageNamePrefix => Path ?? string.Empty;
+    public string? Path { get; private set; }
     public string MetaTitle { get; private set; }
     public string? MetaDescription { get; private set; }
     public string? MetaKeywords { get; private set; }
@@ -56,14 +56,14 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
     {
     }
 
-    public Page(string path, string metaTitle, string? metaDescription, string? metaKeywords, string? metaRobots,
+    public Page(string? path, string metaTitle, string? metaDescription, string? metaKeywords, string? metaRobots,
         string? h1, string? canonicalUrl, string? ogTitle, string? ogDescription, string? ogImageUrl, string? ogType,
         string? twitterCard, string? contentHtml, string? summary, string? schemaJsonLd, string? breadcrumbsJson,
         string? hreflangMapJson, decimal sitemapPriority, SiteMapFrequency sitemapFrequency, string? redirectFromJson,
         bool isIndexed, string? headerScripts, string? footerScripts, string language, string? region, int? seoScore,
         bool isActive, int createdBy, DateTime createdAt, string createdByIp)
     {
-        ValidatePath(path);
+        if (!string.IsNullOrWhiteSpace(path)) ValidatePath(path);
         ValidateMetaTitle(metaTitle);
         ValidateMetaDescription(metaDescription);
         ValidateMetaKeywords(metaKeywords);
@@ -202,7 +202,7 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
 
     private static void ValidatePath(string path)
     {
-        if (string.IsNullOrWhiteSpace(path)) throw new DomainException(DomainErrors.PageErrors.PathRequired);
+        // if (string.IsNullOrWhiteSpace(path)) throw new DomainException(DomainErrors.PageErrors.PathRequired);
         if (!Uri.TryCreate(path, UriKind.Relative, out _))
             throw new DomainException(DomainErrors.PageErrors.InvalidPath);
         if (path.Length > 256) throw new DomainException(DomainErrors.PageErrors.PathTooLong);

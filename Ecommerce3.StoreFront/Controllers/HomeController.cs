@@ -1,14 +1,17 @@
 using System.Diagnostics;
+using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.StoreFront.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.StoreFront.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IPageService pageService, IConfiguration configuration, ILogger<HomeController> logger)
+    : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        return View();
+        var page = await pageService.GetByPathAsync("/", cancellationToken);
+        return View(page);
     }
 
     public IActionResult Privacy()

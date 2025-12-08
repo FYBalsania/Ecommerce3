@@ -35,19 +35,19 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseRouting();
-app.UseAuthorization();
-app.MapStaticAssets();
+app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(builder.Configuration.GetValue<string>("Images:Path")!),
     RequestPath = new PathString("/Images"),
     HttpsCompression = HttpsCompressionMode.Default
 });
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+// app.MapStaticAssets();
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
-
 app.Run();

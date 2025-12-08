@@ -1772,7 +1772,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(21);
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("citext")
                         .HasColumnOrder(12);
@@ -3564,8 +3563,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(64)")
                         .HasColumnOrder(2);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(5);
 
                     b.Property<string>("Text")

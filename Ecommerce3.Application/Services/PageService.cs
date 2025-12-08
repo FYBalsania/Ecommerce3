@@ -4,16 +4,12 @@ using Ecommerce3.Contracts.QueryRepositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class PageService : IPageService
+internal sealed class PageService(IPageQueryRepository pageQueryRepository) : IPageService
 {
-    private readonly IPageQueryRepository _pageQueryRepository;
-
-    public PageService(IPageQueryRepository pageQueryRepository)
-    {
-        _pageQueryRepository = pageQueryRepository;
-    }
-    
     public async Task<(IReadOnlyList<PageListItemDTO>, int)> GetPageListItemsAsync(string? name,
         int pageNumber, int pageSize, CancellationToken cancellationToken)
-        => await _pageQueryRepository.GetPageListItemsAsync(name, pageNumber, pageSize, cancellationToken);
+        => await pageQueryRepository.GetPageListItemsAsync(name, pageNumber, pageSize, cancellationToken);
+
+    public async Task<PageDTO?> GetByPathAsync(string path, CancellationToken cancellationToken)
+        => await pageQueryRepository.GetByPathAsync(path, cancellationToken);
 }

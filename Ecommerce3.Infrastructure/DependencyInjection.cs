@@ -19,14 +19,14 @@ public static class DependencyInjection
     {
         services.AddSingleton<DeleteInterceptor>();
         services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
-        
+
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .AddInterceptors(sp.GetRequiredService<DeleteInterceptor>());
         });
-        
+
         //Repositories.
         services.AddScoped<IBankImageRepository, BankImageRepository>();
         services.AddScoped<IBankPageRepository, BankPageRepository>();
@@ -56,7 +56,7 @@ public static class DependencyInjection
         services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
         services.AddScoped<ITextListItemRepository, TextListItemRepository>();
         services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
-        
+
         //Query Repositories.
         services.AddScoped<IBankQueryRepository, BankQueryRepository>();
         services.AddScoped<IImageQueryRepository, BankImageQueryRepository>();
@@ -68,11 +68,13 @@ public static class DependencyInjection
         services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
         services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();
         services.AddScoped<IImageTypeQueryRepository, ImageTypeQueryRepository>();
+        services.AddScoped<IPageQueryRepository, PageQueryRepository>();
         services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
         services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
         services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
-        services.AddScoped<IProductTextListItemQueryRepository, ProductTextListItemQueryRepository>();
-        services.AddScoped<ITextListItemQueryRepository, TextListItemQueryRepository>();
+        // services.AddScoped<IProductTextListItemQueryRepository, ProductTextListItemQueryRepository>();
+        // services.AddScoped<ITextListItemQueryRepository, TextListItemQueryRepository>();
+        // services.AddScoped<ITextListItemQueryRepository, ProductTextListItemQueryRepository>();
         services.AddScoped<IUnitOfMeasureQueryRepository, UnitOfMeasureQueryRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();

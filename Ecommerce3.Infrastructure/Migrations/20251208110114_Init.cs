@@ -1247,7 +1247,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Discriminator = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                    Path = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    Path = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
                     MetaTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     MetaDescription = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
                     MetaKeywords = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
@@ -1593,7 +1593,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Discriminator = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Text = table.Column<string>(type: "citext", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: true),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),

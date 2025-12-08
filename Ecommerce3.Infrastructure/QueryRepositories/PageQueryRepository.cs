@@ -1,23 +1,18 @@
+using System.Linq.Expressions;
 using Ecommerce3.Contracts.DTOs.Page;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class PageQueryRepository : IPageQueryRepository
+internal sealed class PageQueryRepository(AppDbContext dbContext) : IPageQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public PageQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<(IReadOnlyList<PageListItemDTO>, int)> GetPageListItemsAsync(string? name, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Pages.AsQueryable();
+        var query = dbContext.Pages.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(name))
             query = query.Where(b => EF.Functions.Like(b.H1, $"%{name}%"));
@@ -32,4 +27,45 @@ internal sealed class PageQueryRepository : IPageQueryRepository
 
         return (pages, total);
     }
+
+    public async Task<PageDTO?> GetByPathAsync(string path, CancellationToken cancellationToken)
+    {
+        return await dbContext.Pages
+            .Where(x => x.Path == path && x.IsActive)
+            .Select(FromDomain)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    private static Expression<Func<Page, PageDTO>> FromDomain =>
+        x => new PageDTO
+        {
+            Id = x.Id,
+            Path = x.Path,
+            MetaTitle = x.MetaTitle,
+            MetaDescription = x.MetaDescription,
+            MetaKeywords = x.MetaKeywords,
+            MetaRobots = x.MetaRobots,
+            H1 = x.H1,
+            CanonicalUrl = x.CanonicalUrl,
+            OgTitle = x.OgTitle,
+            OgDescription = x.OgDescription,
+            OgImageUrl = x.OgImageUrl,
+            OgType = x.OgType,
+            TwitterCard = x.TwitterCard,
+            ContentHtml = x.ContentHtml,
+            Summary = x.Summary,
+            SchemaJsonLd = x.SchemaJsonLd,
+            BreadcrumbsJson = x.BreadcrumbsJson,
+            HreflangMapJson = x.HreflangMapJson,
+            SitemapPriority = x.SitemapPriority,
+            SitemapFrequency = x.SitemapFrequency,
+            RedirectFromJson = x.RedirectFromJson,
+            IsIndexed = x.IsIndexed,
+            HeaderScripts = x.HeaderScripts,
+            FooterScripts = x.FooterScripts,
+            Language = x.Language,
+            Region = x.Region,
+            SeoScore = x.SeoScore,
+            IsActive = x.IsActive
+        };
 }

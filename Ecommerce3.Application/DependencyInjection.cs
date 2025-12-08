@@ -11,7 +11,6 @@ public static class DependencyInjection
         services.AddScoped<IIPAddressService, IPAddressService>();
         
         services.AddScoped<IBrandService, BrandService>();
-        // services.AddScoped<IPageService, PageService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IProductAttributeService, ProductAttributeService>();
         services.AddScoped<IProductAttributeValueService, ProductAttributeValueService>();
@@ -21,8 +20,9 @@ public static class DependencyInjection
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IImageTypeService, ImageTypeService>();
         services.AddScoped<IBankService, BankService>();
+        services.AddScoped<IPageService, PageService>();
         services.AddScoped<IPostCodeService, PostCodeService>();
-        services.AddScoped<ITextListItemService, TextListItemService>();
+        // services.AddScoped<ITextListItemService, TextListItemService>();
         services.AddScoped<IUnitOfMeasureService, UnitOfMeasureService>();
 
         return services;
