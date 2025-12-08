@@ -20,7 +20,7 @@ internal sealed class TextListItemService(
     {
         if (command.ParentEntity == typeof(ProductTextListItem))
         {
-            var exists = await productTextListItemQueryRepository.ExistsByProductIdAndTypeAndTextAsync(
+            var exists = await productTextListItemQueryRepository.ExistsAsync(
                 command.ParentEntityId, command.Type, command.Text, null, cancellationToken);
             if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
         }
@@ -42,7 +42,7 @@ internal sealed class TextListItemService(
 
         if (command.ParentEntity == typeof(ProductTextListItem))
         {
-            var exists = await productTextListItemQueryRepository.ExistsByProductIdAndTypeAndTextAsync(
+            var exists = await productTextListItemQueryRepository.ExistsAsync(
                 command.ParentEntityId, command.Type, command.Text, command.Id, cancellationToken);
             if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
         }

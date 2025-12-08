@@ -1,22 +1,25 @@
+using Ecommerce3.Application.Mappers;
 using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Contracts.QueryRepositories;
-using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Data;
-using Ecommerce3.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class TextListItemQueryRepository : Repository<TextListItem>, ITextListItemQueryRepository
+internal class TextListItemQueryRepository : ITextListItemQueryRepository
 {
     private readonly AppDbContext _dbContext;
 
-    protected TextListItemQueryRepository(AppDbContext dbContext) : base(dbContext)
+    public TextListItemQueryRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<TextListItemDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _dbContext.TextListItems
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

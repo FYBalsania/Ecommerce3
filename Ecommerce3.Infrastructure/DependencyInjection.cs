@@ -72,9 +72,8 @@ public static class DependencyInjection
         services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
         services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
         services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
-        // services.AddScoped<IProductTextListItemQueryRepository, ProductTextListItemQueryRepository>();
-        // services.AddScoped<ITextListItemQueryRepository, TextListItemQueryRepository>();
-        // services.AddScoped<ITextListItemQueryRepository, ProductTextListItemQueryRepository>();
+        services.AddScoped<ITextListItemQueryRepository, TextListItemQueryRepository>();
+        services.AddScoped<IProductTextListItemQueryRepository, ProductTextListItemQueryRepository>();
         services.AddScoped<IUnitOfMeasureQueryRepository, UnitOfMeasureQueryRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
