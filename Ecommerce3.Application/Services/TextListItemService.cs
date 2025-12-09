@@ -12,20 +12,16 @@ namespace Ecommerce3.Application.Services;
 
 internal sealed class TextListItemService(
     ITextListItemRepository repository,
-    ITextListItemQueryRepository textListItemQueryRepository,
-    IProductTextListItemQueryRepository productTextListItemQueryRepository,
+    IEnumerable<ITextListItemQueryRepository> textListItemQueryRepositories,
     IUnitOfWork unitOfWork) : ITextListItemService
 {
     public async Task AddAsync(AddTextListItemCommand command, CancellationToken cancellationToken)
     {
-        if (command.ParentEntity == typeof(ProductTextListItem))
-        {
-            var exists = await productTextListItemQueryRepository.ExistsAsync(
-                command.ParentEntityId, command.Type, command.Text, null, cancellationToken);
-            if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
-        }
-        else
-            throw new NotImplementedException("Specific TextListItem query repository not found.");
+        var queryRepository = TryGetTextListItemQueryRepository(command.ParentEntity);
+
+        var exists = await queryRepository.ExistsByParentEntityIdAsync(command.ParentEntityId, command.Type,
+            command.Text, null, cancellationToken);
+        if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
 
         var textListItem = TextListItem.Create(command.ParentEntity, command.ParentEntityId, command.Type, command.Text,
             command.SortOrder, command.CreatedBy, command.CreatedAt, command.CreatedByIp);
@@ -40,14 +36,10 @@ internal sealed class TextListItemService(
             .GetByIdAsync(command.Id, TextListItemInclude.None, true, cancellationToken);
         if (textListItem is null) throw new DomainException(DomainErrors.TextListItemErrors.InvalidId);
 
-        if (command.ParentEntity == typeof(ProductTextListItem))
-        {
-            var exists = await productTextListItemQueryRepository.ExistsAsync(
-                command.ParentEntityId, command.Type, command.Text, command.Id, cancellationToken);
-            if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
-        }
-        else
-            throw new NotImplementedException("Specific TextListItem query repository not found.");
+        var queryRepository = TryGetTextListItemQueryRepository(command.ParentEntity);
+        var exists = await queryRepository.ExistsByParentEntityIdAsync(command.ParentEntityId, command.Type,
+            command.Text, command.Id, cancellationToken);
+        if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
 
         var updated = textListItem.Update(command.Text, command.SortOrder, command.UpdatedBy, command.UpdatedAt,
             command.UpdatedByIp);
@@ -68,6 +60,18 @@ internal sealed class TextListItemService(
     public async Task<IReadOnlyList<TextListItemDTO>> GetByParamsAsync(Type parentEntity, int parentEntityId,
         TextListItemType type, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await TryGetTextListItemQueryRepository(parentEntity)
+            .GetByParamsAsync(parentEntityId, type, cancellationToken);
+    }
+
+    private ITextListItemQueryRepository TryGetTextListItemQueryRepository(Type parentEntity)
+    {
+        var queryRepository =
+            textListItemQueryRepositories.FirstOrDefault(x => x.ParentEntityType == parentEntity);
+        if (queryRepository is null)
+            throw new NotImplementedException(
+                $"{nameof(ITextListItemQueryRepository)} not implemented for {nameof(parentEntity)}.");
+
+        return queryRepository;
     }
 }

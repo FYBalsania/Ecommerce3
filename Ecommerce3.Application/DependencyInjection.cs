@@ -22,7 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IBankService, BankService>();
         services.AddScoped<IPageService, PageService>();
         services.AddScoped<IPostCodeService, PostCodeService>();
-        // services.AddScoped<ITextListItemService, TextListItemService>();
+        services.AddScoped<ITextListItemService, TextListItemService>();
         services.AddScoped<IUnitOfMeasureService, UnitOfMeasureService>();
 
         return services;

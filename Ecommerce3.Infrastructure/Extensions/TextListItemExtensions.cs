@@ -2,11 +2,11 @@ using System.Linq.Expressions;
 using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Domain.Entities;
 
-namespace Ecommerce3.Application.Mappers;
+namespace Ecommerce3.Infrastructure.Extensions;
 
-public static class TextListItemMappers
+public static class TextListItemExtensions
 {
-    public static readonly Expression<Func<TextListItem, TextListItemDTO>> ToDtoExpression = x => new TextListItemDTO
+    private static readonly Expression<Func<TextListItem, TextListItemDTO>> ToDtoExpression = x => new TextListItemDTO
     {
         Id = x.Id,
         Text = x.Text,
