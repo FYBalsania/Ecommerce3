@@ -8,7 +8,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<IIPAddressService, IPAddressService>();
         
         services.AddScoped<IBrandService, BrandService>();
         services.AddScoped<ICategoryService, CategoryService>();
@@ -19,6 +18,8 @@ public static class DependencyInjection
         services.AddScoped<IDeliveryWindowService, DeliveryWindowService>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IImageTypeService, ImageTypeService>();
+        services.AddScoped<IIPAddressService, IPAddressService>();
+        services.AddScoped<IKVPListItemService, KVPListItemService>();
         services.AddScoped<IBankService, BankService>();
         services.AddScoped<IPageService, PageService>();
         services.AddScoped<IPostCodeService, PostCodeService>();

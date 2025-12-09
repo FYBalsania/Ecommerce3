@@ -1,4 +1,6 @@
+@using Ecommerce3.Contracts.DTOs.KVPListItem
 @using Ecommerce3.Domain.Entities
+@using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Category.EditCategoryViewModel
 
 <div class="content-section">
@@ -166,6 +168,10 @@
             imageEntityType = typeof(CategoryImage),
             images = Model.Images 
         })
+        
+        @* FAQ *@
+        <partial name="_KVPListPartial"
+                 model="@Tuple.Create(typeof(Category), Model.Id, KVPListItemType.FAQ, new List<KVPListItemDTO>())"/>
         
         <div class="row mb-7">
             <div class="col-xl-12">

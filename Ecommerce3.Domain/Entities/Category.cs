@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpdatable, IDeletable
+public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpdatable, IDeletable,
+    IKVPListItems<CategoryKVPListItem>
 {
     private readonly List<CategoryKVPListItem> _kvpListItems = [];
     public override string ImageNamePrefix => Slug;
@@ -38,8 +39,8 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     public string? DeletedByIp { get; private set; }
     public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
 
-    public IReadOnlyList<CategoryKVPListItem> GetKVPListItemsByType(KVPListItemType type) =>
-        _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
+    // public IReadOnlyList<CategoryKVPListItem> GetKVPListItems(KVPListItemType type) =>
+    //     _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();
 
     public CategoryPage? Page { get; private set; }
 
@@ -92,7 +93,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         ValidateShortDescription(shortDescription);
         ValidateUpdatedBy(updatedBy);
         ValidateUpdatedByIp(updatedByIp);
-        
+
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ParentId == parent?.Id &&
             GoogleCategory == googleCategory && ShortDescription == shortDescription &&
@@ -136,7 +137,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
     }
-    
+
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
         DeletedBy = deletedBy;
@@ -152,7 +153,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
             throw new InvalidOperationException(
                 "Cannot set a category's parent to one of its own descendants (circular reference detected).");
     }
-    
+
     private static void ValidateCreatedByIp(string createdByIp)
     {
         if (string.IsNullOrWhiteSpace(createdByIp))
@@ -164,7 +165,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     {
         if (createdBy <= 0) throw new DomainException(DomainErrors.CategoryErrors.InvalidCreatedBy);
     }
-    
+
     private static void ValidateUpdatedBy(int updatedBy)
     {
         if (updatedBy <= 0) throw new DomainException(DomainErrors.CategoryErrors.InvalidUpdatedBy);
@@ -213,10 +214,11 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.CategoryErrors.NameRequired);
         if (name.Length > 256) throw new DomainException(DomainErrors.CategoryErrors.NameTooLong);
     }
-    
+
     private static void ValidateUpdatedByIp(string updatedByIp)
     {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.CategoryErrors.UpdatedByIpRequired);
+        if (string.IsNullOrWhiteSpace(updatedByIp))
+            throw new DomainException(DomainErrors.CategoryErrors.UpdatedByIpRequired);
         if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.CategoryErrors.UpdatedByIpTooLong);
     }
 }

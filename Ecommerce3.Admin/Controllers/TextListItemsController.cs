@@ -18,11 +18,10 @@ public class TextListItemsController(
 
         var userId = 1;
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
-
         await textListItemService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+        
         var textListItemDTOs = await textListItemService.GetByParamsAsync(model.ParentEntity, model.ParentEntityId,
             model.Type, cancellationToken);
-
         return PartialView("_TextListItemsPartial", textListItemDTOs);
     }
 

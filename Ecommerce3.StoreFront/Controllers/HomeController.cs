@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Repositories;
 using Ecommerce3.StoreFront.Models;
 using Microsoft.AspNetCore.Mvc;
 

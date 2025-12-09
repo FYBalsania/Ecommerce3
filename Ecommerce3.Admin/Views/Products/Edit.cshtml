@@ -1,4 +1,6 @@
+@using Ecommerce3.Contracts.DTOs.KVPListItem
 @using Ecommerce3.Domain.Entities
+@using Ecommerce3.Domain.Enums
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
@@ -53,7 +55,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- General -->
     <div class="card mb-4">
         <div class="card-header">
@@ -159,7 +161,22 @@
                     <div class="mb-3">
                         <label class="form-label fw-bold">Long Description</label>
                         <div id="longDescriptionEditor" style="height: 200px;">
-                            Step into the future with this imagined Red iPhone 17 (128 GB) — merging bold design with cutting-edge technology. Its rich red colour adds a dash of personality, backed by a premium build with an aluminium frame and the new Ceramic Shield 2 front, which delivers substantially better scratch resistance than before. The 6.3-inch Super Retina XDR OLED display dazzles with a refresh rate up to 120 Hz (ProMotion), making scrolling, gaming, and video playback fluid and immersive. Under the hood, the all-new A19 chip ensures snappy performance and efficient power usage. Photography gets a major uplift: a 48-MP Dual Fusion rear camera system handles wide shots and 2× optical-quality telephoto, while the front camera is upgraded (18-MP) with a larger sensor and Support for Center Stage — so group shots and video calls are sharper and more natural even when you move. Battery life is made to last through the day, and fast-charging gets you up to 50% in about 20 minutes with a suitable adapter. For peace of mind, it retains IP68 dust/water resistance (up to 6 m for 30 minutes), and adds modern features like stereo sound, USB-C charging, wireless charging, spatial audio, and emergency SOS via satellite. Storage is 128 GB — useful for plenty of apps, photos, and videos, though you might fill it up faster than with higher tiers. If priority is storage or media, you may want to go for a higher-capacity model.
+                            Step into the future with this imagined Red iPhone 17 (128 GB) — merging bold design with
+                            cutting-edge technology. Its rich red colour adds a dash of personality, backed by a premium
+                            build with an aluminium frame and the new Ceramic Shield 2 front, which delivers
+                            substantially better scratch resistance than before. The 6.3-inch Super Retina XDR OLED
+                            display dazzles with a refresh rate up to 120 Hz (ProMotion), making scrolling, gaming, and
+                            video playback fluid and immersive. Under the hood, the all-new A19 chip ensures snappy
+                            performance and efficient power usage. Photography gets a major uplift: a 48-MP Dual Fusion
+                            rear camera system handles wide shots and 2× optical-quality telephoto, while the front
+                            camera is upgraded (18-MP) with a larger sensor and Support for Center Stage — so group
+                            shots and video calls are sharper and more natural even when you move. Battery life is made
+                            to last through the day, and fast-charging gets you up to 50% in about 20 minutes with a
+                            suitable adapter. For peace of mind, it retains IP68 dust/water resistance (up to 6 m for 30
+                            minutes), and adds modern features like stereo sound, USB-C charging, wireless charging,
+                            spatial audio, and emergency SOS via satellite. Storage is 128 GB — useful for plenty of
+                            apps, photos, and videos, though you might fill it up faster than with higher tiers. If
+                            priority is storage or media, you may want to go for a higher-capacity model.
                         </div>
                         <input type="hidden" id="longDescriptionInput" name="LongDescription">
                     </div>
@@ -178,7 +195,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Show availability  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Show availability <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -188,7 +205,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Free shipping  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Free shipping <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -198,7 +215,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Is featured  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Is featured <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -210,7 +227,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Is new  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Is new <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -241,7 +258,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Attributes -->
     <div class="card mb-4">
         <div class="card-header">
@@ -288,7 +305,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Stock and Price -->
     <div class="card mb-4">
         <div class="card-header">
@@ -345,7 +362,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Shipping -->
     <div class="card mb-4">
         <div class="card-header">
@@ -390,12 +407,12 @@
                         <div id="returnPolicyEditor" style="height: 200px;">
 
                         </div>
-                        <input type="hidden" id="returnPolicyInput" name="Return"> </div>
+                        <input type="hidden" id="returnPolicyInput" name="Return"></div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- SEO -->
     <div class="card mb-4">
         <div class="card-header">
@@ -414,7 +431,8 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Meta Title</label>
-                        <input type="text" class="form-control" value="Apple – Premium Technology, iPhone, MacBook, iPad, Apple Watch & More">
+                        <input type="text" class="form-control"
+                               value="Apple – Premium Technology, iPhone, MacBook, iPad, Apple Watch & More">
                     </div>
                 </div>
             </div>
@@ -436,16 +454,16 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Images -->
     @await Component.InvokeAsync("Images", new
     {
         parentEntityType = typeof(Product),
         parentEntityId = Model.Id,
         imageEntityType = typeof(ProductImage),
-        images = Model.Images 
+        images = Model.Images
     })
-    
+
     <!-- Highlight, Disclaimer -->
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -507,8 +525,15 @@
             </div>
         </div>
     </div>
+
+    @* Nutrition *@
+    <partial name="_KVPListPartial"
+             model="@Tuple.Create(typeof(Product), Model.Id, KVPListItemType.Nutrition, new List<KVPListItemDTO>())"/>
     
-    <!-- FAQ, Nutrition -->
+    @* FAQ *@
+    <partial name="_KVPListPartial"
+             model="@Tuple.Create(typeof(Product), Model.Id, KVPListItemType.FAQ, new List<KVPListItemDTO>())"/>
+
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0 text-muted py-2">
@@ -573,7 +598,7 @@
 
         </div>
     </div>
-    
+
     <div class="row mb-7">
         <div class="col-xl-12">
             <button type="submit" class="btn btn-primary float-end">Submit</button>
@@ -781,14 +806,16 @@
 </div>
 
 <!-- Delete Image Modal (for first image) -->
-<div class="modal fade" id="deleteImageModal1" tabindex="-1" aria-labelledby="deleteImageModalLabel1" aria-hidden="true">
+<div class="modal fade" id="deleteImageModal1" tabindex="-1" aria-labelledby="deleteImageModalLabel1"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
             <div class="modal-header text-danger">
                 <h5 class="modal-title" id="deleteImageModalLabel1">
                     <i class="fas fa-trash"></i> Delete Image
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -919,7 +946,8 @@
                 <h5 class="modal-title" id="deleteTextModalLabel">
                     <i class="fas fa-trash"></i> Delete Text
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -1066,7 +1094,8 @@
                 <h5 class="modal-title" id="deleteKVPModalLabel">
                     <i class="fas fa-trash"></i> Delete Text
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -1088,13 +1117,14 @@
     <link href="~/css/select2.min.css" rel="stylesheet">
     <link href="~/css/quill.snow.css" rel="stylesheet">
 }
+
 @section Scripts
 {
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script>
         //Initialize Select 2
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select-product').select2({
                 placeholder: 'Select Product Group'
             });
@@ -1102,7 +1132,7 @@
             $('.select-brand').select2({
                 placeholder: 'Select Brand'
             });
-            
+
             $('.select-colour').select2({
                 placeholder: 'Select Colour'
             });
@@ -1116,12 +1146,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],                               // Font family
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],                               // Font family
                     ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                    [{ color: [] }, { background: [] }],          // Text/Background color
-                    [{ list: 'ordered' }, { list: 'bullet' }],    // Lists
-                    [{ align: [] }],                              // Alignment
+                    [{color: []}, {background: []}],          // Text/Background color
+                    [{list: 'ordered'}, {list: 'bullet'}],    // Lists
+                    [{align: []}],                              // Alignment
                     ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
                     ['clean']                                     // Clear formatting
                 ]
@@ -1136,12 +1166,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ color: [] }, { background: [] }],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ align: [] }],
+                    [{color: []}, {background: []}],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    [{align: []}],
                     ['link', 'image', 'blockquote', 'code-block'],
                     ['clean']
                 ]
@@ -1156,12 +1186,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ color: [] }, { background: [] }],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ align: [] }],
+                    [{color: []}, {background: []}],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    [{align: []}],
                     ['link', 'image', 'blockquote', 'code-block'],
                     ['clean']
                 ]
@@ -1176,12 +1206,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ color: [] }, { background: [] }],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ align: [] }],
+                    [{color: []}, {background: []}],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    [{align: []}],
                     ['link', 'image', 'blockquote', 'code-block'],
                     ['clean']
                 ]
@@ -1196,12 +1226,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ color: [] }, { background: [] }],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ align: [] }],
+                    [{color: []}, {background: []}],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    [{align: []}],
                     ['link', 'image', 'blockquote', 'code-block'],
                     ['clean']
                 ]
@@ -1216,12 +1246,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ color: [] }, { background: [] }],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ align: [] }],
+                    [{color: []}, {background: []}],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    [{align: []}],
                     ['link', 'image', 'blockquote', 'code-block'],
                     ['clean']
                 ]

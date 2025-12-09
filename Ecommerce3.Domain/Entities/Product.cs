@@ -2,7 +2,8 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdatable, IDeletable
+public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdatable, IDeletable,
+    IKVPListItems<ProductKVPListItem>
 {
     private readonly List<ProductCategory> _categories = [];
     private readonly List<ProductTextListItem> _textListItems = [];
