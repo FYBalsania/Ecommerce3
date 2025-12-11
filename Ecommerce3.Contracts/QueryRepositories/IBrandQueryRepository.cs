@@ -12,4 +12,5 @@ public interface IBrandQueryRepository
     public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
     public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
     public Task<BrandDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
 }

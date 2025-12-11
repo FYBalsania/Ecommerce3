@@ -9,7 +9,8 @@ public interface IProductGroupQueryRepository
     Task<PagedResult<ProductGroupListItemDTO>> GetListItemsAsync(ProductGroupFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
-    public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
-    public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
-    public Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
+    Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
+    Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
 }

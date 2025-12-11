@@ -8,19 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
+internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IProductGroupQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductGroupQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<PagedResult<ProductGroupListItemDTO>> GetListItemsAsync(ProductGroupFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.ProductGroups.AsQueryable();
+        var query = dbContext.ProductGroups.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
@@ -66,14 +59,14 @@ internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.ProductGroups
+        return await dbContext.ProductGroups
             .Select(x => (int?)x.SortOrder)          // Cast to nullable
             .MaxAsync(cancellationToken) ?? 0;       // If null → return 0
     }
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.ProductGroups.AsQueryable();
+        var query = dbContext.ProductGroups.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
@@ -83,7 +76,7 @@ internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.ProductGroups.AsQueryable();
+        var query = dbContext.ProductGroups.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
@@ -93,7 +86,7 @@ internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
     
     public async Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await (from pg in _dbContext.ProductGroups
+        return await (from pg in dbContext.ProductGroups
             where pg.Id == id
             select new ProductGroupDTO
             {
@@ -135,5 +128,11 @@ internal sealed class ProductGroupQueryRepository : IProductGroupQueryRepository
                         UpdatedAt = x.UpdatedAt
                     }).ToList().AsReadOnly()
             }).FirstAsync(cancellationToken);
+    }
+
+    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductGroups.OrderBy(x => x.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
 }

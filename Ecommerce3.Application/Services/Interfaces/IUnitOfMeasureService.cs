@@ -4,7 +4,8 @@ namespace Ecommerce3.Application.Services.Interfaces;
 
 public interface IUnitOfMeasureService
 {
-    public Task AddAsync(AddUnitOfMeasureCommand command, CancellationToken cancellationToken);
-    public Task EditAsync(EditUnitOfMeasureCommand command, CancellationToken cancellationToken);
-    public Task DeleteAsync(DeleteUnitOfMeasureCommand command, CancellationToken cancellationToken);
+    Task AddAsync(AddUnitOfMeasureCommand command, CancellationToken cancellationToken);
+    Task EditAsync(EditUnitOfMeasureCommand command, CancellationToken cancellationToken);
+    Task DeleteAsync(DeleteUnitOfMeasureCommand command, CancellationToken cancellationToken);
+    Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken);
 }

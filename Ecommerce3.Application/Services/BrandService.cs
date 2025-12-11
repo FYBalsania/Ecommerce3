@@ -12,32 +12,23 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class BrandService : IBrandService
+internal sealed class BrandService(
+    IBrandRepository repository,
+    IBrandQueryRepository queryRepository,
+    IBrandPageRepository pageRepository,
+    IUnitOfWork unitOfWork)
+    : IBrandService
 {
-    private readonly IBrandRepository _repository;
-    private readonly IBrandQueryRepository _queryRepository;
-    private readonly IBrandPageRepository _pageRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public BrandService(IBrandRepository repository, IBrandQueryRepository queryRepository,
-        IBrandPageRepository pageRepository, IUnitOfWork unitOfWork)
-    {
-        _queryRepository = queryRepository;
-        _repository = repository;
-        _pageRepository = pageRepository;
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<PagedResult<BrandListItemDTO>> GetListItemsAsync(BrandFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
-        => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+        => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddBrandCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateName);
 
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateSlug);
 
         var brand = new Brand(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
@@ -48,28 +39,28 @@ internal sealed class BrandService : IBrandService
             command.H1, null, null, null, null, null, null, null, null,
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, brand);
-        await _repository.AddAsync(brand, cancellationToken);
-        await _pageRepository.AddAsync(page, cancellationToken);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        await repository.AddAsync(brand, cancellationToken);
+        await pageRepository.AddAsync(page, cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<BrandDTO?> GetByBrandIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _queryRepository.GetByIdAsync(id, cancellationToken);
+        return await queryRepository.GetByIdAsync(id, cancellationToken);
     }
 
     public async Task EditAsync(EditBrandCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateName);
 
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateSlug);
 
-        var brand = await _repository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
+        var brand = await repository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
         if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
 
-        var page = await _pageRepository.GetByBrandIdAsync(command.Id, BrandPageInclude.None, true,
+        var page = await pageRepository.GetByBrandIdAsync(command.Id, BrandPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), "Brand page not found.");
 
@@ -80,10 +71,10 @@ internal sealed class BrandService : IBrandService
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (brandUpdated) _repository.Update(brand);
-        if (pageUpdated) _pageRepository.Update(page);
+        if (brandUpdated) repository.Update(brand);
+        if (pageUpdated) pageRepository.Update(page);
 
-        if (brandUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
+        if (brandUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -92,5 +83,10 @@ internal sealed class BrandService : IBrandService
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
+        => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
+
+    public async Task<IDictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetIdAndNameListAsync(cancellationToken);
+    }
 }

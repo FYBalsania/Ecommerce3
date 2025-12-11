@@ -81,11 +81,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.IsNew).HasColumnType("boolean").HasColumnOrder(35);
         builder.Property(x => x.IsBestSeller).HasColumnType("boolean").HasColumnOrder(36);
         builder.Property(x => x.IsReturnable).HasColumnType("boolean").HasColumnOrder(37);
-        builder.Property(x => x.ReturnPolicy).HasColumnType("text").HasColumnOrder(38);
         builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(32).HasColumnType("varchar(32)")
-            .HasColumnOrder(39);
-        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(40);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(41);
+            .HasColumnOrder(38);
+        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(39);
+        builder.Property(x => x.SortOrder).HasColumnType("decimal(18,3)").HasColumnOrder(40);
         builder.Property<List<string>>("_facets")
             .HasColumnName(nameof(Product.Facets))
             .HasColumnType("jsonb")
@@ -105,11 +104,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         //Indexes
         builder.HasIndex("_facets").HasMethod("gin");
         builder.HasIndex(x => x.SKU).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.SKU)}");
-        builder.HasIndex(x => x.GTIN).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.GTIN)}");
-        builder.HasIndex(x => x.MPN).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.MPN)}");
-        builder.HasIndex(x => x.MFC).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.MFC)}");
-        builder.HasIndex(x => x.EAN).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.EAN)}");
-        builder.HasIndex(x => x.UPC).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.UPC)}");
+        builder.HasIndex(x => x.GTIN).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.GTIN)}");
+        builder.HasIndex(x => x.MPN).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.MPN)}");
+        builder.HasIndex(x => x.MFC).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.MFC)}");
+        builder.HasIndex(x => x.EAN).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.EAN)}");
+        builder.HasIndex(x => x.UPC).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.UPC)}");
         builder.HasIndex(x => x.Name).IsUnique()
             .HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.Name)}");
         builder.HasIndex(x => x.Slug).IsUnique()

@@ -15,4 +15,5 @@ public interface IBrandService
     Task EditAsync(EditBrandCommand command, CancellationToken cancellationToken);
     Task DeleteAsync(int id, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
+    Task<IDictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
 }

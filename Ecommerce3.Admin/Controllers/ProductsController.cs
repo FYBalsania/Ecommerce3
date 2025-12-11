@@ -2,22 +2,32 @@ using Ecommerce3.Admin.ViewModels.Product;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.Controllers;
 
 public class ProductsController : Controller
 {
     private readonly IProductService _productService;
-    private readonly IIPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
     private readonly int _pageSize;
+    private readonly IBrandService _brandService;
+    private readonly ICategoryService _categoryService;
+    private readonly IProductGroupService _productGroupService;
+    private readonly IUnitOfMeasureService _unitOfMeasureService;
 
-    public ProductsController(IProductService productService, IIPAddressService ipAddressService,
-        IConfiguration configuration)
+    public ProductsController(IProductService productService,
+        IConfiguration configuration, IBrandService brandService,
+        ICategoryService categoryService, IProductGroupService productGroupService,
+        IUnitOfMeasureService unitOfMeasureService)
     {
         _productService = productService;
         _configuration = configuration;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
+        _brandService = brandService;
+        _categoryService = categoryService;
+        _productGroupService = productGroupService;
+        _unitOfMeasureService = unitOfMeasureService;
     }
 
     [HttpGet]
@@ -31,7 +41,7 @@ public class ProductsController : Controller
             Products = result,
             PageTitle = "Products"
         };
-        
+
         ViewData["Title"] = "Products";
         return View(response);
     }
@@ -39,8 +49,23 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<IActionResult> Add(CancellationToken cancellationToken)
     {
-        ViewData["Title"] = "Add Product";
-        return View(new AddProductViewModel());
+        var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
+        var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+
+        return View(new AddProductViewModel
+        {
+            PageTitle = "Add Product", 
+            SortOrder = sortOrder + 1, 
+            Brands = brands,
+            Categories = categories,
+            ProductGroups = productGroups,
+            UnitOfMeasures = uoms,
+            IsActive = true,
+            QuantityPerUnitOfMeasure = 1
+        });
     }
 
     [HttpPost]

@@ -23,7 +23,7 @@ builder.Services.AddControllersWithViews()
     .AddJsonOptions(x => x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
 
 // Options start.
-builder.Services.Configure<ImageOptions>(builder.Configuration.GetSection("Images:PathString"));
+builder.Services.Configure<ImageOptions>(builder.Configuration.GetSection("Images"));
 builder.Services.Configure<List<ProductCollections>>(builder.Configuration.GetSection(nameof(ProductCollections)));
 // Options end.
 

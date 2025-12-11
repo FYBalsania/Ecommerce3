@@ -12,32 +12,23 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class ProductGroupService : IProductGroupService
+internal sealed class ProductGroupService(
+    IProductGroupRepository repository,
+    IProductGroupQueryRepository queryRepository,
+    IProductGroupPageRepository pageRepository,
+    IUnitOfWork unitOfWork)
+    : IProductGroupService
 {
-    private readonly IProductGroupRepository _repository;
-    private readonly IProductGroupQueryRepository _queryRepository;
-    private readonly IProductGroupPageRepository _pageRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ProductGroupService(IProductGroupRepository repository, IProductGroupQueryRepository queryRepository,
-        IProductGroupPageRepository pageRepository, IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _queryRepository = queryRepository;
-        _pageRepository = pageRepository;
-        _unitOfWork = unitOfWork;
-    }
-    
     public async Task<PagedResult<ProductGroupListItemDTO>> GetListItemsAsync(ProductGroupFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
-        => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+        => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
     
     public async Task AddAsync(AddProductGroupCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateName);
 
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateSlug);
 
         var productGroup = new ProductGroup(command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
@@ -49,28 +40,33 @@ internal sealed class ProductGroupService : IProductGroupService
             null, null, null, null, null, null, null, null,
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, productGroup);
-        await _repository.AddAsync(productGroup, cancellationToken);
-        await _pageRepository.AddAsync(page, cancellationToken);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        await repository.AddAsync(productGroup, cancellationToken);
+        await pageRepository.AddAsync(page, cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<ProductGroupDTO?> GetByProductGroupIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _queryRepository.GetByIdAsync(id, cancellationToken);
+        return await queryRepository.GetByIdAsync(id, cancellationToken);
     }
-    
+
+    public async Task<IDictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetIdAndNameListAsync(cancellationToken);
+    }
+
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateName);
 
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.DuplicateSlug);
 
-        var productGroup = await _repository.GetByIdAsync(command.Id, ProductGroupInclude.None, true, cancellationToken);
+        var productGroup = await repository.GetByIdAsync(command.Id, ProductGroupInclude.None, true, cancellationToken);
         if (productGroup is null) throw new ArgumentNullException(nameof(command.Id), "Product Group not found.");
 
-        var page = await _pageRepository.GetByProductGroupIdAsync(command.Id, ProductGroupPageInclude.None, true,
+        var page = await pageRepository.GetByProductGroupIdAsync(command.Id, ProductGroupPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), "Product Group page not found.");
 
@@ -81,12 +77,12 @@ internal sealed class ProductGroupService : IProductGroupService
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (productGroupUpdated) _repository.Update(productGroup);
-        if (pageUpdated) _pageRepository.Update(page);
+        if (productGroupUpdated) repository.Update(productGroup);
+        if (pageUpdated) pageRepository.Update(page);
 
-        if (productGroupUpdated || pageUpdated) await _unitOfWork.CompleteAsync(cancellationToken);
+        if (productGroupUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
     }
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
+        => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
 }

@@ -8,19 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class BrandQueryRepository : IBrandQueryRepository
+internal sealed class BrandQueryRepository(AppDbContext dbContext) : IBrandQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public BrandQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<PagedResult<BrandListItemDTO>> GetListItemsAsync(BrandFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Brands.AsQueryable();
+        var query = dbContext.Brands.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
@@ -63,18 +56,18 @@ internal sealed class BrandQueryRepository : IBrandQueryRepository
             TotalItems = total
         };
     }
-    
-    
+
+
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.Brands
-            .Select(x => (int?)x.SortOrder)          // Cast to nullable
-            .MaxAsync(cancellationToken) ?? 0;       // If null → return 0
+        return await dbContext.Brands
+            .Select(x => (int?)x.SortOrder)
+            .MaxAsync(cancellationToken) ?? 0;
     }
 
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Brands.AsQueryable();
+        var query = dbContext.Brands.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
@@ -84,7 +77,7 @@ internal sealed class BrandQueryRepository : IBrandQueryRepository
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Brands.AsQueryable();
+        var query = dbContext.Brands.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
@@ -94,7 +87,7 @@ internal sealed class BrandQueryRepository : IBrandQueryRepository
 
     public async Task<BrandDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await (from b in _dbContext.Brands
+        return await (from b in dbContext.Brands
             where b.Id == id
             select new BrandDTO
             {
@@ -136,5 +129,12 @@ internal sealed class BrandQueryRepository : IBrandQueryRepository
                         UpdatedAt = x.UpdatedAt
                     }).ToList().AsReadOnly()
             }).FirstAsync(cancellationToken);
+    }
+
+    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Brands
+            .OrderBy(x => x.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
 }

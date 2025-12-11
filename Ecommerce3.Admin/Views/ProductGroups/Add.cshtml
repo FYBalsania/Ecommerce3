@@ -7,7 +7,7 @@
     </div>
 
     <form method="post" asp-action="Add">
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
     
         <!-- General -->
         <div class="card mb-4">
@@ -149,15 +149,16 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row mb-7">
             <div class="col-xl-12">
                 <button type="submit" class="btn btn-primary float-end">Submit</button>
             </div>
         </div>
-    
+
     </form>
 </div>
+
 @section StyleSheet
 {
     <!-- Quill RTE CSS -->
@@ -170,26 +171,26 @@
     <!-- Quill RTE JS for this page only -->
     <script src="~/js/quill.min.js"></script>
     <script>
-    // Initialize Quill
-    var quill = new Quill('#longDescriptionEditor', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, 3, false] }],
-                [{ font: [] }],                               // Font family
-                ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                [{ color: [] }, { background: [] }],          // Text/Background color
-                [{ list: 'ordered' }, { list: 'bullet' }],    // Lists
-                [{ align: [] }],                              // Alignment
-                ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
-                ['clean']                                     // Clear formatting
-            ]
-        }
-    });
+        // Initialize Quill
+        var quill = new Quill('#longDescriptionEditor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],                               // Font family
+                    ['bold', 'italic', 'underline', 'strike'],    // Formatting
+                    [{color: []}, {background: []}],          // Text/Background color
+                    [{list: 'ordered'}, {list: 'bullet'}],    // Lists
+                    [{align: []}],                              // Alignment
+                    ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
+                    ['clean']                                     // Clear formatting
+                ]
+            }
+        });
 
-    // Sync Quill content to hidden input on change
-    quill.on('text-change', function () {
-        document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-    });
+        // Sync Quill content to hidden input on change
+        quill.on('text-change', function () {
+            document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
+        });
     </script>
 }

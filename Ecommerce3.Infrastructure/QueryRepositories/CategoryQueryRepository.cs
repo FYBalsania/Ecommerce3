@@ -8,17 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class CategoryQueryRepository : ICategoryQueryRepository
+internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategoryQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public CategoryQueryRepository(AppDbContext dbContext)
-        => _dbContext = dbContext;
-
     public async Task<PagedResult<CategoryListItemDTO>> GetListItemsAsync(CategoryFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Categories.AsQueryable();
+        var query = dbContext.Categories.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
@@ -27,7 +22,7 @@ internal sealed class CategoryQueryRepository : ICategoryQueryRepository
                 query = query.Where(x => x.Path.NLevel == 1);
             else
             {
-                var parentPath = await _dbContext.Categories
+                var parentPath = await dbContext.Categories
                     .Where(c => c.Id == filter.ParentId)
                     .Select(c => c.Path)
                     .FirstOrDefaultAsync(cancellationToken);
@@ -78,7 +73,7 @@ internal sealed class CategoryQueryRepository : ICategoryQueryRepository
 
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Categories.AsQueryable();
+        var query = dbContext.Categories.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
@@ -88,7 +83,7 @@ internal sealed class CategoryQueryRepository : ICategoryQueryRepository
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Categories.AsQueryable();
+        var query = dbContext.Categories.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
@@ -96,21 +91,20 @@ internal sealed class CategoryQueryRepository : ICategoryQueryRepository
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
 
-    public async Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken)
-        => await _dbContext.Categories.OrderBy(x => x.Name)
+    public async Task<Dictionary<int, string>> GetIdAndNameAsync(CancellationToken cancellationToken)
+        => await dbContext.Categories.OrderBy(x => x.Name)
             .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.Categories
+        return await dbContext.Categories
             .Select(x => (int?)x.SortOrder)          // Cast to nullable
             .MaxAsync(cancellationToken) ?? 0;       // If null → return 0
     }
-
-
+    
     public async Task<CategoryDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await (from c in _dbContext.Categories
+        return await (from c in dbContext.Categories
             where c.Id == id
             select new CategoryDTO()
             {

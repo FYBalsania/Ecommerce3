@@ -36,6 +36,6 @@ internal sealed class ProductService : IProductService
     {
     }
     
-    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+    public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
 }

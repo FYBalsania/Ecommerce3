@@ -8,7 +8,7 @@ public record ProductListItemDTO
     public string SKU { get; init; }
     public string Brand { get; init; }
     public string Category { get; init; }
-    public int SortOrder { get; init; }
+    public decimal SortOrder { get; init; }
     public bool IsActive { get; init; }
     public int ImageCount { get; init; }
     public string CreatedUserFullName { get; init; }

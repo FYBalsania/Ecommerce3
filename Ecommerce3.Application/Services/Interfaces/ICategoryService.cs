@@ -9,7 +9,7 @@ public interface ICategoryService
 {
     Task<PagedResult<CategoryListItemDTO>> GetListItemsAsync(CategoryFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
-    Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken);
+    Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     Task AddAsync(AddCategoryCommand command, CancellationToken cancellationToken);
     Task<CategoryDTO?> GetByCategoryIdAsync(int id, CancellationToken cancellationToken);

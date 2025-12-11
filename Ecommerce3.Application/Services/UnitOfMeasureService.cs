@@ -55,4 +55,9 @@ internal class UnitOfMeasureService(
         uom.Delete(command.DeletedBy, command.DeletedAt, command.DeletedByIp);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
+
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetIdAndNameDictionaryAsync(cancellationToken);
+    }
 }

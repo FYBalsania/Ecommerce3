@@ -25,4 +25,11 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
 
         return await query.AnyAsync(x => x.Name == name, cancellationToken);
     }
+
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.UnitOfMeasures
+            .OrderBy(x => x.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+    }
 }

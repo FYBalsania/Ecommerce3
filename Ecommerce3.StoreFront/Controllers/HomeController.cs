@@ -45,7 +45,7 @@ public class HomeController(
             })
             .ToList();
 
-        return View(new IndexViewModel { Page = page, ProductCollections = result });
+        return View(new IndexViewModel { Page = page, ProductCollections = result, CategoryListItemDTOs = categories});
     }
 
     public IActionResult Privacy()

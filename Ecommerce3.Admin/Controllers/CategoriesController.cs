@@ -171,7 +171,7 @@ public class CategoriesController : Controller
     [NonAction]
     private async Task<SelectList> GetParentsIdAndNameAsync(CancellationToken cancellationToken)
     {
-        var categoryParents = await _categoryService.GetCategoryIdAndNameAsync(cancellationToken);
+        var categoryParents = await _categoryService.GetIdAndNameListAsync(cancellationToken);
         return new SelectList(categoryParents,"Key","Value");
     }
 }

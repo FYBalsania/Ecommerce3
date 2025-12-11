@@ -33,8 +33,8 @@ internal sealed class CategoryService : ICategoryService
         int pageSize, CancellationToken cancellationToken)
         => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
-    public async Task<Dictionary<int, string>> GetCategoryIdAndNameAsync(CancellationToken cancellationToken)
-        => await _queryRepository.GetCategoryIdAndNameAsync(cancellationToken);
+    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
+        => await _queryRepository.GetIdAndNameAsync(cancellationToken);
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);

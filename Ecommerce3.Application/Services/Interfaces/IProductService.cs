@@ -11,5 +11,5 @@ public interface IProductService
         CancellationToken cancellationToken);
     Task AddAsync(AddProductCommand command, CancellationToken cancellationToken);
     Task EditAsync(EditProductCommand command, CancellationToken cancellationToken);
-    Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
+    Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken);
 }

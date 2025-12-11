@@ -129,56 +129,10 @@
   <div class="container">
     <h2 class="section-title">Shop By Category</h2>
     <div class="cat-cards-wrap">
-      <a href="#" class="cat-cards">
-        <img
-          class="cat-hover"
-          src="images/mixed-nuts.jpg"
-          width="350"
-          height="350"
-          alt="Mixed Nuts"
-        />
-        <span>Mixed Nuts</span>
-      </a>
-      <a href="#" class="cat-cards">
-        <img
-          class="cat-hover"
-          src="images/raisins.jpg"
-          width="350"
-          height="350"
-          alt="Raisins"
-        />
-        <span>Raisins</span>
-      </a>
-      <a href="#" class="cat-cards">
-        <img
-          class="cat-hover"
-          src="images/almonds.jpg"
-          width="350"
-          height="350"
-          alt="Almonds"
-        />
-        <span>Almonds</span>
-      </a>
-      <a href="#" class="cat-cards">
-        <img
-          class="cat-hover"
-          src="images/dried-apricot.jpg"
-          width="350"
-          height="350"
-          alt="Dried Apricot"
-        />
-        <span>Dried Apricot</span>
-      </a>
-      <a href="#" class="cat-cards">
-        <img
-          class="cat-hover"
-          src="images/cashews.jpg"
-          width="350"
-          height="350"
-          alt="cashews"
-        />
-        <span>cashews</span>
-      </a>
+      @foreach (var categoryListItemDTO in Model.CategoryListItemDTOs)
+      {
+        <partial name="_CategoryListItemPartial" model="categoryListItemDTO"/>
+      }
     </div>
   </div>
 </section>

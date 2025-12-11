@@ -60,8 +60,12 @@ internal sealed class ProductQueryRepository : IProductQueryRepository
         };
     }
 
-    public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _dbContext.Products.MaxAsync(x => x.SortOrder, cancellationToken);
+    public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Products
+            .MaxAsync(x => (decimal?)x.SortOrder, cancellationToken) ?? 0m;
+    }
+
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {

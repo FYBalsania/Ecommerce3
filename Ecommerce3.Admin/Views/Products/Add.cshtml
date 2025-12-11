@@ -1,3 +1,4 @@
+@model Ecommerce3.Admin.ViewModels.Product.AddProductViewModel
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
@@ -13,46 +14,53 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">SKU <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.SKU">Stock Keeping Unit <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.SKU"/>
+                        <span class="text-danger" asp-validation-for="@Model.SKU"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">GTIN</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.GTIN"></label>
+                        <input class="form-control" asp-for="@Model.GTIN"/>
+                        <span class="text-danger" asp-validation-for="@Model.GTIN"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">MPN</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.MPN"></label>
+                        <input class="form-control" asp-for="@Model.MPN"/>
+                        <span class="text-danger" asp-validation-for="@Model.MPN"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">MFC</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.MFC"></label>
+                        <input class="form-control" asp-for="@Model.MFC"/>
+                        <span class="text-danger" asp-validation-for="@Model.MFC"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">EAN</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.EAN"></label>
+                        <input class="form-control" asp-for="@Model.EAN"/>
+                        <span class="text-danger" asp-validation-for="@Model.EAN"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">UPC</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.UPC"></label>
+                        <input class="form-control" asp-for="@Model.UPC"/>
+                        <span class="text-danger" asp-validation-for="@Model.UPC"></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- General -->
     <div class="card mb-4">
         <div class="card-header">
@@ -60,84 +68,224 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Product Group</label>
-                        <select class="select-product form-select">
-                            <option value="">Select Product Group</option>
-                            <option value="Text">iPhone 17</option>
-                            <option value="Number">iPhone 17 Air</option>
-                            <option value="DateOnly">iPhone 17 Pro</option>
-                            <option value="Boolean">iPhone 17 Pro Max</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Brand <span class="text-danger">*</span></label>
-                        <select class="select-brand form-select">
-                            <option value="">Select Brand</option>
-                            <option value="Text">Apple</option>
-                            <option value="Number">Google</option>
-                            <option value="DateOnly">Meta</option>
+                        <select class="form-select" asp-for="@Model.BrandId" asp-items="@Model.Brands">
+                            <option value="">Select...</option>
                         </select>
+                        <span class="text-danger" asp-validation-for="@Model.BrandId"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
+            </div>
+            <dic class="row">
+                <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Categories <span class="text-danger">*</span></label>
-                        <select class="select-brand form-select" multiple="multiple">
-                            <option value="Text">Accessories</option>
-                            <option value="Number">Phone > Apple</option>
-                            <option value="DateOnly">Phone > Smart Phone</option>
-                            <option value="DateOnly">Phone > Apple > iPhone 17</option>
+                        <select class="select-brand form-select" multiple="multiple" asp-for="@Model.CategoryId"
+                                asp-items="@Model.Categories">
+                            <option value="">Select...</option>
                         </select>
+                        <span class="text-danger" asp-validation-for="@Model.CategoryId"></span>
+                    </div>
+                </div>
+            </dic>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.ProductGroupId"></label>
+                        <select class="select-product form-select" asp-for="@Model.ProductGroupId"
+                                asp-items="@Model.ProductGroups">
+                            <option value="">Select...</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="@Model.ProductGroupId"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.Name">Name <span class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.Name"/>
+                        <span class="text-danger" asp-validation-for="@Model.Name"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Slug <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Display <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Breadcrumb <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.Slug">Slug <span class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.Slug"/>
+                        <span class="text-danger" asp-validation-for="@Model.Slug"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Sort Order <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control">
+                        <label class="form-label fw-bold" asp-for="@Model.Display">Display <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.Display"/>
+                        <span class="text-danger" asp-validation-for="@Model.Display"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Is Active <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold" asp-for="@Model.Breadcrumb">Breadcrumb <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.Breadcrumb"/>
+                        <span class="text-danger" asp-validation-for="@Model.Breadcrumb"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.AnchorText">Anchor Text <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.AnchorText"/>
+                        <span class="text-danger" asp-validation-for="@Model.AnchorText"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.AnchorTitle">Anchor Title <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.AnchorTitle"/>
+                        <span class="text-danger" asp-validation-for="@Model.AnchorTitle"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.SortOrder">Sort Order <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.SortOrder"/>
+                        <span class="text-danger" asp-validation-for="@Model.SortOrder"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.IsActive">Is Active? <span
+                                class="text-danger">*</span></label>
+                        <select class="form-select" asp-for="@Model.IsActive">
+                            <option value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="@Model.IsActive"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.Price">Price <span
+                                class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.Price"/>
+                        <span class="text-danger" asp-validation-for="@Model.Price"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.OldPrice"></label>
+                        <input class="form-control" asp-for="@Model.OldPrice"/>
+                        <span class="text-danger" asp-validation-for="@Model.OldPrice"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.CostPrice"></label>
+                        <input class="form-control" asp-for="@Model.CostPrice"/>
+                        <span class="text-danger" asp-validation-for="@Model.CostPrice"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.AdditionalShippingCharge">Additional Shipping
+                            Charge <span class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.AdditionalShippingCharge"/>
+                        <span class="text-danger" asp-validation-for="@Model.AdditionalShippingCharge"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Unit Of Measure <span class="text-danger">*</span></label>
+                        <select class="form-select" asp-for="@Model.UnitOfMeasureId" asp-items="@Model.UnitOfMeasures">
+                            <option value="">Select...</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="@Model.UnitOfMeasureId"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" asp-for="@Model.QuantityPerUnitOfMeasure">Quantity Per Unit
+                            <span class="text-danger">*</span></label>
+                        <input class="form-control" asp-for="@Model.QuantityPerUnitOfMeasure"/>
+                        <span class="text-danger" asp-validation-for="@Model.QuantityPerUnitOfMeasure"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Stock <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Minimum Stock Quantity <span
+                                class="text-danger">*</span></label>
+                        <input type="number" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Minimum Order Quantity <span
+                                class="text-danger">*</span></label>
+                        <input type="number" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Maximum Order Quantity <span
+                                class="text-danger">*</span></label>
+                        <input type="number" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Delivery Window <span class="text-danger">*</span></label>
                         <select class="form-select">
-                            <option value="">Select Status</option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="">Select...</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Status <span class="text-danger">*</span></label>
+                        <select class="form-select">
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Redirect URL</label>
+                        <input class="form-control"/>
                     </div>
                 </div>
             </div>
@@ -153,7 +301,7 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Long Description <span class="text-danger">*</span></label>
-                        <div id="longDescriptionEditor" style="height: 200px;"></div>
+                        <div id="longDescriptionEditor" style="height: 400px;"></div>
                         <input type="hidden" id="longDescriptionInput" name="LongDescription">
                     </div>
                 </div>
@@ -171,7 +319,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Show availability  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Show availability <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -181,7 +329,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Free shipping  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Free shipping <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -191,7 +339,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Is featured  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Is featured <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -203,7 +351,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Is new  <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Is new <span class="text-danger">*</span></label>
                         <select class="form-select">
                             <option value="">Select Status</option>
                             <option value="1">Yes</option>
@@ -234,7 +382,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- SEO -->
     <div class="card mb-4">
         <div class="card-header">
@@ -245,7 +393,7 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label fw-bold">H1</label>
-                        <input type="text" class="form-control">
+                        <input class="form-control">
                     </div>
                 </div>
             </div>
@@ -253,7 +401,7 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Meta Title</label>
-                        <input type="text" class="form-control">
+                        <input class="form-control">
                     </div>
                 </div>
             </div>
@@ -275,25 +423,27 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row mb-7">
         <div class="col-xl-12">
             <button type="submit" class="btn btn-primary float-end">Submit</button>
         </div>
     </div>
 </div>
+
 @section StyleSheet
 {
     <link href="~/css/select2.min.css" rel="stylesheet">
     <link href="~/css/quill.snow.css" rel="stylesheet">
 }
+
 @section Scripts
 {
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script>
         //Initialize Select 2
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select-product, .select-brand').select2();
         });
 
@@ -302,12 +452,12 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ font: [] }],                               // Font family
+                    [{header: [1, 2, 3, false]}],
+                    [{font: []}],                               // Font family
                     ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                    [{ color: [] }, { background: [] }],          // Text/Background color
-                    [{ list: 'ordered' }, { list: 'bullet' }],    // Lists
-                    [{ align: [] }],                              // Alignment
+                    [{color: []}, {background: []}],          // Text/Background color
+                    [{list: 'ordered'}, {list: 'bullet'}],    // Lists
+                    [{align: []}],                              // Alignment
                     ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
                     ['clean']                                     // Clear formatting
                 ]
