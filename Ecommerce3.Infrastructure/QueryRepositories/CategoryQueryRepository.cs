@@ -101,7 +101,12 @@ internal sealed class CategoryQueryRepository : ICategoryQueryRepository
             .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _dbContext.Categories.MaxAsync(x => x.SortOrder, cancellationToken);
+    {
+        return await _dbContext.Categories
+            .Select(x => (int?)x.SortOrder)          // Cast to nullable
+            .MaxAsync(cancellationToken) ?? 0;       // If null → return 0
+    }
+
 
     public async Task<CategoryDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {

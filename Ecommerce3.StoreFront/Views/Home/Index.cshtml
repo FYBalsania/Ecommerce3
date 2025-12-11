@@ -1,9 +1,13 @@
-﻿@model Ecommerce3.Contracts.DTOs.Page.PageDTO
+﻿@using Ecommerce3.StoreFront.Extensions
+@model Ecommerce3.StoreFront.ViewModels.Home.IndexViewModel
 @{
-  ViewData["Title"] = @Model.MetaTitle;
+  ViewData["Title"] = Model.Page.MetaTitle;
 }
 
-<partial name="_CarouselPartial"/>
+@{
+  var carouselImages = Model.Page.Images.FilterByImageTypeSlug("carousel");
+}
+<partial name="_CarouselPartial" model="@carouselImages"/>
 
 @* Best Sellers *@
 <section class="best-sellers-section container">

@@ -4,7 +4,7 @@ namespace Ecommerce3.Contracts.DTOs.Image;
 
 public record ImageDTO
 {
-    public int Id { get; init; }
+    public required int Id { get; init; }
     public required string OgFileName { get; init; }
     public required string FileName { get; init ; }
     public required string FileExtension { get; init; }
@@ -21,5 +21,5 @@ public record ImageDTO
     public required string CreatedAppUserFullName { get; init; }   
     public required DateTime CreatedAt { get; init; }
     public required string? UpdatedAppUserFullName { get; init; }
-    public DateTime? UpdatedAt { get; init; }
+    public required DateTime? UpdatedAt { get; init; }
 }

@@ -18,8 +18,4 @@
       <ProjectReference Include="..\Ecommerce3.Infrastructure\Ecommerce3.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ViewModels\Page\" />
-    </ItemGroup>
-
 </Project>

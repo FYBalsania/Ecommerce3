@@ -1,7 +1,6 @@
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Entities;
 

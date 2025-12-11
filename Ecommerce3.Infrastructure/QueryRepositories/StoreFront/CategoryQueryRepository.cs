@@ -1,0 +1,21 @@
+using Ecommerce3.Contracts.DTO.StoreFront.Category;
+using Ecommerce3.Contracts.QueryRepositories.StoreFront;
+using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.StoreFront;
+using Microsoft.EntityFrameworkCore;
+
+namespace Ecommerce3.Infrastructure.QueryRepositories.StoreFront;
+
+internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategoryQueryRepository
+{
+    public async Task<IReadOnlyList<CategoryListItemDTO>> GetListAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Categories
+            .Where(x => x.IsActive)
+            .OrderBy(x => x.SortOrder)
+            .ThenBy(x => x.Name)
+            .AsSplitQuery()
+            .ProjectToDTO()
+            .ToListAsync(cancellationToken);
+    }
+}

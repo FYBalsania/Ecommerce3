@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Ecommerce3.Application;
 using Ecommerce3.Infrastructure;
+using Ecommerce3.StoreFront.Options;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 
@@ -20,8 +21,16 @@ builder.Services.AddProblemDetails(options =>
 });
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(x => x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
+
+// Options start.
+builder.Services.Configure<ImageOptions>(builder.Configuration.GetSection("Images:PathString"));
+builder.Services.Configure<List<ProductCollections>>(builder.Configuration.GetSection(nameof(ProductCollections)));
+// Options end.
+
+builder.Services.AddCommonApplicationServices();
+builder.Services.AddStoreFrontApplicationServices();
+builder.Services.AddCommonInfrastructure(builder.Configuration);
+builder.Services.AddStoreFrontInfrastructure();
 
 var app = builder.Build();
 
@@ -39,7 +48,7 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(builder.Configuration.GetValue<string>("Images:Path")!),
-    RequestPath = new PathString("/Images"),
+    RequestPath = new PathString(builder.Configuration.GetValue<string>("Images:PathString")),
     HttpsCompression = HttpsCompressionMode.Default
 });
 app.UseRouting();
