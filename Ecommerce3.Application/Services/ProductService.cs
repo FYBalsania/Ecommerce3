@@ -1,5 +1,5 @@
 using cloudscribe.Pagination.Models;
-using Ecommerce3.Application.Commands.Product;
+using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Contracts.Filters;

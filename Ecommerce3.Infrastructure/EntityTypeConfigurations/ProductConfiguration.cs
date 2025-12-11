@@ -67,8 +67,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Price).HasColumnType("decimal(18,2)").HasColumnOrder(21);
         builder.Property(x => x.OldPrice).HasColumnType("decimal(18,2)").HasColumnOrder(22);
         builder.Property(x => x.CostPrice).HasColumnType("decimal(18,2)").HasColumnOrder(23);
-        builder.Property(x => x.Stock).HasColumnType("integer").HasColumnOrder(24);
-        builder.Property(x => x.MinStock).HasColumnType("integer").HasColumnOrder(25);
+        builder.Property(x => x.Stock).HasColumnType("decimal(18,2)").HasColumnOrder(24);
+        builder.Property(x => x.MinStock).HasColumnType("decimal(18,2)").HasColumnOrder(25);
         builder.Property(x => x.ShowAvailability).HasColumnType("boolean").HasColumnOrder(26);
         builder.Property(x => x.FreeShipping).HasColumnType("boolean").HasColumnOrder(27);
         builder.Property(x => x.AdditionalShippingCharge).HasColumnType("decimal(18,2)").HasColumnOrder(28);

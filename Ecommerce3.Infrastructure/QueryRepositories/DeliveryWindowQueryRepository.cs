@@ -7,19 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class DeliveryWindowQueryRepository : IDeliveryWindowQueryRepository
+internal sealed class DeliveryWindowQueryRepository(AppDbContext dbContext) : IDeliveryWindowQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public DeliveryWindowQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
     public async Task<PagedResult<DeliveryListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.DeliveryWindows.AsQueryable();
+        var query = dbContext.DeliveryWindows.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
@@ -63,11 +56,11 @@ internal sealed class DeliveryWindowQueryRepository : IDeliveryWindowQueryReposi
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _dbContext.DeliveryWindows.MaxAsync(x => x.SortOrder, cancellationToken);
+        => await dbContext.DeliveryWindows.MaxAsync(x => x.SortOrder, cancellationToken);
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.DeliveryWindows.AsQueryable();
+        var query = dbContext.DeliveryWindows.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
@@ -77,7 +70,7 @@ internal sealed class DeliveryWindowQueryRepository : IDeliveryWindowQueryReposi
 
     public async Task<DeliveryWindowDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await  _dbContext.DeliveryWindows
+        return await  dbContext.DeliveryWindows
             .Where(x => x.Id == id)
             .Select(x => new DeliveryWindowDTO
             {
@@ -89,5 +82,11 @@ internal sealed class DeliveryWindowQueryRepository : IDeliveryWindowQueryReposi
                 SortOrder = x.SortOrder,
                 IsActive = x.IsActive,
             }).FirstAsync(cancellationToken);
+    }
+
+    public async Task<Dictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.DeliveryWindows.OrderBy(x => x.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
 }

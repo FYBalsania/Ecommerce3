@@ -9,6 +9,7 @@ public interface IDeliveryWindowQueryRepository
     Task<PagedResult<DeliveryListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
-    public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
-    public Task<DeliveryWindowDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
+    Task<DeliveryWindowDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Dictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken);
 }

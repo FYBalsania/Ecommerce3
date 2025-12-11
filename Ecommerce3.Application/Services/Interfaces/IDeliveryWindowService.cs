@@ -15,4 +15,5 @@ public interface IDeliveryWindowService
     Task EditAsync(EditDeliveryWindowCommand command, CancellationToken cancellationToken);
     Task DeleteAsync(int id, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
+    Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken);
 }

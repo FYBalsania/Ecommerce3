@@ -11,38 +11,31 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class DeliveryWindowService : IDeliveryWindowService
+internal sealed class DeliveryWindowService(
+    IDeliveryWindowRepository repository,
+    IDeliveryWindowQueryRepository queryRepository,
+    IUnitOfWork unitOfWork)
+    : IDeliveryWindowService
 {
-    private readonly IDeliveryWindowRepository _repository;
-    private readonly IDeliveryWindowQueryRepository _queryRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public DeliveryWindowService(IDeliveryWindowRepository repository, IDeliveryWindowQueryRepository queryRepository, IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _queryRepository = queryRepository;
-        _unitOfWork = unitOfWork;
-    }
-    
     public async Task<PagedResult<DeliveryListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
-        => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+        => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddDeliveryWindowCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.DuplicateName);
 
         var deliveryWindow = new DeliveryWindow(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value,
             command.SortOrder, command.IsActive, command.CreatedBy, command.CreatedByIp);
         
-        await _repository.AddAsync(deliveryWindow, cancellationToken);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        await repository.AddAsync(deliveryWindow, cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
     
     public async Task<DeliveryWindowDTO?> GetByDeliveryWindowIdAsync(int id, CancellationToken cancellationToken)
     {
-        var deliveryWindow = await _queryRepository.GetByIdAsync(id, cancellationToken);
+        var deliveryWindow = await queryRepository.GetByIdAsync(id, cancellationToken);
 
         return new DeliveryWindowDTO
         {
@@ -58,10 +51,10 @@ internal sealed class DeliveryWindowService : IDeliveryWindowService
 
     public async Task EditAsync(EditDeliveryWindowCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.DuplicateName);
 
-        var deliveryWindow = await _repository.GetByIdAsync(command.Id, true, cancellationToken);
+        var deliveryWindow = await repository.GetByIdAsync(command.Id, true, cancellationToken);
         if (deliveryWindow is null) throw new ArgumentNullException(nameof(command.Id), "Delivery window not found.");
         
         var deliveryWindowUpdated = deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value,
@@ -69,8 +62,8 @@ internal sealed class DeliveryWindowService : IDeliveryWindowService
         
         if (deliveryWindowUpdated)
         {
-            _repository.Update(deliveryWindow);
-            await _unitOfWork.CompleteAsync(cancellationToken);
+            repository.Update(deliveryWindow);
+            await unitOfWork.CompleteAsync(cancellationToken);
         }
     }
 
@@ -80,5 +73,10 @@ internal sealed class DeliveryWindowService : IDeliveryWindowService
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
+        => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
+
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetIdAndNameDictionaryAsync(cancellationToken);
+    }
 }

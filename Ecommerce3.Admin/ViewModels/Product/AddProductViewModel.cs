@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,7 +8,7 @@ namespace Ecommerce3.Admin.ViewModels.Product;
 public class AddProductViewModel
 {
     public string PageTitle { get; set; }
-    
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "SKU is required.")]
     [StringLength(16, MinimumLength = 1, ErrorMessage = "SKU must be between 1 and 16 characters.")]
     [Display(Name = "SKU (Stock Keeping Unit)")]
@@ -62,13 +63,13 @@ public class AddProductViewModel
     [Display(Name = "Anchor Title")]
     public string? AnchorTitle { get; set; }
 
-    [Required(AllowEmptyStrings = false,ErrorMessage = "Brand is required.")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Brand is required.")]
     [Display(Name = "Brand")]
     public int BrandId { get; set; }
     public SelectList Brands { get; set; }
-    
-    [Required(AllowEmptyStrings = false,ErrorMessage = "Category is required.")]
-    [Display(Name = "Category")] 
+
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Category is required.")]
+    [Display(Name = "Category")]
     public int? CategoryId { get; set; }
     public SelectList Categories { get; set; }
 
@@ -84,12 +85,12 @@ public class AddProductViewModel
 
     [Required(ErrorMessage = "Allow reviews is required.")]
     [Display(Name = "Allow Reviews?")]
-    public bool AllowReviews { get; set; }
+    public bool? AllowReviews { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Price is required.")]
     [Display(Name = "Price")]
     [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0.")]
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
 
     [Display(Name = "Old Price")]
     [Range(1, int.MaxValue, ErrorMessage = "Old price must be greater than 0.")]
@@ -102,78 +103,149 @@ public class AddProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Stock is required.")]
     [Display(Name = "Stock")]
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
-    public int Stock { get; set; }
+    public decimal? Stock { get; set; }
 
     [Display(Name = "Minimum Stock")]
     [Range(1, int.MaxValue, ErrorMessage = "Minimum stock must be greater than or equal to 1.")]
-    public int? MinStock { get; set; }
+    public decimal? MinStock { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Show Availability is required.")]
     [Display(Name = "Show Availability?")]
-    public bool ShowAvailability { get; set; }
+    public bool? ShowAvailability { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Free Shipping is required.")]
     [Display(Name = "Free Shipping?")]
-    public bool FreeShipping { get; set; }
-    
+    public bool? FreeShipping { get; set; }
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Additional Shipping Charge is required.")]
     [Display(Name = "Additional Shipping Charge")]
     [Range(0, int.MaxValue, ErrorMessage = "Additional shipping charge must be greater than or equal to 0.")]
-    public decimal AdditionalShippingCharge { get; set; }
-    
+    public decimal? AdditionalShippingCharge { get; set; }
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
     [Display(Name = "Unit Of Measure")]
     public int UnitOfMeasureId { get; set; }
+
     public SelectList UnitOfMeasures { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Quantity Per Unit Of Measure is required.")]
     [Display(Name = "Quantity Per Unit Of Measure")]
     [Range(1, int.MaxValue, ErrorMessage = "Quantity per unit of measure must be greater than or equal to 1.")]
-    public decimal QuantityPerUnitOfMeasure { get; set; } = 1;
-    
+    public decimal? QuantityPerUnitOfMeasure { get; set; }
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Delivery Window is required.")]
     [Display(Name = "Delivery Window")]
     public int DeliveryWindowId { get; set; }
+
     public SelectList DeliveryWindows { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Minimum Order Quantity is required.")]
     [Display(Name = "Minimum Order Quantity")]
     [Range(1, int.MaxValue, ErrorMessage = "Minimum order quantity must be greater than or equal to 1.")]
     public int MinOrderQuantity { get; set; } = 1;
-    
+
     [Range(1, int.MaxValue, ErrorMessage = "Maximum Order Quantity must be greater than or equal to 1.")]
     [Display(Name = "Maximum Order Quantity")]
     public int? MaxOrderQuantity { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Active is required.")]
     [Display(Name = "Is Active?")]
-    public bool IsActive { get; set; }
+    public bool? IsActive { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Featured is required.")]
     [Display(Name = "Is Featured?")]
-    public bool IsFeatured { get; set; }
+    public bool? IsFeatured { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is New is required.")]
     [Display(Name = "Is New?")]
-    public bool IsNew { get; set; }
-    
+    public bool? IsNew { get; set; }
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Best Seller is required.")]
     [Display(Name = "Is Best Seller?")]
-    public bool IsBestSeller { get; set; }
-    
+    public bool? IsBestSeller { get; set; }
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Returnable is required.")]
     [Display(Name = "Is Returnable?")]
-    public bool IsReturnable { get; set; }
-    
+    public bool? IsReturnable { get; set; }
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Status is required.")]
     [Display(Name = "Status")]
-    public ProductStatus Status { get; set; }
-    
+    public ProductStatus? Status { get; set; }
+
     [Display(Name = "Redirect URL")]
-    [Range(5, 2048, ErrorMessage= "Redirect URL must be between 5 and 2048 characters.")]
+    [Range(5, 2048, ErrorMessage = "Redirect URL must be between 5 and 2048 characters.")]
     public string? RedirectUrl { get; set; }
-    
+
     [Required(AllowEmptyStrings = false, ErrorMessage = "Sort Order is required.")]
     [Display(Name = "Sort Order")]
     public decimal SortOrder { get; set; }
+
+    [Range(1, 256, ErrorMessage = "H1 must be between 1 and 256 characters.")]
+    [Display(Name = "H1")]
+    public string? H1 { get; set; }
+
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Meta Title is required.")]
+    [Range(1, 256, ErrorMessage = "H2 must be between 1 and 256 characters.")]
+    [Display(Name = "Meta Title")]
+    public string MetaTitle { get; private set; }
+
+    [Range(1, 2048, ErrorMessage = "Meta description must be between 1 and 2048 characters.")]
+    [Display(Name = "Meta Description")]
+    public string? MetaDescription { get; private set; }
+
+    [Range(1, 1024, ErrorMessage = "Meta keywords must be between 1 and 1024 characters.")]
+    [Display(Name = "Meta Keywords")]
+    public string? MetaKeywords { get; private set; }
+
+    public AddProductCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    {
+        return new AddProductCommand
+        {
+            SKU = SKU,
+            GTIN = GTIN,
+            MPN = MPN,
+            MFC = MFC,
+            EAN = EAN,
+            UPC = UPC,
+            Name = Name,
+            Slug = Slug,
+            Display = Display,
+            Breadcrumb = Breadcrumb,
+            AnchorText = AnchorText,
+            AnchorTitle = AnchorTitle,
+            BrandId = BrandId,
+            CategoryIds = [],
+            ProductGroupId = ProductGroupId,
+            ShortDescription = ShortDescription,
+            FullDescription = FullDescription,
+            AllowReviews = (bool)AllowReviews!,
+            Price = (decimal)Price!,
+            OldPrice = OldPrice,
+            CostPrice = CostPrice,
+            Stock = (decimal)Stock!,
+            MinStock = MinStock,
+            ShowAvailability = (bool)ShowAvailability!,
+            FreeShipping = (bool)FreeShipping!,
+            AdditionalShippingCharge = (decimal)AdditionalShippingCharge!,
+            UnitOfMeasureId = UnitOfMeasureId,
+            QuantityPerUnitOfMeasure = (decimal)QuantityPerUnitOfMeasure!,
+            DeliveryWindowId = DeliveryWindowId,
+            MinOrderQuantity = MinOrderQuantity,
+            MaxOrderQuantity = MaxOrderQuantity,
+            IsFeatured = (bool)IsFeatured!,
+            IsNew = (bool)IsNew!,
+            IsBestSeller = (bool)IsBestSeller!,
+            IsReturnable = (bool)IsReturnable!,
+            Status = (ProductStatus)Status!,
+            RedirectUrl = RedirectUrl,
+            SortOrder = SortOrder,
+            H1 = H1,
+            MetaTitle = MetaTitle,
+            MetaDescription = MetaDescription,
+            MetaKeywords = MetaKeywords,
+            CreatedBy = createdBy,
+            CreatedAt = createdAt,
+            CreatedByIp = createdByIp
+        };
+    }
 }

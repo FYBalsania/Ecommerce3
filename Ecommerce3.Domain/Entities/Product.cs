@@ -38,8 +38,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public decimal Price { get; private set; }
     public decimal? OldPrice { get; private set; }
     public decimal? CostPrice { get; private set; }
-    public int Stock { get; private set; }
-    public int? MinStock { get; private set; }
+    public decimal Stock { get; private set; }
+    public decimal? MinStock { get; private set; }
     public bool ShowAvailability { get; private set; }
     public bool FreeShipping { get; private set; }
     public decimal AdditionalShippingCharge { get; private set; }

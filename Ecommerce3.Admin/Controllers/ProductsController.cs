@@ -9,25 +9,29 @@ namespace Ecommerce3.Admin.Controllers;
 public class ProductsController : Controller
 {
     private readonly IProductService _productService;
+    private readonly IIPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
     private readonly int _pageSize;
     private readonly IBrandService _brandService;
     private readonly ICategoryService _categoryService;
     private readonly IProductGroupService _productGroupService;
     private readonly IUnitOfMeasureService _unitOfMeasureService;
+    private readonly IDeliveryWindowService _deliveryWindowService;
 
-    public ProductsController(IProductService productService,
+    public ProductsController(IProductService productService, IIPAddressService ipAddressService,
         IConfiguration configuration, IBrandService brandService,
         ICategoryService categoryService, IProductGroupService productGroupService,
-        IUnitOfMeasureService unitOfMeasureService)
+        IUnitOfMeasureService unitOfMeasureService, IDeliveryWindowService deliveryWindowService)
     {
         _productService = productService;
+        _ipAddressService = ipAddressService;
         _configuration = configuration;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
         _brandService = brandService;
         _categoryService = categoryService;
         _productGroupService = productGroupService;
         _unitOfMeasureService = unitOfMeasureService;
+        _deliveryWindowService = deliveryWindowService;
     }
 
     [HttpGet]
@@ -51,20 +55,24 @@ public class ProductsController : Controller
     {
         var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
         var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        var categories =
+            new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
+            "Value");
+        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
+            "Value");
+        var deliveryWindows =
+            new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
         return View(new AddProductViewModel
         {
-            PageTitle = "Add Product", 
-            SortOrder = sortOrder + 1, 
+            PageTitle = "Add Product",
+            SortOrder = sortOrder + 1,
             Brands = brands,
             Categories = categories,
             ProductGroups = productGroups,
             UnitOfMeasures = uoms,
-            IsActive = true,
-            QuantityPerUnitOfMeasure = 1
+            DeliveryWindows = deliveryWindows
         });
     }
 
@@ -72,6 +80,37 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(AddProductViewModel model, CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
+            var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+            var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key",
+                "Value");
+            var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken),
+                "Key", "Value");
+            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
+                "Value");
+            var deliveryWindows =
+                new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
+                    "Value");
+
+            model.SortOrder = sortOrder + 1;
+            model.Brands = brands;
+            model.Categories = categories;
+            model.ProductGroups = productGroups;
+            model.UnitOfMeasures = uoms;
+            model.DeliveryWindows = deliveryWindows;
+            model.PageTitle = "Add Product";
+
+            return View(model);
+        }
+
+        var userId = 1;
+        var createdAt = DateTime.Now;
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+
+        var command = model.ToCommand(userId, createdAt, ipAddress);
+
         return View(model);
     }
 
