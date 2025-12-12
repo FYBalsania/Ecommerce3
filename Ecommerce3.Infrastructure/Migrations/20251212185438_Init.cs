@@ -834,9 +834,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     AnchorText = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     AnchorTitle = table.Column<string>(type: "citext", maxLength: 256, nullable: true),
-                    BrandId = table.Column<int>(type: "integer", nullable: true),
+                    BrandId = table.Column<int>(type: "integer", nullable: false),
                     ProductGroupId = table.Column<int>(type: "integer", nullable: true),
-                    ShortDescription = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
+                    ShortDescription = table.Column<string>(type: "varchar(512)", maxLength: 1024, nullable: true),
                     FullDescription = table.Column<string>(type: "text", nullable: true),
                     AllowReviews = table.Column<bool>(type: "boolean", nullable: false),
                     AverageRating = table.Column<int>(type: "integer", nullable: false),
@@ -844,24 +844,23 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     OldPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     CostPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
-                    Stock = table.Column<int>(type: "integer", nullable: false),
-                    MinStock = table.Column<int>(type: "integer", nullable: false),
+                    Stock = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    MinStock = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     ShowAvailability = table.Column<bool>(type: "boolean", nullable: false),
                     FreeShipping = table.Column<bool>(type: "boolean", nullable: false),
                     AdditionalShippingCharge = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     UnitOfMeasureId = table.Column<int>(type: "integer", nullable: false),
                     QuantityPerUnitOfMeasure = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
                     DeliveryWindowId = table.Column<int>(type: "integer", nullable: false),
-                    MinOrderQuantity = table.Column<int>(type: "integer", nullable: false),
-                    MaxOrderQuantity = table.Column<int>(type: "integer", nullable: true),
+                    MinOrderQuantity = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
+                    MaxOrderQuantity = table.Column<decimal>(type: "numeric(18,3)", nullable: true),
                     IsFeatured = table.Column<bool>(type: "boolean", nullable: false),
                     IsNew = table.Column<bool>(type: "boolean", nullable: false),
                     IsBestSeller = table.Column<bool>(type: "boolean", nullable: false),
                     IsReturnable = table.Column<bool>(type: "boolean", nullable: false),
-                    ReturnPolicy = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     RedirectUrl = table.Column<string>(type: "citext", maxLength: 2048, nullable: true),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    SortOrder = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
                     Facets = table.Column<string>(type: "jsonb", nullable: false),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
@@ -1192,7 +1191,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Type = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
                     Key = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
-                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: true),
                     ProductId = table.Column<int>(type: "integer", nullable: true),
                     CreatedBy = table.Column<int>(type: "integer", nullable: false),
@@ -2547,11 +2546,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KVPListItem_Discriminator",
-                table: "KVPListItem",
-                column: "Discriminator");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_KVPListItem_UpdatedBy",
                 table: "KVPListItem",
                 column: "UpdatedBy");
@@ -2760,10 +2754,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_EAN",
+                table: "Product",
+                column: "EAN");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_Facets",
                 table: "Product",
                 column: "Facets")
                 .Annotation("Npgsql:IndexMethod", "gin");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_GTIN",
+                table: "Product",
+                column: "GTIN");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_IsBestSeller",
@@ -2779,6 +2783,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Product_IsNew",
                 table: "Product",
                 column: "IsNew");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_MFC",
+                table: "Product",
+                column: "MFC");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_MPN",
+                table: "Product",
+                column: "MPN");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_ProductGroupId",
@@ -2808,33 +2822,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UnitOfMeasureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_UPC",
+                table: "Product",
+                column: "UPC");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_UpdatedBy",
                 table: "Product",
                 column: "UpdatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "UK_Product_EAN",
-                table: "Product",
-                column: "EAN",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UK_Product_GTIN",
-                table: "Product",
-                column: "GTIN",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UK_Product_MFC",
-                table: "Product",
-                column: "MFC",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UK_Product_MPN",
-                table: "Product",
-                column: "MPN",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UK_Product_Name",
@@ -2852,12 +2847,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "UK_Product_Slug",
                 table: "Product",
                 column: "Slug",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UK_Product_UPC",
-                table: "Product",
-                column: "UPC",
                 unique: true);
 
             migrationBuilder.CreateIndex(

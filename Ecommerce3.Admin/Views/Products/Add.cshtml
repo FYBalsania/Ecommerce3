@@ -87,11 +87,11 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Categories <span class="text-danger">*</span></label>
-                            <select class="select-brand form-select" multiple="multiple" asp-for="@Model.CategoryId"
+                            <select class="select-brand form-select" multiple="multiple" asp-for="@Model.CategoryIds"
                                     asp-items="@Model.Categories">
                                 <option value="">Select...</option>
                             </select>
-                            <span class="text-danger" asp-validation-for="@Model.CategoryId"></span>
+                            <span class="text-danger" asp-validation-for="@Model.CategoryIds"></span>
                         </div>
                     </div>
                 </dic>

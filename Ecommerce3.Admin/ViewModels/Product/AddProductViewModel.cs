@@ -68,9 +68,9 @@ public class AddProductViewModel
     public int BrandId { get; set; }
     public SelectList Brands { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Category is required.")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Category(s) is required.")]
     [Display(Name = "Category")]
-    public int? CategoryId { get; set; }
+    public int[] CategoryIds { get; set; }
     public SelectList Categories { get; set; }
 
     [Display(Name = "Product Group")] 
@@ -125,7 +125,6 @@ public class AddProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
     [Display(Name = "Unit Of Measure")]
     public int UnitOfMeasureId { get; set; }
-
     public SelectList UnitOfMeasures { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Quantity Per Unit Of Measure is required.")]
@@ -136,7 +135,6 @@ public class AddProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Delivery Window is required.")]
     [Display(Name = "Delivery Window")]
     public int DeliveryWindowId { get; set; }
-
     public SelectList DeliveryWindows { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Minimum Order Quantity is required.")]
@@ -180,20 +178,20 @@ public class AddProductViewModel
     [Display(Name = "Sort Order")]
     public decimal SortOrder { get; set; }
 
-    [Range(1, 256, ErrorMessage = "H1 must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "H1 must be between 1 and 256 characters.")]
     [Display(Name = "H1")]
     public string? H1 { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Meta Title is required.")]
-    [Range(1, 256, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
     [Display(Name = "Meta Title")]
     public string MetaTitle { get; set; }
 
-    [Range(1, 2048, ErrorMessage = "Meta description must be between 1 and 2048 characters.")]
+    [StringLength(2048, MinimumLength = 1, ErrorMessage = "Meta description must be between 1 and 2048 characters.")]
     [Display(Name = "Meta Description")]
     public string? MetaDescription { get; set; }
 
-    [Range(1, 1024, ErrorMessage = "Meta keywords must be between 1 and 1024 characters.")]
+    [StringLength(1024, MinimumLength = 1, ErrorMessage = "Meta keywords must be between 1 and 1024 characters.")]
     [Display(Name = "Meta Keywords")]
     public string? MetaKeywords { get; set; }
 

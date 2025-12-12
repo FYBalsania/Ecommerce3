@@ -1,6 +1,8 @@
 using Ecommerce3.Admin.ViewModels.Product;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Enums;
+using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -116,9 +118,16 @@ public class ProductsController : Controller
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
 
         var command = model.ToCommand(userId, createdAt, ipAddress);
-        await _productService.AddAsync(command, cancellationToken);
+        try
+        {
+            await _productService.AddAsync(command, cancellationToken);
+        }
+        catch (DomainException domainException)
+        {
+            //Translate DomainException to ModelState.
+        }
 
-        return View(model);
+        return RedirectToAction(nameof(Add));
     }
 
     [HttpGet]

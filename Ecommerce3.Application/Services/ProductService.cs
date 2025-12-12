@@ -39,19 +39,19 @@ internal sealed class ProductService(
         if (exists) throw new DomainException(DomainErrors.ProductErrors.DuplicateSlug);
 
         exists = await brandQueryRepository.ExistsByIdAsync(command.BrandId, cancellationToken);
-        if (exists) throw new DomainException(DomainErrors.BrandErrors.InvalidBrandId);
+        if (!exists) throw new DomainException(DomainErrors.BrandErrors.InvalidBrandId);
 
         if (command.ProductGroupId is not null)
         {
             exists = await productGroupQueryRepository.ExistsByIdAsync(command.ProductGroupId.Value, cancellationToken);
-            if (exists) throw new DomainException(DomainErrors.ProductGroupErrors.InvalidProductGroupId);
+            if (!exists) throw new DomainException(DomainErrors.ProductGroupErrors.InvalidProductGroupId);
         }
         
         exists = await unitOfMeasureQueryRepository.ExistsByIdAsync(command.UnitOfMeasureId, cancellationToken);
-        if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.InvalidUnitOfMeasureId);
+        if (!exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.InvalidUnitOfMeasureId);
         
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
-        if (exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidDeliveryWindowId);
+        if (!exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidDeliveryWindowId);
 
         var product = new Product(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN, command.UPC,
             command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText, command.AnchorTitle,

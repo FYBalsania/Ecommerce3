@@ -58,37 +58,25 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
         return await dbContext.Products
             .MaxAsync(x => (decimal?)x.SortOrder, cancellationToken) ?? 0m;
     }
-    
+
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = dbContext.Products.AsQueryable();
-
-        if (excludeId is not null)
-            return await query.AnyAsync(
-                x => x.Id != excludeId && x.Name.Equals(name, StringComparison.OrdinalIgnoreCase), cancellationToken);
-
-        return await query.AnyAsync(x => x.Name.Equals(name), cancellationToken);
+        return await dbContext.Products.AnyAsync(x =>
+            (excludeId == null || x.Id != excludeId) &&
+            x.Name == name, cancellationToken);
     }
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = dbContext.Products.AsQueryable();
-
-        if (excludeId is not null)
-            return await query.AnyAsync(
-                x => x.Id != excludeId && x.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase), cancellationToken);
-
-        return await query.AnyAsync(x => x.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        return await dbContext.Products.AnyAsync(x =>
+            (excludeId == null || x.Id != excludeId) &&
+            x.Slug == slug, cancellationToken);
     }
 
     public async Task<bool> ExistsBySKUAsync(string sku, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = dbContext.Products.AsQueryable();
-
-        if (excludeId is not null)
-            return await query.AnyAsync(x =>
-                x.Id != excludeId && x.SKU.Equals(sku, StringComparison.OrdinalIgnoreCase), cancellationToken);
-
-        return await query.AnyAsync(x => x.SKU.Equals(sku, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        return await dbContext.Products.AnyAsync(x =>
+            (excludeId == null || x.Id != excludeId) &&
+            x.SKU == sku, cancellationToken);
     }
 }

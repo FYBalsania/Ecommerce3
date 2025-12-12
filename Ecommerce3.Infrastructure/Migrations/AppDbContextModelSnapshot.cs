@@ -1580,8 +1580,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnOrder(4);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int")
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(6);
 
                     b.Property<string>("Type")
@@ -1616,9 +1616,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_KVPListItem_DeletedAt");
 
                     b.HasIndex("DeletedBy");
-
-                    b.HasIndex("Discriminator")
-                        .HasDatabaseName("IX_KVPListItem_Discriminator");
 
                     b.HasIndex("UpdatedBy");
 
@@ -2000,7 +1997,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnOrder(19);
 
-                    b.Property<int?>("BrandId")
+                    b.Property<int>("BrandId")
                         .HasColumnType("integer")
                         .HasColumnOrder(14);
 
@@ -2095,16 +2092,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(64)")
                         .HasColumnOrder(4);
 
-                    b.Property<int?>("MaxOrderQuantity")
-                        .HasColumnType("integer")
+                    b.Property<decimal?>("MaxOrderQuantity")
+                        .HasColumnType("decimal(18,3)")
                         .HasColumnOrder(33);
 
-                    b.Property<int>("MinOrderQuantity")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("MinOrderQuantity")
+                        .HasColumnType("decimal(18,3)")
                         .HasColumnOrder(32);
 
-                    b.Property<int>("MinStock")
-                        .HasColumnType("integer")
+                    b.Property<decimal?>("MinStock")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(25);
 
                     b.Property<string>("Name")
@@ -2132,11 +2129,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<string>("RedirectUrl")
                         .HasMaxLength(2048)
                         .HasColumnType("citext")
-                        .HasColumnOrder(40);
-
-                    b.Property<string>("ReturnPolicy")
-                        .HasColumnType("text")
-                        .HasColumnOrder(38);
+                        .HasColumnOrder(39);
 
                     b.Property<string>("SKU")
                         .IsRequired()
@@ -2145,7 +2138,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(2);
 
                     b.Property<string>("ShortDescription")
-                        .HasMaxLength(512)
+                        .HasMaxLength(1024)
                         .HasColumnType("varchar(512)")
                         .HasColumnOrder(16);
 
@@ -2159,18 +2152,18 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("citext")
                         .HasColumnOrder(9);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(41);
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(18,3)")
+                        .HasColumnOrder(40);
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)")
-                        .HasColumnOrder(39);
+                        .HasColumnOrder(38);
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("Stock")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(24);
 
                     b.Property<int>("TotalReviews")
@@ -2246,12 +2239,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Display"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("EAN")
-                        .IsUnique()
-                        .HasDatabaseName("UK_Product_EAN");
+                        .HasDatabaseName("IX_Product_EAN");
 
                     b.HasIndex("GTIN")
-                        .IsUnique()
-                        .HasDatabaseName("UK_Product_GTIN");
+                        .HasDatabaseName("IX_Product_GTIN");
 
                     b.HasIndex("IsBestSeller")
                         .HasDatabaseName("IX_Product_IsBestSeller");
@@ -2263,12 +2254,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_Product_IsNew");
 
                     b.HasIndex("MFC")
-                        .IsUnique()
-                        .HasDatabaseName("UK_Product_MFC");
+                        .HasDatabaseName("IX_Product_MFC");
 
                     b.HasIndex("MPN")
-                        .IsUnique()
-                        .HasDatabaseName("UK_Product_MPN");
+                        .HasDatabaseName("IX_Product_MPN");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -2297,8 +2286,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_Product_Status");
 
                     b.HasIndex("UPC")
-                        .IsUnique()
-                        .HasDatabaseName("UK_Product_UPC");
+                        .HasDatabaseName("IX_Product_UPC");
 
                     b.HasIndex("UnitOfMeasureId");
 
@@ -4752,7 +4740,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasOne("Ecommerce3.Domain.Entities.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")
                         .WithMany()
