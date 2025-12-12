@@ -135,4 +135,9 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
         return await dbContext.ProductGroups.OrderBy(x => x.Name)
             .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
+
+    public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
+    }
 }

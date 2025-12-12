@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class DeliveryWindowErrors
     {
+        public static readonly DomainError InvalidDeliveryWindowId =
+            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Id)}", "Delivery window ID is invalid.");
+        
         public static readonly DomainError NameRequired =
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Name)}", "Name is required.");
 

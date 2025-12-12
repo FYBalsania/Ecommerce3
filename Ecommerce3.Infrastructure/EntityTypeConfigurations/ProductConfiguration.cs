@@ -21,7 +21,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         //Filters
         builder.HasQueryFilter(x => x.DeletedAt == null);
-        
+
         //Navigation Properties.
         builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
 
@@ -45,21 +45,27 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         );
 
         //Properties
-        builder.Property(x => x.SKU).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(2);
-        builder.Property(x => x.GTIN).HasMaxLength(16).HasColumnType("varchar(16)").HasColumnOrder(3);
-        builder.Property(x => x.MPN).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(4);
-        builder.Property(x => x.MFC).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(5);
-        builder.Property(x => x.EAN).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(6);
-        builder.Property(x => x.UPC).HasMaxLength(64).HasColumnType("varchar(64)").HasColumnOrder(7);
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(8);
-        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(9);
-        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(10);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(11);
-        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(12);
-        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(13);
+        builder.Property(x => x.SKU).HasMaxLength(Product.SKUMaxLength)
+            .HasColumnType($"varchar({Product.SKUMaxLength})").HasColumnOrder(2);
+        builder.Property(x => x.GTIN).HasMaxLength(Product.GTINMaxLength)
+            .HasColumnType($"varchar({Product.GTINMaxLength})").HasColumnOrder(3);
+        builder.Property(x => x.MPN).HasMaxLength(Product.MPNMaxLength)
+            .HasColumnType($"varchar({Product.MPNMaxLength})").HasColumnOrder(4);
+        builder.Property(x => x.MFC).HasMaxLength(Product.MFCMaxLength)
+            .HasColumnType($"varchar({Product.MFCMaxLength})").HasColumnOrder(5);
+        builder.Property(x => x.EAN).HasMaxLength(Product.EANMaxLength)
+            .HasColumnType($"varchar({Product.EANMaxLength})").HasColumnOrder(6);
+        builder.Property(x => x.UPC).HasMaxLength(Product.UPCMaxLength)
+            .HasColumnType($"varchar({Product.UPCMaxLength})").HasColumnOrder(7);
+        builder.Property(x => x.Name).HasMaxLength(Product.NameMaxLength).HasColumnType("citext").HasColumnOrder(8);
+        builder.Property(x => x.Slug).HasMaxLength(Product.SlugMaxLength).HasColumnType("citext").HasColumnOrder(9);
+        builder.Property(x => x.Display).HasMaxLength(Product.DisplayMaxLength).HasColumnType("citext").HasColumnOrder(10);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(Product.BreadcrumbMaxLength).HasColumnType("citext").HasColumnOrder(11);
+        builder.Property(x => x.AnchorText).HasMaxLength(Product.AnchorTextMaxLength).HasColumnType("citext").HasColumnOrder(12);
+        builder.Property(x => x.AnchorTitle).HasMaxLength(Product.AnchorTitleMaxLength).HasColumnType("citext").HasColumnOrder(13);
         builder.Property(x => x.BrandId).HasColumnType("integer").HasColumnOrder(14);
         builder.Property(x => x.ProductGroupId).HasColumnType("integer").HasColumnOrder(15);
-        builder.Property(x => x.ShortDescription).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(16);
+        builder.Property(x => x.ShortDescription).HasMaxLength(Product.ShortDescriptionMaxLength).HasColumnType("varchar(512)").HasColumnOrder(16);
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(17);
         builder.Property(x => x.AllowReviews).HasColumnType("boolean").HasColumnOrder(18);
         builder.Property(x => x.AverageRating).HasColumnType("integer").HasColumnOrder(19);
@@ -75,15 +81,15 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.UnitOfMeasureId).HasColumnType("integer").HasColumnOrder(29);
         builder.Property(x => x.QuantityPerUnitOfMeasure).HasColumnType("decimal(18,3)").HasColumnOrder(30);
         builder.Property(x => x.DeliveryWindowId).HasColumnType("integer").HasColumnOrder(31);
-        builder.Property(x => x.MinOrderQuantity).HasColumnType("integer").HasColumnOrder(32);
-        builder.Property(x => x.MaxOrderQuantity).HasColumnType("integer").HasColumnOrder(33);
+        builder.Property(x => x.MinOrderQuantity).HasColumnType("decimal(18,3)").HasColumnOrder(32);
+        builder.Property(x => x.MaxOrderQuantity).HasColumnType("decimal(18,3)").HasColumnOrder(33);
         builder.Property(x => x.IsFeatured).HasColumnType("boolean").HasColumnOrder(34);
         builder.Property(x => x.IsNew).HasColumnType("boolean").HasColumnOrder(35);
         builder.Property(x => x.IsBestSeller).HasColumnType("boolean").HasColumnOrder(36);
         builder.Property(x => x.IsReturnable).HasColumnType("boolean").HasColumnOrder(37);
         builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(32).HasColumnType("varchar(32)")
             .HasColumnOrder(38);
-        builder.Property(x => x.RedirectUrl).HasMaxLength(2048).HasColumnType("citext").HasColumnOrder(39);
+        builder.Property(x => x.RedirectUrl).HasMaxLength(Product.RedirectUrlMaxLength).HasColumnType("citext").HasColumnOrder(39);
         builder.Property(x => x.SortOrder).HasColumnType("decimal(18,3)").HasColumnOrder(40);
         builder.Property<List<string>>("_facets")
             .HasColumnName(nameof(Product.Facets))

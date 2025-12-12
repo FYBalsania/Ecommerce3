@@ -80,6 +80,12 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(AddProductViewModel model, CancellationToken cancellationToken)
     {
+        ModelState.Remove(nameof(AddProductViewModel.PageTitle));
+        ModelState.Remove(nameof(AddProductViewModel.Brands));
+        ModelState.Remove(nameof(AddProductViewModel.Categories));
+        ModelState.Remove(nameof(AddProductViewModel.ProductGroups));
+        ModelState.Remove(nameof(AddProductViewModel.UnitOfMeasures));
+        ModelState.Remove(nameof(AddProductViewModel.DeliveryWindows));
         if (!ModelState.IsValid)
         {
             var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
@@ -110,6 +116,7 @@ public class ProductsController : Controller
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
 
         var command = model.ToCommand(userId, createdAt, ipAddress);
+        await _productService.AddAsync(command, cancellationToken);
 
         return View(model);
     }

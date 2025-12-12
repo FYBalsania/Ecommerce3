@@ -185,17 +185,17 @@ public class AddProductViewModel
     public string? H1 { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Meta Title is required.")]
-    [Range(1, 256, ErrorMessage = "H2 must be between 1 and 256 characters.")]
+    [Range(1, 256, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
     [Display(Name = "Meta Title")]
-    public string MetaTitle { get; private set; }
+    public string MetaTitle { get; set; }
 
     [Range(1, 2048, ErrorMessage = "Meta description must be between 1 and 2048 characters.")]
     [Display(Name = "Meta Description")]
-    public string? MetaDescription { get; private set; }
+    public string? MetaDescription { get; set; }
 
     [Range(1, 1024, ErrorMessage = "Meta keywords must be between 1 and 1024 characters.")]
     [Display(Name = "Meta Keywords")]
-    public string? MetaKeywords { get; private set; }
+    public string? MetaKeywords { get; set; }
 
     public AddProductCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
     {

@@ -13,4 +13,5 @@ public interface IProductGroupQueryRepository
     Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
     Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
+    Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
 }

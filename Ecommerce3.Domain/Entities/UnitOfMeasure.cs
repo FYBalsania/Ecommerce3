@@ -1,6 +1,5 @@
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
-using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -37,10 +36,13 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
     public UnitOfMeasure(string code, string name, UnitOfMeasureType type, int? baseId, decimal conversionFactor,
         bool isActive, int createdBy, DateTime createdAt, string createdByIp)
     {
-        ValidateCode(code);
-        ValidateName(name);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
+            DomainErrors.UnitOfMeasureErrors.CodeTooLong);
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.UnitOfMeasureErrors.NameRequired,
+            DomainErrors.UnitOfMeasureErrors.NameTooLong);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.UnitOfMeasureErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.UnitOfMeasureErrors.CreatedByIpRequired,
+            DomainErrors.UnitOfMeasureErrors.CreatedByIpTooLong);
 
         Code = code;
         Name = name;
@@ -57,10 +59,13 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
         bool isActive,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        ValidateCode(code);
-        ValidateName(name);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
+            DomainErrors.UnitOfMeasureErrors.CodeTooLong);
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.UnitOfMeasureErrors.NameRequired,
+            DomainErrors.UnitOfMeasureErrors.NameTooLong);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.UnitOfMeasureErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.UnitOfMeasureErrors.UpdatedByIpRequired,
+            DomainErrors.UnitOfMeasureErrors.UpdatedByIpTooLong);
 
         if (Code == code && Name == name && Type == type && BaseId == baseId && ConversionFactor == conversionFactor &&
             IsActive == isActive) return false;
@@ -80,62 +85,12 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
 
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
-        ValidateDeletedBy(deletedBy);
-        ValidateDeletedByIp(deletedByIp);
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.UnitOfMeasureErrors.InvalidDeletedBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.UnitOfMeasureErrors.DeletedByIpRequired,
+            DomainErrors.UnitOfMeasureErrors.DeletedByIpTooLong);
 
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
-    }
-
-    private static void ValidateCode(string code)
-    {
-        if (string.IsNullOrWhiteSpace(code)) throw new DomainException(DomainErrors.UnitOfMeasureErrors.CodeRequired);
-        if (code.Length > CodeMaxLength) throw new DomainException(DomainErrors.UnitOfMeasureErrors.CodeTooLong);
-    }
-
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.UnitOfMeasureErrors.NameRequired);
-        if (name.Length > NameMaxLength) throw new DomainException(DomainErrors.UnitOfMeasureErrors.NameTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.UnitOfMeasureErrors.InvalidCreatedBy);
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.UnitOfMeasureErrors.CreatedByIpRequired);
-        if (createdByIp.Length > ICreatable.CreatedByIpMaxLength)
-            throw new DomainException(DomainErrors.UnitOfMeasureErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.UnitOfMeasureErrors.InvalidUpdatedBy);
-    }
-
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp))
-            throw new DomainException(DomainErrors.UnitOfMeasureErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > IUpdatable.UpdatedByIpMaxLength)
-            throw new DomainException(DomainErrors.UnitOfMeasureErrors.UpdatedByIpTooLong);
-    }
-
-    private static void ValidateDeletedBy(int deletedBy)
-    {
-        if (deletedBy <= 0) throw new DomainException(DomainErrors.UnitOfMeasureErrors.InvalidDeletedBy);
-    }
-
-    private static void ValidateDeletedByIp(string deletedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(deletedByIp))
-            throw new DomainException(DomainErrors.UnitOfMeasureErrors.DeletedByIpRequired);
-        if (deletedByIp.Length > IDeletable.DeletedByIpMaxLength)
-            throw new DomainException(DomainErrors.UnitOfMeasureErrors.DeletedByIpTooLong);
     }
 }

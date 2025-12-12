@@ -72,7 +72,8 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
 
     private static void ValidateCreatedBy(int createdBy)
     {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.BrandErrors.InvalidCreatedBy);
+        if (createdBy <= 0) 
+            throw new DomainException(DomainErrors.BrandErrors.InvalidCreatedBy);
     }
     
     private static void ValidateUpdatedBy(int updatedBy)

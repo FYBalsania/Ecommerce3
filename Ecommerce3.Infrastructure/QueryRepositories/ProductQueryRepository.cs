@@ -7,19 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class ProductQueryRepository : IProductQueryRepository
+internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<PagedResult<ProductListItemDTO>> GetListItemsAsync(ProductFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Products.AsQueryable();
+        var query = dbContext.Products.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
@@ -62,28 +55,40 @@ internal sealed class ProductQueryRepository : IProductQueryRepository
 
     public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.Products
+        return await dbContext.Products
             .MaxAsync(x => (decimal?)x.SortOrder, cancellationToken) ?? 0m;
     }
-
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Products.AsQueryable();
+        var query = dbContext.Products.AsQueryable();
 
         if (excludeId is not null)
-            return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
+            return await query.AnyAsync(
+                x => x.Id != excludeId && x.Name.Equals(name, StringComparison.OrdinalIgnoreCase), cancellationToken);
 
-        return await query.AnyAsync(x => x.Name == name, cancellationToken);
+        return await query.AnyAsync(x => x.Name.Equals(name), cancellationToken);
     }
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Products.AsQueryable();
+        var query = dbContext.Products.AsQueryable();
 
         if (excludeId is not null)
-            return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
+            return await query.AnyAsync(
+                x => x.Id != excludeId && x.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase), cancellationToken);
 
-        return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
+        return await query.AnyAsync(x => x.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase), cancellationToken);
+    }
+
+    public async Task<bool> ExistsBySKUAsync(string sku, int? excludeId, CancellationToken cancellationToken)
+    {
+        var query = dbContext.Products.AsQueryable();
+
+        if (excludeId is not null)
+            return await query.AnyAsync(x =>
+                x.Id != excludeId && x.SKU.Equals(sku, StringComparison.OrdinalIgnoreCase), cancellationToken);
+
+        return await query.AnyAsync(x => x.SKU.Equals(sku, StringComparison.OrdinalIgnoreCase), cancellationToken);
     }
 }

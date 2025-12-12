@@ -12,4 +12,5 @@ public interface IDeliveryWindowQueryRepository
     Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
     Task<DeliveryWindowDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<Dictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken);
+    Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
 }

@@ -89,4 +89,9 @@ internal sealed class DeliveryWindowQueryRepository(AppDbContext dbContext) : ID
         return await dbContext.DeliveryWindows.OrderBy(x => x.Name)
             .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
+
+    public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await dbContext.DeliveryWindows.AnyAsync(x => x.Id == id, cancellationToken);
+    }
 }
