@@ -15,8 +15,4 @@
       <ProjectReference Include="..\Ecommerce3.Domain\Ecommerce3.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="DTO\Admin\" />
-    </ItemGroup>
-
 </Project>

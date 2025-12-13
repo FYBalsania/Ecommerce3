@@ -1,8 +1,10 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -78,5 +80,13 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
         return await dbContext.Products.AnyAsync(x =>
             (excludeId == null || x.Id != excludeId) &&
             x.SKU == sku, cancellationToken);
+    }
+
+    public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await dbContext.Products
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

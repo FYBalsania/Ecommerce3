@@ -163,8 +163,13 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        ViewData["Title"] = "Edit Product - IPhone 17";
-        return View(new EditProductViewModel());
+        var product = await _productService.GetByIdAsync(id, cancellationToken);
+        if (product is null) return NotFound();
+        
+        var viewModel = EditProductViewModel.FromDTO(product);
+        viewModel.PageTitle = $"Edit Product - {product.Name}";
+        
+        return View(viewModel);
     }
 
     [HttpPost]

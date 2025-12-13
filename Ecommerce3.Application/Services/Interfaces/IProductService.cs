@@ -1,5 +1,6 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.Admin.Product;
+using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Contracts.Filters;
 
@@ -12,4 +13,5 @@ public interface IProductService
     Task AddAsync(AddProductCommand command, CancellationToken cancellationToken);
     Task EditAsync(EditProductCommand command, CancellationToken cancellationToken);
     Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken);
+    Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }

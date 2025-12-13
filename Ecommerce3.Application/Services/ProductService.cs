@@ -1,6 +1,7 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
@@ -84,4 +85,9 @@ internal sealed class ProductService(
 
     public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
+
+    public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetByIdAsync(id, cancellationToken);
+    }
 }

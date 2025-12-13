@@ -1,4 +1,5 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Contracts.Filters;
 
@@ -12,4 +13,5 @@ public interface IProductQueryRepository
     Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
     Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
     Task<bool> ExistsBySKUAsync(string sku, int? excludeId, CancellationToken cancellationToken);
+    Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }

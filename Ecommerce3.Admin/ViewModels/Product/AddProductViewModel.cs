@@ -140,11 +140,11 @@ public class AddProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Minimum Order Quantity is required.")]
     [Display(Name = "Minimum Order Quantity")]
     [Range(1, int.MaxValue, ErrorMessage = "Minimum order quantity must be greater than or equal to 1.")]
-    public int MinOrderQuantity { get; set; } = 1;
+    public decimal MinOrderQuantity { get; set; } = 1;
 
     [Range(1, int.MaxValue, ErrorMessage = "Maximum Order Quantity must be greater than or equal to 1.")]
     [Display(Name = "Maximum Order Quantity")]
-    public int? MaxOrderQuantity { get; set; }
+    public decimal? MaxOrderQuantity { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Active is required.")]
     [Display(Name = "Is Active?")]
