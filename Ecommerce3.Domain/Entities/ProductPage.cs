@@ -6,22 +6,21 @@ public sealed class ProductPage : Page
 {
     public Product? Product { get; private set; }
     
-    internal ProductPage() : base()
+    private ProductPage() : base()
     {
     }
 
-    public ProductPage(string? path, string metaTitle, string? metaDescription, string? metaKeywords,
+    internal ProductPage(string? path, string metaTitle, string? metaDescription, string? metaKeywords,
         string? metaRobots, string? h1, string? canonicalUrl, string? ogTitle, string? ogDescription,
         string? ogImageUrl, string? ogType, string? twitterCard, string? contentHtml, string? summary,
         string? schemaJsonLd, string? breadcrumbsJson, string? hreflangMapJson, decimal sitemapPriority,
         SiteMapFrequency sitemapFrequency, string? redirectFromJson, bool isIndexed, string? headerScripts,
         string? footerScripts, string language, string? region, int? seoScore, bool isActive, int createdBy,
-        DateTime createdAt, string createdByIp, Product product)
+        DateTime createdAt, string createdByIp)
         : base(path, metaTitle, metaDescription, metaKeywords, metaRobots, h1, canonicalUrl, ogTitle, ogDescription,
             ogImageUrl, ogType, twitterCard, contentHtml, summary, schemaJsonLd, breadcrumbsJson, hreflangMapJson,
             sitemapPriority, sitemapFrequency, redirectFromJson, isIndexed, headerScripts, footerScripts, language,
             region, seoScore, isActive, createdBy, createdAt, createdByIp)
     {
-        Product = product;
     }
 }

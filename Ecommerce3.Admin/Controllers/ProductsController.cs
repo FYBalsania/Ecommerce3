@@ -68,6 +68,36 @@ public class ProductsController : Controller
 
         return View(new AddProductViewModel
         {
+            SKU = "SKU-0001",
+            BrandId = 1,
+            CategoryIds = [1,2],
+            ProductGroupId = 1,
+            Name = "IPhone 17",
+            Slug = "iphone-17",
+            Display = "Display",
+            Breadcrumb = "Breadcrumb",
+            AnchorText = "Anchor Text",
+            AnchorTitle = "Anchor Title",
+            IsActive = true,
+            ShortDescription = "Short Description",
+            Price = 10000,
+            AdditionalShippingCharge = 1,
+            UnitOfMeasureId = 1,
+            QuantityPerUnitOfMeasure = 1,
+            Stock = 1,
+            MinOrderQuantity = 1,
+            DeliveryWindowId = 1,
+            Status = ProductStatus.Active,
+            AllowReviews = true,
+            ShowAvailability = true,
+            FreeShipping = true,
+            IsFeatured = true,
+            IsNew = true,
+            IsBestSeller = true,
+            IsReturnable = true,
+            H1 = "H2",
+            MetaTitle = "Meta Title",
+            
             PageTitle = "Add Product",
             SortOrder = sortOrder + 1,
             Brands = brands,
@@ -127,7 +157,7 @@ public class ProductsController : Controller
             //Translate DomainException to ModelState.
         }
 
-        return RedirectToAction(nameof(Add));
+        return LocalRedirect($"/Products/Index");
     }
 
     [HttpGet]

@@ -150,4 +150,18 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
                     }).ToList().AsReadOnly()
             }).FirstAsync(cancellationToken);
     }
+
+    public async Task<bool> ExistsByIdsAsync(int[] ids, CancellationToken cancellationToken)
+    {
+        var distinctIdsCount = ids.Distinct().Count();
+
+        var existingCount = await dbContext.Categories
+            .Where(c => ids.Contains(c.Id))
+            .Select(c => c.Id)
+            .Distinct()
+            .CountAsync(cancellationToken);
+
+        return existingCount == distinctIdsCount;
+    }
+
 }

@@ -102,61 +102,91 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
 
     public Product(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
         string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int brandId,
-        int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews, decimal price,
-        decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
+        int[] categoryIds, int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews,
+        decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
         bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
         int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
-        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl,
-        decimal sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, decimal sortOrder,
+        string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
+        int createdBy, DateTime createdAt, string createdByIp)
     {
+        //SKU.
         ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
             DomainErrors.ProductErrors.SKUTooLong);
+        //GTIN.
         if (gtin is not null) ValidateTooLong(gtin, GTINMaxLength, DomainErrors.ProductErrors.GTINTooLong);
+        //MPN.
         if (mpn is not null) ValidateTooLong(mpn, MPNMaxLength, DomainErrors.ProductErrors.MPNTooLong);
+        //MFC.
         if (mfc is not null) ValidateTooLong(mfc, MFCMaxLength, DomainErrors.ProductErrors.MFCTooLong);
+        //EAN.
         if (ean is not null) ValidateTooLong(ean, EANMaxLength, DomainErrors.ProductErrors.EANTooLong);
+        //UPC.
         if (upc is not null) ValidateTooLong(upc, UPCMaxLength, DomainErrors.ProductErrors.UPCTooLong);
+        //Name.
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductErrors.NameRequired,
             DomainErrors.ProductErrors.NameTooLong);
-
+        //Slug.
         ValidateRequiredAndTooLong(slug, SlugMaxLength, DomainErrors.ProductErrors.SlugRequired,
             DomainErrors.ProductErrors.SlugTooLong);
-
+        //Display.
         ValidateRequiredAndTooLong(display, DisplayMaxLength, DomainErrors.ProductErrors.DisplayRequired,
             DomainErrors.ProductErrors.DisplayTooLong);
-
+        //Breadcrumb.
         ValidateRequiredAndTooLong(breadcrumb, BreadcrumbMaxLength, DomainErrors.ProductErrors.BreadcrumbRequired,
             DomainErrors.ProductErrors.BreadcrumbTooLong);
-
+        //AnchorText.
         ValidateRequiredAndTooLong(anchorText, AnchorTextMaxLength, DomainErrors.ProductErrors.AnchorTextRequired,
             DomainErrors.ProductErrors.AnchorTextTooLong);
-
+        //AnchorTitle.
         if (anchorTitle is not null)
             ValidateTooLong(anchorTitle, AnchorTitleMaxLength, DomainErrors.ProductErrors.AnchorTitleTooLong);
-
+        //BrandId.
         ValidatePositiveNumber(brandId, DomainErrors.ProductErrors.InvalidBrandId);
-
+        //CategoryIds.
+        ValidateCategoryIds(categoryIds);
+        //ProductGroupId.
         if (productGroupId is not null)
             ValidatePositiveNumber((int)productGroupId, DomainErrors.ProductErrors.InvalidProductGroupId);
-
+        //ShortDescription.
         if (shortDescription is not null)
             ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
                 DomainErrors.ProductErrors.ShortDescriptionTooLong);
+        //Price.
         ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
+        //OldPrice.
         if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);
+        //CostPrice.
         if (costPrice is not null) ValidatePositiveNumber(costPrice.Value, DomainErrors.ProductErrors.InvalidCostPrice);
+        //Stock.
         ValidatePositiveNumber(stock, DomainErrors.ProductErrors.InvalidStock);
+        //MinStock.
         if (minStock is not null) ValidatePositiveNumber(minStock.Value, DomainErrors.ProductErrors.InvalidMinStock);
+        //AdditionalShippingCharge.
         ValidatePositiveAndZeroNumber(additionalShippingCharge,
             DomainErrors.ProductErrors.InvalidAdditionalShippingCharge);
+        //UnitOfMeasureId.
         ValidatePositiveNumber(unitOfMeasureId, DomainErrors.ProductErrors.InvalidUnitOfMeasureId);
+        //QuantityPerUnitOfMeasure.
         ValidatePositiveNumber(quantityPerUnitOfMeasure, DomainErrors.ProductErrors.InvalidQuantityPerUnitOfMeasure);
+        //DeliveryWindowId.
         ValidatePositiveNumber(deliveryWindowId, DomainErrors.ProductErrors.InvalidDeliveryWindowId);
+        //MinOrderQuantity & MaxOrderQuantity.
         ValidateMinMaxOrderQuantity(minOrderQuantity, maxOrderQuantity);
+        //Status & RedirectUrl.
         ValidateProductStatusAndRedirectUrl(status, redirectUrl);
+        //CreatedBy.
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductErrors.InvalidCreatedBy);
+        //CreatedByIp.
         ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductErrors.CreatedByIpRequired,
             DomainErrors.ProductErrors.CreatedByIpTooLong);
+        //Validate H1.
+        if (h1 is not null) ValidateTooLong(h1, 256, DomainErrors.PageErrors.H1TooLong);
+        //Validate MetaTitle.
+        ValidateRequiredAndTooLong(metaTitle, 256, DomainErrors.PageErrors.MetaTitleRequired,
+            DomainErrors.PageErrors.MetaTitleTooLong);
+        if (metaDescription is not null) ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
+        if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
 
         SKU = sku;
         GTIN = gtin;
@@ -171,6 +201,12 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
         BrandId = brandId;
+        for (var x = 0; x < categoryIds.Length; x++)
+        {
+            _categories.Add(new ProductCategory(categoryIds[x], x == 0, x, createdBy,
+                createdAt, createdByIp));
+        }
+
         ProductGroupId = productGroupId;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
@@ -198,6 +234,12 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
+        
+        Page = new ProductPage(null, metaTitle, metaDescription, metaKeywords, null,
+            h1, null, null, null, null, null, null, null,
+            null, null, null, null, 0, SiteMapFrequency.Always,
+            null, true, null, null, "en", "IN", 0,
+            true, createdBy, createdAt, createdByIp);
     }
 
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
@@ -228,6 +270,16 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         {
             if (redirectUrl is not null)
                 throw new DomainException(DomainErrors.ProductErrors.RedirectUrlNotRequired);
+        }
+    }
+
+    private static void ValidateCategoryIds(int[] categoryIds)
+    {
+        if (categoryIds is null || categoryIds.Length == 0)
+            throw new DomainException(DomainErrors.ProductErrors.CategoryIdRequired);
+        foreach (var categoryId in categoryIds)
+        {
+            ValidatePositiveNumber(categoryId, DomainErrors.ProductErrors.InvalidCategoryId);
         }
     }
 }

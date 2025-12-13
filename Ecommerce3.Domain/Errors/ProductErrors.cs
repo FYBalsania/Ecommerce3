@@ -79,6 +79,12 @@ public static partial class DomainErrors
         public static readonly DomainError InvalidBrandId =
             new($"{nameof(Product)}.{nameof(Product.BrandId)}", "BrandID is invalid.");
 
+        public static readonly DomainError CategoryIdRequired =
+            new DomainError($"{nameof(Product)}.{nameof(Product.Categories)}", "Category Id is required.");
+        
+        public static readonly DomainError InvalidCategoryId =
+            new($"{nameof(Product)}.{nameof(Product.Categories)}", "Category Id is invalid.");
+
         public static readonly DomainError InvalidProductGroupId =
             new($"{nameof(Product)}.{nameof(Product.ProductGroupId)}", "ProductGroupID is invalid.");
 

@@ -212,7 +212,7 @@ public class AddProductViewModel
             AnchorText = AnchorText,
             AnchorTitle = AnchorTitle,
             BrandId = BrandId,
-            CategoryIds = [],
+            CategoryIds = CategoryIds,
             ProductGroupId = ProductGroupId,
             ShortDescription = ShortDescription,
             FullDescription = FullDescription,

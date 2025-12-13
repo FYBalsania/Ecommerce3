@@ -23,9 +23,19 @@ public sealed class ProductCategory : Entity, ICreatable, IUpdatable, IDeletable
 
     private ProductCategory()
     {
-        
     }
-    
+
+    internal ProductCategory(int categoryId, bool isPrimary, int sortOrder, int createdBy, DateTime createdAt,
+        string createdByIp)
+    {
+        CategoryId = categoryId;
+        IsPrimary = isPrimary;
+        SortOrder = sortOrder;
+        CreatedBy = createdBy;
+        CreatedAt = createdAt;
+        CreatedByIp = createdByIp;
+    }
+
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
         DeletedBy = deletedBy;
