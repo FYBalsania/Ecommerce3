@@ -88,10 +88,6 @@ public class BrandsController : Controller
                 case $"{nameof(Brand)}.{nameof(Brand.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
                     return View(model);
-                case $"{nameof(Brand)}.{nameof(Brand.CreatedBy)}":
-                case $"{nameof(Brand)}.{nameof(Brand.CreatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
 
@@ -146,10 +142,6 @@ public class BrandsController : Controller
                 case $"{nameof(Brand)}.{nameof(Brand.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
                     return View(model);
-                case $"{nameof(Brand)}.{nameof(Brand.UpdatedBy)}":
-                case $"{nameof(Brand)}.{nameof(Brand.UpdatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
 

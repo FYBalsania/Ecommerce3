@@ -61,7 +61,7 @@ public class ProductsController : Controller
             new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
         var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
             "Value");
-        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
+        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, cancellationToken), "Key",
             "Value");
         var deliveryWindows =
             new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
@@ -126,7 +126,7 @@ public class ProductsController : Controller
                 "Value");
             var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken),
                 "Key", "Value");
-            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
+            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, cancellationToken), "Key",
                 "Value");
             var deliveryWindows =
                 new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",

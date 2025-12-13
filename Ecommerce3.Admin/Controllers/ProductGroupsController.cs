@@ -88,10 +88,6 @@ public class ProductGroupsController : Controller
                 case $"{nameof(ProductGroup)}.{nameof(ProductGroup.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
                     return View(model);
-                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedBy)}":
-                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
         
@@ -150,10 +146,6 @@ public class ProductGroupsController : Controller
                 case $"{nameof(ProductGroup)}.{nameof(ProductGroup.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
                     return View(model);
-                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedBy)}":
-                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
 
