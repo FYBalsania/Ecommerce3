@@ -96,10 +96,6 @@ public class CategoriesController : Controller
                 case $"{nameof(Category)}.{nameof(Category.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
                     return View(model);
-                case $"{nameof(Category)}.{nameof(Category.CreatedBy)}":
-                case $"{nameof(Category)}.{nameof(Category.CreatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
         
@@ -158,10 +154,6 @@ public class CategoriesController : Controller
                 case $"{nameof(Category)}.{nameof(Category.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
                     return View(model);
-                case $"{nameof(Category)}.{nameof(Category.UpdatedBy)}":
-                case $"{nameof(Category)}.{nameof(Category.UpdatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
 

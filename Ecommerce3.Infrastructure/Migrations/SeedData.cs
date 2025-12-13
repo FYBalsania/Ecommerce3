@@ -87,249 +87,198 @@ public partial class SeedData : Migration
             ["4", "pack", "Pack of 3", nameof(UnitOfMeasureType.Count), 3, 3, true, 1, DateTime.Now, "::1"]);
 
         //Brand
-        // migrationBuilder.InsertData(
-        //     "Brand",
-        //     new[]
-        //     {
-        //         "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
-        //         "ShortDescription", "FullDescription", "IsActive", "SortOrder",
-        //         "CreatedBy", "CreatedAt", "CreatedByIp"
-        //     },
-        //     new object[,]
-        //     {
-        //         {
-        //             1, "KTM", "ktm", "KTM", "KTM", "KTM", "KTM", "KTM Short Description", "<p><strong>KTM</strong></p>",
-        //             true, 1, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             2, "Facebook", "facebook", "Facebook", "Facebook", "Facebook", "Facebook",
-        //             "Facebook Short Description", "<p><strong>Facebook</strong></p>", true, 2, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             3, "Google", "google", "Google", "Google", "Google", "Google", "Google Short Description",
-        //             "<p><strong>Google</strong></p>", true, 3, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             4, "Apple", "apple", "Apple", "Apple", "Apple", "Apple", "Apple Short Description",
-        //             "<p><strong>Apple</strong></p>", true, 4, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             5, "Microsoft", "microsoft", "Microsoft", "Microsoft", "Microsoft", "Microsoft",
-        //             "Microsoft Short Description", "<p><strong>Microsoft</strong></p>", true, 5, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             6, "Tesla", "tesla", "Tesla", "Tesla", "Tesla", "Tesla", "Tesla Short Description",
-        //             "<p><strong>Tesla</strong></p>", true, 6, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             7, "Sony", "sony", "Sony", "Sony", "Sony", "Sony", "Sony Short Description",
-        //             "<p><strong>Sony</strong></p>", true, 7, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             8, "NVIDIA", "nvidia", "NVIDIA", "NVIDIA", "NVIDIA", "NVIDIA", "NVIDIA Short Description",
-        //             "<p><strong>NVIDIA</strong></p>", true, 8, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             9, "Amazon", "amazon", "Amazon", "Amazon", "Amazon", "Amazon", "Amazon Short Description",
-        //             "<p><strong>Amazon</strong></p>", true, 9, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             10, "Intel", "intel", "Intel", "Intel", "Intel", "Intel", "Intel Short Description",
-        //             "<p><strong>Intel</strong></p>", true, 10, 1, DateTime.Now, "::1"
-        //         }
-        //     });
+        migrationBuilder.InsertData(
+            "Brand",
+            new[]
+            {
+                "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
+                "ShortDescription", "FullDescription", "IsActive", "SortOrder",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                {
+                    1, "Spice Mart", "spice-mart", "Spice Mart", "Spice Mart", "Spice Mart", "Spice Mart", 
+                    "Spice Mart", "<p><strong>Spice Mart</strong></p>", true, 1, 
+                    1, DateTime.Now, "::1"
+                },
+            });
 
-        //Page
-        // migrationBuilder.InsertData(
-        //     "Page",
-        //     new[]
-        //     {
-        //         "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
-        //         "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
-        //         "Language", "Region", "SeoScore", "BrandId", "IsActive",
-        //         "CreatedBy", "CreatedAt", "CreatedByIp"
-        //     },
-        //     new object[,]
-        //     {
-        //         {
-        //             1, "BrandPage", "ktm/brand", "KTM", "KTM Official Brand Page", "KTM, Bikes, Motorcycles, Racing",
-        //             "KTM", 0.80, "Yearly", true, "en", "UK", 85, 1, true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             2, "BrandPage", "facebook/brand", "Facebook", "Facebook Brand Information",
-        //             "Facebook, Meta, Social Media, Connect", "Facebook", 0.75, "Monthly", true, "en", "US", 82, 2, true,
-        //             1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             3, "BrandPage", "google/brand", "Google", "Google Search Engine and Services",
-        //             "Google, Search, Cloud, Gmail, Android", "Google", 0.90, "Weekly", true, "en", "US", 90, 3, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             4, "BrandPage", "apple/brand", "Apple", "Apple Brand Page", "Apple, iPhone, MacBook, iPad", "Apple",
-        //             0.85, "Monthly", true, "en", "US", 88, 4, true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             5, "BrandPage", "microsoft/brand", "Microsoft", "Microsoft Products and Solutions",
-        //             "Microsoft, Windows, Office, Azure", "Microsoft", 0.80, "Monthly", true, "en", "US", 87, 5, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             6, "BrandPage", "tesla/brand", "Tesla", "Tesla Electric Vehicles",
-        //             "Tesla, EV, Elon Musk, Cars, Energy", "Tesla", 0.88, "Monthly", true, "en", "US", 89, 6, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             7, "BrandPage", "sony/brand", "Sony", "Sony Electronics and Entertainment",
-        //             "Sony, PlayStation, Cameras, TVs", "Sony", 0.80, "Yearly", true, "en", "JP", 83, 7, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             8, "BrandPage", "nvidia/brand", "NVIDIA", "NVIDIA Graphics and AI", "NVIDIA, GPU, RTX, AI, DLSS",
-        //             "NVIDIA", 0.85, "Monthly", true, "en", "US", 88, 8, true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             9, "BrandPage", "amazon/brand", "Amazon", "Amazon Online Marketplace",
-        //             "Amazon, eCommerce, Prime, Shopping", "Amazon", 0.90, "Weekly", true, "en", "US", 91, 9, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             10, "BrandPage", "inter/brand", "Intel", "Intel Processors and Technology",
-        //             "Intel, CPU, Chipsets, Performance", "Intel", 0.78, "Yearly", true, "en", "US", 84, 10, true, 1,
-        //             DateTime.Now, "::1"
-        //         }
-        //     });
+        //Brand Page
+        migrationBuilder.InsertData(
+            "Page",
+            new[]
+            {
+                "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
+                "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed", "Language", "Region", "SeoScore", "BrandId", "IsActive",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                {
+                    2, "BrandPage", "spice-mart/brand", "Spice Mart", "Spice Mart Brand Page", "Spice Mart, Spice, Spices",
+                    "Spice Mart", 0.80, "Yearly", true, "en", "UK", 85, 1, true, 
+                    1, DateTime.Now, "::1"
+                }
+            });
 
         //Category
-        // migrationBuilder.InsertData(
-        //     "Category",
-        //     new[]
-        //     {
-        //         "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
-        //         "ShortDescription", "FullDescription", "ParentId", "GoogleCategory", "Path",
-        //         "IsActive", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"
-        //     },
-        //     new object[,]
-        //     {
-        //         {
-        //             1, "Motorcycles", "motorcycles", "Motorcycles", "Motorcycles", "Motorcycles", "Motorcycles",
-        //             "Motorcycles Short Description", "<p><strong>Motorcycles</strong></p>", null,
-        //             "Vehicles > Motor Vehicles > Motorcycles", "motorcycles", true, 1, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             2, "Super Bikes", "super-bikes", "Super Bikes", "Super Bikes", "Super Bikes", "Super Bikes",
-        //             "Super Bikes Short Description", "<p><strong>Super Bikes</strong></p>", 1,
-        //             "Vehicles > Motor Vehicles > Motorcycles > Sport Bikes", "motorcycles.super-bikes", true, 2, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             3, "Electric Bikes", "electric-bikes", "Electric Bikes", "Electric Bikes", "Electric Bikes",
-        //             "Electric Bikes", "Electric Bikes Short Description", "<p><strong>Electric Bikes</strong></p>", 1,
-        //             "Vehicles > Motor Vehicles > Motorcycles > Electric Motorcycles", "motorcycles.electric-bikes",
-        //             true, 3, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             4, "Electronics", "electronics", "Electronics", "Electronics", "Electronics", "Electronics",
-        //             "Electronics Short Description", "<p><strong>Electronics</strong></p>", null, "Electronics",
-        //             "electronics", true, 4, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             5, "Laptops", "laptops", "Laptops", "Laptops", "Laptops", "Laptops", "Laptops Short Description",
-        //             "<p><strong>Laptops</strong></p>", 4, "Electronics > Computers > Laptops", "electronics.laptops",
-        //             true, 5, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             6, "Smartphones", "smartphones", "Smartphones", "Smartphones", "Smartphones", "Smartphones",
-        //             "Smartphones Short Description", "<p><strong>Smartphones</strong></p>", 4,
-        //             "Electronics > Communications > Telephony > Mobile Phones", "electronics.smartphones", true, 6, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             7, "Accessories", "accessories", "Accessories", "Accessories", "Accessories", "Accessories",
-        //             "Accessories Short Description", "<p><strong>Accessories</strong></p>", null,
-        //             "Apparel & Accessories", "accessories", true, 7, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             8, "Helmets", "helmets", "Helmets", "Helmets", "Helmets", "Helmets", "Helmets Short Description",
-        //             "<p><strong>Helmets</strong></p>", 7,
-        //             "Apparel & Accessories > Clothing Accessories > Hats > Helmets", "accessories.helmets", true, 8, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             9, "Gaming", "gaming", "Gaming", "Gaming", "Gaming", "Gaming", "Gaming Short Description",
-        //             "<p><strong>Gaming</strong></p>", null, "Video Game Consoles & Accessories", "gaming", true, 9, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             10, "Consoles", "consoles", "Consoles", "Consoles", "Consoles", "Consoles",
-        //             "Consoles Short Description", "<p><strong>Consoles</strong></p>", 9,
-        //             "Video Game Consoles & Accessories > Game Consoles", "gaming.consoles", true, 10, 1, DateTime.Now,
-        //             "::1"
-        //         }
-        //     });
+         migrationBuilder.InsertData(
+            "Category",
+            new[]
+            {
+                "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
+                "ShortDescription", "FullDescription", "ParentId", "GoogleCategory", "Path",
+                "IsActive", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                {
+                    1, "Spices", "spices", "Spices", "Spices", "Spices", "Spices",
+                    "Spices Short Description", "<p><strong>Spices</strong></p>", null,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices", "spices",
+                    true, 1, 1, DateTime.Now, "::1"
+                },
+                {
+                    2, "Whole Spices", "whole-spices", "Whole Spices", "Whole Spices", "Whole Spices", "Whole Spices",
+                    "Whole Spices Short Description", "<p><strong>Whole Spices</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Whole Spices",
+                    "spices.whole-spices", true, 2, 1, DateTime.Now, "::1"
+                },
+                {
+                    3, "Ground Spices", "ground-spices", "Ground Spices", "Ground Spices", "Ground Spices", "Ground Spices",
+                    "Ground Spices Short Description", "<p><strong>Ground Spices</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Ground Spices",
+                    "spices.ground-spices", true, 3, 1, DateTime.Now, "::1"
+                },
+                {
+                    4, "Blended Spices", "blended-spices", "Blended Spices", "Blended Spices", "Blended Spices", "Blended Spices",
+                    "Blended Spices Short Description", "<p><strong>Blended Spices</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Spice Mixes",
+                    "spices.blended-spices", true, 4, 1, DateTime.Now, "::1"
+                },
+                {
+                    5, "Herbs", "herbs", "Herbs", "Herbs", "Herbs", "Herbs",
+                    "Herbs Short Description", "<p><strong>Herbs</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Herbs",
+                    "spices.herbs", true, 5, 1, DateTime.Now, "::1"
+                },
+                {
+                    6, "Organic Spices", "organic-spices", "Organic Spices", "Organic Spices", "Organic Spices", "Organic Spices",
+                    "Organic Spices Short Description", "<p><strong>Organic Spices</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Organic Food > Organic Spices",
+                    "spices.organic-spices", true, 6, 1, DateTime.Now, "::1"
+                },
+                {
+                    7, "Masala Powders", "masala-powders", "Masala Powders", "Masala Powders", "Masala Powders", "Masala Powders",
+                    "Masala Powders Short Description", "<p><strong>Masala Powders</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Masalas",
+                    "spices.masala-powders", true, 7, 1, DateTime.Now, "::1"
+                },
+                {
+                    8, "Regional Spices", "regional-spices", "Regional Spices", "Regional Spices", "Regional Spices", "Regional Spices",
+                    "Regional Spices Short Description", "<p><strong>Regional Spices</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices",
+                    "spices.regional-spices", true, 8, 1, DateTime.Now, "::1"
+                },
+                {
+                    9, "Exotic Spices", "exotic-spices", "Exotic Spices", "Exotic Spices", "Exotic Spices", "Exotic Spices",
+                    "Exotic Spices Short Description", "<p><strong>Exotic Spices</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Exotic Spices",
+                    "spices.exotic-spices", true, 9, 1, DateTime.Now, "::1"
+                },
+                {
+                    10, "Seasonings", "seasonings", "Seasonings", "Seasonings", "Seasonings", "Seasonings",
+                    "Seasonings Short Description", "<p><strong>Seasonings</strong></p>", 1,
+                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Seasonings",
+                    "spices.seasonings", true, 10, 1, DateTime.Now, "::1"
+                }
+            });
 
-        // migrationBuilder.InsertData(
-        //     "Page",
-        //     new[]
-        //     {
-        //         "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
-        //         "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
-        //         "Language", "Region", "SeoScore", "CategoryId", "IsActive",
-        //         "CreatedBy", "CreatedAt", "CreatedByIp"
-        //     },
-        //     new object[,]
-        //     {
-        //         {
-        //             11, "CategoryPage", "motorcycles/category", "Motorcycles",
-        //             "All types of motorcycles and related products", "Motorcycles, Bikes, Racing", "Motorcycles", 0.85,
-        //             "Monthly", true, "en", "UK", 86, 1, true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             12, "CategoryPage", "super-bikes/category", "Super Bikes", "Premium high-speed motorcycles",
-        //             "Super Bikes, Racing, Speed", "Super Bikes", 0.88, "Monthly", true, "en", "UK", 88, 2, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             13, "CategoryPage", "electric-bikes/category", "Electric Bikes",
-        //             "Eco-friendly electric motorcycles and scooters", "Electric Bikes, EV, Green", "Electric Bikes",
-        //             0.90, "Yearly", true, "en", "UK", 90, 3, true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             14, "CategoryPage", "electronics/category", "Electronics", "Electronics and smart devices",
-        //             "Electronics, Gadgets, Tech", "Electronics", 0.82, "Weekly", true, "en", "US", 83, 4, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             15, "CategoryPage", "laptops/category", "Laptops", "Find the best laptops for work and gaming",
-        //             "Laptops, Computers, Technology", "Laptops", 0.87, "Weekly", true, "en", "US", 87, 5, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             16, "CategoryPage", "smartphones/category", "Smartphones", "Latest smartphones and mobile devices",
-        //             "Smartphones, Mobile, Android, iPhone", "Smartphones", 0.90, "Weekly", true, "en", "US", 91, 6,
-        //             true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             17, "CategoryPage", "accessories/category", "Accessories", "Apparel and fashion accessories",
-        //             "Accessories, Apparel, Fashion", "Accessories", 0.80, "Yearly", true, "en", "US", 82, 7, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             18, "CategoryPage", "helmets/category", "Helmets", "Protective helmets for bikers and sports",
-        //             "Helmets, Safety, Motorcycles", "Helmets", 0.84, "Monthly", true, "en", "UK", 85, 8, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             19, "CategoryPage", "gaming/category", "Gaming", "All about gaming gear and consoles",
-        //             "Gaming, Consoles, Accessories", "Gaming", 0.88, "Weekly", true, "en", "US", 89, 9, true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             20, "CategoryPage", "consoles/category", "Consoles", "Next-gen gaming consoles and devices",
-        //             "Consoles, PlayStation, Xbox, Nintendo", "Consoles", 0.92, "Weekly", true, "en", "US", 93, 10, true,
-        //             1, DateTime.Now, "::1"
-        //         }
-        //     });
+         //Category Page
+        migrationBuilder.InsertData(
+            "Page",
+            new[]
+            {
+                "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
+                "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
+                "Language", "Region", "SeoScore", "CategoryId", "IsActive",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                {
+                    3, "CategoryPage", "spices/category", "Spices",
+                    "Explore a wide range of premium spices for everyday cooking",
+                    "Spices, Indian Spices, Cooking Spices, Masala",
+                    "Spices", 0.90, "Monthly", true, "en", "IN", 90, 1, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    4, "CategoryPage", "whole-spices/category", "Whole Spices",
+                    "Buy whole spices with rich aroma and authentic taste",
+                    "Whole Spices, Cardamom, Cloves, Pepper",
+                    "Whole Spices", 0.88, "Monthly", true, "en", "IN", 88, 2, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    5, "CategoryPage", "ground-spices/category", "Ground Spices",
+                    "Freshly ground spices for perfect flavor in every dish",
+                    "Ground Spices, Spice Powders, Masala Powder",
+                    "Ground Spices", 0.87, "Monthly", true, "en", "IN", 87, 3, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    6, "CategoryPage", "blended-spices/category", "Blended Spices",
+                    "Expertly blended spices for traditional and modern recipes",
+                    "Blended Spices, Spice Mix, Masala Mix",
+                    "Blended Spices", 0.86, "Monthly", true, "en", "IN", 86, 4, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    7, "CategoryPage", "herbs/category", "Herbs",
+                    "Natural dried herbs for cooking and seasoning",
+                    "Herbs, Dried Herbs, Cooking Herbs",
+                    "Herbs", 0.84, "Yearly", true, "en", "IN", 84, 5, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    8, "CategoryPage", "organic-spices/category", "Organic Spices",
+                    "Certified organic spices grown without chemicals",
+                    "Organic Spices, Natural Spices, Healthy Cooking",
+                    "Organic Spices", 0.89, "Monthly", true, "en", "IN", 89, 6, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    9, "CategoryPage", "masala-powders/category", "Masala Powders",
+                    "Traditional masala powders for authentic Indian taste",
+                    "Masala Powder, Indian Masala, Curry Masala",
+                    "Masala Powders", 0.91, "Monthly", true, "en", "IN", 91, 7, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    10, "CategoryPage", "regional-spices/category", "Regional Spices",
+                    "Regional spice specialties from across India",
+                    "Regional Spices, South Indian, North Indian Masala",
+                    "Regional Spices", 0.83, "Yearly", true, "en", "IN", 83, 8, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    11, "CategoryPage", "exotic-spices/category", "Exotic Spices",
+                    "Rare and exotic spices sourced from around the world",
+                    "Exotic Spices, Premium Spices, Gourmet Spices",
+                    "Exotic Spices", 0.85, "Yearly", true, "en", "IN", 85, 9, true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    12, "CategoryPage", "seasonings/category", "Seasonings",
+                    "Seasonings and spice blends to enhance every meal",
+                    "Seasonings, Flavoring, Spice Seasoning",
+                    "Seasonings", 0.88, "Monthly", true, "en", "IN", 88, 10, true,
+                    1, DateTime.Now, "::1"
+                }
+            });
+
 
         // ProductAttribute
         // migrationBuilder.InsertData(

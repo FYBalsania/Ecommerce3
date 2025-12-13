@@ -73,10 +73,6 @@ public class BanksController : Controller
                 case $"{nameof(Bank)}.{nameof(Bank.Slug)}":
                     ModelState.AddModelError(nameof(model.Slug), domainException.Message);
                     return View(model);
-                case $"{nameof(Bank)}.{nameof(Bank.CreatedBy)}":
-                case $"{nameof(Bank)}.{nameof(Bank.CreatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
         
@@ -120,10 +116,6 @@ public class BanksController : Controller
                 case $"{nameof(Bank)}.{nameof(Bank.Slug)}":
                     ModelState.AddModelError(nameof(model.Slug), domainException.Message);
                     return View(model);
-                case $"{nameof(Bank)}.{nameof(Bank.UpdatedBy)}":
-                case $"{nameof(Bank)}.{nameof(Bank.UpdatedByIp)}":
-                    ModelState.AddModelError(string.Empty, domainException.Message);
-                    break;
             }
         }
 

@@ -2,9 +2,9 @@ namespace Ecommerce3.Domain.Enums;
 
 public enum UnitOfMeasureType
 {
-    Weight,
-    Volume,
+    Area,
     Count,
     Length,
-    Area
+    Volume,
+    Weight
 }

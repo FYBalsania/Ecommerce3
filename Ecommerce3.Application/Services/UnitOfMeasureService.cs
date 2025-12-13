@@ -1,5 +1,8 @@
+using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.UnitOfMeasure;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTOs.UnitOfMeasure;
+using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
@@ -15,6 +18,10 @@ internal class UnitOfMeasureService(
     IUnitOfWork unitOfWork)
     : IUnitOfMeasureService
 {
+    public async Task<PagedResult<UnitOfMeasureListItemDTO>> GetListItemsAsync(UnitOfMeasureFilter filter, int pageNumber,
+        int pageSize, CancellationToken cancellationToken)
+        => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+    
     public async Task AddAsync(AddUnitOfMeasureCommand command, CancellationToken cancellationToken)
     {
         var exists = await queryRepository.ExistsByCodeAsync(command.Code, null, cancellationToken);
@@ -30,6 +37,11 @@ internal class UnitOfMeasureService(
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 
+    public async Task<UnitOfMeasureDTO?> GetByUnitOfMeasureIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetByUnitOfMeasureIdAsync(id, cancellationToken);
+    }
+    
     public async Task EditAsync(EditUnitOfMeasureCommand command, CancellationToken cancellationToken)
     {
         var uom = await repository.GetByIdAsync(command.Id, UnitOfMeasureInclude.None, true, cancellationToken);
@@ -56,8 +68,8 @@ internal class UnitOfMeasureService(
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, CancellationToken cancellationToken = default)
     {
-        return await queryRepository.GetIdAndNameDictionaryAsync(cancellationToken);
+        return await queryRepository.GetIdAndNameDictionaryAsync(excludeId, cancellationToken);
     }
 }
