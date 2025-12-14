@@ -31,7 +31,7 @@ public class CategoriesController : Controller
         var response = new CategoriesIndexViewModel()
         {
             Filter = filter,
-            Parents = await GetParentsIdAndNameAsync(cancellationToken),
+            Parents = await GetParentsIdAndNameAsync(null, null, cancellationToken),
             Categories = result,
             PageTitle = "Categories"
         };
@@ -45,7 +45,7 @@ public class CategoriesController : Controller
     {
         var model = new AddCategoryViewModel()
         {
-            Parents = await GetParentsIdAndNameAsync(cancellationToken),
+            Parents = await GetParentsIdAndNameAsync(null, null, cancellationToken),
             IsActive = true,
             SortOrder = await _categoryService.GetMaxSortOrderAsync(cancellationToken) + 1
         };
@@ -60,7 +60,7 @@ public class CategoriesController : Controller
         ModelState.Remove("Parents");
         if (!ModelState.IsValid)
         {
-            model.Parents = await GetParentsIdAndNameAsync(cancellationToken);
+            model.Parents = await GetParentsIdAndNameAsync(null, null, cancellationToken);
             return View(model);
         }
 
@@ -108,14 +108,18 @@ public class CategoriesController : Controller
         var category = await _categoryService.GetByCategoryIdAsync(id, cancellationToken);
         if (category is null) return NotFound();
 
+        var model = EditCategoryViewModel.FromDTO(category);
+        var descendants = await _categoryService.GetDescendantIdsAsync(id, cancellationToken);
+        model.Parents = await GetParentsIdAndNameAsync(id, descendants, cancellationToken);
         ViewData["Title"] = $"Edit Category - {category.Name}";
-        return View(EditCategoryViewModel.FromDTO(category));
+        return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditCategoryViewModel model, CancellationToken cancellationToken)
     {
+        ModelState.Remove("Parents");
         if (!ModelState.IsValid) return View(model);
 
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
@@ -161,9 +165,9 @@ public class CategoriesController : Controller
     }
     
     [NonAction]
-    private async Task<SelectList> GetParentsIdAndNameAsync(CancellationToken cancellationToken)
+    private async Task<SelectList> GetParentsIdAndNameAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
     {
-        var categoryParents = await _categoryService.GetIdAndNameListAsync(cancellationToken);
+        var categoryParents = await _categoryService.GetIdAndNameListAsync(excludeSelfId, excludeDescendants, cancellationToken);
         return new SelectList(categoryParents,"Key","Value");
     }
 }

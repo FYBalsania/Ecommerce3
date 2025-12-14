@@ -4,6 +4,7 @@ using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Category;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.DomainEvents.Category;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
@@ -33,8 +34,8 @@ internal sealed class CategoryService : ICategoryService
         int pageSize, CancellationToken cancellationToken)
         => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
-    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
-        => await _queryRepository.GetIdAndNameAsync(cancellationToken);
+    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
+        => await _queryRepository.GetIdAndNameAsync(excludeSelfId, excludeDescendants, cancellationToken);
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
@@ -82,6 +83,12 @@ internal sealed class CategoryService : ICategoryService
             await _repository.GetByIdAsync(command.Id, CategoryInclude.None, true, cancellationToken);
         if (category is null) throw new ArgumentNullException(nameof(command.Id), "Category not found.");
 
+        if (command.ParentId is not null)
+        {
+            exists = await _queryRepository.ExistsByParentIdAsync(command.ParentId, cancellationToken);
+            if (!exists) throw new ArgumentNullException(nameof(command.ParentId), "Parent id not found.");
+        }
+
         var page = await _pageRepository.GetByCategoryIdAsync(command.Id, CategoryPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new ArgumentNullException(nameof(command.Id), $"Category {command.Id} page not found.");
@@ -90,11 +97,11 @@ internal sealed class CategoryService : ICategoryService
             ? await _repository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false,
                 cancellationToken)
             : null;
-
+        
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, parent, command.GoogleCategory, command.ShortDescription,
             command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
-
+        
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
@@ -107,7 +114,20 @@ internal sealed class CategoryService : ICategoryService
             if (categoryUpdated)
             {
                 _repository.Update(category);
-                await _repository.UpdateDescendantsPath(new LTree(""), new LTree(""), cancellationToken);
+                
+                //Parent change
+                // var parentChangedEvent = category.DomainEvents.OfType<CategoryParentIdUpdatedDomainEvent>().FirstOrDefault();
+                // if (parentChangedEvent is not null)
+                // {
+                //     await _repository.MoveDescendantsPath(parentChangedEvent.OldParentId, parentChangedEvent.NewParentId, cancellationToken);
+                // }
+                
+                //Slug change
+                var slugChangedEvent = category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault();
+                if (slugChangedEvent is not null)
+                {
+                    await _repository.UpdateDescendantsPath(new LTree(slugChangedEvent.OldSlug), new LTree(slugChangedEvent.NewSlug), cancellationToken);
+                }
             }
             if (pageUpdated) _pageRepository.Update(page);
 
@@ -127,4 +147,7 @@ internal sealed class CategoryService : ICategoryService
     {
         throw new NotImplementedException();
     }
+    
+    public async Task<int[]> GetDescendantIdsAsync(int id, CancellationToken cancellationToken)
+    => await _queryRepository.GetDescendantIdsAsync(id, cancellationToken);
 }

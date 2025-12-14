@@ -62,6 +62,7 @@ public static class DependencyInjection
             services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<ICategoryRepository>());
             services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBankRepository>());
             services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IProductGroupRepository>());
+            services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IProductRepository>());
             services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
             services.AddScoped<ITextListItemRepository, TextListItemRepository>();
             services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
@@ -72,6 +73,7 @@ public static class DependencyInjection
             services.AddScoped<IImageQueryRepository, ProductGroupImageQueryRepository>();
             services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
             services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
+            services.AddScoped<IImageQueryRepository, ProductImageQueryRepository>();
             services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
             services.AddScoped<IProductAttributeValueQueryRepository, ProductAttributeValueQueryRepository>();
             services.AddScoped<IProductQueryRepository, ProductQueryRepository>();

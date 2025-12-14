@@ -172,6 +172,7 @@ internal sealed class ImageService : IImageService
         var image = await _imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
         if (image is null) throw new ArgumentNullException(nameof(command.Id), "Image not found.");
         
+        image.Delete(command.DeletedBy, command.DeletedAt, command.DeletedByIp);
         _imageRepository.Remove(image);
         await _unitOfWork.CompleteAsync(cancellationToken);
     }

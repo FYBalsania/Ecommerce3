@@ -17,6 +17,17 @@
             </div>
             <div class="card-body">
                 <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="ParentId"></label>
+                            <select class="form-select" asp-for="ParentId" asp-items="Model.Parents">
+                                <option value="">Root</option>
+                            </select>
+                            <span asp-validation-for="ParentId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="Name"></label>

@@ -55,7 +55,7 @@ async function show_EditImageView(event) {
         })
 
         //fetch image details.
-        const imageDetails = await doAjax('/api/image/' + imageId, 'GET', null, true).promise();
+        const imageDetails = await doAjax('/api/images/' + imageId, 'GET', null, true).promise();
 
         //populate image details.
         $('#edit_Id').val(imageDetails.id);

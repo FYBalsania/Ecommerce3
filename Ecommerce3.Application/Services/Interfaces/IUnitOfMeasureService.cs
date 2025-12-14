@@ -13,5 +13,5 @@ public interface IUnitOfMeasureService
     Task<UnitOfMeasureDTO?> GetByUnitOfMeasureIdAsync(int id, CancellationToken cancellationToken);
     Task EditAsync(EditUnitOfMeasureCommand command, CancellationToken cancellationToken);
     Task DeleteAsync(DeleteUnitOfMeasureCommand command, CancellationToken cancellationToken);
-    Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, CancellationToken cancellationToken = default);
+    Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, bool excludeNonBases = false, CancellationToken cancellationToken = default);
 }

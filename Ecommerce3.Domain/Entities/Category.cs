@@ -148,7 +148,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     {
         if (parent is null) return;
         if (parent.Id == Id) throw new InvalidOperationException("Cannot set a category's parent to itself.");
-        if (parent.Path == Path || parent.Path.IsDescendantOf(Path))
+        if (parent.Path == Path) // || parent.Path.IsDescendantOf(Path)
             throw new InvalidOperationException(
                 "Cannot set a category's parent to one of its own descendants (circular reference detected).");
     }

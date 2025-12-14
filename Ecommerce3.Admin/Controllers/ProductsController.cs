@@ -58,10 +58,10 @@ public class ProductsController : Controller
         var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
         var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
         var categories =
-            new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+            new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key", "Value");
         var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
             "Value");
-        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, cancellationToken), "Key",
+        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key",
             "Value");
         var deliveryWindows =
             new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
@@ -122,11 +122,11 @@ public class ProductsController : Controller
         {
             var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
             var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-            var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(cancellationToken), "Key",
+            var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key",
                 "Value");
             var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken),
                 "Key", "Value");
-            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, cancellationToken), "Key",
+            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key",
                 "Value");
             var deliveryWindows =
                 new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
@@ -163,13 +163,12 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        var product = await _productService.GetByIdAsync(id, cancellationToken);
-        if (product is null) return NotFound();
-        
-        var viewModel = EditProductViewModel.FromDTO(product);
-        viewModel.PageTitle = $"Edit Product - {product.Name}";
-        
-        return View(viewModel);
+        ViewData["Title"] = "Edit Product - IPhone 17";
+        var model = new EditProductViewModel
+        {
+            Id = id,
+        };
+        return View(model);
     }
 
     [HttpPost]

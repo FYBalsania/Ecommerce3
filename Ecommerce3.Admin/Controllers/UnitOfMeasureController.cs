@@ -169,7 +169,7 @@ public class UnitOfMeasureController : Controller
     [NonAction]
     private async Task<SelectList> GetIdAndNameDictionaryAsync(int? excludeId = null, CancellationToken cancellationToken = default)
     {
-        var categoryParents = await _unitOfMeasureService.GetIdAndNameDictionaryAsync(excludeId, cancellationToken);
+        var categoryParents = await _unitOfMeasureService.GetIdAndNameDictionaryAsync(excludeId, true, cancellationToken);
         return new SelectList(categoryParents,"Key","Value");
     }
 }

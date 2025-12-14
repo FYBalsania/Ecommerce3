@@ -69,12 +69,12 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
         return await query.AnyAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, CancellationToken cancellationToken = default)
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, bool excludeNonBases = false, CancellationToken cancellationToken = default)
     {
         var query = dbContext.UnitOfMeasures.AsQueryable();
         
         if (excludeId is not null) query = query.Where(x => x.Id != excludeId.Value);
-        
+        if(excludeNonBases) query = query.Where(x => x.BaseId == null);
         return await query.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
 

@@ -90,10 +90,19 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
 
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
+    
+    public async Task<bool> ExistsByParentIdAsync(int? parentId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Categories.AnyAsync(x => x.Id == parentId, cancellationToken);
+    }
 
-    public async Task<Dictionary<int, string>> GetIdAndNameAsync(CancellationToken cancellationToken)
-        => await dbContext.Categories.OrderBy(x => x.Name)
-            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+    public async Task<Dictionary<int, string>> GetIdAndNameAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
+    {
+        var query = dbContext.Categories.AsQueryable();
+        if (excludeSelfId is not null) query = query.Where(x => x.Id != excludeSelfId.Value);
+        if (excludeDescendants is not null) query = query.Where(x => !excludeDescendants.Contains(x.Id));
+        return await query.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+    }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
     {
@@ -164,4 +173,31 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
         return existingCount == distinctIdsCount;
     }
 
+    public async Task<int[]> GetDescendantIdsAsync(int id, CancellationToken cancellationToken)
+    {
+        var allCategories = await dbContext.Categories
+            .Select(x => new { x.Id, x.ParentId })
+            .ToListAsync(cancellationToken);
+
+        var result = new List<int>();
+        var stack = new Stack<int>();
+        stack.Push(id);
+
+        while (stack.Count > 0)
+        {
+            var parentId = stack.Pop();
+
+            var children = allCategories
+                .Where(x => x.ParentId == parentId)
+                .Select(x => x.Id);
+
+            foreach (var childId in children)
+            {
+                result.Add(childId);
+                stack.Push(childId);
+            }
+        }
+
+        return result.ToArray();
+    }
 }

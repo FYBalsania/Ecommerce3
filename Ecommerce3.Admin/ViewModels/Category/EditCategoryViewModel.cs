@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Category;
 using Ecommerce3.Contracts.DTOs.Category;
 using Ecommerce3.Contracts.DTOs.Image;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.ViewModels.Category;
 
@@ -42,6 +43,10 @@ public class EditCategoryViewModel
     [StringLength(1024, MinimumLength = 1, ErrorMessage = "Google category must be between 1 and 1024 characters.")]
     [Display(Name = "Google category")]
     public string GoogleCategory  { get; set; }
+    
+    [Display(Name = "Parent")]
+    public int? ParentId  { get; set; }
+    public SelectList Parents { get; set; }
 
     [Required(ErrorMessage = "Meta title is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
@@ -89,6 +94,7 @@ public class EditCategoryViewModel
             Breadcrumb = Breadcrumb,
             AnchorText = AnchorText,
             AnchorTitle = AnchorTitle,
+            ParentId = ParentId,
             GoogleCategory = GoogleCategory,
             MetaTitle = MetaTitle,
             MetaDescription = MetaDescription,
@@ -115,6 +121,7 @@ public class EditCategoryViewModel
             Breadcrumb = dto.Breadcrumb,
             AnchorText = dto.AnchorText,
             AnchorTitle = dto.AnchorTitle,
+            ParentId = dto.ParentId,
             GoogleCategory = dto.GoogleCategory,
             MetaTitle = dto.MetaTitle,
             MetaDescription = dto.MetaDescription,

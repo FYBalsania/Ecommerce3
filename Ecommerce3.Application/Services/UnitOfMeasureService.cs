@@ -68,8 +68,8 @@ internal class UnitOfMeasureService(
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, CancellationToken cancellationToken = default)
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, bool excludeNonBases = false, CancellationToken cancellationToken = default)
     {
-        return await queryRepository.GetIdAndNameDictionaryAsync(excludeId, cancellationToken);
+        return await queryRepository.GetIdAndNameDictionaryAsync(excludeId, excludeNonBases, cancellationToken);
     }
 }
