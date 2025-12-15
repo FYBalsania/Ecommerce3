@@ -7,4 +7,6 @@ function name_changed(event) {
     const slug = toSlug(name);
 
     $('#Slug').val(slug);
+    $('#H1').val(name);
+    $('#MetaTitle').val(name);
 }

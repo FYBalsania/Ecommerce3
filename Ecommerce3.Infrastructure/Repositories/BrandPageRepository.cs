@@ -18,7 +18,7 @@ internal sealed class BrandPageRepository(AppDbContext dbContext) : PageReposito
             : _dbContext.BrandPages.Where(x => x.BrandId == brandId).AsNoTracking();
 
         if ((includes & BrandPageInclude.Brand) == BrandPageInclude.Brand) 
-            query = query.Include(x => x.Images);
+            query = query.Include(x => x.Brand);
         if ((includes & BrandPageInclude.CreatedByUser) == BrandPageInclude.CreatedByUser)
             query = query.Include(x => x.CreatedByUser);
         if ((includes & BrandPageInclude.UpdatedByUser) == BrandPageInclude.UpdatedByUser)

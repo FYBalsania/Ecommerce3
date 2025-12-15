@@ -28,6 +28,24 @@ public class EditBankViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
     
+    [Required(ErrorMessage = "Meta title is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Meta title must be between 1 and 256 characters.")]
+    [Display(Name = "Meta title")]
+    public string MetaTitle { get; set; }
+
+    [MaxLength(1024, ErrorMessage = "Meta description may be between 1 and 1024 characters.")]
+    [Display(Name = "Meta description")]
+    public string? MetaDescription { get; set; }
+
+    [MaxLength(1024, ErrorMessage = "Meta keywords may be between 1 and 1024 characters.")]
+    [Display(Name = "Meta keywords")]
+    public string? MetaKeywords { get; set; }
+
+    [Required(ErrorMessage = $"{nameof(H1)} is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = $"{nameof(H1)} must be between 1 and 256 characters.")]
+    [Display(Name = nameof(H1))]
+    public string? H1 { get; set; }
+    
     public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
     
     public EditBankCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
@@ -39,6 +57,10 @@ public class EditBankViewModel
             Slug = Slug,
             IsActive = IsActive,
             SortOrder = SortOrder,
+            MetaTitle = MetaTitle,
+            MetaDescription = MetaDescription,
+            MetaKeywords = MetaKeywords,
+            H1 = H1,
             UpdatedBy = updatedBy,
             UpdatedAt = updatedAt,
             UpdatedByIp = updatedByIp,
@@ -54,6 +76,10 @@ public class EditBankViewModel
             Slug = dto.Slug,
             IsActive = dto.IsActive,
             SortOrder = dto.SortOrder,
+            MetaTitle = dto.MetaTitle,
+            MetaDescription = dto.MetaDescription,
+            MetaKeywords = dto.MetaKeywords,
+            H1 = dto.H1,
             Images = dto.Images
         };
     }
