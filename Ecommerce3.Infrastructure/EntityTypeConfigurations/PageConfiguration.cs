@@ -77,8 +77,8 @@ public class PageConfiguration : IEntityTypeConfiguration<Page>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
         
         //Indexes.
-        builder.HasIndex(x => x.Path).IsUnique()
-            .HasDatabaseName($"UK_{nameof(Page)}_{nameof(Page.Path)}");
+        builder.HasIndex(x => x.Path)
+            .HasDatabaseName($"IX_{nameof(Page)}_{nameof(Page.Path)}");
         builder.HasIndex(x => x.MetaTitle).HasMethod("gin").HasOperators("gin_trgm_ops")
             .HasDatabaseName($"IX_{nameof(Page)}_{nameof(Page.MetaTitle)}");
         builder.HasIndex(x => x.CanonicalUrl).HasMethod("gin").HasOperators("gin_trgm_ops")

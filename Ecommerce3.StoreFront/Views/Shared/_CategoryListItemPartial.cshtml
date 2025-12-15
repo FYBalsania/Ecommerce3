@@ -1,17 +1,14 @@
-@using Ecommerce3.StoreFront.Extensions
 @model Ecommerce3.Contracts.DTO.StoreFront.Category.CategoryListItemDTO
-@{
-    var image = Model.Images.FilterByImageTypeSlug("list-item").FirstOrDefault();
-}
+
 <a asp-controller="Categories" asp-action="CategoryLevel0" asp-route-category0Slug="@Model.Slug" class="cat-cards"
    title="@Model.AnchorTitle">
     <img
         class="cat-hover"
-        src="@(image == null ? $"https://placehold.co/350x350?text={Model.Slug}" : System.IO.Path.Combine(ImageOptions.Value.PathString, image.FileName))"
+        src="@(Model.Image == null ? $"https://placehold.co/350x350?text={Model.Slug}" : System.IO.Path.Combine(ImageOptions.Value.PathString, Model.Image.FileName))"
         width="350"
         height="350"
-        loading="@image?.Loading"
-        title="@image?.Title"
-        alt="@image?.AltText"/>
+        loading="@Model.Image?.Loading"
+        title="@Model.Image?.Title"
+        alt="@Model.Image?.AltText"/>
     <span>@Model.AnchorText</span>
 </a>

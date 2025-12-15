@@ -4,125 +4,28 @@
   ViewData["Title"] = Model.Page.MetaTitle;
 }
 
-@{
-  var carouselImages = Model.Page.Images.FilterByImageTypeSlug("carousel");
-}
-<partial name="_CarouselPartial" model="@carouselImages"/>
+<partial name="_CarouselPartial" model="@Model.Page.Images.FilterByImageTypeId(3)"/>
 
 @* Best Sellers *@
-<section class="best-sellers-section container">
-  <h2 class="section-title">Shop Our Best Sellers</h2>
-  <div class="splide" id="best-sellers-slider" aria-label="Best Sellers">
-    <div class="splide__track">
-      <ul class="splide__list">
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img src="images/turmeric-powder.jpg" width="350" height="350" alt="Organic Turmeric Powder"/>
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Organic Turmeric Powder Double Strength</h3>
-              <p class="product-price">From <span class="price">£3.49</span></p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/redchilly-powder.jpg"
-                width="350"
-                height="350"
-                alt="Red Chilli Powder"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Red Chilli Powder Extra Hot</h3>
-              <p class="product-price">
-                From <span class="price">£3.45</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/caraway-seeds.jpg"
-                width="350"
-                height="350"
-                alt="Caraway Seeds"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Caraway Seeds</h3>
-              <p class="product-price">
-                From <span class="price">£3.25</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/cassia-broken.jpg"
-                width="350"
-                height="350"
-                alt="Organic Cassia Broken"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Organic Cassia Broken Cleansed</h3>
-              <p class="product-price">
-                From <span class="price">£3.99</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/organic-turmeric.jpg"
-                width="350"
-                height="350"
-                alt="Organic Turmeric Powder"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">
-                Organic Turmeric Powder Double Strength
-              </h3>
-              <p class="product-price">
-                From <span class="price">£3.49</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img src="images/cumin-seeds.jpg" alt="Cumin Seeds"/>
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Cumin Seeds Whole</h3>
-              <p class="product-price">
-                From <span class="price">£2.99</span>
-              </p>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
+@{
+  var bestSellers = Model.ProductCollections.FirstOrDefault(x => x.Name == "Best Sellers");
+  if (bestSellers is not null)
+  {
+    <section class="best-sellers-section container">
+      <h2 class="section-title">Shop Our Best Sellers</h2>
+      <div class="splide" id="best-sellers-slider" aria-label="Best Sellers">
+        <div class="splide__track">
+          <ul class="splide__list">
+            @foreach (var product in bestSellers.Products)
+            {
+              <partial name="_ProductListItemPartial" model="product"/>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  }
+}
 
 @* Shop by category *@
 <section class="shopby-category">
@@ -436,134 +339,31 @@
 </section>
 
 @* Newly launched *@
-<div class="greenbg-heading">
-  <div class="container">
-    <h2 class="section-title">
-      Newly Launched
-      <span class="sm-heading">Checkout Some Of Our Latest Offerings</span>
-    </h2>
-  </div>
-</div>
-<section class="best-sellers-section container">
-  <div class="splide" id="newly-launched-slider" aria-label="Best Sellers">
-    <div class="splide__track">
-      <ul class="splide__list">
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/turmeric-powder.jpg"
-                width="350"
-                height="350"
-                alt="Organic Turmeric Powder"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">
-                Organic Turmeric Powder Double Strength
-              </h3>
-              <p class="product-price">
-                From <span class="price">£3.49</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/redchilly-powder.jpg"
-                width="350"
-                height="350"
-                alt="Red Chilli Powder"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Red Chilli Powder Extra Hot</h3>
-              <p class="product-price">
-                From <span class="price">£3.45</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/caraway-seeds.jpg"
-                width="350"
-                height="350"
-                alt="Caraway Seeds"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Caraway Seeds</h3>
-              <p class="product-price">
-                From <span class="price">£3.25</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/cassia-broken.jpg"
-                width="350"
-                height="350"
-                alt="Organic Cassia Broken"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Organic Cassia Broken Cleansed</h3>
-              <p class="product-price">
-                From <span class="price">£3.99</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img
-                src="images/organic-turmeric.jpg"
-                width="350"
-                height="350"
-                alt="Organic Turmeric Powder"
-              />
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">
-                Organic Turmeric Powder Double Strength
-              </h3>
-              <p class="product-price">
-                From <span class="price">£3.49</span>
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="splide__slide">
-          <div class="product-card">
-            <div class="product-image">
-              <img src="images/cumin-seeds.jpg" alt="Cumin Seeds"/>
-            </div>
-            <div class="product-info">
-              <p class="product-brand">SPICE MART</p>
-              <h3 class="product-title">Cumin Seeds Whole</h3>
-              <p class="product-price">
-                From <span class="price">£2.99</span>
-              </p>
-            </div>
-          </div>
-        </li>
-      </ul>
+@{
+  var newlyLaunched = Model.ProductCollections.FirstOrDefault(x => x.Name == "Newly Launched");
+  if (newlyLaunched is not null)
+  {
+    <div class="greenbg-heading">
+      <div class="container">
+        <h2 class="section-title">
+          Newly Launched
+          <span class="sm-heading">Checkout Some Of Our Latest Offerings</span>
+        </h2>
+      </div>
     </div>
-  </div>
-</section>
+    <section class="best-sellers-section container">
+      <div class="splide" id="newly-launched-slider" aria-label="Best Sellers">
+        <div class="splide__track">
+          <ul class="splide__list">
+            @foreach (var product in newlyLaunched.Products)
+            {
+              <partial name="_ProductListItemPartial" model="product"/>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  }
+}
 
 <div class="menu-overlay" id="menuOverlay"></div>

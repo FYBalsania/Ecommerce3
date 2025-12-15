@@ -7,6 +7,6 @@ namespace Ecommerce3.StoreFront.ViewModels.Home;
 public record IndexViewModel
 {
     public required PageDTO Page { get; init; }
-    public required IReadOnlyList<ProductCollection> ProductCollections { get; init; }
+    public required IReadOnlyList<ProductCollectionViewModel> ProductCollections { get; init; }
     public required IReadOnlyList<CategoryListItemDTO> CategoryListItemDTOs { get; init; }
 }

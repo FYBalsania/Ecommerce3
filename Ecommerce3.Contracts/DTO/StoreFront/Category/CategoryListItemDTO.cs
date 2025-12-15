@@ -11,5 +11,5 @@ public record CategoryListItemDTO
     public required string Breadcrumb { get; init; }
     public required string AnchorText { get; init; }
     public required string? AnchorTitle { get; init; }
-    public required IReadOnlyList<ImageDTO> Images { get; init; }
+    public required ImageDTO? Image { get; init; }
 }

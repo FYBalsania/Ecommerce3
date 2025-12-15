@@ -1,12 +1,13 @@
 using System.Linq.Expressions;
+using Ecommerce3.Contracts.DTO.StoreFront.Image;
 using Ecommerce3.Contracts.DTO.StoreFront.Page;
 using Ecommerce3.Domain.Entities;
 
-namespace Ecommerce3.Infrastructure.Extensions.StoreFront;
+namespace Ecommerce3.Infrastructure.Expressions.StoreFront;
 
-public static class PageExtensions
+public static class PageExpressions
 {
-    private static readonly Expression<Func<Page, PageDTO>> DTOExpression = x => new PageDTO
+    public static readonly Expression<Func<Page, PageDTO>> DTOExpression = x => new PageDTO
     {
         Id = x.Id,
         Path = x.Path,
@@ -36,9 +37,22 @@ public static class PageExtensions
         Region = x.Region,
         SeoScore = x.SeoScore,
         IsActive = x.IsActive,
-        Images = x.Images.AsQueryable().OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
-            .Select(ImageExtensions.DTOExpression).ToList()
+        Images = x.Images
+            .Where(y => y.ImageTypeId == 2)
+            .OrderBy(y => y.SortOrder)
+            .Select(y => new ImageDTO
+            {
+                Id = y.Id,
+                FileName = y.FileName,
+                FileExtension = y.FileExtension,
+                ImageTypeId = y.ImageTypeId,
+                Size = y.Size,
+                SortOrder = y.SortOrder,
+                AltText = y.AltText,
+                Title = y.Title,
+                Loading = y.Loading,
+                Link = y.Link,
+                LinkTarget = y.LinkTarget
+            }).ToList()
     };
-    
-    public static IQueryable<PageDTO> ProjectToDTO(this IQueryable<Page> query) => query.Select(DTOExpression);
 }

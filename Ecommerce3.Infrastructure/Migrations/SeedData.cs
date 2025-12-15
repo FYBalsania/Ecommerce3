@@ -1,3 +1,4 @@
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -116,259 +117,167 @@ public partial class SeedData : Migration
             new object[,]
             {
                 {
-                    2, "BrandPage", "spice-mart/brand", "Spice Mart", "Spice Mart Brand Page", "Spice Mart, Spice, Spices",
+                    2, "BrandPage", null, "Spice Mart", "Spice Mart Brand Page", "Spice Mart, Spice, Spices",
                     "Spice Mart", 0.80, "Yearly", true, "en", "UK", 85, 1, true, 
                     1, DateTime.Now, "::1"
                 }
             });
 
         //Category
-         migrationBuilder.InsertData(
-            "Category",
-            new[]
-            {
-                "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
-                "ShortDescription", "FullDescription", "ParentId", "GoogleCategory", "Path",
-                "IsActive", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"
-            },
-            new object[,]
-            {
-                {
-                    1, "Spices", "spices", "Spices", "Spices", "Spices", "Spices",
-                    "Spices Short Description", "<p><strong>Spices</strong></p>", null,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices", "spices",
-                    true, 1, 1, DateTime.Now, "::1"
-                },
-                {
-                    2, "Whole Spices", "whole-spices", "Whole Spices", "Whole Spices", "Whole Spices", "Whole Spices",
-                    "Whole Spices Short Description", "<p><strong>Whole Spices</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Whole Spices",
-                    "spices.whole-spices", true, 2, 1, DateTime.Now, "::1"
-                },
-                {
-                    3, "Ground Spices", "ground-spices", "Ground Spices", "Ground Spices", "Ground Spices", "Ground Spices",
-                    "Ground Spices Short Description", "<p><strong>Ground Spices</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Ground Spices",
-                    "spices.ground-spices", true, 3, 1, DateTime.Now, "::1"
-                },
-                {
-                    4, "Blended Spices", "blended-spices", "Blended Spices", "Blended Spices", "Blended Spices", "Blended Spices",
-                    "Blended Spices Short Description", "<p><strong>Blended Spices</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Spice Mixes",
-                    "spices.blended-spices", true, 4, 1, DateTime.Now, "::1"
-                },
-                {
-                    5, "Herbs", "herbs", "Herbs", "Herbs", "Herbs", "Herbs",
-                    "Herbs Short Description", "<p><strong>Herbs</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Herbs",
-                    "spices.herbs", true, 5, 1, DateTime.Now, "::1"
-                },
-                {
-                    6, "Organic Spices", "organic-spices", "Organic Spices", "Organic Spices", "Organic Spices", "Organic Spices",
-                    "Organic Spices Short Description", "<p><strong>Organic Spices</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Organic Food > Organic Spices",
-                    "spices.organic-spices", true, 6, 1, DateTime.Now, "::1"
-                },
-                {
-                    7, "Masala Powders", "masala-powders", "Masala Powders", "Masala Powders", "Masala Powders", "Masala Powders",
-                    "Masala Powders Short Description", "<p><strong>Masala Powders</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Masalas",
-                    "spices.masala-powders", true, 7, 1, DateTime.Now, "::1"
-                },
-                {
-                    8, "Regional Spices", "regional-spices", "Regional Spices", "Regional Spices", "Regional Spices", "Regional Spices",
-                    "Regional Spices Short Description", "<p><strong>Regional Spices</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices",
-                    "spices.regional-spices", true, 8, 1, DateTime.Now, "::1"
-                },
-                {
-                    9, "Exotic Spices", "exotic-spices", "Exotic Spices", "Exotic Spices", "Exotic Spices", "Exotic Spices",
-                    "Exotic Spices Short Description", "<p><strong>Exotic Spices</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Exotic Spices",
-                    "spices.exotic-spices", true, 9, 1, DateTime.Now, "::1"
-                },
-                {
-                    10, "Seasonings", "seasonings", "Seasonings", "Seasonings", "Seasonings", "Seasonings",
-                    "Seasonings Short Description", "<p><strong>Seasonings</strong></p>", 1,
-                    "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Seasonings",
-                    "spices.seasonings", true, 10, 1, DateTime.Now, "::1"
-                }
-            });
+         // migrationBuilder.InsertData(
+         //    "Category",
+         //    new[]
+         //    {
+         //        "Id", "Name", "Slug", "Display", "Breadcrumb", "AnchorText", "AnchorTitle",
+         //        "ShortDescription", "FullDescription", "ParentId", "GoogleCategory", "Path",
+         //        "IsActive", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"
+         //    },
+         //    new object[,]
+         //    {
+         //        {
+         //            1, "Spices", "spices", "Spices", "Spices", "Spices", "Spices",
+         //            "Spices Short Description", "<p><strong>Spices</strong></p>", null,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices", "spices",
+         //            true, 1, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            2, "Whole Spices", "whole-spices", "Whole Spices", "Whole Spices", "Whole Spices", "Whole Spices",
+         //            "Whole Spices Short Description", "<p><strong>Whole Spices</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Whole Spices",
+         //            "spices.whole-spices", true, 2, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            3, "Ground Spices", "ground-spices", "Ground Spices", "Ground Spices", "Ground Spices", "Ground Spices",
+         //            "Ground Spices Short Description", "<p><strong>Ground Spices</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Ground Spices",
+         //            "spices.ground-spices", true, 3, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            4, "Blended Spices", "blended-spices", "Blended Spices", "Blended Spices", "Blended Spices", "Blended Spices",
+         //            "Blended Spices Short Description", "<p><strong>Blended Spices</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Spice Mixes",
+         //            "spices.blended-spices", true, 4, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            5, "Herbs", "herbs", "Herbs", "Herbs", "Herbs", "Herbs",
+         //            "Herbs Short Description", "<p><strong>Herbs</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Herbs",
+         //            "spices.herbs", true, 5, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            6, "Organic Spices", "organic-spices", "Organic Spices", "Organic Spices", "Organic Spices", "Organic Spices",
+         //            "Organic Spices Short Description", "<p><strong>Organic Spices</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Organic Food > Organic Spices",
+         //            "spices.organic-spices", true, 6, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            7, "Masala Powders", "masala-powders", "Masala Powders", "Masala Powders", "Masala Powders", "Masala Powders",
+         //            "Masala Powders Short Description", "<p><strong>Masala Powders</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Masalas",
+         //            "spices.masala-powders", true, 7, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            8, "Regional Spices", "regional-spices", "Regional Spices", "Regional Spices", "Regional Spices", "Regional Spices",
+         //            "Regional Spices Short Description", "<p><strong>Regional Spices</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices",
+         //            "spices.regional-spices", true, 8, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            9, "Exotic Spices", "exotic-spices", "Exotic Spices", "Exotic Spices", "Exotic Spices", "Exotic Spices",
+         //            "Exotic Spices Short Description", "<p><strong>Exotic Spices</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Exotic Spices",
+         //            "spices.exotic-spices", true, 9, 1, DateTime.Now, "::1"
+         //        },
+         //        {
+         //            10, "Seasonings", "seasonings", "Seasonings", "Seasonings", "Seasonings", "Seasonings",
+         //            "Seasonings Short Description", "<p><strong>Seasonings</strong></p>", 1,
+         //            "Food, Beverages & Tobacco > Food Items > Herbs & Spices > Seasonings",
+         //            "spices.seasonings", true, 10, 1, DateTime.Now, "::1"
+         //        }
+         //    });
 
-         //Category Page
-        migrationBuilder.InsertData(
-            "Page",
-            new[]
-            {
-                "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
-                "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
-                "Language", "Region", "SeoScore", "CategoryId", "IsActive",
-                "CreatedBy", "CreatedAt", "CreatedByIp"
-            },
-            new object[,]
-            {
-                {
-                    3, "CategoryPage", "spices/category", "Spices",
-                    "Explore a wide range of premium spices for everyday cooking",
-                    "Spices, Indian Spices, Cooking Spices, Masala",
-                    "Spices", 0.90, "Monthly", true, "en", "IN", 90, 1, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    4, "CategoryPage", "whole-spices/category", "Whole Spices",
-                    "Buy whole spices with rich aroma and authentic taste",
-                    "Whole Spices, Cardamom, Cloves, Pepper",
-                    "Whole Spices", 0.88, "Monthly", true, "en", "IN", 88, 2, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    5, "CategoryPage", "ground-spices/category", "Ground Spices",
-                    "Freshly ground spices for perfect flavor in every dish",
-                    "Ground Spices, Spice Powders, Masala Powder",
-                    "Ground Spices", 0.87, "Monthly", true, "en", "IN", 87, 3, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    6, "CategoryPage", "blended-spices/category", "Blended Spices",
-                    "Expertly blended spices for traditional and modern recipes",
-                    "Blended Spices, Spice Mix, Masala Mix",
-                    "Blended Spices", 0.86, "Monthly", true, "en", "IN", 86, 4, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    7, "CategoryPage", "herbs/category", "Herbs",
-                    "Natural dried herbs for cooking and seasoning",
-                    "Herbs, Dried Herbs, Cooking Herbs",
-                    "Herbs", 0.84, "Yearly", true, "en", "IN", 84, 5, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    8, "CategoryPage", "organic-spices/category", "Organic Spices",
-                    "Certified organic spices grown without chemicals",
-                    "Organic Spices, Natural Spices, Healthy Cooking",
-                    "Organic Spices", 0.89, "Monthly", true, "en", "IN", 89, 6, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    9, "CategoryPage", "masala-powders/category", "Masala Powders",
-                    "Traditional masala powders for authentic Indian taste",
-                    "Masala Powder, Indian Masala, Curry Masala",
-                    "Masala Powders", 0.91, "Monthly", true, "en", "IN", 91, 7, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    10, "CategoryPage", "regional-spices/category", "Regional Spices",
-                    "Regional spice specialties from across India",
-                    "Regional Spices, South Indian, North Indian Masala",
-                    "Regional Spices", 0.83, "Yearly", true, "en", "IN", 83, 8, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    11, "CategoryPage", "exotic-spices/category", "Exotic Spices",
-                    "Rare and exotic spices sourced from around the world",
-                    "Exotic Spices, Premium Spices, Gourmet Spices",
-                    "Exotic Spices", 0.85, "Yearly", true, "en", "IN", 85, 9, true,
-                    1, DateTime.Now, "::1"
-                },
-                {
-                    12, "CategoryPage", "seasonings/category", "Seasonings",
-                    "Seasonings and spice blends to enhance every meal",
-                    "Seasonings, Flavoring, Spice Seasoning",
-                    "Seasonings", 0.88, "Monthly", true, "en", "IN", 88, 10, true,
-                    1, DateTime.Now, "::1"
-                }
-            });
-
-
-        // ProductAttribute
+        //  //Category Page
         // migrationBuilder.InsertData(
-        //     "ProductAttribute",
+        //     "Page",
         //     new[]
-        //     { 
-        //         "Id", "Name", "Slug", "Display", "Breadcrumb", "DataType",
-        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
+        //     {
+        //         "Id", "Discriminator", "Path", "MetaTitle", "MetaDescription", "MetaKeywords",
+        //         "H1", "SitemapPriority", "SitemapFrequency", "IsIndexed",
+        //         "Language", "Region", "SeoScore", "CategoryId", "IsActive",
+        //         "CreatedBy", "CreatedAt", "CreatedByIp"
         //     },
         //     new object[,]
         //     {
-        //         { 1, "Colour", "colour", "Colour", "Colour", "Colour", 1, 1, DateTime.Now, "::1" },
-        //         { 2, "Storage", "storage", "Storage", "Storage", "Text", 2, 1, DateTime.Now, "::1" },
-        //         { 3, "RAM", "ram", "RAM", "RAM", "DateOnly", 3, 1, DateTime.Now, "::1" },
-        //         { 4, "Screen Size", "screen-size", "Screen Size", "Screen Size", "Decimal", 4, 1, DateTime.Now, "::1" },
-        //         { 5, "Processor", "processor", "Processor", "Processor", "Text", 5, 1, DateTime.Now, "::1" },
-        //         { 6, "Battery Capacity", "battery-capacity", "Battery Capacity", "Battery Capacity", "Text", 6, 1, DateTime.Now, "::1" },
-        //         { 7, "Material", "material", "Material", "Material", "Text", 7, 1, DateTime.Now, "::1" },
-        //         { 8, "Weight", "weight", "Weight", "Weight", "Text", 8, 1, DateTime.Now, "::1" },
-        //         { 9, "Warranty", "warranty", "Warranty", "Warranty", "Text", 9, 1, DateTime.Now, "::1" },
-        //         { 10, "Connectivity", "connectivity", "Connectivity", "Connectivity", "Text", 10, 1, DateTime.Now, "::1" },
-        //         { 11, "ESim", "esim", "ESim", "ESim", "Boolean", 10, 1, DateTime.Now, "::1" }
-        //     });
-
-        // ProductAttribute
-        // migrationBuilder.InsertData(
-        //     "ProductAttributeValue",
-        //     new[]
-        //     { 
-        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "HexCode", "ColourFamily", "ColourFamilyHexCode",
-        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-        //     },
-        //     new object[,]
-        //     {
-        //         { 1, 1, nameof(ProductAttributeColourValue), "Blood Red", "blood-red", "Blood Red", "Blood Red", "#8A0303", "Red", "#FF0000", 1, 1, DateTime.Now, "::1" },
-        //         { 2, 1, nameof(ProductAttributeColourValue), "Pale Yellow", "pale-yellow", "Pale Yellow", "Pale Yellow", "#FFFF99", "Yellow", "#FFFF99", 2, 1, DateTime.Now, "::1" },
-        //         { 3, 1, nameof(ProductAttributeColourValue), "Emerald Green", "emerald-green", "Emerald Green", "Emerald Green", "#50C878", "Green", "#50C878", 3, 1, DateTime.Now, "::1" },
-        //     });
-        //
-        // migrationBuilder.InsertData(
-        //     "ProductAttributeValue",
-        //     new[]
-        //     { 
-        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb",
-        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-        //     },
-        //     new object[,]
-        //     {
-        //         { 4, 2, nameof(ProductAttributeValue), "Hello", "hello", "Hello", "Hello", 1, 1, DateTime.Now, "::1" },
-        //         { 5, 2, nameof(ProductAttributeValue), "Hi", "hi", "Hi", "Hi", 1, 1, DateTime.Now, "::1" },
-        //     });
-        //
-        // migrationBuilder.InsertData(
-        //     "ProductAttributeValue",
-        //     new[]
-        //     { 
-        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "DateOnlyValue",
-        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-        //     },
-        //     new object[,]
-        //     {
-        //         { 6, 3, nameof(ProductAttributeDateOnlyValue), "Hello", "hello", "Hello", "Hello", new DateOnly(2025, 01, 01), 1, 1, DateTime.Now, "::1" },
-        //         { 7, 3, nameof(ProductAttributeDateOnlyValue), "Hi", "hi", "Hi", "Hi", new DateOnly(2025, 01, 02), 2, 1, DateTime.Now, "::1" }
-        //     });
-        //
-        //
-        // migrationBuilder.InsertData(
-        //     "ProductAttributeValue",
-        //     new[]
-        //     { 
-        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "DecimalValue",
-        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-        //     },
-        //     new object[,]
-        //     {
-        //         { 8, 4, nameof(ProductAttributeDecimalValue), "100.50", "100-50", "100.50", "100.50", 100.50m, 1, 1, DateTime.Now, "::1" },
-        //         { 9, 4, nameof(ProductAttributeDecimalValue), "249.99", "249-99", "249.99", "249.99", 249.99m, 2, 1, DateTime.Now, "::1" }
-        //     });
-        //
-        // migrationBuilder.InsertData(
-        //     "ProductAttributeValue",
-        //     new[]
-        //     { 
-        //         "Id", "ProductAttributeId", "Discriminator", "Value", "Slug", "Display", "Breadcrumb", "BooleanValue",
-        //         "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp" 
-        //     },
-        //     new object[,]
-        //     {
-        //         { 10, 11, nameof(ProductAttributeBooleanValue), "Yes", "yes", "Yes", "Yes", true, 1, 1, DateTime.Now, "::1" },
-        //         { 11, 11, nameof(ProductAttributeBooleanValue), "No", "no", "No", "No", false, 2, 1, DateTime.Now, "::1" }
+        //         {
+        //             3, "CategoryPage", "spices/category", "Spices",
+        //             "Explore a wide range of premium spices for everyday cooking",
+        //             "Spices, Indian Spices, Cooking Spices, Masala",
+        //             "Spices", 0.90, "Monthly", true, "en", "IN", 90, 1, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             4, "CategoryPage", "whole-spices/category", "Whole Spices",
+        //             "Buy whole spices with rich aroma and authentic taste",
+        //             "Whole Spices, Cardamom, Cloves, Pepper",
+        //             "Whole Spices", 0.88, "Monthly", true, "en", "IN", 88, 2, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             5, "CategoryPage", "ground-spices/category", "Ground Spices",
+        //             "Freshly ground spices for perfect flavor in every dish",
+        //             "Ground Spices, Spice Powders, Masala Powder",
+        //             "Ground Spices", 0.87, "Monthly", true, "en", "IN", 87, 3, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             6, "CategoryPage", "blended-spices/category", "Blended Spices",
+        //             "Expertly blended spices for traditional and modern recipes",
+        //             "Blended Spices, Spice Mix, Masala Mix",
+        //             "Blended Spices", 0.86, "Monthly", true, "en", "IN", 86, 4, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             7, "CategoryPage", "herbs/category", "Herbs",
+        //             "Natural dried herbs for cooking and seasoning",
+        //             "Herbs, Dried Herbs, Cooking Herbs",
+        //             "Herbs", 0.84, "Yearly", true, "en", "IN", 84, 5, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             8, "CategoryPage", "organic-spices/category", "Organic Spices",
+        //             "Certified organic spices grown without chemicals",
+        //             "Organic Spices, Natural Spices, Healthy Cooking",
+        //             "Organic Spices", 0.89, "Monthly", true, "en", "IN", 89, 6, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             9, "CategoryPage", "masala-powders/category", "Masala Powders",
+        //             "Traditional masala powders for authentic Indian taste",
+        //             "Masala Powder, Indian Masala, Curry Masala",
+        //             "Masala Powders", 0.91, "Monthly", true, "en", "IN", 91, 7, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             10, "CategoryPage", "regional-spices/category", "Regional Spices",
+        //             "Regional spice specialties from across India",
+        //             "Regional Spices, South Indian, North Indian Masala",
+        //             "Regional Spices", 0.83, "Yearly", true, "en", "IN", 83, 8, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             11, "CategoryPage", "exotic-spices/category", "Exotic Spices",
+        //             "Rare and exotic spices sourced from around the world",
+        //             "Exotic Spices, Premium Spices, Gourmet Spices",
+        //             "Exotic Spices", 0.85, "Yearly", true, "en", "IN", 85, 9, true,
+        //             1, DateTime.Now, "::1"
+        //         },
+        //         {
+        //             12, "CategoryPage", "seasonings/category", "Seasonings",
+        //             "Seasonings and spice blends to enhance every meal",
+        //             "Seasonings, Flavoring, Spice Seasoning",
+        //             "Seasonings", 0.88, "Monthly", true, "en", "IN", 88, 10, true,
+        //             1, DateTime.Now, "::1"
+        //         }
         //     });
 
         // ProductGroup
@@ -534,56 +443,28 @@ public partial class SeedData : Migration
             });
 
         // ImageType
-        // migrationBuilder.InsertData(
-        //     "ImageType",
-        //     new[]
-        //     {
-        //         "Id", "Entity", "Name", "Slug", "Description", "IsActive",
-        //         "CreatedBy", "CreatedAt", "CreatedByIp"
-        //     },
-        //     new object[,]
-        //     {
-        //         {
-        //             1, "Brand", "Brand Banner", "brand-banner", "Main banner image displayed on the brand page.", true,
-        //             1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             2, "Brand", "Brand Logo", "brand-logo", "Primary logo image for the brand.", true, 1, DateTime.Now,
-        //             "::1"
-        //         },
-        //         {
-        //             3, "Category", "Category Banner", "category-banner",
-        //             "Banner displayed at the top of category pages.", true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             4, "Category", "Category Thumbnail", "category-thumbnail", "Small thumbnail for category listings.",
-        //             true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             5, "ProductGroup", "Group Banner", "group-banner", "Banner used for product group sections.", true,
-        //             1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             6, "Product", "Main Image", "main-image", "Primary product image shown on product details page.",
-        //             true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             7, "Product", "Gallery Image", "gallery-image", "Additional product gallery image.", true, 1,
-        //             DateTime.Now, "::1"
-        //         },
-        //         {
-        //             8, "Page", "Home Page Slide 1", "home-page-slider-1",
-        //             "Main slider image on homepage (first slide).", true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             9, "Page", "Home Page Slide 2", "home-page-slider-2",
-        //             "Main slider image on homepage (second slide).", true, 1, DateTime.Now, "::1"
-        //         },
-        //         {
-        //             10, "Page", "Promo Banner", "promo-banner", "Promotional banner displayed on homepage.", true, 1,
-        //             DateTime.Now, "::1"
-        //         }
-        //     });
+        migrationBuilder.InsertData(
+            "ImageType",
+            new[]
+            {
+                "Id", "Entity", "Name", "Slug", "Description", "IsActive",
+                "CreatedBy", "CreatedAt", "CreatedByIp"
+            },
+            new object[,]
+            {
+                {
+                    1, nameof(Product), "List Item", "list-item", "Product list item", true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    2, nameof(Category), "List Item", "list-item", "Category list item", true,
+                    1, DateTime.Now, "::1"
+                },
+                {
+                    3, nameof(Page), "Banner", "banner", "Page banner", true,
+                    1, DateTime.Now, "::1"
+                },
+            });
 
         // Bank
         migrationBuilder.InsertData(

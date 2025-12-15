@@ -1,0 +1,35 @@
+@model Ecommerce3.Contracts.DTO.StoreFront.Product.ProductListItemDTO
+
+<li class="splide__slide">
+    <div class="product-card">
+        <div class="product-image">
+            @if (Model.Image is not null)
+            {
+                <img
+                    src="@System.IO.Path.Combine(ImageOptions.Value.PathString, Model.Image.FileName)"
+                    width="350"
+                    height="350"
+                    loading="@Model.Image.Loading"
+                    alt="@Model.Image.AltText"
+                    title="@Model.Image.Title"/>
+            }
+            else
+            {
+                <img
+                    src="@($"https://placehold.co/350x350?text={Model.Slug}")"
+                    width="350"
+                    height="350"
+                    loading="eager"
+                    alt="@Model.Name"
+                    title="@Model.Name"/>
+            }
+        </div>
+        <div class="product-info">
+            <p class="product-brand">@Model.BrandName</p>
+            <h3 class="product-title">@Model.Name</h3>
+            <p class="product-price">
+                Price <span class="price">£@Model.Price</span>
+            </p>
+        </div>
+    </div>
+</li>

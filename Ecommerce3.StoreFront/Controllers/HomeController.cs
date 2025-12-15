@@ -35,7 +35,7 @@ public class HomeController(
 
         // Build final list
         var result = productCollections.Value
-            .Select(pc => new ProductCollection
+            .Select(pc => new ProductCollectionViewModel
             {
                 Name = pc.Name,
                 Products = pc.ProductSKUs
