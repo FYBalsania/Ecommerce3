@@ -104,11 +104,15 @@ internal sealed class CategoryService(
                 var slugChangedEvent = category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault();
                 if (slugChangedEvent is not null)
                 {
+                    //Get descendants.
                     var descendants = await repository.GetDescendantsAsync(slugChangedEvent.Id, CategoryInclude.None,
                         true, cancellationToken);
+                    //Remove the current category from the list.
+                    descendants = descendants.Where(x => x.Id != slugChangedEvent.Id).ToList();
+                    //Update the path of the descendants.
                     foreach (var descendant in descendants)
                     {
-                        descendant.UpdateSlug(slugChangedEvent.NewSlug);
+                        descendant.UpdatePath(slugChangedEvent.NewPath);
                     }
                 }
             }

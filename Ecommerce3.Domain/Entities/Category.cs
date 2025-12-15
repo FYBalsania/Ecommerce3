@@ -130,9 +130,9 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         return true;
     }
 
-    public void UpdateSlug(string parentSlug)
+    public void UpdatePath(string parentPath)
     {
-        Path = new LTree($"{parentSlug}.{Slug}");
+        Path = new LTree($"{parentPath}.{Slug}");
     }
 
     public void ChangeParent(Category? parent, int updatedBy, DateTime updatedAt, string updatedByIp)
