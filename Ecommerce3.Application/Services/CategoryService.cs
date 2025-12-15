@@ -92,41 +92,27 @@ internal sealed class CategoryService(
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         if (!categoryUpdated && !pageUpdated) return;
-
-        try
+        
+        if (categoryUpdated)
         {
-            await unitOfWork.BeginTransactionAsync(cancellationToken);
-
-            if (categoryUpdated)
+            //Slug changed.
+            var slugChangedEvent = category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault();
+            if (slugChangedEvent is not null)
             {
-                // repository.Update(category);
-                //Slug changed.
-                var slugChangedEvent = category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault();
-                if (slugChangedEvent is not null)
+                //Get descendants.
+                var descendants = await repository.GetDescendantsAsync(slugChangedEvent.Id, CategoryInclude.None,
+                    true, cancellationToken);
+                //Remove the current category from the list.
+                descendants = descendants.Where(x => x.Id != slugChangedEvent.Id).ToList();
+                //Update the path of the descendants.
+                foreach (var descendant in descendants)
                 {
-                    //Get descendants.
-                    var descendants = await repository.GetDescendantsAsync(slugChangedEvent.Id, CategoryInclude.None,
-                        true, cancellationToken);
-                    //Remove the current category from the list.
-                    descendants = descendants.Where(x => x.Id != slugChangedEvent.Id).ToList();
-                    //Update the path of the descendants.
-                    foreach (var descendant in descendants)
-                    {
-                        descendant.UpdatePath(slugChangedEvent.NewPath);
-                    }
+                    descendant.UpdatePath(slugChangedEvent.NewPath);
                 }
             }
-
-            if (pageUpdated) pageRepository.Update(page);
-
-            await unitOfWork.CompleteAsync(cancellationToken);
-            await unitOfWork.CommitTransactionAsync(cancellationToken);
         }
-        catch (Exception exception)
-        {
-            await unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw;
-        }
+
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
