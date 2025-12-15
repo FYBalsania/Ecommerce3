@@ -4,6 +4,7 @@ using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Brand;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.DomainEvents.Common;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
@@ -35,7 +36,8 @@ internal sealed class BrandService(
             command.AnchorTitle, command.ShortDescription, command.FullDescription, command.IsActive, command.SortOrder,
             command.CreatedBy, command.CreatedByIp);
 
-        var page = new BrandPage($"/{command.Slug}/b", command.MetaTitle, command.MetaDescription, command.MetaKeywords, null,
+        var page = new BrandPage($"/{command.Slug}/b", command.MetaTitle, command.MetaDescription, command.MetaKeywords,
+            null,
             command.H1, null, null, null, null, null, null, null, null,
             null, null, null, 0, SiteMapFrequency.Yearly, null, true, null
             , null, "en", "UK", 0, true, command.CreatedBy, command.CreatedAt, command.CreatedByIp, brand);
@@ -71,7 +73,14 @@ internal sealed class BrandService(
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (brandUpdated) repository.Update(brand);
+        if (brandUpdated)
+        {
+            repository.Update(brand);
+            foreach (var domainEvent in brand.DomainEvents.OfType<SlugUpdatedDomainEvent>())
+            {
+            }
+        }
+
         if (pageUpdated) pageRepository.Update(page);
 
         if (brandUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);

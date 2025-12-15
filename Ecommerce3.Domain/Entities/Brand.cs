@@ -1,3 +1,4 @@
+using Ecommerce3.Domain.DomainEvents.Common;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -149,6 +150,8 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
             FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
             return false;
+        
+        if (Slug != slug) AddDomainEvent(new SlugUpdatedDomainEvent(Slug, slug));
 
         Name = name;
         Slug = slug;
