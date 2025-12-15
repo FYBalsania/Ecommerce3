@@ -87,4 +87,34 @@ public static partial class DomainErrors
         public static readonly DomainError UpdatedByIpTooLong =
             new($"{nameof(Page)}.{nameof(Page.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
     }
+    
+    public static class BrandPageErrors
+    {
+        public static readonly DomainError InvalidBrandId =
+            new($"{nameof(BrandPage)}.{nameof(BrandPage.Id)}", "Brand id is invalid.");
+    }
+    
+    public static class CategoryPageErrors
+    {
+        public static readonly DomainError InvalidCategoryId =
+            new($"{nameof(CategoryPage)}.{nameof(CategoryPage.Id)}", "Category id is invalid.");
+    }
+    
+    public static class ProductGroupPageErrors
+    {
+        public static readonly DomainError InvalidProductGroupId =
+            new($"{nameof(ProductGroupPage)}.{nameof(ProductGroupPage.Id)}", "Product group id is invalid.");
+    }
+    
+    public static class ProductPageErrors
+    {
+        public static readonly DomainError InvalidProductId =
+            new($"{nameof(ProductPage)}.{nameof(ProductPage.Id)}", "Product id is invalid.");
+    }
+    
+    public static class BankPageErrors
+    {
+        public static readonly DomainError InvalidBankId =
+            new($"{nameof(BankPage)}.{nameof(BankPage.Id)}", "Bank id is invalid.");
+    }
 }

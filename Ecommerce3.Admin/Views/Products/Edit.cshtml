@@ -9,6 +9,7 @@
     </div>
     <form method="post" asp-action="Edit">
         @Html.AntiForgeryToken()
+        
         <!-- Identification -->
         <div class="card mb-4">
             <div class="card-header">
@@ -18,40 +19,46 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">SKU <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" value="ABCD1234">
+                            <label class="form-label fw-bold required" asp-for="SKU"></label>
+                            <input class="form-control" asp-for="SKU"/>
+                            <span class="text-danger" asp-validation-for="SKU"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">GTIN</label>
-                            <input type="text" class="form-control">
+                            <label class="form-label fw-bold" asp-for="GTIN"></label>
+                            <input class="form-control" asp-for="GTIN"/>
+                            <span class="text-danger" asp-validation-for="GTIN"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">MPN</label>
-                            <input type="text" class="form-control">
+                            <label class="form-label fw-bold" asp-for="MPN"></label>
+                            <input class="form-control" asp-for="MPN"/>
+                            <span class="text-danger" asp-validation-for="MPN"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">MFC</label>
-                            <input type="text" class="form-control">
+                            <label class="form-label fw-bold" asp-for="MFC"></label>
+                            <input class="form-control" asp-for="MFC"/>
+                            <span class="text-danger" asp-validation-for="MFC"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">EAN</label>
-                            <input type="text" class="form-control">
+                            <label class="form-label fw-bold" asp-for="EAN"></label>
+                            <input class="form-control" asp-for="EAN"/>
+                            <span class="text-danger" asp-validation-for="EAN"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">UPC</label>
-                            <input type="text" class="form-control">
+                            <label class="form-label fw-bold" asp-for="UPC"></label>
+                            <input class="form-control" asp-for="UPC"/>
+                            <span class="text-danger" asp-validation-for="UPC"></span>
                         </div>
                     </div>
                 </div>
@@ -67,13 +74,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Brand</label>
-                            <select class="select-brand form-select">
-                                <option value="">Select Brand</option>
-                                <option value="Text" selected>Apple</option>
-                                <option value="Number">Google</option>
-                                <option value="DateOnly">Meta</option>
+                            <label class="form-label fw-bold required">Brand</label>
+                            <select class="form-select" asp-for="BrandId" asp-items="@Model.Brands">
+                                <option value="">Select...</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="BrandId"></span>
                         </div>
                     </div>
                 </div>
@@ -81,180 +86,190 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Categories</label>
-                            <select class="form-select" multiple="multiple" style="height: 100px;">
-                                <option value="Number" selected>Phone > Apple</option>
-                                <option value="Text">Accessories</option>
-                                <option value="DateOnly" selected="">Phone > Smart Phone</option>
-                                <option value="DateOnly" selected="">Phone > Apple > iPhone 17</option>
+                            <select class="select-brand form-select" multiple="multiple" asp-for="CategoryIds" asp-items="@Model.Categories">
+                                <option value="">Select...</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="CategoryIds"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Name</label>
-                            <input type="text" class="form-control" value="iPhone 17 Red 128GB">
+                            <label class="form-label fw-bold required" asp-for="Name"></label>
+                            <input class="form-control" asp-for="Name"/>
+                            <span class="text-danger" asp-validation-for="Name"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Slug</label>
-                            <input type="text" class="form-control" value="iphone-17-red-128gb">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Display</label>
-                            <input type="text" class="form-control" value="iPhone 17 Red 128GB">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Breadcrumb</label>
-                            <input type="text" class="form-control" value="Home > Products > Edit > iPhone 17 Red 128GB">
+                            <label class="form-label fw-bold required" asp-for="Slug"></label>
+                            <input class="form-control" asp-for="Slug"/>
+                            <span class="text-danger" asp-validation-for="Slug"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Anchor Text</label>
-                            <input type="text" class="form-control" value="iPhone 17 Red 128GB">
+                            <label class="form-label fw-bold required" asp-for="Display"></label>
+                            <input class="form-control" asp-for="Display"/>
+                            <span class="text-danger" asp-validation-for="Display"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Anchor Title</label>
-                            <input type="text" class="form-control" value="iPhone 17 Red 128GB">
+                            <label class="form-label fw-bold" asp-for="Breadcrumb"></label>
+                            <input class="form-control" asp-for="Breadcrumb"/>
+                            <span class="text-danger" asp-validation-for="Breadcrumb"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Sort Order</label>
-                            <input type="number" class="form-control" value="1">
+                            <label class="form-label fw-bold required" asp-for="AnchorText"></label>
+                            <input class="form-control" asp-for="AnchorText"/>
+                            <span class="text-danger" asp-validation-for="AnchorText"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Is Active <span class="text-danger">*</span></label>
-                            <select class="form-select">
-                                <option value="">Select Status</option>
-                                <option value="1" selected>Yes</option>
-                                <option value="0">No</option>
+                            <label class="form-label fw-bold required" asp-for="AnchorTitle"></label>
+                            <input class="form-control" asp-for="AnchorTitle"/>
+                            <span class="text-danger" asp-validation-for="AnchorTitle"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="SortOrder"></label>
+                            <input class="form-control" asp-for="SortOrder"/>
+                            <span class="text-danger" asp-validation-for="SortOrder"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="Status"></label>
+                            <select class="form-select" asp-for="@Model.Status">
+                                <option value="">Select...</option>
+                                <option value="@nameof(ProductStatus.Active)">@ProductStatus.Active</option>
+                                <option value="@nameof(ProductStatus.Discontinued)">@ProductStatus.Discontinued</option>
+                                <option value="@nameof(ProductStatus.Inactive)">@ProductStatus.Inactive</option>
+                                <option value="@nameof(ProductStatus.RedirectToPrimaryCategory)">Redirect to Primary Category</option>
+                                <option value="@nameof(ProductStatus.RedirectToUrl)">Redirect to Url</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="Status"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="RedirectUrl">Redirect URL</label>
+                            <input class="form-control" asp-for="RedirectUrl" disabled="disabled"/>
+                            <span class="text-danger" asp-validation-for="RedirectUrl"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Short Description</label>
-                            <textarea class="form-control" rows="3">A sleek red finish meets powerful performance in this iPhone 17 (128 GB) — featuring a vivid Super Retina XDR display with 120 Hz ProMotion, a 48 MP Dual Fusion camera system, new A19 chip, and all-day battery life. Ideal for users who want style without compromising specs.</textarea>
+                            <label class="form-label fw-bold" asp-for="ShortDescription">Short Description</label>
+                            <textarea class="form-control" rows="3" asp-for="ShortDescription"></textarea>
+                            <span class="text-danger" asp-validation-for="ShortDescription"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Long Description</label>
-                            <div id="longDescriptionEditor" style="height: 200px;">
-                                Step into the future with this imagined Red iPhone 17 (128 GB) — merging bold design with
-                                cutting-edge technology. Its rich red colour adds a dash of personality, backed by a premium
-                                build with an aluminium frame and the new Ceramic Shield 2 front, which delivers
-                                substantially better scratch resistance than before. The 6.3-inch Super Retina XDR OLED
-                                display dazzles with a refresh rate up to 120 Hz (ProMotion), making scrolling, gaming, and
-                                video playback fluid and immersive. Under the hood, the all-new A19 chip ensures snappy
-                                performance and efficient power usage. Photography gets a major uplift: a 48-MP Dual Fusion
-                                rear camera system handles wide shots and 2× optical-quality telephoto, while the front
-                                camera is upgraded (18-MP) with a larger sensor and Support for Center Stage — so group
-                                shots and video calls are sharper and more natural even when you move. Battery life is made
-                                to last through the day, and fast-charging gets you up to 50% in about 20 minutes with a
-                                suitable adapter. For peace of mind, it retains IP68 dust/water resistance (up to 6 m for 30
-                                minutes), and adds modern features like stereo sound, USB-C charging, wireless charging,
-                                spatial audio, and emergency SOS via satellite. Storage is 128 GB — useful for plenty of
-                                apps, photos, and videos, though you might fill it up faster than with higher tiers. If
-                                priority is storage or media, you may want to go for a higher-capacity model.
-                            </div>
-                            <input type="hidden" id="longDescriptionInput" name="LongDescription">
+                            <label class="form-label fw-bold" asp-for="FullDescription"></label>
+                            <div id="longDescriptionEditor" style="height: 200px;">@Html.Raw(Model.FullDescription)</div>
+                            <input type="hidden" id="longDescriptionInput" asp-for="FullDescription">
+                            <span asp-validation-for="FullDescription" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Allow reviews <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="AllowReviews"></label>
+                            <select class="form-select" asp-for="AllowReviews">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="AllowReviews" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Show availability <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="ShowAvailability"></label>
+                            <select class="form-select" asp-for="ShowAvailability">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="ShowAvailability" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Free shipping <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="FreeShipping"></label>
+                            <select class="form-select" asp-for="FreeShipping">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="FreeShipping" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Is featured <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="IsFeatured"></label>
+                            <select class="form-select" asp-for="IsFeatured">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="IsFeatured" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Is new <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="IsNew"></label>
+                            <select class="form-select" asp-for="IsNew">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="IsNew" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Is bestseller <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="IsBestSeller"></label>
+                            <select class="form-select" asp-for="IsBestSeller">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="IsBestSeller" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Is returnable <span class="text-danger">*</span></label>
-                            <select class="form-select">
+                            <label class="form-label fw-bold required" asp-for="IsReturnable"></label>
+                            <select class="form-select" asp-for="IsReturnable">
                                 <option value="">Select Status</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
+                            <span asp-validation-for="IsReturnable" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -270,13 +285,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Product Group</label>
-                            <select class="select-product form-select">
-                                <option value="Text" selected>iPhone 17</option>
-                                <option value="Number">iPhone 17 Air</option>
-                                <option value="DateOnly">iPhone 17 Pro</option>
-                                <option value="Boolean">iPhone 17 Pro Max</option>
+                            <label class="form-label fw-bold" asp-for="@Model.ProductGroupId"></label>
+                            <select class="select-product form-select" asp-for="@Model.ProductGroupId"
+                                    asp-items="@Model.ProductGroups">
+                                <option value="">Select...</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="@Model.ProductGroupId"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -317,48 +331,55 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Price</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold" asp-for="Price"></label>
+                            <input type="number" class="form-control" asp-for="Price"/>
+                            <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Old Price</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold" asp-for="OldPrice"></label>
+                            <input type="number" class="form-control" asp-for="OldPrice"/>
+                            <span asp-validation-for="OldPrice" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Cost Price</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold" asp-for="CostPrice"></label>
+                            <input type="number" class="form-control" asp-for="CostPrice"/>
+                            <span asp-validation-for="CostPrice" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Min Order Quantity</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold" asp-for="MinOrderQuantity"></label>
+                            <input type="number" class="form-control" asp-for="MinOrderQuantity"/>
+                            <span asp-validation-for="MinOrderQuantity" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Max Order Quantity</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold" asp-for="MaxOrderQuantity"></label>
+                            <input type="number" class="form-control" asp-for="MaxOrderQuantity"/>
+                            <span asp-validation-for="MaxOrderQuantity" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Stock</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold required" asp-for="Stock"></label>
+                            <input type="number" class="form-control" asp-for="Stock"/>
+                            <span asp-validation-for="Stock" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Min Stock</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold" asp-for="MinStock"></label>
+                            <input type="number" class="form-control" asp-for="MinStock"/>
+                            <span asp-validation-for="MinStock" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -374,44 +395,53 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Additional Shipping Charge</label>
-                            <input type="number" class="form-control">
+                            <label class="form-label fw-bold required" asp-for="AdditionalShippingCharge"></label>
+                            <input type="number" class="form-control" asp-for="AdditionalShippingCharge"/>
+                            <span asp-validation-for="AdditionalShippingCharge" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Weight (Kgs)</label>
-                            <input type="number" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Delivery Window</label>
-                            <select class="form-select">
-                                <option value="">Select Delivery Window</option>
-                                <option value="Text">1-2 Days</option>
-                                <option value="Number">2-3 Days</option>
-                                <option value="DateOnly">4-7 Days</option>
-                                <option value="DateOnly">1 Weeks</option>
-                                <option value="DateOnly">1-2 Weeks</option>
+                            <label class="form-label fw-bold required" asp-for="UnitOfMeasureId"></label>
+                            <select class="form-select" asp-for="UnitOfMeasureId" asp-items="@Model.UnitOfMeasures">
+                                <option value="">Select...</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="UnitOfMeasureId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="QuantityPerUnitOfMeasure"></label>
+                            <input class="form-control" asp-for="QuantityPerUnitOfMeasure"/>
+                            <span class="text-danger" asp-validation-for="QuantityPerUnitOfMeasure"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Return Policy</label>
-                            <!-- Quill Editor Container -->
-                            <!-- Hidden input to store HTML content for form submission -->
-                            <div id="returnPolicyEditor" style="height: 200px;">
-        
-                            </div>
-                            <input type="hidden" id="returnPolicyInput" name="Return"></div>
+                            <label class="form-label fw-bold required" asp-for="DeliveryWindowId"></label>
+                            <select class="form-select" asp-for="DeliveryWindowId" asp-items="@Model.DeliveryWindows">
+                                <option value="">Select...</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="DeliveryWindowId"></span>
+                        </div>
                     </div>
                 </div>
+                @* <div class="row"> *@
+                @*     <div class="col-md-12"> *@
+                @*         <div class="mb-3"> *@
+                @*             <label class="form-label fw-bold">Return Policy</label> *@
+                @*             <!-- Quill Editor Container --> *@
+                @*             <!-- Hidden input to store HTML content for form submission --> *@
+                @*             <div id="returnPolicyEditor" style="height: 200px;"> *@
+                @* *@
+                @*             </div> *@
+                @*             <input type="hidden" id="returnPolicyInput" name="Return"></div> *@
+                @*     </div> *@
+                @* </div> *@
             </div>
         </div>
         
@@ -424,33 +454,36 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">H1</label>
-                            <input type="text" class="form-control" value="Apple">
+                            <label class="form-label fw-bold required" asp-for="H1"></label>
+                            <input type="text" class="form-control" asp-for="H1" />
+                            <span class="text-danger" asp-validation-for="H1"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Meta Title</label>
-                            <input type="text" class="form-control"
-                                   value="Apple – Premium Technology, iPhone, MacBook, iPad, Apple Watch & More">
+                            <label class="form-label fw-bold required" asp-for="MetaTitle"></label>
+                            <input type="text" class="form-control" asp-for="MetaTitle" />
+                            <span class="text-danger" asp-validation-for="MetaTitle"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Meta Description</label>
-                            <textarea class="form-control" rows="5">Discover Apple’s world of innovation – explore iPhones, MacBooks, iPads, Apple Watch, and more. Experience premium technology, cutting-edge design, and seamless integration with Apple’s ecosystem.</textarea>
+                            <label class="form-label fw-bold" asp-for="MetaDescription"></label>
+                            <textarea class="form-control" rows="5" asp-for="MetaDescription"></textarea>
+                            <span class="text-danger" asp-validation-for="MetaDescription"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Meta Keywords</label>
-                            <textarea class="form-control" rows="3">Apple, Apple brand, Apple Inc, iPhone, iPad, MacBook, Apple Watch, Apple products, Apple technology, Apple store, Apple devices, premium smartphones, laptops, tablets, smartwatches, Apple accessories, iOS, macOS.</textarea>
+                            <label class="form-label fw-bold" asp-for="MetaKeywords"></label>
+                            <textarea class="form-control" rows="5" asp-for="MetaKeywords"></textarea>
+                            <span class="text-danger" asp-validation-for="MetaKeywords"></span>
                         </div>
                     </div>
                 </div>
@@ -897,6 +930,7 @@
 
 @section Scripts
 {
+    <script src="~/js/product.js"></script>
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script src="~/js/image.js"></script>

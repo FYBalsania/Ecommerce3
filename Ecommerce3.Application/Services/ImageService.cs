@@ -10,33 +10,15 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class ImageService : IImageService
+internal sealed class ImageService(
+    IImageTypeDetector imageTypeDetector,
+    IImageTypeRepository imageTypeRepository,
+    IEnumerable<IImageEntityRepository> imageEntityRepositories,
+    IUnitOfWork unitOfWork,
+    IImageRepository<Image> imageRepository,
+    IEnumerable<IImageQueryRepository> imageQueryRepositories,
+    IImageQueryRepository imageQueryRepository) : IImageService
 {
-    private readonly IImageTypeDetector _imageTypeDetector;
-    private readonly IImageTypeRepository _imageTypeRepository;
-    private readonly IEnumerable<IImageEntityRepository> _imageEntityRepositories;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IImageRepository<Image> _imageRepository;
-    private readonly IEnumerable<IImageQueryRepository> _imageQueryRepositories;
-    private readonly IImageQueryRepository _imageQueryRepository;
-
-    public ImageService(IImageTypeDetector imageTypeDetector,
-        IImageTypeRepository imageTypeRepository,
-        IEnumerable<IImageEntityRepository> imageEntityRepositories,
-        IUnitOfWork unitOfWork,
-        IImageRepository<Image> imageRepository,
-        IEnumerable<IImageQueryRepository> imageQueryRepositories,
-        IImageQueryRepository imageQueryRepository)
-    {
-        _imageTypeDetector = imageTypeDetector;
-        _imageTypeRepository = imageTypeRepository;
-        _imageEntityRepositories = imageEntityRepositories;
-        _unitOfWork = unitOfWork;
-        _imageRepository = imageRepository;
-        _imageQueryRepositories = imageQueryRepositories;
-        _imageQueryRepository = imageQueryRepository;
-    }
-
     public async Task AddImageAsync(AddImageCommand command, CancellationToken cancellationToken)
     {
         //Validation start.
@@ -61,7 +43,7 @@ internal sealed class ImageService : IImageService
             throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
         if (parentEntityId <= 0)
             throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
-        var imageEntityRepository = _imageEntityRepositories
+        var imageEntityRepository = imageEntityRepositories
             .FirstOrDefault(x => x.EntityType == parentEntityType && x.ImageType == imageEntityType);
         if (imageEntityRepository is null)
             throw new DomainException(new DomainError("ImageEntityRepository", "ImageEntityRepository not found."));
@@ -69,7 +51,7 @@ internal sealed class ImageService : IImageService
         if (parent is null) throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
 
         //ImageTypeId.
-        var imageType = await _imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
+        var imageType = await imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
         if (imageType is null)
             throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
 
@@ -80,7 +62,7 @@ internal sealed class ImageService : IImageService
             throw new DomainException(DomainErrors.ImageErrors.EmptyFile);
         if (command.File.Length > command.MaxFileSizeKb)
             throw new DomainException(DomainErrors.ImageErrors.FileSizeTooLarge);
-        _imageTypeDetector.EnsureMatchesExtension(command.File, command.FileName);
+        imageTypeDetector.EnsureMatchesExtension(command.File, command.FileName);
         //Validation end.
 
         //Generate image name.
@@ -99,8 +81,8 @@ internal sealed class ImageService : IImageService
         await File.WriteAllBytesAsync(fileNameWithPath, command.File, cancellationToken);
 
         //Save the image to a database.
-        await _imageRepository.AddAsync(image, cancellationToken);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        await imageRepository.AddAsync(image, cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task EditImageAsync(EditImageCommand command, CancellationToken cancellationToken)
@@ -126,7 +108,7 @@ internal sealed class ImageService : IImageService
             throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
         if (parentEntityId <= 0)
             throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
-        var imageEntityRepository = _imageEntityRepositories
+        var imageEntityRepository = imageEntityRepositories
             .FirstOrDefault(x => x.EntityType == parentEntityType && x.ImageType == imageEntityType);
         if (imageEntityRepository is null)
             throw new DomainException(new DomainError("ImageEntityRepository", "ImageEntityRepository not found."));
@@ -134,13 +116,13 @@ internal sealed class ImageService : IImageService
         if (parent is null) throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
         
         //ImageTypeId.
-        var imageType = await _imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
+        var imageType = await imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
         if (imageType is null)
             throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
         
         //Get Image
-        var image = await _imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
-        if (image is null) throw new ArgumentNullException(nameof(command.Id), "Image not found.");
+        var image = await imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
+        if (image is null) throw new DomainException(DomainErrors.ImageErrors.InvalidId);
         
         // Detect whether rename is required and rename it
         var oldFileName = image.FileName;
@@ -161,29 +143,27 @@ internal sealed class ImageService : IImageService
         //Save the image to a database.
         if (imageUpdated)
         {
-            _imageRepository.Update(image);
-            await _unitOfWork.CompleteAsync(cancellationToken);
+            imageRepository.Update(image);
+            await unitOfWork.CompleteAsync(cancellationToken);
         }
     }
 
     public async Task DeleteImageAsync(DeleteImageCommand command, CancellationToken cancellationToken)
     {
-        //Get Image
-        var image = await _imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
-        if (image is null) throw new ArgumentNullException(nameof(command.Id), "Image not found.");
+        var image = await imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
+        if (image is null) throw new DomainException(DomainErrors.ImageErrors.InvalidId);
         
         image.Delete(command.DeletedBy, command.DeletedAt, command.DeletedByIp);
-        _imageRepository.Remove(image);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        imageRepository.Remove(image);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<ImageDTO>> GetImagesByImageTypeAndParentIdAsync(Type imageEntityType, int parentId,
         CancellationToken cancellationToken)
     {
-        var imageQueryRepository =
-            _imageQueryRepositories.FirstOrDefault(x => x.ImageType == imageEntityType);
+        var imageQueryRepository = imageQueryRepositories.FirstOrDefault(x => x.ImageType == imageEntityType);
         if (imageQueryRepository is null)
-            throw new ArgumentNullException(nameof(imageEntityType), "Specific Image query repository not found.");
+            throw new DomainException(DomainErrors.ImageErrors.ImageQueryRepositoryNotFound);
 
         return await imageQueryRepository.GetByParentIdAsync(parentId, cancellationToken);
     }
@@ -200,7 +180,5 @@ internal sealed class ImageService : IImageService
     };
     
     public async Task<ImageDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await _imageQueryRepository.GetByIdAsync(id, cancellationToken);
-    }
+        => await imageQueryRepository.GetByIdAsync(id, cancellationToken);
 }

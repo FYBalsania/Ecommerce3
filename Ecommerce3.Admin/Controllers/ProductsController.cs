@@ -160,20 +160,59 @@ public class ProductsController : Controller
         return LocalRedirect($"/Products/Index");
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
-    // {
-    //     var product = await _brandService.GetByBrandIdAsync(id, cancellationToken);
-    //     if (brand is null) return NotFound();
-    //
-    //     ViewData["Title"] = $"Edit Product - {brand.Name}";
-    //     return View(EditBrandViewModel.FromDTO(brand));
-    // }
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
+    {
+        var product = await _productService.GetByIdAsync(id, cancellationToken);
+        if (product is null) return NotFound();
+        
+        var model = EditProductViewModel.FromDTO(product);
+        model.Brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        model.Categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key", "Value");
+        model.ProductGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        model.UnitOfMeasures = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        model.DeliveryWindows = new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        
+        ViewData["Title"] = $"Edit Product - {product.Name}";
+        return View(model);
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditProductViewModel model, CancellationToken cancellationToken)
     {
-        return View(model);
+        ModelState.Remove(nameof(AddProductViewModel.PageTitle));
+        ModelState.Remove(nameof(AddProductViewModel.Brands));
+        ModelState.Remove(nameof(AddProductViewModel.Categories));
+        ModelState.Remove(nameof(AddProductViewModel.ProductGroups));
+        ModelState.Remove(nameof(AddProductViewModel.UnitOfMeasures));
+        ModelState.Remove(nameof(AddProductViewModel.DeliveryWindows));
+        if (!ModelState.IsValid)
+        {
+            model.SortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken) + 1;
+            model.Brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+            model.Categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key", "Value");
+            model.ProductGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+            model.UnitOfMeasures = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+            model.DeliveryWindows = new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+            model.PageTitle = "Add Product";
+            return View(model);
+        }
+        
+        var userId = 1;
+        var createdAt = DateTime.Now;
+        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+
+        var command = model.ToCommand(userId, createdAt, ipAddress);
+        try
+        {
+            await _productService.EditAsync(command, cancellationToken);
+        }
+        catch (DomainException domainException)
+        {
+            //Translate DomainException to ModelState.
+        }
+
+        return LocalRedirect($"/Products/Index"); 
     }
 }

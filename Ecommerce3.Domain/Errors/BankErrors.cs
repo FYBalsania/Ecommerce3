@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class BankErrors
     {
+        public static readonly DomainError InvalidId =
+            new($"{nameof(Bank)}.{nameof(Bank.Id)}", "Bank id is invalid.");
+        
         public static readonly DomainError NameRequired =
             new($"{nameof(Bank)}.{nameof(Bank.Name)}", "Name is required.");
 
@@ -31,7 +34,8 @@ public static partial class DomainErrors
             new($"{nameof(Bank)}.{nameof(Bank.CreatedByIp)}", "Created by IP address is required.");
 
         public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(Bank)}.{nameof(Bank.CreatedByIp)}", "Created by IP address cannot exceed 128 characters.");
+            new($"{nameof(Bank)}.{nameof(Bank.CreatedByIp)}",
+                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(Bank)}.{nameof(Bank.UpdatedBy)}", "Updated by is invalid.");
@@ -40,6 +44,7 @@ public static partial class DomainErrors
             new($"{nameof(Bank)}.{nameof(Bank.UpdatedByIp)}", "Updated by IP address is required.");
 
         public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(Bank)}.{nameof(Bank.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
+            new($"{nameof(Bank)}.{nameof(Bank.UpdatedByIp)}",
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
     }
 }

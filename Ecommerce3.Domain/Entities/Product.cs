@@ -78,10 +78,10 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public IAppUser? CreatedByUser { get; }
     public DateTime CreatedAt { get; }
     public string CreatedByIp { get; }
-    public int? UpdatedBy { get; }
+    public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; }
-    public DateTime? UpdatedAt { get; }
-    public string? UpdatedByIp { get; }
+    public DateTime? UpdatedAt { get; private set; }
+    public string? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; set; }
     public IAppUser? DeletedByUser { get; }
     public DateTime? DeletedAt { get; set; }
@@ -281,5 +281,143 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         {
             ValidatePositiveNumber(categoryId, DomainErrors.ProductErrors.InvalidCategoryId);
         }
+    }
+    
+    public bool Update(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
+        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int brandId,
+        int[] categoryIds, int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews,
+        decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
+        bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
+        int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
+        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, decimal sortOrder,
+        string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
+        int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        //SKU.
+        ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
+            DomainErrors.ProductErrors.SKUTooLong);
+        //GTIN.
+        if (gtin is not null) ValidateTooLong(gtin, GTINMaxLength, DomainErrors.ProductErrors.GTINTooLong);
+        //MPN.
+        if (mpn is not null) ValidateTooLong(mpn, MPNMaxLength, DomainErrors.ProductErrors.MPNTooLong);
+        //MFC.
+        if (mfc is not null) ValidateTooLong(mfc, MFCMaxLength, DomainErrors.ProductErrors.MFCTooLong);
+        //EAN.
+        if (ean is not null) ValidateTooLong(ean, EANMaxLength, DomainErrors.ProductErrors.EANTooLong);
+        //UPC.
+        if (upc is not null) ValidateTooLong(upc, UPCMaxLength, DomainErrors.ProductErrors.UPCTooLong);
+        //Name.
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductErrors.NameRequired,
+            DomainErrors.ProductErrors.NameTooLong);
+        //Slug.
+        ValidateRequiredAndTooLong(slug, SlugMaxLength, DomainErrors.ProductErrors.SlugRequired,
+            DomainErrors.ProductErrors.SlugTooLong);
+        //Display.
+        ValidateRequiredAndTooLong(display, DisplayMaxLength, DomainErrors.ProductErrors.DisplayRequired,
+            DomainErrors.ProductErrors.DisplayTooLong);
+        //Breadcrumb.
+        ValidateRequiredAndTooLong(breadcrumb, BreadcrumbMaxLength, DomainErrors.ProductErrors.BreadcrumbRequired,
+            DomainErrors.ProductErrors.BreadcrumbTooLong);
+        //AnchorText.
+        ValidateRequiredAndTooLong(anchorText, AnchorTextMaxLength, DomainErrors.ProductErrors.AnchorTextRequired,
+            DomainErrors.ProductErrors.AnchorTextTooLong);
+        //AnchorTitle.
+        if (anchorTitle is not null)
+            ValidateTooLong(anchorTitle, AnchorTitleMaxLength, DomainErrors.ProductErrors.AnchorTitleTooLong);
+        //BrandId.
+        ValidatePositiveNumber(brandId, DomainErrors.ProductErrors.InvalidBrandId);
+        //CategoryIds.
+        ValidateCategoryIds(categoryIds);
+        //ProductGroupId.
+        if (productGroupId is not null)
+            ValidatePositiveNumber((int)productGroupId, DomainErrors.ProductErrors.InvalidProductGroupId);
+        //ShortDescription.
+        if (shortDescription is not null)
+            ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
+                DomainErrors.ProductErrors.ShortDescriptionTooLong);
+        //Price.
+        ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
+        //OldPrice.
+        if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);
+        //CostPrice.
+        if (costPrice is not null) ValidatePositiveNumber(costPrice.Value, DomainErrors.ProductErrors.InvalidCostPrice);
+        //Stock.
+        ValidatePositiveNumber(stock, DomainErrors.ProductErrors.InvalidStock);
+        //MinStock.
+        if (minStock is not null) ValidatePositiveNumber(minStock.Value, DomainErrors.ProductErrors.InvalidMinStock);
+        //AdditionalShippingCharge.
+        ValidatePositiveAndZeroNumber(additionalShippingCharge,
+            DomainErrors.ProductErrors.InvalidAdditionalShippingCharge);
+        //UnitOfMeasureId.
+        ValidatePositiveNumber(unitOfMeasureId, DomainErrors.ProductErrors.InvalidUnitOfMeasureId);
+        //QuantityPerUnitOfMeasure.
+        ValidatePositiveNumber(quantityPerUnitOfMeasure, DomainErrors.ProductErrors.InvalidQuantityPerUnitOfMeasure);
+        //DeliveryWindowId.
+        ValidatePositiveNumber(deliveryWindowId, DomainErrors.ProductErrors.InvalidDeliveryWindowId);
+        //MinOrderQuantity & MaxOrderQuantity.
+        ValidateMinMaxOrderQuantity(minOrderQuantity, maxOrderQuantity);
+        //Status & RedirectUrl.
+        ValidateProductStatusAndRedirectUrl(status, redirectUrl);
+        //CreatedBy.
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidCreatedBy);
+        //CreatedByIp.
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductErrors.CreatedByIpRequired,
+            DomainErrors.ProductErrors.CreatedByIpTooLong);
+        //Validate H1.
+        if (h1 is not null) ValidateTooLong(h1, 256, DomainErrors.PageErrors.H1TooLong);
+        //Validate MetaTitle.
+        ValidateRequiredAndTooLong(metaTitle, 256, DomainErrors.PageErrors.MetaTitleRequired,
+            DomainErrors.PageErrors.MetaTitleTooLong);
+        if (metaDescription is not null) ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
+        if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
+
+        SKU = sku;
+        GTIN = gtin;
+        MPN = mpn;
+        MFC = mfc;
+        EAN = ean;
+        UPC = upc;
+        Name = name;
+        Slug = slug;
+        Display = display;
+        Breadcrumb = breadcrumb;
+        AnchorText = anchorText;
+        AnchorTitle = anchorTitle;
+        BrandId = brandId;
+        _categories.Clear();
+        for (var x = 0; x < categoryIds.Length; x++)
+        {
+            _categories.Add(new ProductCategory(categoryIds[x], x == 0, x, updatedBy, updatedAt, updatedByIp));
+        }
+
+        ProductGroupId = productGroupId;
+        ShortDescription = shortDescription;
+        FullDescription = fullDescription;
+        AllowReviews = allowReviews;
+        Price = price;
+        OldPrice = oldPrice;
+        CostPrice = costPrice;
+        Stock = stock;
+        MinStock = minStock;
+        ShowAvailability = showAvailability;
+        FreeShipping = freeShipping;
+        AdditionalShippingCharge = additionalShippingCharge;
+        UnitOfMeasureId = unitOfMeasureId;
+        QuantityPerUnitOfMeasure = quantityPerUnitOfMeasure;
+        DeliveryWindowId = deliveryWindowId;
+        MinOrderQuantity = minOrderQuantity;
+        MaxOrderQuantity = maxOrderQuantity;
+        IsFeatured = isFeatured;
+        IsNew = isNew;
+        IsBestSeller = isBestSeller;
+        IsReturnable = isReturnable;
+        Status = status;
+        RedirectUrl = redirectUrl;
+        SortOrder = sortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+        
+        return true;
     }
 }

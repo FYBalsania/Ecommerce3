@@ -6,14 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class BrandPageRepository : PageRepository<BrandPage>, IBrandPageRepository
+internal sealed class BrandPageRepository(AppDbContext dbContext) : PageRepository<BrandPage>(dbContext), IBrandPageRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public BrandPageRepository(AppDbContext dbContext) : base(dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly AppDbContext _dbContext = dbContext;
 
     public async Task<BrandPage?> GetByBrandIdAsync(int brandId, BrandPageInclude includes, bool trackChanges,
         CancellationToken cancellationToken)

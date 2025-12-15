@@ -6,6 +6,12 @@ public static partial class DomainErrors
 {
     public static class ImageErrors
     {
+        public static readonly DomainError InvalidId =
+            new($"{nameof(Image)}.{nameof(Image.Id)}", "Image id is invalid.");
+        
+        public static readonly DomainError ImageQueryRepositoryNotFound =
+            new($"{nameof(Image)}.{nameof(Image.Id)}", "Specific Image query repository not found.");
+        
         public static readonly DomainError OriginalFileNameRequired =
             new($"{nameof(Image)}.{nameof(Image.OgFileName)}", "Original file name is required.");
 

@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class ImageTypeErrors
     {
+        public static readonly DomainError InvalidId =
+            new($"{nameof(ImageType)}.{nameof(ImageType.Id)}", "Image type id is invalid.");
+        
         public static readonly DomainError NameRequired =
             new($"{nameof(ImageType)}.{nameof(ImageType.Name)}", "Name is required.");
 
@@ -34,7 +37,8 @@ public static partial class DomainErrors
             new($"{nameof(ImageType)}.{nameof(ImageType.CreatedByIp)}", "Created by IP address is required.");
 
         public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(ImageType)}.{nameof(ImageType.CreatedByIp)}", "Created by IP address cannot exceed 128 characters.");
+            new($"{nameof(ImageType)}.{nameof(ImageType.CreatedByIp)}",
+                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(ImageType)}.{nameof(ImageType.UpdatedBy)}", "Updated by is invalid.");
@@ -43,6 +47,7 @@ public static partial class DomainErrors
             new($"{nameof(ImageType)}.{nameof(ImageType.UpdatedByIp)}", "Updated by IP address is required.");
 
         public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(ImageType)}.{nameof(ImageType.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
+            new($"{nameof(ImageType)}.{nameof(ImageType.UpdatedByIp)}",
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
     }
 }

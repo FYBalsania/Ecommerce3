@@ -6,8 +6,8 @@ public static partial class DomainErrors
 {
     public static class BrandErrors
     {
-        public static readonly DomainError InvalidBrandId =
-            new($"{nameof(Brand)}.{nameof(Brand.Id)}", "Brand ID is invalid.");
+        public static readonly DomainError InvalidId =
+            new($"{nameof(Brand)}.{nameof(Brand.Id)}", "Brand id is invalid.");
         
         public static readonly DomainError NameRequired =
             new($"{nameof(Brand)}.{nameof(Brand.Name)}", "Name is required.");
@@ -58,7 +58,8 @@ public static partial class DomainErrors
             new($"{nameof(Brand)}.{nameof(Brand.CreatedByIp)}", "Created by IP address is required.");
 
         public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(Brand)}.{nameof(Brand.CreatedByIp)}", "Created by IP address cannot exceed 128 characters.");
+            new($"{nameof(Brand)}.{nameof(Brand.CreatedByIp)}",
+                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(Brand)}.{nameof(Brand.UpdatedBy)}", "Updated by is invalid.");
@@ -67,6 +68,7 @@ public static partial class DomainErrors
             new($"{nameof(Brand)}.{nameof(Brand.UpdatedByIp)}", "Updated by IP address is required.");
 
         public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(Brand)}.{nameof(Brand.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
+            new($"{nameof(Brand)}.{nameof(Brand.UpdatedByIp)}",
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
     }
 }

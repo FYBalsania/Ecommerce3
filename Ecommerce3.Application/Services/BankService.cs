@@ -12,69 +12,60 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class BankService : IBankService
+internal sealed class BankService(
+    IBankRepository repository,
+    IBankQueryRepository queryRepository,
+    IUnitOfWork unitOfWork) : IBankService
 {
-    private readonly IBankRepository _repository;
-    private readonly IBankQueryRepository _queryRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public BankService(IBankRepository repository, IBankQueryRepository queryRepository, IUnitOfWork unitOfWork)
-    {
-        _queryRepository = queryRepository;
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<PagedResult<BankListItemDTO>> GetListItemsAsync(BankFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
-        => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+        => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddBankCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateName);
 
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateSlug);
 
         var bank = new Bank(command.Name, command.Slug, command.IsActive, command.SortOrder,
             command.CreatedBy, command.CreatedByIp);
         
-        await _repository.AddAsync(bank, cancellationToken);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        // TODO - Add Bank Page
+        
+        await repository.AddAsync(bank, cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task<BankDTO?> GetByBankIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await _queryRepository.GetByIdAsync(id, cancellationToken);
-    }
+    public async Task<BankDTO?> GetByBankIdAsync(int id, CancellationToken cancellationToken) 
+        => await queryRepository.GetByIdAsync(id, cancellationToken);
+    
 
     public async Task EditAsync(EditBankCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateName);
 
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.BankErrors.DuplicateSlug);
 
-        var bank = await _repository.GetByIdAsync(command.Id, BankInclude.None, true, cancellationToken);
-        if (bank is null) throw new ArgumentNullException(nameof(command.Id), "Bank not found.");
+        var bank = await repository.GetByIdAsync(command.Id, BankInclude.None, true, cancellationToken);
+        if (bank is null) throw new DomainException(DomainErrors.BankErrors.InvalidId);
 
         var bankUpdated = bank.Update(command.Name, command.Slug, command.IsActive, command.SortOrder, 
             command.UpdatedBy, command.UpdatedByIp);
 
         if (bankUpdated)
         {
-            _repository.Update(bank);
-            await _unitOfWork.CompleteAsync(cancellationToken);
+            repository.Update(bank);
+            await unitOfWork.CompleteAsync(cancellationToken);
         }
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+        => throw new NotImplementedException();
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _queryRepository.GetMaxSortOrderAsync(cancellationToken);
+        => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
 }

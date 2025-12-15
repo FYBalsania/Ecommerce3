@@ -67,7 +67,9 @@ public static class ProductExtensions
     
     public static IQueryable<ProductDTO> ProjectToDTO(this IQueryable<Product> query) => 
         query.Select(DTOExpression);
+    
     public static IQueryable<ProductListItemDTO> ProjectToListItemDTO(this IQueryable<Product> query) =>
         query.Select(ListItemDTOExpression);
+    
     public static ProductDTO MapToDTO(this Product product) => DTOExpression.Compile()(product);
 }

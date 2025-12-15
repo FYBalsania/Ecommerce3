@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class DeliveryWindowErrors
     {
+        public static readonly DomainError InvalidId =
+            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Id)}", "Delivery Window id is invalid.");
+        
         public static readonly DomainError InvalidDeliveryWindowId =
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Id)}", "Delivery window ID is invalid.");
         
@@ -29,10 +32,11 @@ public static partial class DomainErrors
 
         public static readonly DomainError CreatedByIpRequired =
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.CreatedByIp)}", "Created by IP address is required.");
-
+        
         public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.CreatedByIp)}", "Created by IP address cannot exceed 128 characters.");
-
+            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.CreatedByIp)}",
+                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
+        
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.UpdatedBy)}", "Updated by is invalid.");
 
@@ -40,6 +44,7 @@ public static partial class DomainErrors
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.UpdatedByIp)}", "Updated by IP address is required.");
 
         public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
+            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.UpdatedByIp)}",
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
     }
 }

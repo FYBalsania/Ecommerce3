@@ -14,8 +14,7 @@ namespace Ecommerce3.Application.Services;
 internal sealed class DeliveryWindowService(
     IDeliveryWindowRepository repository,
     IDeliveryWindowQueryRepository queryRepository,
-    IUnitOfWork unitOfWork)
-    : IDeliveryWindowService
+    IUnitOfWork unitOfWork) : IDeliveryWindowService
 {
     public async Task<PagedResult<DeliveryWindowListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
@@ -34,20 +33,7 @@ internal sealed class DeliveryWindowService(
     }
     
     public async Task<DeliveryWindowDTO?> GetByDeliveryWindowIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var deliveryWindow = await queryRepository.GetByIdAsync(id, cancellationToken);
-
-        return new DeliveryWindowDTO
-        {
-            Id = deliveryWindow.Id,
-            Name = deliveryWindow.Name,
-            Unit = deliveryWindow.Unit,
-            MinValue = deliveryWindow.MinValue,
-            MaxValue = deliveryWindow.MaxValue,
-            IsActive = deliveryWindow.IsActive,
-            SortOrder = deliveryWindow.SortOrder,
-        };
-    }
+        => await queryRepository.GetByIdAsync(id, cancellationToken);
 
     public async Task EditAsync(EditDeliveryWindowCommand command, CancellationToken cancellationToken)
     {
@@ -55,10 +41,11 @@ internal sealed class DeliveryWindowService(
         if (exists) throw new DomainException(DomainErrors.DeliveryWindowErrors.DuplicateName);
 
         var deliveryWindow = await repository.GetByIdAsync(command.Id, true, cancellationToken);
-        if (deliveryWindow is null) throw new ArgumentNullException(nameof(command.Id), "Delivery window not found.");
+        if (deliveryWindow is null) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidId);
         
-        var deliveryWindowUpdated = deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value,
-            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        var deliveryWindowUpdated = deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, 
+            (uint)command.MaxValue!.Value, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, 
+            command.UpdatedByIp);
         
         if (deliveryWindowUpdated)
         {
@@ -67,16 +54,13 @@ internal sealed class DeliveryWindowService(
         }
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken) 
+        => throw new NotImplementedException();
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
 
     public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
-    {
-        return await queryRepository.GetIdAndNameDictionaryAsync(cancellationToken);
-    }
+        => await queryRepository.GetIdAndNameDictionaryAsync(cancellationToken);
+    
 }

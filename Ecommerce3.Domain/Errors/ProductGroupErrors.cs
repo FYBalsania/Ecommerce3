@@ -6,7 +6,7 @@ public static partial class DomainErrors
 {
     public static class ProductGroupErrors
     {
-        public static readonly DomainError InvalidProductGroupId =
+        public static readonly DomainError InvalidId =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.Id)}", "Product group Id is invalid.");
         
         public static readonly DomainError NameRequired =

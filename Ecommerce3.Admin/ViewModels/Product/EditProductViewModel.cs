@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Domain.Enums;
@@ -91,12 +92,12 @@ public class EditProductViewModel
 
     [Required(ErrorMessage = "Allow reviews is required.")]
     [Display(Name = "Allow Reviews?")]
-    public bool? AllowReviews { get; set; }
+    public bool AllowReviews { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Price is required.")]
     [Display(Name = "Price")]
     [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0.")]
-    public decimal? Price { get; set; }
+    public decimal Price { get; set; }
 
     [Display(Name = "Old Price")]
     [Range(1, int.MaxValue, ErrorMessage = "Old price must be greater than 0.")]
@@ -109,7 +110,7 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Stock is required.")]
     [Display(Name = "Stock")]
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
-    public decimal? Stock { get; set; }
+    public decimal Stock { get; set; }
 
     [Display(Name = "Minimum Stock")]
     [Range(1, int.MaxValue, ErrorMessage = "Minimum stock must be greater than or equal to 1.")]
@@ -117,16 +118,16 @@ public class EditProductViewModel
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Show Availability is required.")]
     [Display(Name = "Show Availability?")]
-    public bool? ShowAvailability { get; set; }
+    public bool ShowAvailability { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Free Shipping is required.")]
     [Display(Name = "Free Shipping?")]
-    public bool? FreeShipping { get; set; }
+    public bool FreeShipping { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Additional Shipping Charge is required.")]
     [Display(Name = "Additional Shipping Charge")]
     [Range(0, int.MaxValue, ErrorMessage = "Additional shipping charge must be greater than or equal to 0.")]
-    public decimal? AdditionalShippingCharge { get; set; }
+    public decimal AdditionalShippingCharge { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
     [Display(Name = "Unit Of Measure")]
@@ -136,7 +137,7 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Quantity Per Unit Of Measure is required.")]
     [Display(Name = "Quantity Per Unit Of Measure")]
     [Range(1, int.MaxValue, ErrorMessage = "Quantity per unit of measure must be greater than or equal to 1.")]
-    public decimal? QuantityPerUnitOfMeasure { get; set; }
+    public decimal QuantityPerUnitOfMeasure { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Delivery Window is required.")]
     [Display(Name = "Delivery Window")]
@@ -152,29 +153,25 @@ public class EditProductViewModel
     [Display(Name = "Maximum Order Quantity")]
     public decimal? MaxOrderQuantity { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Is Active is required.")]
-    [Display(Name = "Is Active?")]
-    public bool? IsActive { get; set; }
-
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Featured is required.")]
     [Display(Name = "Is Featured?")]
-    public bool? IsFeatured { get; set; }
+    public bool IsFeatured { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is New is required.")]
     [Display(Name = "Is New?")]
-    public bool? IsNew { get; set; }
+    public bool IsNew { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Best Seller is required.")]
     [Display(Name = "Is Best Seller?")]
-    public bool? IsBestSeller { get; set; }
+    public bool IsBestSeller { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Returnable is required.")]
     [Display(Name = "Is Returnable?")]
-    public bool? IsReturnable { get; set; }
+    public bool IsReturnable { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Status is required.")]
     [Display(Name = "Status")]
-    public ProductStatus? Status { get; set; }
+    public ProductStatus Status { get; set; }
 
     [Display(Name = "Redirect URL")]
     [Range(5, 2048, ErrorMessage = "Redirect URL must be between 5 and 2048 characters.")]
@@ -203,6 +200,59 @@ public class EditProductViewModel
 
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 
+    public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        return new EditProductCommand()
+        {
+            Id = Id,
+            SKU = SKU,
+            GTIN = GTIN,
+            MPN = MPN,
+            MFC = MFC,
+            EAN = EAN,
+            UPC = UPC,
+            Name = Name,
+            Slug = Slug,
+            Display = Display,
+            Breadcrumb = Breadcrumb,
+            AnchorText = AnchorText,
+            AnchorTitle = AnchorTitle,
+            BrandId = BrandId,
+            CategoryIds = CategoryIds,
+            ProductGroupId = ProductGroupId,
+            ShortDescription = ShortDescription,
+            FullDescription = FullDescription,
+            AllowReviews = AllowReviews,
+            Price = Price,
+            OldPrice = OldPrice,
+            CostPrice = CostPrice,
+            Stock = Stock,
+            MinStock = MinStock,
+            ShowAvailability = ShowAvailability,
+            FreeShipping = FreeShipping,
+            AdditionalShippingCharge = AdditionalShippingCharge,
+            UnitOfMeasureId = UnitOfMeasureId,
+            QuantityPerUnitOfMeasure = QuantityPerUnitOfMeasure,
+            DeliveryWindowId = DeliveryWindowId,
+            MinOrderQuantity = MinOrderQuantity,
+            MaxOrderQuantity = MaxOrderQuantity,
+            IsFeatured = IsFeatured,
+            IsNew = IsNew,
+            IsBestSeller = IsBestSeller,
+            IsReturnable = IsReturnable,
+            Status = Status,
+            RedirectUrl = RedirectUrl,
+            SortOrder = SortOrder,
+            H1 = H1,
+            MetaTitle = MetaTitle,
+            MetaDescription = MetaDescription,
+            MetaKeywords = MetaKeywords,
+            UpdatedBy = updatedBy,
+            UpdatedAt = updatedAt,
+            UpdatedByIp = updatedByIp,
+        };
+    }
+    
     public static EditProductViewModel FromDTO(ProductDTO productDTO)
     {
         return new EditProductViewModel
@@ -245,7 +295,8 @@ public class EditProductViewModel
             IsReturnable = productDTO.IsReturnable,
             Status = productDTO.Status,
             RedirectUrl = productDTO.RedirectUrl,
-            SortOrder = productDTO.SortOrder
+            SortOrder = productDTO.SortOrder,
+            Images = productDTO.Images
         };
     }
 }

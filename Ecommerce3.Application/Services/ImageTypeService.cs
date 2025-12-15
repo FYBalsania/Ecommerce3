@@ -11,80 +11,57 @@ using Ecommerce3.Domain.Repositories;
 
 namespace Ecommerce3.Application.Services;
 
-internal sealed class ImageTypeService : IImageTypeService
+internal sealed class ImageTypeService(
+    IImageTypeRepository repository,
+    IImageTypeQueryRepository queryRepository,
+    IUnitOfWork unitOfWork) : IImageTypeService
 {
-    private readonly IImageTypeRepository _repository;
-    private readonly IImageTypeQueryRepository _queryRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ImageTypeService(IImageTypeRepository repository, IImageTypeQueryRepository queryRepository,
-        IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _queryRepository = queryRepository;
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<PagedResult<ImageTypeListItemDTO>> GetListItemsAsync(ImageTypeFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
-        => await _queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+        => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
     public async Task AddAsync(AddImageTypeCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateName);
         
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
 
         var imageType = new ImageType(command.Entity, command.Name, command.Slug, command.Description, command.IsActive,
             command.CreatedBy, command.CreatedByIp);
 
-        await _repository.AddAsync(imageType, cancellationToken);
-        await _unitOfWork.CompleteAsync(cancellationToken);
+        await repository.AddAsync(imageType, cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<ImageTypeDTO?> GetByImageTypeIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var imageType = await _queryRepository.GetByIdAsync(id, cancellationToken);
-
-        return new ImageTypeDTO
-        {
-            Id = imageType.Id,
-            Entity = imageType.Entity,
-            Name = imageType.Name,
-            Description = imageType.Description,
-            IsActive = imageType.IsActive,
-        };
-    }
+        => await queryRepository.GetByIdAsync(id, cancellationToken);
 
     public async Task EditAsync(EditImageTypeCommand command, CancellationToken cancellationToken)
     {
-        var exists = await _queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateName);
         
-        exists = await _queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
+        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
 
-        var imageType = await _repository.GetByIdAsync(command.Id, true, cancellationToken);
-        if (imageType is null) throw new ArgumentNullException(nameof(command.Id), "Image type not found.");
+        var imageType = await repository.GetByIdAsync(command.Id, true, cancellationToken);
+        if (imageType is null) throw new DomainException(DomainErrors.ImageTypeErrors.InvalidId);
 
         var imageTypeUpdated = imageType.Update(command.Entity, command.Name, command.Slug, command.Description,
             command.IsActive, command.UpdatedBy, command.UpdatedByIp);
 
         if (imageTypeUpdated)
         {
-            _repository.Update(imageType);
-            await _unitOfWork.CompleteAsync(cancellationToken);
+            repository.Update(imageType);
+            await unitOfWork.CompleteAsync(cancellationToken);
         }
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+        => throw new NotImplementedException();
 
-    public async Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity,
-        CancellationToken cancellationToken)
-        => await _queryRepository.GetIdAndNamesByEntityAsync(entity, cancellationToken);
+    public async Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity, CancellationToken cancellationToken)
+        => await queryRepository.GetIdAndNamesByEntityAsync(entity, cancellationToken);
 }

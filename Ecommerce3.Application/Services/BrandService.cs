@@ -60,11 +60,10 @@ internal sealed class BrandService(
         if (exists) throw new DomainException(DomainErrors.BrandErrors.DuplicateSlug);
 
         var brand = await repository.GetByIdAsync(command.Id, BrandInclude.None, true, cancellationToken);
-        if (brand is null) throw new ArgumentNullException(nameof(command.Id), "Brand not found.");
+        if (brand is null) throw new DomainException(DomainErrors.BrandErrors.InvalidId);
 
-        var page = await pageRepository.GetByBrandIdAsync(command.Id, BrandPageInclude.None, true,
-            cancellationToken);
-        if (page is null) throw new ArgumentNullException(nameof(command.Id), "Brand page not found.");
+        var page = await pageRepository.GetByBrandIdAsync(command.Id, BrandPageInclude.None, true, cancellationToken);
+        if (page is null) throw new DomainException(DomainErrors.BrandPageErrors.InvalidBrandId);
 
         var brandUpdated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
