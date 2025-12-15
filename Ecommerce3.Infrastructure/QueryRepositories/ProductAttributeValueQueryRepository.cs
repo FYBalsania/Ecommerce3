@@ -6,18 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal class ProductAttributeValueQueryRepository : IProductAttributeValueQueryRepository
+internal class ProductAttributeValueQueryRepository(AppDbContext dbContext) : IProductAttributeValueQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductAttributeValueQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<ProductAttributeValueDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.ProductAttributeValues
+        return await dbContext.ProductAttributeValues
             .Where(x => x.Id == id)
             .Include(x => x.CreatedByUser)
             .Select(x => x.ToDTO())

@@ -160,16 +160,15 @@ public class ProductsController : Controller
         return LocalRedirect($"/Products/Index");
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
-    {
-        ViewData["Title"] = "Edit Product - IPhone 17";
-        var model = new EditProductViewModel
-        {
-            Id = id,
-        };
-        return View(model);
-    }
+    // [HttpGet]
+    // public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
+    // {
+    //     var product = await _brandService.GetByBrandIdAsync(id, cancellationToken);
+    //     if (brand is null) return NotFound();
+    //
+    //     ViewData["Title"] = $"Edit Product - {brand.Name}";
+    //     return View(EditBrandViewModel.FromDTO(brand));
+    // }
 
     [HttpPost]
     [ValidateAntiForgeryToken]

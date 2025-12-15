@@ -1,3 +1,4 @@
+using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.DTO.Admin.Product;
@@ -45,4 +46,5 @@ public record ProductDTO
     public required ProductStatus Status { get; init; }
     public required string? RedirectUrl { get; init; }
     public required decimal SortOrder { get; init; }
+    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 }

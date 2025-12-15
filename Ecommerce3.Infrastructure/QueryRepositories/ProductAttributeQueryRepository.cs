@@ -5,6 +5,7 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.Extensions;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -33,19 +34,7 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
         var productAttributes = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new ProductAttributeListItemDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Display = x.Display,
-                Breadcrumb = x.Breadcrumb,
-                ValuesCount = x.Values.Count,
-                DataType = x.DataType.ToString(),
-                SortOrder = x.SortOrder,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<ProductAttributeListItemDTO>()
@@ -78,8 +67,7 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await dbContext.ProductAttributes.Select(x => (int?)x.SortOrder)
-            .MaxAsync(cancellationToken) ?? 0;
+        => await dbContext.ProductAttributes.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
 
     public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
@@ -89,40 +77,21 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         
         if (productAttribute == null) return null;
-        
-        return new ProductAttributeDTO
-        {
-            Id = productAttribute.Id,
-            Name = productAttribute.Name,
-            Slug = productAttribute.Slug,
-            Display = productAttribute.Display,
-            Breadcrumb = productAttribute.Breadcrumb,
-            SortOrder = productAttribute.SortOrder,
-            DataType = productAttribute.DataType,
-            Values = productAttribute.Values.Select(x => x.ToDTO())
-                .OrderBy(x => x.SortOrder)
-                .ThenBy(x => x.Value)
-                .ToList()
-        };
+
+        return new ProductAttributeDTO();
     }
 
-    public async Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id,
-        CancellationToken cancellationToken)
-    {
-        return await dbContext.ProductAttributeValues
+    public async Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.ProductAttributeValues
             .Include(x => x.CreatedByUser)
             .Select(x => x.ToDTO())
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-    }
 
-    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id,
-        CancellationToken cancellationToken)
-    {
-        return await dbContext.ProductAttributeValues
+    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.ProductAttributeValues
             .Where(x => x.ProductAttributeId == id)
             .OrderBy(x => x.SortOrder).ThenBy(x => x.Value)
             .Include(x => x.CreatedByUser)
             .Select(x => x.ToDTO())
             .ToListAsync(cancellationToken);
-    }
 }

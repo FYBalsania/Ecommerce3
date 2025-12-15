@@ -34,16 +34,7 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
         var products = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new ProductListItemDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                SortOrder = x.SortOrder,
-                ImageCount = x.Images.Count,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<ProductListItemDTO>()
@@ -56,37 +47,20 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
     }
 
     public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.Products
-            .MaxAsync(x => (decimal?)x.SortOrder, cancellationToken) ?? 0m;
-    }
+        => await dbContext.Products.MaxAsync(x => (decimal?)x.SortOrder, cancellationToken) ?? 0m;
 
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Products.AnyAsync(x =>
-            (excludeId == null || x.Id != excludeId) &&
-            x.Name == name, cancellationToken);
-    }
+        => await dbContext.Products.AnyAsync(x => (excludeId == null || x.Id != excludeId) && x.Name == name, cancellationToken);
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Products.AnyAsync(x =>
-            (excludeId == null || x.Id != excludeId) &&
-            x.Slug == slug, cancellationToken);
-    }
+        => await dbContext.Products.AnyAsync(x => (excludeId == null || x.Id != excludeId) && x.Slug == slug, cancellationToken);
 
-    public async Task<bool> ExistsBySKUAsync(string sku, int? excludeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Products.AnyAsync(x =>
-            (excludeId == null || x.Id != excludeId) &&
-            x.SKU == sku, cancellationToken);
-    }
+    public async Task<bool> ExistsBySKUAsync(string sku, int? excludeId, CancellationToken cancellationToken) 
+        => await dbContext.Products.AnyAsync(x => (excludeId == null || x.Id != excludeId) && x.SKU == sku, cancellationToken);
 
     public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await dbContext.Products
+        => await dbContext.Products
             .Where(x => x.Id == id)
             .ProjectToDTO()
             .FirstOrDefaultAsync(cancellationToken);
-    }
 }

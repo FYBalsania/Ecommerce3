@@ -3,13 +3,14 @@ using Ecommerce3.Contracts.DTOs.DeliveryWindow;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
 internal sealed class DeliveryWindowQueryRepository(AppDbContext dbContext) : IDeliveryWindowQueryRepository
 {
-    public async Task<PagedResult<DeliveryListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
+    public async Task<PagedResult<DeliveryWindowListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
         var query = dbContext.DeliveryWindows.AsQueryable();
@@ -30,23 +31,10 @@ internal sealed class DeliveryWindowQueryRepository(AppDbContext dbContext) : ID
         var deliveryWindows = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new DeliveryListItemDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Unit = x.Unit,
-                MinValue = x.MinValue,
-                MaxValue = x.MaxValue,
-                NormalizedMinDays = x.NormalizedMinDays,
-                NormalizedMaxDays = x.NormalizedMaxDays,
-                SortOrder = x.SortOrder,
-                IsActive = x.IsActive,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
-        return new PagedResult<DeliveryListItemDTO>()
+        return new PagedResult<DeliveryWindowListItemDTO>()
         {
             Data = deliveryWindows,
             PageNumber = pageNumber,
@@ -68,30 +56,15 @@ internal sealed class DeliveryWindowQueryRepository(AppDbContext dbContext) : ID
         return await query.AnyAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<DeliveryWindowDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await  dbContext.DeliveryWindows
+    public async Task<DeliveryWindowDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await  dbContext.DeliveryWindows
             .Where(x => x.Id == id)
-            .Select(x => new DeliveryWindowDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Unit = x.Unit,
-                MinValue = x.MinValue,
-                MaxValue = x.MaxValue,
-                SortOrder = x.SortOrder,
-                IsActive = x.IsActive,
-            }).FirstAsync(cancellationToken);
-    }
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Dictionary<int, string>> GetIdAndNameDictionaryAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.DeliveryWindows.OrderBy(x => x.Name)
-            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
-    }
+        => await dbContext.DeliveryWindows.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await dbContext.DeliveryWindows.AnyAsync(x => x.Id == id, cancellationToken);
-    }
+        => await dbContext.DeliveryWindows.AnyAsync(x => x.Id == id, cancellationToken);
 }

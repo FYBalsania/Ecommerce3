@@ -3,6 +3,7 @@ using Ecommerce3.Contracts.DTOs.UnitOfMeasure;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -23,26 +24,15 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
 
         var total = await query.CountAsync(cancellationToken);
         query = query.OrderBy(x => x.Name);
-        var unitofmeasures = await query
+        var unitOfMeasures = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new UnitOfMeasureListItemDTO
-            {
-                Id = x.Id,
-                Code = x.Code,
-                Name = x.Name,
-                Type = x.Type,
-                BaseName = x.Base!.Name,
-                ConversionFactor = x.ConversionFactor,
-                IsActive = x.IsActive,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<UnitOfMeasureListItemDTO>()
         {
-            Data = unitofmeasures,
+            Data = unitOfMeasures,
             PageNumber = pageNumber,
             PageSize = pageSize,
             TotalItems = total
@@ -79,23 +69,11 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
     }
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
-    {
-       return await dbContext.UnitOfMeasures.AnyAsync(x => x.Id == id, cancellationToken);
-    }
+        => await dbContext.UnitOfMeasures.AnyAsync(x => x.Id == id, cancellationToken);
     
-    public async Task<UnitOfMeasureDTO> GetByUnitOfMeasureIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await (from uom in dbContext.UnitOfMeasures
-            where uom.Id == id
-            select new UnitOfMeasureDTO
-            {
-                Id = uom.Id,
-                Code = uom.Code,
-                Name = uom.Name,
-                Type = uom.Type,
-                BaseId = uom.BaseId,
-                ConversionFactor = uom.ConversionFactor,
-                IsActive = uom.IsActive
-            }).FirstAsync(cancellationToken);
-    }
+    public async Task<UnitOfMeasureDTO?> GetByUnitOfMeasureIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.UnitOfMeasures
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
 }

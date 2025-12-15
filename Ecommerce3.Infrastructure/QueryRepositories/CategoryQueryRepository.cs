@@ -1,9 +1,9 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs.Category;
-using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -48,18 +48,7 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
         var categories = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new CategoryListItemDTO
-            {
-                Id = x.Id,
-                ParentName = x.Parent!.Name,
-                Name = x.Name,
-                Slug = x.Slug,
-                SortOrder = x.SortOrder,
-                IsActive = x.IsActive,
-                ImageCount = x.Images.Count,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<CategoryListItemDTO>()
@@ -92,9 +81,7 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
     }
     
     public async Task<bool> ExistsByParentIdAsync(int? parentId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Categories.AnyAsync(x => x.Id == parentId, cancellationToken);
-    }
+        => await dbContext.Categories.AnyAsync(x => x.Id == parentId, cancellationToken);
 
     public async Task<Dictionary<int, string>> GetIdAndNameAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
     {
@@ -105,60 +92,13 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.Categories
-            .Select(x => (int?)x.SortOrder)          // Cast to nullable
-            .MaxAsync(cancellationToken) ?? 0;       // If null → return 0
-    }
+        => await dbContext.Categories.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
     
-    public async Task<CategoryDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await (from c in dbContext.Categories
-            where c.Id == id
-            select new CategoryDTO()
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Slug = c.Slug,
-                Display = c.Display,
-                Breadcrumb = c.Breadcrumb,
-                AnchorText = c.AnchorText,
-                AnchorTitle = c.AnchorTitle,
-                ParentId = c.ParentId,
-                GoogleCategory = c.GoogleCategory,
-                Path = c.Path,
-                IsActive = c.IsActive,
-                SortOrder = c.SortOrder,
-                ShortDescription = c.ShortDescription,
-                FullDescription = c.FullDescription,
-                H1 = c.Page!.H1,
-                MetaTitle = c.Page!.MetaTitle,
-                MetaDescription = c.Page!.MetaDescription,
-                MetaKeywords = c.Page!.MetaKeywords,
-                Images = c.Images.OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
-                    .Select(x => new ImageDTO
-                    {
-                        Id = x.Id,
-                        OgFileName = x.OgFileName,
-                        FileName = x.FileName,
-                        FileExtension = x.FileExtension,
-                        ImageTypeId = x.ImageTypeId,
-                        ImageTypeName = x.ImageType!.Name,
-                        ImageTypeSlug = x.ImageType!.Slug,
-                        Size = x.Size,
-                        AltText = x.AltText,
-                        Title = x.Title,
-                        Loading = x.Loading,
-                        Link = x.Link,
-                        LinkTarget = x.LinkTarget,
-                        SortOrder = x.SortOrder,
-                        CreatedAppUserFullName = x.CreatedByUser!.FullName,
-                        CreatedAt = x.CreatedAt,
-                        UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
-                        UpdatedAt = x.UpdatedAt
-                    }).ToList().AsReadOnly()
-            }).FirstAsync(cancellationToken);
-    }
+    public async Task<CategoryDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.Categories
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> ExistsByIdsAsync(int[] ids, CancellationToken cancellationToken)
     {

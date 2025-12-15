@@ -11,5 +11,5 @@ public interface IBankQueryRepository
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
     public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
-    public Task<BankDTO> GetByIdAsync(int id, CancellationToken cancellationToken);
+    public Task<BankDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }

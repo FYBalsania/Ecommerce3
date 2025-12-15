@@ -2,7 +2,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.DTOs.DeliveryWindow;
 
-public record DeliveryListItemDTO
+public record DeliveryWindowListItemDTO
 {
     public int Id { get; init; }
     public string Name { get; init; }

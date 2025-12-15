@@ -3,23 +3,17 @@ using Ecommerce3.Contracts.DTOs.PostCode;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class PostCodeQueryRepository  : IPostCodeQueryRepository
+internal sealed class PostCodeQueryRepository(AppDbContext dbContext) : IPostCodeQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public PostCodeQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
     public async Task<PagedResult<PostCodeListItemDTO>> GetListItemsAsync(PostCodeFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.PostCodes.AsQueryable();
+        var query = dbContext.PostCodes.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Code))
             query = query.Where(x => x.Code.Contains(filter.Code));
@@ -31,14 +25,7 @@ internal sealed class PostCodeQueryRepository  : IPostCodeQueryRepository
         var postCodes = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new PostCodeListItemDTO
-            {
-                Id = x.Id,
-                Code = x.Code,
-                IsActive = x.IsActive,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<PostCodeListItemDTO>()
@@ -52,7 +39,7 @@ internal sealed class PostCodeQueryRepository  : IPostCodeQueryRepository
     
     public async Task<bool> ExistsByCodeAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.PostCodes.AsQueryable();
+        var query = dbContext.PostCodes.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Code == name, cancellationToken);
@@ -61,14 +48,8 @@ internal sealed class PostCodeQueryRepository  : IPostCodeQueryRepository
     }
 
     public async Task<PostCodeDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await _dbContext.PostCodes
+        => await dbContext.PostCodes
             .Where(x => x.Id == id)
-            .Select(x => new PostCodeDTO
-            {
-                Id = x.Id,
-                Code = x.Code,
-                IsActive = x.IsActive,
-            }).FirstAsync(cancellationToken);
-    }
+            .ProjectToDTO()
+            .FirstAsync(cancellationToken);
 }

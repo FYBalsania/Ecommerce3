@@ -17,7 +17,7 @@ internal sealed class DeliveryWindowService(
     IUnitOfWork unitOfWork)
     : IDeliveryWindowService
 {
-    public async Task<PagedResult<DeliveryListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
+    public async Task<PagedResult<DeliveryWindowListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
         => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 

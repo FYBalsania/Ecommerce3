@@ -3,26 +3,20 @@ using Ecommerce3.Contracts.DTOs.ImageType;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
+internal sealed class ImageTypeQueryRepository(AppDbContext dbContext) : IImageTypeQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ImageTypeQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<PagedResult<ImageTypeListItemDTO>> GetListItemsAsync(ImageTypeFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.ImageTypes.AsQueryable();
+        var query = dbContext.ImageTypes.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Entity))
-            query = query.Where(x => x.Entity.Contains(filter.Entity));
+            query = query.Where(x => x.Entity!.Contains(filter.Entity));
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
         if (filter.IsActive.HasValue)
@@ -33,15 +27,7 @@ internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
         var imageType = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new ImageTypeListItemDTO
-            {
-                Id = x.Id,
-                Entity = x.Entity,
-                Name = x.Name,
-                IsActive = x.IsActive,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<ImageTypeListItemDTO>()
@@ -55,7 +41,7 @@ internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
 
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.ImageTypes.AsQueryable();
+        var query = dbContext.ImageTypes.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
@@ -65,7 +51,7 @@ internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
     
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.ImageTypes.AsQueryable();
+        var query = dbContext.ImageTypes.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
@@ -74,25 +60,16 @@ internal sealed class ImageTypeQueryRepository : IImageTypeQueryRepository
     }
 
     public async Task<ImageTypeDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await _dbContext.ImageTypes
+        => await dbContext.ImageTypes
             .Where(x => x.Id == id)
-            .Select(x => new ImageTypeDTO
-            {
-                Id = x.Id,
-                Entity = x.Entity,
-                Name = x.Name,
-                Description = x.Description,
-                IsActive = x.IsActive,
-            }).FirstAsync(cancellationToken);
-    }
+            .ProjectToDTO()
+            .FirstAsync(cancellationToken);
 
-    public async Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity,
-        CancellationToken cancellationToken)
-        => await _dbContext.ImageTypes.OrderBy(x => x.Name)
+    public async Task<Dictionary<int, string>> GetIdAndNamesByEntityAsync(string entity, CancellationToken cancellationToken)
+        => await dbContext.ImageTypes.OrderBy(x => x.Name)
             .Where(x => x.Entity == entity)
             .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
-        => await _dbContext.ImageTypes.AnyAsync(x => x.Id == id, cancellationToken);
+        => await dbContext.ImageTypes.AnyAsync(x => x.Id == id, cancellationToken);
 }

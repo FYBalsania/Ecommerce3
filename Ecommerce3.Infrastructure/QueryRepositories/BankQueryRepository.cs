@@ -1,26 +1,19 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTOs.Bank;
-using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class BankQueryRepository : IBankQueryRepository
+internal sealed class BankQueryRepository(AppDbContext dbContext) : IBankQueryRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public BankQueryRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public async Task<PagedResult<BankListItemDTO>> GetListItemsAsync(BankFilter filter, int pageNumber,
         int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Banks.AsQueryable();
+        var query = dbContext.Banks.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.Contains(filter.Name));
@@ -34,17 +27,7 @@ internal sealed class BankQueryRepository : IBankQueryRepository
         var banks = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new BankListItemDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                SortOrder = x.SortOrder,
-                IsActive = x.IsActive,
-                ImageCount = x.Images.Count,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<BankListItemDTO>()
@@ -57,11 +40,11 @@ internal sealed class BankQueryRepository : IBankQueryRepository
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-        => await _dbContext.Banks.MaxAsync(x => x.SortOrder, cancellationToken);
+        => await dbContext.Banks.MaxAsync(x => x.SortOrder, cancellationToken);
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Banks.AsQueryable();
+        var query = dbContext.Banks.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
@@ -71,7 +54,7 @@ internal sealed class BankQueryRepository : IBankQueryRepository
 
     public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Banks.AsQueryable();
+        var query = dbContext.Banks.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
@@ -79,39 +62,9 @@ internal sealed class BankQueryRepository : IBankQueryRepository
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
 
-    public async Task<BankDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await (from b in _dbContext.Banks
-            where b.Id == id
-            select new BankDTO
-            {
-                Id = b.Id,
-                Name = b.Name,
-                Slug = b.Slug,
-                IsActive = b.IsActive,
-                SortOrder = b.SortOrder,
-                Images = b.Images.OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
-                    .Select(x => new ImageDTO
-                    {
-                        Id = x.Id,
-                        OgFileName = x.OgFileName,
-                        FileName = x.FileName,
-                        FileExtension = x.FileExtension,
-                        ImageTypeId = x.ImageTypeId,
-                        ImageTypeName = x.ImageType!.Name,
-                        ImageTypeSlug = x.ImageType!.Slug,
-                        Size = x.Size,
-                        AltText = x.AltText,
-                        Title = x.Title,
-                        Loading = x.Loading,
-                        Link = x.Link,
-                        LinkTarget = x.LinkTarget,
-                        SortOrder = x.SortOrder,
-                        CreatedAppUserFullName = x.CreatedByUser!.FullName,
-                        CreatedAt = x.CreatedAt,
-                        UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
-                        UpdatedAt = x.UpdatedAt
-                    }).ToList().AsReadOnly()
-            }).FirstAsync(cancellationToken);
-    }
+    public async Task<BankDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.Banks
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
 }

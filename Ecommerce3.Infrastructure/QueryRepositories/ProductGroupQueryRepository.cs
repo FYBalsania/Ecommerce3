@@ -1,9 +1,9 @@
 using cloudscribe.Pagination.Models;
-using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -26,7 +26,7 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
         if (!string.IsNullOrWhiteSpace(filter.AnchorText))
             query = query.Where(x => x.AnchorText.Contains(filter.AnchorText));
         if (!string.IsNullOrWhiteSpace(filter.AnchorTitle))
-            query = query.Where(x => x.AnchorTitle.Contains(filter.AnchorTitle));
+            query = query.Where(x => x.AnchorTitle!.Contains(filter.AnchorTitle));
         if (filter.IsActive.HasValue)
             query = query.Where(x => x.IsActive == filter.IsActive);
 
@@ -35,17 +35,7 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
         var productGroups = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(x => new ProductGroupListItemDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                SortOrder = x.SortOrder,
-                IsActive = x.IsActive,
-                ImageCount = x.Images.Count,
-                CreatedUserFullName = x.CreatedByUser!.FullName,
-                CreatedAt = x.CreatedAt
-            })
+            .ProjectToListItemDTO()
             .ToListAsync(cancellationToken);
 
         return new PagedResult<ProductGroupListItemDTO>()
@@ -58,11 +48,7 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
     }
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.ProductGroups
-            .Select(x => (int?)x.SortOrder)          // Cast to nullable
-            .MaxAsync(cancellationToken) ?? 0;       // If null → return 0
-    }
+        => await dbContext.ProductGroups.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
     
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
@@ -84,60 +70,15 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
     
-    public async Task<ProductGroupDTO> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await (from pg in dbContext.ProductGroups
-            where pg.Id == id
-            select new ProductGroupDTO
-            {
-                Id = pg.Id,
-                Name = pg.Name,
-                Slug = pg.Slug,
-                Display = pg.Display,
-                Breadcrumb = pg.Breadcrumb,
-                AnchorText = pg.AnchorText,
-                AnchorTitle = pg.AnchorTitle,
-                IsActive = pg.IsActive,
-                SortOrder = pg.SortOrder,
-                ShortDescription = pg.ShortDescription,
-                FullDescription = pg.FullDescription,
-                H1 = pg.Page!.H1,
-                MetaTitle = pg.Page!.MetaTitle,
-                MetaDescription = pg.Page!.MetaDescription,
-                MetaKeywords = pg.Page!.MetaKeywords,
-                Images = pg.Images.OrderBy(x => x.ImageType!.Name).ThenBy(x => x.Size).ThenBy(x => x.SortOrder)
-                    .Select(x => new ImageDTO
-                    {
-                        Id = x.Id,
-                        OgFileName = x.OgFileName,
-                        FileName = x.FileName,
-                        FileExtension = x.FileExtension,
-                        ImageTypeId = x.ImageTypeId,
-                        ImageTypeName = x.ImageType!.Name,
-                        ImageTypeSlug = x.ImageType!.Slug,
-                        Size = x.Size,
-                        AltText = x.AltText,
-                        Title = x.Title,
-                        Loading = x.Loading,
-                        Link = x.Link,
-                        LinkTarget = x.LinkTarget,
-                        SortOrder = x.SortOrder,
-                        CreatedAppUserFullName = x.CreatedByUser!.FullName,
-                        CreatedAt = x.CreatedAt,
-                        UpdatedAppUserFullName = x.UpdatedByUser!.FullName,
-                        UpdatedAt = x.UpdatedAt
-                    }).ToList().AsReadOnly()
-            }).FirstAsync(cancellationToken);
-    }
+    public async Task<ProductGroupDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.ProductGroups
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.ProductGroups.OrderBy(x => x.Name)
-            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
-    }
+        => await dbContext.ProductGroups.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
-    }
+        => await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
 }

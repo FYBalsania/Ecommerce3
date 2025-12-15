@@ -6,7 +6,7 @@ namespace Ecommerce3.Infrastructure.Extensions;
 
 public static class ImageExtensions
 {
-    private static readonly Expression<Func<Image, ImageDTO>> DTOExpression = x => new ImageDTO
+    public static readonly Expression<Func<Image, ImageDTO>> DTOExpression = x => new ImageDTO
     {
         Id = x.Id,
         OgFileName = x.OgFileName,

@@ -7,7 +7,7 @@ namespace Ecommerce3.Application.Services.Interfaces;
 
 public interface IDeliveryWindowService
 {
-    Task<PagedResult<DeliveryListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber, int pageSize,
+    Task<PagedResult<DeliveryWindowListItemDTO>> GetListItemsAsync(DeliveryWindowFilter filter, int pageNumber, int pageSize,
         CancellationToken cancellationToken);
 
     Task AddAsync(AddDeliveryWindowCommand command, CancellationToken cancellationToken);
