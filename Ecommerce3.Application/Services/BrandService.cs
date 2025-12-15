@@ -4,7 +4,6 @@ using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs.Brand;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
-using Ecommerce3.Domain.DomainEvents.Common;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
@@ -72,14 +71,7 @@ internal sealed class BrandService(
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (brandUpdated)
-        {
-            repository.Update(brand);
-            foreach (var domainEvent in brand.DomainEvents.OfType<SlugUpdatedDomainEvent>())
-            {
-            }
-        }
-
+        if (brandUpdated) repository.Update(brand);
         if (pageUpdated) pageRepository.Update(page);
 
         if (brandUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);

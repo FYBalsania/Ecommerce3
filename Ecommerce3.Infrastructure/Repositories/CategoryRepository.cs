@@ -65,25 +65,22 @@ internal sealed class CategoryRepository : EntityWithImagesRepository<Category, 
             .ToListAsync(cancellationToken);
     }
 
-    public async Task UpdateDescendantsPath(LTree oldPath, LTree newPath, CancellationToken cancellationToken)
+    public async Task UpdateDescendantPathsAsync(int categoryId, string oldPath, string newPath,
+        CancellationToken cancellationToken)
     {
-        var sql = @"
-        WITH params AS (
-            SELECT 
-                @oldPrefix::ltree AS old_prefix,
-                @newPrefix::ltree AS new_prefix
-        )
+        await _dbContext.Database.ExecuteSqlRawAsync(
+            sql: @"
         UPDATE ""Category""
-        SET ""Path"" = params.new_prefix || subpath(""Path"", nlevel(params.old_prefix))
-        FROM params
-        WHERE ""Path"" <@ params.old_prefix AND ""Path"" <> params.old_prefix;";
+        SET ""Path"" = @newPath || subpath(""Path"", nlevel(@oldPath))
+        WHERE ""Path"" @> @oldPath
+          AND NOT (@newPath <@ ""Path"");",
+            parameters: new[]
+            {
+                new NpgsqlParameter("@oldPath", NpgsqlDbType.LTree) { Value = oldPath },
+                new NpgsqlParameter("@newPath", NpgsqlDbType.LTree) { Value = newPath }
+            },
+            cancellationToken: cancellationToken
+        );
 
-        var sqlParams = new[]
-        {
-            new NpgsqlParameter("@oldPrefix", NpgsqlDbType.LTree) { Value = oldPath.ToString() },
-            new NpgsqlParameter("@newPrefix", NpgsqlDbType.LTree) { Value = newPath.ToString() }
-        };
-
-        await _dbContext.Database.ExecuteSqlRawAsync(sql, sqlParams, cancellationToken);
     }
 }

@@ -12,7 +12,7 @@ internal sealed class PageQueryRepository(AppDbContext dbContext) : IPageQueryRe
     {
         return await dbContext.Pages
             .Where(x => EF.Functions.ILike(x.Path!, path) && x.IsActive)
-            // .AsSplitQuery()
+            .AsSplitQuery()
             .Select(PageExpressions.DTOExpression)
             .FirstOrDefaultAsync(cancellationToken);
     }

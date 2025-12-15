@@ -18,5 +18,5 @@ public interface ICategoryRepository : IEntityWithImagesRepository<Category, Cat
     Task<List<Category>> GetDescendantsAsync(int parentId, CategoryInclude include, bool trackChanges,
         CancellationToken cancellationToken);
 
-    Task UpdateDescendantsPath(LTree oldPath, LTree newPath, CancellationToken cancellationToken);
+    Task UpdateDescendantPathsAsync(int categoryId, string oldPath, string newPath, CancellationToken cancellationToken);
 }

@@ -24,7 +24,8 @@ internal sealed class CategoryService(
         int pageSize, CancellationToken cancellationToken)
         => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
 
-    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
+    public async Task<Dictionary<int, string>> GetIdAndNameListAsync(int? excludeSelfId, int[]? excludeDescendants,
+        CancellationToken cancellationToken)
         => await queryRepository.GetIdAndNameAsync(excludeSelfId, excludeDescendants, cancellationToken);
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
@@ -75,17 +76,18 @@ internal sealed class CategoryService(
             if (!exists) throw new DomainException(DomainErrors.CategoryErrors.InvalidParentId);
         }
 
-        var page = await pageRepository.GetByCategoryIdAsync(command.Id, CategoryPageInclude.None, true, cancellationToken);
+        var page = await pageRepository.GetByCategoryIdAsync(command.Id, CategoryPageInclude.None, true,
+            cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.CategoryPageErrors.InvalidCategoryId);
 
         var parent = command.ParentId is not null
             ? await repository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false, cancellationToken)
             : null;
-        
+
         var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, parent, command.GoogleCategory, command.ShortDescription,
             command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
-        
+
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
@@ -97,37 +99,35 @@ internal sealed class CategoryService(
 
             if (categoryUpdated)
             {
-                repository.Update(category);
-                
-                //Parent change
-                // var parentChangedEvent = category.DomainEvents.OfType<CategoryParentIdUpdatedDomainEvent>().FirstOrDefault();
-                // if (parentChangedEvent is not null)
-                // {
-                //     await _repository.MoveDescendantsPath(parentChangedEvent.OldParentId, parentChangedEvent.NewParentId, cancellationToken);
-                // }
-                
-                //Slug change
+                // repository.Update(category);
+                //Slug changed.
                 var slugChangedEvent = category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault();
                 if (slugChangedEvent is not null)
                 {
-                    await repository.UpdateDescendantsPath(new LTree(slugChangedEvent.OldSlug), new LTree(slugChangedEvent.NewSlug), cancellationToken);
+                    var descendants = await repository.GetDescendantsAsync(slugChangedEvent.Id, CategoryInclude.None,
+                        true, cancellationToken);
+                    foreach (var descendant in descendants)
+                    {
+                        descendant.UpdateSlug(slugChangedEvent.NewSlug);
+                    }
                 }
             }
+
             if (pageUpdated) pageRepository.Update(page);
 
             await unitOfWork.CompleteAsync(cancellationToken);
             await unitOfWork.CommitTransactionAsync(cancellationToken);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
             await unitOfWork.RollbackTransactionAsync(cancellationToken);
             throw;
         }
     }
-    
+
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
         => throw new NotImplementedException();
-    
+
     public async Task<int[]> GetDescendantIdsAsync(int id, CancellationToken cancellationToken)
         => await queryRepository.GetDescendantIdsAsync(id, cancellationToken);
 }
