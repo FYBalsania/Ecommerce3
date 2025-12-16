@@ -80,8 +80,8 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
     
-    public async Task<bool> ExistsByParentIdAsync(int? parentId, CancellationToken cancellationToken)
-        => await dbContext.Categories.AnyAsync(x => x.Id == parentId, cancellationToken);
+    public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
+        => await dbContext.Categories.AnyAsync(x => x.Id == id, cancellationToken);
 
     public async Task<Dictionary<int, string>> GetIdAndNameAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
     {

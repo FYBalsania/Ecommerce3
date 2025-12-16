@@ -104,13 +104,13 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         if (Slug != slug || ParentId != parent?.Id)
         {
             var oldSlug = Slug;
-            var oldPath = Path.ToString();
+            var oldPath = Path;
 
             Slug = slug;
             ParentId = parent?.Id;
             Path = parent is null ? new LTree(slug) : new LTree($"{parent.Path}.{slug}");
 
-            AddDomainEvent(new CategorySlugUpdatedDomainEvent(Id, oldSlug, slug, oldPath, Path.ToString()));
+            AddDomainEvent(new CategorySlugUpdatedDomainEvent(Id, oldSlug, slug, oldPath, Path));
         }
         
         Name = name;
@@ -128,11 +128,6 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedByIp = updatedByIp;
 
         return true;
-    }
-
-    public void UpdatePath(string parentPath)
-    {
-        Path = new LTree($"{parentPath}.{Slug}");
     }
 
     public void ChangeParent(Category? parent, int updatedBy, DateTime updatedAt, string updatedByIp)

@@ -10,7 +10,6 @@ using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Ecommerce3.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Application.Services;
 
@@ -72,7 +71,7 @@ internal sealed class CategoryService(
 
         if (command.ParentId is not null)
         {
-            exists = await queryRepository.ExistsByParentIdAsync(command.ParentId, cancellationToken);
+            exists = await queryRepository.ExistsByIdAsync((int)command.ParentId, cancellationToken);
             if (!exists) throw new DomainException(DomainErrors.CategoryErrors.InvalidParentId);
         }
 
@@ -92,31 +91,35 @@ internal sealed class CategoryService(
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         if (!categoryUpdated && !pageUpdated) return;
-        
-        if (categoryUpdated)
+
+        if (categoryUpdated && category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().Any())
         {
-            //Slug changed.
-            var slugChangedEvent = category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault();
-            if (slugChangedEvent is not null)
+            var slugUpdatedDomainEvent =
+                category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault()!;
+            await unitOfWork.BeginTransactionAsync(cancellationToken);
+            try
             {
-                //Get descendants.
-                var descendants = await repository.GetDescendantsAsync(slugChangedEvent.Id, CategoryInclude.None,
-                    true, cancellationToken);
-                //Remove the current category from the list.
-                descendants = descendants.Where(x => x.Id != slugChangedEvent.Id).ToList();
-                //Update the path of the descendants.
-                foreach (var descendant in descendants)
-                {
-                    descendant.UpdatePath(slugChangedEvent.NewPath);
-                }
+                repository.Update(category);
+                if (pageUpdated) pageRepository.Update(page);
+                await repository.UpdateDescendantPathsAsync(slugUpdatedDomainEvent.OldPath,
+                    slugUpdatedDomainEvent.NewPath, cancellationToken);
+                await unitOfWork.CompleteAsync(cancellationToken);
+                await unitOfWork.CommitTransactionAsync(cancellationToken);
             }
+            catch (Exception e)
+            {
+                await unitOfWork.RollbackTransactionAsync(cancellationToken);
+                throw;
+            }
+            category.ClearDomainEvents();
         }
-
-        await unitOfWork.CompleteAsync(cancellationToken);
+        else
+        {
+            if (categoryUpdated) repository.Update(category);
+            if (pageUpdated) pageRepository.Update(page);
+            await unitOfWork.CompleteAsync(cancellationToken);
+        }
     }
-
-    public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
-        => throw new NotImplementedException();
 
     public async Task<int[]> GetDescendantIdsAsync(int id, CancellationToken cancellationToken)
         => await queryRepository.GetDescendantIdsAsync(id, cancellationToken);

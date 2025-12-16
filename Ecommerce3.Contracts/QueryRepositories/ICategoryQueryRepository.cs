@@ -12,7 +12,7 @@ public interface ICategoryQueryRepository
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
     Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
-    Task<bool> ExistsByParentIdAsync(int? id, CancellationToken cancellationToken);
+    Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
     Task<CategoryDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<bool> ExistsByIdsAsync(int[] ids, CancellationToken cancellationToken);
     Task <int[]> GetDescendantIdsAsync(int id, CancellationToken cancellationToken);

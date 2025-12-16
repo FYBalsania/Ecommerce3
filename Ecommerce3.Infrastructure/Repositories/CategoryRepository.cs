@@ -65,22 +65,45 @@ internal sealed class CategoryRepository : EntityWithImagesRepository<Category, 
             .ToListAsync(cancellationToken);
     }
 
-    public async Task UpdateDescendantPathsAsync(int categoryId, string oldPath, string newPath,
+    public async Task UpdateDescendantPathsAsync(string oldPath, string newPath,
         CancellationToken cancellationToken)
     {
-        await _dbContext.Database.ExecuteSqlRawAsync(
-            sql: @"
-        UPDATE ""Category""
-        SET ""Path"" = @newPath || subpath(""Path"", nlevel(@oldPath))
-        WHERE ""Path"" @> @oldPath
-          AND NOT (@newPath <@ ""Path"");",
-            parameters: new[]
-            {
-                new NpgsqlParameter("@oldPath", NpgsqlDbType.LTree) { Value = oldPath },
-                new NpgsqlParameter("@newPath", NpgsqlDbType.LTree) { Value = newPath }
-            },
-            cancellationToken: cancellationToken
-        );
+        var sql = @"
+                WITH p AS (
+                    SELECT @old_path::ltree AS old_path,
+                           @new_path::ltree AS new_path
+                )
+                UPDATE ""Category"" c
+                SET ""Path"" =
+                    CASE
+                        WHEN c.""Path"" = p.old_path
+                            THEN p.new_path
+                        ELSE p.new_path
+                             || subpath(
+                                    c.""Path"",
+                                    nlevel(p.old_path),
+                                    nlevel(c.""Path"") - nlevel(p.old_path)
+                                )
+                    END
+                FROM p
+                WHERE c.""Path"" <@ p.old_path;";
 
+        var parameters = new List<NpgsqlParameter>();
+        parameters.Add(
+            new NpgsqlParameter
+            {
+                ParameterName = "old_path",
+                NpgsqlDbType = NpgsqlDbType.LTree,
+                Value = oldPath
+            });
+        parameters.Add(
+            new NpgsqlParameter
+            {
+                ParameterName = "new_path",
+                NpgsqlDbType = NpgsqlDbType.LTree,
+                Value = newPath
+            });
+
+        await _dbContext.Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
     }
 }
