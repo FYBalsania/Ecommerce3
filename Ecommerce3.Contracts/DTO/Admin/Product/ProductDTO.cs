@@ -47,4 +47,8 @@ public record ProductDTO
     public required string? RedirectUrl { get; init; }
     public required decimal SortOrder { get; init; }
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
+    public string MetaTitle { get; init; }
+    public string? MetaDescription { get; init; }
+    public string? MetaKeywords { get; init; }
+    public string? H1 { get; init; }
 }

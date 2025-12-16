@@ -181,6 +181,7 @@ public class EditProductViewModel
     [Display(Name = "Sort Order")]
     public decimal SortOrder { get; set; }
 
+    [Required(AllowEmptyStrings = false, ErrorMessage = "H1 is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = "H1 must be between 1 and 256 characters.")]
     [Display(Name = "H1")]
     public string? H1 { get; set; }
@@ -296,7 +297,11 @@ public class EditProductViewModel
             Status = productDTO.Status,
             RedirectUrl = productDTO.RedirectUrl,
             SortOrder = productDTO.SortOrder,
-            Images = productDTO.Images
+            Images = productDTO.Images,
+            MetaTitle = productDTO.MetaTitle,
+            MetaDescription = productDTO.MetaDescription,
+            MetaKeywords = productDTO.MetaKeywords,
+            H1 = productDTO.H1,
         };
     }
 }

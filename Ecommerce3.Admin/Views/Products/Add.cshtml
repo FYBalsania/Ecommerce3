@@ -135,7 +135,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="AnchorTitle"></label>
+                            <label class="form-label fw-bold" asp-for="AnchorTitle"></label>
                             <input class="form-control" asp-for="AnchorTitle"/>
                             <span class="text-danger" asp-validation-for="AnchorTitle"></span>
                         </div>
@@ -331,7 +331,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold" asp-for="Price"></label>
+                            <label class="form-label fw-bold required" asp-for="Price"></label>
                             <input type="number" class="form-control" asp-for="Price"/>
                             <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
@@ -406,7 +406,7 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="UnitOfMeasureId"></label>
                             <select class="form-select" asp-for="UnitOfMeasureId" asp-items="@Model.UnitOfMeasures">
-                                <option value="">Select...</option>
+                                <option value="0">Select...</option>
                             </select>
                             <span class="text-danger" asp-validation-for="UnitOfMeasureId"></span>
                         </div>
@@ -424,7 +424,7 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="DeliveryWindowId"></label>
                             <select class="form-select" asp-for="DeliveryWindowId" asp-items="@Model.DeliveryWindows">
-                                <option value="">Select...</option>
+                                <option value="0">Select...</option>
                             </select>
                             <span class="text-danger" asp-validation-for="DeliveryWindowId"></span>
                         </div>
@@ -513,6 +513,11 @@
         //Initialize Select 2
         $(document).ready(function () {
             $('.select-product, .select-brand').select2();
+
+            toggleRedirectUrl();
+            $('#Status').on('change', function () {
+                toggleRedirectUrl();
+            });
         });
 
         // Initialize Quill
@@ -534,5 +539,18 @@
         quill.on('text-change', function () {
             document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
         });
+
+
+        function toggleRedirectUrl() {
+            const status = $('#Status').val();
+            const redirectInput = $('#RedirectUrl');
+
+            if (status === 'RedirectToUrl') {
+                redirectInput.prop('disabled', false);
+            } else {
+                redirectInput.val('');
+                redirectInput.prop('disabled', true);
+            }
+        }
     </script>
 }

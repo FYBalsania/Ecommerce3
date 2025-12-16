@@ -123,6 +123,7 @@ public class AddProductViewModel
     public decimal? AdditionalShippingCharge { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Unit Of Measure is required.")]
     [Display(Name = "Unit Of Measure")]
     public int UnitOfMeasureId { get; set; }
     public SelectList UnitOfMeasures { get; set; }
@@ -133,6 +134,7 @@ public class AddProductViewModel
     public decimal? QuantityPerUnitOfMeasure { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Delivery Window is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Delivery window is required.")]
     [Display(Name = "Delivery Window")]
     public int DeliveryWindowId { get; set; }
     public SelectList DeliveryWindows { get; set; }
@@ -145,10 +147,6 @@ public class AddProductViewModel
     [Range(1, int.MaxValue, ErrorMessage = "Maximum Order Quantity must be greater than or equal to 1.")]
     [Display(Name = "Maximum Order Quantity")]
     public decimal? MaxOrderQuantity { get; set; }
-
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Is Active is required.")]
-    [Display(Name = "Is Active?")]
-    public bool? IsActive { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Featured is required.")]
     [Display(Name = "Is Featured?")]
@@ -178,6 +176,7 @@ public class AddProductViewModel
     [Display(Name = "Sort Order")]
     public decimal SortOrder { get; set; }
 
+    [Required(AllowEmptyStrings = false, ErrorMessage = "H1 is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = "H1 must be between 1 and 256 characters.")]
     [Display(Name = "H1")]
     public string? H1 { get; set; }

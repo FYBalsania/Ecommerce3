@@ -5,6 +5,7 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Packaging;
 
 namespace Ecommerce3.Admin.Controllers;
 
@@ -31,7 +32,7 @@ public class CategoriesController : Controller
         var response = new CategoriesIndexViewModel()
         {
             Filter = filter,
-            Parents = await GetParentsIdAndNameAsync(null, null, cancellationToken),
+            Parents = await GetParentsIdAndNameAsync(null, cancellationToken),
             Categories = result,
             PageTitle = "Categories"
         };
@@ -45,7 +46,7 @@ public class CategoriesController : Controller
     {
         var model = new AddCategoryViewModel()
         {
-            Parents = await GetParentsIdAndNameAsync(null, null, cancellationToken),
+            Parents = await GetParentsIdAndNameAsync(null, cancellationToken),
             IsActive = true,
             SortOrder = await _categoryService.GetMaxSortOrderAsync(cancellationToken) + 1
         };
@@ -60,7 +61,7 @@ public class CategoriesController : Controller
         ModelState.Remove("Parents");
         if (!ModelState.IsValid)
         {
-            model.Parents = await GetParentsIdAndNameAsync(null, null, cancellationToken);
+            model.Parents = await GetParentsIdAndNameAsync(null, cancellationToken);
             return View(model);
         }
 
@@ -109,8 +110,8 @@ public class CategoriesController : Controller
         if (category is null) return NotFound();
 
         var model = EditCategoryViewModel.FromDTO(category);
-        var descendants = await _categoryService.GetDescendantIdsAsync(id, cancellationToken);
-        model.Parents = await GetParentsIdAndNameAsync(id, descendants, cancellationToken);
+        var excludeIds = (await _categoryService.GetDescendantIdsAsync(id, cancellationToken)).Append(id).ToArray();
+        model.Parents = await GetParentsIdAndNameAsync(excludeIds, cancellationToken);
         ViewData["Title"] = $"Edit Category - {category.Name}";
         return View(model);
     }
@@ -165,9 +166,9 @@ public class CategoriesController : Controller
     }
     
     [NonAction]
-    private async Task<SelectList> GetParentsIdAndNameAsync(int? excludeSelfId, int[]? excludeDescendants, CancellationToken cancellationToken)
+    private async Task<SelectList> GetParentsIdAndNameAsync(int[]? excludeIds, CancellationToken cancellationToken)
     {
-        var categoryParents = await _categoryService.GetIdAndNameListAsync(excludeSelfId, excludeDescendants, cancellationToken);
+        var categoryParents = await _categoryService.GetIdAndNameListAsync(excludeIds, cancellationToken);
         return new SelectList(categoryParents,"Key","Value");
     }
 }
