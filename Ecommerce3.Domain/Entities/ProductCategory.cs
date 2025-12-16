@@ -31,21 +31,22 @@ public sealed class ProductCategory : Entity, ICreatable, IUpdatable, IDeletable
         CategoryId = categoryId;
         IsPrimary = isPrimary;
         SortOrder = sortOrder;
+        
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
 
-    internal bool Update(bool isPrimary, int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
+    internal void Update(bool isPrimary, int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        if (IsPrimary == isPrimary && SortOrder == sortOrder) return false;
+        if (IsPrimary == isPrimary && SortOrder == sortOrder) return;
         
         IsPrimary = isPrimary;
         SortOrder = sortOrder;
@@ -53,7 +54,5 @@ public sealed class ProductCategory : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-        
-        return true;
     }
 }

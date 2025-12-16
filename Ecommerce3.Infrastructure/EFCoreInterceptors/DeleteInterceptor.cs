@@ -15,7 +15,8 @@ public sealed class DeleteInterceptor : SaveChangesInterceptor
             return base.SavingChangesAsync(eventData, result, cancellationToken);
         
         var deletedEntries = eventData.Context.ChangeTracker
-            .Entries<IDeletable>().Where(e => e.State == EntityState.Deleted);
+            .Entries<IDeletable>().Where(e => e.State == EntityState.Deleted)
+            .ToList();
         
         foreach (var entry in deletedEntries)
         {

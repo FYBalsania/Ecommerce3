@@ -202,15 +202,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
         BrandId = brandId;
-        // for (var x = 0; x < categoryIds.Length; x++)
-        // {
-        //     _categories.Add(new ProductCategory(categoryIds[x], x == 0, x, createdBy,
-        //         createdAt, createdByIp));
-        // }
-
         _categories.AddRange(categoryIds.Select((categoryId, index) =>
             new ProductCategory(categoryId, index == 0, index, createdBy, createdAt, createdByIp)));
-
         ProductGroupId = productGroupId;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
@@ -290,7 +283,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         }
     }
 
-    public bool Update(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
+    public void Update(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
         string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int brandId,
         int[] categoryIds, int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews,
         decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
@@ -379,21 +372,21 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
         if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
 
-        if (SKU == sku || GTIN == gtin || MPN == mpn || MFC == mfc || EAN == ean || UPC == upc || Name == name ||
-            Slug == slug || Display == display || Breadcrumb == breadcrumb || AnchorText == anchorText ||
-            AnchorTitle == anchorTitle || BrandId == brandId ||
-            categoryIds.SequenceEqual(_categories.Select(x => x.CategoryId)) || ProductGroupId == productGroupId ||
-            ShortDescription == shortDescription || FullDescription == fullDescription ||
-            AllowReviews == allowReviews || Price == price || OldPrice == oldPrice || CostPrice == costPrice ||
-            Stock == stock || MinStock == minStock || ShowAvailability == showAvailability ||
-            FreeShipping == freeShipping || AdditionalShippingCharge == additionalShippingCharge ||
-            UnitOfMeasureId == unitOfMeasureId || QuantityPerUnitOfMeasure == quantityPerUnitOfMeasure ||
-            DeliveryWindowId == deliveryWindowId || MinOrderQuantity == minOrderQuantity ||
-            MaxOrderQuantity == maxOrderQuantity || IsFeatured == isFeatured || IsNew == isNew ||
-            IsBestSeller == isBestSeller || IsReturnable == isReturnable || Status == status ||
-            RedirectUrl == redirectUrl || SortOrder == sortOrder
+        if (SKU == sku && GTIN == gtin && MPN == mpn && MFC == mfc && EAN == ean && UPC == upc && Name == name &&
+            Slug == slug && Display == display && Breadcrumb == breadcrumb && AnchorText == anchorText &&
+            AnchorTitle == anchorTitle && BrandId == brandId &&
+            categoryIds.SequenceEqual(_categories.OrderByDescending(x => x.IsPrimary).Select(x => x.CategoryId)) &&
+            ProductGroupId == productGroupId && ShortDescription == shortDescription &&
+            FullDescription == fullDescription && AllowReviews == allowReviews && Price == price &&
+            OldPrice == oldPrice && CostPrice == costPrice && Stock == stock && MinStock == minStock &&
+            ShowAvailability == showAvailability && FreeShipping == freeShipping &&
+            AdditionalShippingCharge == additionalShippingCharge && UnitOfMeasureId == unitOfMeasureId &&
+            QuantityPerUnitOfMeasure == quantityPerUnitOfMeasure && DeliveryWindowId == deliveryWindowId &&
+            MinOrderQuantity == minOrderQuantity && MaxOrderQuantity == maxOrderQuantity && IsFeatured == isFeatured &&
+            IsNew == isNew && IsBestSeller == isBestSeller && IsReturnable == isReturnable && Status == status &&
+            RedirectUrl == redirectUrl && SortOrder == sortOrder
            )
-            return false;
+            return ;
 
         SKU = sku;
         GTIN = gtin;
@@ -437,12 +430,11 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
 
-        return true;
+        // return true;
     }
 
-    private bool UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)
+    private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        var updated = false;
         var desired = categoryIds
             .Select((categoryId, index) => new
             {
@@ -456,25 +448,27 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             .ToDictionary(x => x.CategoryId);
 
         // REMOVE categories no longer present
-        var removedCount = _categories.RemoveAll(pc => desired.All(d => d.CategoryId != pc.CategoryId));
-        if (removedCount > 0) updated = true;
+        _categories.RemoveAll(pc =>
+        {
+            if (desired.Any(d => d.CategoryId == pc.CategoryId))
+                return false;
+
+            pc.Delete(updatedBy, updatedAt, updatedByIp);
+            return true;
+        });
 
         // ADD or UPDATE
         foreach (var d in desired)
         {
             if (existingByCategoryId.TryGetValue(d.CategoryId, out var existing))
             {
-                if (existing.Update(d.IsPrimary, d.SortOrder, updatedBy, updatedAt, updatedByIp))
-                    updated = true;
+                existing.Update(d.IsPrimary, d.SortOrder, updatedBy, updatedAt, updatedByIp);
             }
             else
             {
                 _categories.Add(new ProductCategory(d.CategoryId, d.IsPrimary, d.SortOrder, updatedBy, updatedAt,
                     updatedByIp));
-                updated = true;
             }
         }
-
-        return updated;
     }
 }
