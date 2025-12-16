@@ -42,4 +42,18 @@ public sealed class ProductCategory : Entity, ICreatable, IUpdatable, IDeletable
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
+
+    internal bool Update(bool isPrimary, int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        if (IsPrimary == isPrimary && SortOrder == sortOrder) return false;
+        
+        IsPrimary = isPrimary;
+        SortOrder = sortOrder;
+        
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+        
+        return true;
+    }
 }

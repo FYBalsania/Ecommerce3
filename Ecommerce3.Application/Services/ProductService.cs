@@ -75,7 +75,7 @@ internal sealed class ProductService(
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
             command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
             command.CreatedBy, command.CreatedAt, command.CreatedByIp);
-        
+
         await repository.AddAsync(product, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
@@ -116,22 +116,23 @@ internal sealed class ProductService(
         //Delivery window exists check.
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidDeliveryWindowId);
-        
+
         //Get Product
         var product = await repository.GetByIdAsync(command.Id, ProductInclude.None, true, cancellationToken);
         if (product is null) throw new DomainException(DomainErrors.ProductErrors.InvalidId);
-        
-        var page = await pageRepository.GetByProductIdAsync(command.Id, ProductPageInclude.None, true, cancellationToken);
+
+        var page = await pageRepository.GetByProductIdAsync(command.Id, ProductPageInclude.None, true,
+            cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.ProductPageErrors.InvalidProductId);
-        
+
         // Check if categories have changed
         var existingCategoryIds = product.Categories.Select(c => c.CategoryId).OrderBy(id => id).ToArray();
         var newCategoryIds = command.CategoryIds.OrderBy(id => id).ToArray();
         var categoriesChanged = !existingCategoryIds.SequenceEqual(newCategoryIds);
-        
-        var productUpdated = product.Update(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN, command.UPC,
-            command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText, command.AnchorTitle,
-            command.BrandId, command.CategoryIds, command.ProductGroupId, command.ShortDescription,
+
+        var productUpdated = product.Update(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN,
+            command.UPC, command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
+            command.AnchorTitle, command.BrandId, command.CategoryIds, command.ProductGroupId, command.ShortDescription,
             command.FullDescription, command.AllowReviews, command.Price, command.OldPrice, command.CostPrice,
             command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
             command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
@@ -142,24 +143,16 @@ internal sealed class ProductService(
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-        
+
         if (productUpdated) repository.Update(product);
         if (pageUpdated) pageRepository.Update(page);
 
-        try
-        {
-            if (productUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        if (productUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
 
-    public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken) 
+    public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await queryRepository.GetByIdAsync(id, cancellationToken);
 }

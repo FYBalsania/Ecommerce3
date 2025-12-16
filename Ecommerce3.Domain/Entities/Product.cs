@@ -185,7 +185,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         //Validate MetaTitle.
         ValidateRequiredAndTooLong(metaTitle, 256, DomainErrors.PageErrors.MetaTitleRequired,
             DomainErrors.PageErrors.MetaTitleTooLong);
-        if (metaDescription is not null) ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
+        if (metaDescription is not null)
+            ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
         if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
 
         SKU = sku;
@@ -201,11 +202,14 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
         BrandId = brandId;
-        for (var x = 0; x < categoryIds.Length; x++)
-        {
-            _categories.Add(new ProductCategory(categoryIds[x], x == 0, x, createdBy,
-                createdAt, createdByIp));
-        }
+        // for (var x = 0; x < categoryIds.Length; x++)
+        // {
+        //     _categories.Add(new ProductCategory(categoryIds[x], x == 0, x, createdBy,
+        //         createdAt, createdByIp));
+        // }
+
+        _categories.AddRange(categoryIds.Select((categoryId, index) =>
+            new ProductCategory(categoryId, index == 0, index, createdBy, createdAt, createdByIp)));
 
         ProductGroupId = productGroupId;
         ShortDescription = shortDescription;
@@ -234,7 +238,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
-        
+
         Page = new ProductPage(null, metaTitle, metaDescription, metaKeywords, null,
             h1, null, null, null, null, null, null, null,
             null, null, null, null, 0, SiteMapFrequency.Always,
@@ -277,12 +281,15 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     {
         if (categoryIds is null || categoryIds.Length == 0)
             throw new DomainException(DomainErrors.ProductErrors.CategoryIdRequired);
+        if (categoryIds.Length != categoryIds.Distinct().Count())
+            throw new DomainException(DomainErrors.ProductErrors.DuplicateCategoryId);
+
         foreach (var categoryId in categoryIds)
         {
             ValidatePositiveNumber(categoryId, DomainErrors.ProductErrors.InvalidCategoryId);
         }
     }
-    
+
     public bool Update(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
         string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int brandId,
         int[] categoryIds, int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews,
@@ -368,8 +375,25 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         //Validate MetaTitle.
         ValidateRequiredAndTooLong(metaTitle, 256, DomainErrors.PageErrors.MetaTitleRequired,
             DomainErrors.PageErrors.MetaTitleTooLong);
-        if (metaDescription is not null) ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
+        if (metaDescription is not null)
+            ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
         if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
+
+        if (SKU == sku || GTIN == gtin || MPN == mpn || MFC == mfc || EAN == ean || UPC == upc || Name == name ||
+            Slug == slug || Display == display || Breadcrumb == breadcrumb || AnchorText == anchorText ||
+            AnchorTitle == anchorTitle || BrandId == brandId ||
+            categoryIds.SequenceEqual(_categories.Select(x => x.CategoryId)) || ProductGroupId == productGroupId ||
+            ShortDescription == shortDescription || FullDescription == fullDescription ||
+            AllowReviews == allowReviews || Price == price || OldPrice == oldPrice || CostPrice == costPrice ||
+            Stock == stock || MinStock == minStock || ShowAvailability == showAvailability ||
+            FreeShipping == freeShipping || AdditionalShippingCharge == additionalShippingCharge ||
+            UnitOfMeasureId == unitOfMeasureId || QuantityPerUnitOfMeasure == quantityPerUnitOfMeasure ||
+            DeliveryWindowId == deliveryWindowId || MinOrderQuantity == minOrderQuantity ||
+            MaxOrderQuantity == maxOrderQuantity || IsFeatured == isFeatured || IsNew == isNew ||
+            IsBestSeller == isBestSeller || IsReturnable == isReturnable || Status == status ||
+            RedirectUrl == redirectUrl || SortOrder == sortOrder
+           )
+            return false;
 
         SKU = sku;
         GTIN = gtin;
@@ -384,12 +408,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
         BrandId = brandId;
-        _categories.Clear();
-        for (var x = 0; x < categoryIds.Length; x++)
-        {
-            _categories.Add(new ProductCategory(categoryIds[x], x == 0, x, updatedBy, updatedAt, updatedByIp));
-        }
-
+        UpdateCategories(categoryIds, updatedBy, updatedAt, updatedByIp);
         ProductGroupId = productGroupId;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
@@ -417,7 +436,45 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-        
+
         return true;
+    }
+
+    private bool UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        var updated = false;
+        var desired = categoryIds
+            .Select((categoryId, index) => new
+            {
+                CategoryId = categoryId,
+                SortOrder = index,
+                IsPrimary = index == 0
+            })
+            .ToList();
+
+        var existingByCategoryId = _categories
+            .ToDictionary(x => x.CategoryId);
+
+        // REMOVE categories no longer present
+        var removedCount = _categories.RemoveAll(pc => desired.All(d => d.CategoryId != pc.CategoryId));
+        if (removedCount > 0) updated = true;
+
+        // ADD or UPDATE
+        foreach (var d in desired)
+        {
+            if (existingByCategoryId.TryGetValue(d.CategoryId, out var existing))
+            {
+                if (existing.Update(d.IsPrimary, d.SortOrder, updatedBy, updatedAt, updatedByIp))
+                    updated = true;
+            }
+            else
+            {
+                _categories.Add(new ProductCategory(d.CategoryId, d.IsPrimary, d.SortOrder, updatedBy, updatedAt,
+                    updatedByIp));
+                updated = true;
+            }
+        }
+
+        return updated;
     }
 }

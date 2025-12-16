@@ -84,6 +84,9 @@ public static partial class DomainErrors
         
         public static readonly DomainError InvalidCategoryId =
             new($"{nameof(Product)}.{nameof(Product.Categories)}", "Category Id is invalid.");
+        
+        public static readonly DomainError DuplicateCategoryId =
+            new($"{nameof(Product)}.{nameof(Product.Categories)}", "Duplicate categories are not allowed.");
 
         public static readonly DomainError InvalidProductGroupId =
             new($"{nameof(Product)}.{nameof(Product.ProductGroupId)}", "ProductGroupID is invalid.");
