@@ -14,7 +14,7 @@ internal sealed class BrandPageRepository(AppDbContext dbContext) : PageReposito
         CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.BrandPages.Where(x => x.BrandId == brandId).AsQueryable()
+            ? _dbContext.BrandPages.Where(x => x.BrandId == brandId).AsTracking()
             : _dbContext.BrandPages.Where(x => x.BrandId == brandId).AsNoTracking();
 
         if ((includes & BrandPageInclude.Brand) == BrandPageInclude.Brand) 

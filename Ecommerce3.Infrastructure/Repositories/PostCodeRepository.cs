@@ -18,7 +18,7 @@ internal sealed class PostCodeRepository : Repository<PostCode>, IPostCodeReposi
     private IQueryable<PostCode> GetQuery(PostCodeInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.PostCodes.AsQueryable()
+            ? _dbContext.PostCodes.AsTracking()
             : _dbContext.PostCodes.AsNoTracking();
 
         // Use bitwise checks (avoid Enum.HasFlag boxing)

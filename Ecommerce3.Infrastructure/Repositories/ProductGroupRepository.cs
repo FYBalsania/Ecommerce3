@@ -19,7 +19,7 @@ internal sealed class ProductGroupRepository : EntityWithImagesRepository<Produc
     private IQueryable<ProductGroup> GetQuery(ProductGroupInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.ProductGroups.AsQueryable()
+            ? _dbContext.ProductGroups.AsTracking()
             : _dbContext.ProductGroups.AsNoTracking();
 
         if ((includes & ProductGroupInclude.Images) == ProductGroupInclude.Images)

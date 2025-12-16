@@ -3,25 +3,21 @@ using Ecommerce3.Infrastructure.Data;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class UnitOfWork : IUnitOfWork
+internal sealed class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 {
-    private readonly AppDbContext _dbContext;
-
-    public UnitOfWork(AppDbContext dbContext) => _dbContext = dbContext;
-
     public async Task<int> CompleteAsync(CancellationToken cancellationToken)
     {
-       return await _dbContext.SaveChangesAsync(cancellationToken);
+       return await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public bool HasChanges() => _dbContext.ChangeTracker.HasChanges();
+    public bool HasChanges() => dbContext.ChangeTracker.HasChanges();
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken)
-        => await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        => await dbContext.Database.BeginTransactionAsync(cancellationToken);
 
     public async Task CommitTransactionAsync(CancellationToken cancellationToken)
-        => await _dbContext.Database.CommitTransactionAsync(cancellationToken);
+        => await dbContext.Database.CommitTransactionAsync(cancellationToken);
 
     public async Task RollbackTransactionAsync(CancellationToken cancellationToken) 
-        => await _dbContext.Database.RollbackTransactionAsync(cancellationToken);
+        => await dbContext.Database.RollbackTransactionAsync(cancellationToken);
 }

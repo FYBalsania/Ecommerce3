@@ -16,7 +16,7 @@ internal sealed class ImageTypeRepository : Repository<ImageType>, IImageTypeRep
     
     private IQueryable<ImageType> GetQuery(bool trackChanges)
         => trackChanges
-            ? _dbContext.ImageTypes.AsQueryable()
+            ? _dbContext.ImageTypes.AsTracking()
             : _dbContext.ImageTypes.AsNoTracking();
 
     public async Task<ImageType?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken) 

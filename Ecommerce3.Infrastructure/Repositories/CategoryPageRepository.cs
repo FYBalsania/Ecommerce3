@@ -19,7 +19,7 @@ internal sealed class CategoryPageRepository : PageRepository<CategoryPage>, ICa
         bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.CategoryPages.Where(x => x.CategoryId == categoryId).AsQueryable()
+            ? _dbContext.CategoryPages.Where(x => x.CategoryId == categoryId).AsTracking()
             : _dbContext.CategoryPages.Where(x => x.CategoryId == categoryId).AsNoTracking();
 
         if ((includes & CategoryPageInclude.Category) == CategoryPageInclude.Category) 

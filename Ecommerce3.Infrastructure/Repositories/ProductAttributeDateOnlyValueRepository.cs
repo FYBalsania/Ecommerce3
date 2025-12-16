@@ -18,7 +18,7 @@ internal sealed class ProductAttributeDateOnlyValueRepository : ProductAttribute
     public async Task<ProductAttributeDateOnlyValue?> GetDateOnlyValueByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductAttributeDateOnlyValues.AsQueryable()
+            ? _dbContext.ProductAttributeDateOnlyValues.AsTracking()
             : _dbContext.ProductAttributeDateOnlyValues.AsNoTracking();
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

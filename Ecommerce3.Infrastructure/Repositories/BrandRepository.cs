@@ -18,7 +18,7 @@ internal sealed class BrandRepository : EntityWithImagesRepository<Brand, BrandI
     private IQueryable<Brand> GetQuery(BrandInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.Brands.AsQueryable()
+            ? _dbContext.Brands.AsTracking()
             : _dbContext.Brands.AsNoTracking();
 
         // Use bitwise checks (avoid Enum.HasFlag boxing)

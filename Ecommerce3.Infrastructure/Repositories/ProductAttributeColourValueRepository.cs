@@ -26,7 +26,7 @@ internal sealed class ProductAttributeColourValueRepository : ProductAttributeVa
     public async Task<ProductAttributeColourValue?> GetColourValueByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductAttributeColourValues.AsQueryable()
+            ? _dbContext.ProductAttributeColourValues.AsTracking()
             : _dbContext.ProductAttributeColourValues.AsNoTracking();
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
@@ -34,7 +34,7 @@ internal sealed class ProductAttributeColourValueRepository : ProductAttributeVa
     public async Task<ProductAttributeValue?> GetTextValueByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductAttributeValues.AsQueryable()
+            ? _dbContext.ProductAttributeValues.AsTracking()
             : _dbContext.ProductAttributeValues.AsNoTracking();
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

@@ -19,7 +19,7 @@ internal sealed class ProductGroupPageRepository : PageRepository<ProductGroupPa
         bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductGroupPages.Where(x => x.ProductGroupId == productGroupId).AsQueryable()
+            ? _dbContext.ProductGroupPages.Where(x => x.ProductGroupId == productGroupId).AsTracking()
             : _dbContext.ProductGroupPages.Where(x => x.ProductGroupId == productGroupId).AsNoTracking();
 
         if ((includes & ProductGroupPageInclude.ProductGroup) == ProductGroupPageInclude.ProductGroup) 

@@ -28,7 +28,7 @@ internal class ImageRepository<T> : Repository<T>, IImageRepository<T> where T :
     public async Task<Image?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.Images.AsQueryable()
+            ? _dbContext.Images.AsTracking()
             : _dbContext.Images.AsNoTracking();
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

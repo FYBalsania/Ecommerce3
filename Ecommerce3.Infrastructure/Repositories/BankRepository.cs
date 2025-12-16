@@ -18,7 +18,7 @@ internal sealed class BankRepository : EntityWithImagesRepository<Bank, BankImag
     private IQueryable<Bank> GetQuery(BankInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.Banks.AsQueryable()
+            ? _dbContext.Banks.AsTracking()
             : _dbContext.Banks.AsNoTracking();
 
         // Use bitwise checks (avoid Enum.HasFlag boxing)

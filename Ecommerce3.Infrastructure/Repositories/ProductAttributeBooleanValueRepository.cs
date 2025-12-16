@@ -18,7 +18,7 @@ internal sealed class ProductAttributeBooleanValueRepository : ProductAttributeV
     public async Task<ProductAttributeBooleanValue?> GetBooleanValueByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductAttributeBooleanValues.AsQueryable()
+            ? _dbContext.ProductAttributeBooleanValues.AsTracking()
             : _dbContext.ProductAttributeBooleanValues.AsNoTracking();
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

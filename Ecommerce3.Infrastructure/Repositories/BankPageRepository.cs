@@ -14,7 +14,7 @@ internal sealed class BankPageRepository(AppDbContext dbContext) : PageRepositor
         CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.BankPages.Where(x => x.BankId == bankId).AsQueryable()
+            ? _dbContext.BankPages.Where(x => x.BankId == bankId).AsTracking()
             : _dbContext.BankPages.Where(x => x.BankId == bankId).AsNoTracking();
 
         if ((includes & BankPageInclude.Bank) == BankPageInclude.Bank) 

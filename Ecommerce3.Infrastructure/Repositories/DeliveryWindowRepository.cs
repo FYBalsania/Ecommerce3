@@ -16,7 +16,7 @@ internal sealed class DeliveryWindowRepository : Repository<DeliveryWindow>, IDe
 
     private IQueryable<DeliveryWindow> GetQuery(bool trackChanges)
         => trackChanges 
-            ? _dbContext.DeliveryWindows.AsQueryable() 
+            ? _dbContext.DeliveryWindows.AsTracking() 
             : _dbContext.DeliveryWindows.AsNoTracking();
     
     public async Task<DeliveryWindow?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)

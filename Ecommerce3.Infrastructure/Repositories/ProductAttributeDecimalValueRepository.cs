@@ -18,7 +18,7 @@ internal sealed class ProductAttributeDecimalValueRepository : ProductAttributeV
     public async Task<ProductAttributeDecimalValue?> GetDecimalValueByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductAttributeDecimalValues.AsQueryable()
+            ? _dbContext.ProductAttributeDecimalValues.AsTracking()
             : _dbContext.ProductAttributeDecimalValues.AsNoTracking();
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

@@ -20,8 +20,8 @@ internal sealed class CategoryRepository : EntityWithImagesRepository<Category, 
     private IQueryable<Category> Query(CategoryInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.Categories.AsTracking().AsQueryable()
-            : _dbContext.Categories.AsNoTracking().AsQueryable();
+            ? _dbContext.Categories.AsTracking()
+            : _dbContext.Categories.AsNoTracking();
 
         // Use bitwise checks (avoid Enum.HasFlag boxing)
         if ((includes & CategoryInclude.Images) == CategoryInclude.Images) query = query.Include(x => x.Images);

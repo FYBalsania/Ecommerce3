@@ -12,7 +12,7 @@ internal abstract class Repository<T> : IRepository<T> where T : Entity
 
     public async Task<T?> GetByIdAsync(int id, bool trackChanges, CancellationToken cancellationToken)
         => trackChanges
-            ? await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+            ? await _dbContext.Set<T>().AsTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
             : await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task AddAsync(T entity, CancellationToken cancellationToken)
