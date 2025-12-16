@@ -61,6 +61,10 @@ public static class ProductExtensions
         Status = p.Status,
         RedirectUrl = p.RedirectUrl,
         SortOrder = p.SortOrder,
+        H1 = p.Page!.H1,
+        MetaTitle = p.Page.MetaTitle,
+        MetaDescription = p.Page.MetaDescription,
+        MetaKeywords = p.Page.MetaKeywords,
         Images = p.Images.AsQueryable().OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
             .Select(ImageExtensions.DTOExpression).ToList()
     };

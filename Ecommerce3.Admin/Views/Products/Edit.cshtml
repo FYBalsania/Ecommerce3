@@ -5,7 +5,7 @@
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">Add Product</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Product - @Model.Name</h2>
     </div>
     <form method="post" asp-action="Edit">
         @Html.AntiForgeryToken()
@@ -135,7 +135,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="AnchorTitle"></label>
+                            <label class="form-label fw-bold" asp-for="AnchorTitle"></label>
                             <input class="form-control" asp-for="AnchorTitle"/>
                             <span class="text-danger" asp-validation-for="AnchorTitle"></span>
                         </div>
@@ -331,7 +331,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label fw-bold" asp-for="Price"></label>
+                            <label class="form-label fw-bold required" asp-for="Price"></label>
                             <input type="number" class="form-control" asp-for="Price"/>
                             <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
@@ -430,18 +430,6 @@
                         </div>
                     </div>
                 </div>
-                @* <div class="row"> *@
-                @*     <div class="col-md-12"> *@
-                @*         <div class="mb-3"> *@
-                @*             <label class="form-label fw-bold">Return Policy</label> *@
-                @*             <!-- Quill Editor Container --> *@
-                @*             <!-- Hidden input to store HTML content for form submission --> *@
-                @*             <div id="returnPolicyEditor" style="height: 200px;"> *@
-                @* *@
-                @*             </div> *@
-                @*             <input type="hidden" id="returnPolicyInput" name="Return"></div> *@
-                @*     </div> *@
-                @* </div> *@
             </div>
         </div>
         
@@ -951,6 +939,11 @@
             $('.select-storage').select2({
                 placeholder: 'Select Storage'
             });
+
+            toggleRedirectUrl();
+            $('#Status').on('change', function () {
+                toggleRedirectUrl();
+            });
         });
 
         // Initialize Quill for Long Description
@@ -971,26 +964,6 @@
         });
         quill.on('text-change', function () {
             document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-        });
-
-        // Initialize Quill for Return Policy
-        var returnPolicyQuill = new Quill('#returnPolicyEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{color: []}, {background: []}],
-                    [{list: 'ordered'}, {list: 'bullet'}],
-                    [{align: []}],
-                    ['link', 'image', 'blockquote', 'code-block'],
-                    ['clean']
-                ]
-            }
-        });
-        returnPolicyQuill.on('text-change', function () {
-            document.getElementById('returnPolicyInput').value = returnPolicyQuill.root.innerHTML;
         });
 
         // Initialize Quill for Text Add Editor
@@ -1072,5 +1045,17 @@
         valueEditQuill.on('text-change', function () {
             document.getElementById('valueEditInput').value = valueEditQuill.root.innerHTML;
         });
+
+        function toggleRedirectUrl() {
+            const status = $('#Status').val();
+            const redirectInput = $('#RedirectUrl');
+
+            if (status === 'RedirectToUrl') {
+                redirectInput.prop('disabled', false);
+            } else {
+                redirectInput.val('');
+                redirectInput.prop('disabled', true);
+            }
+        }
     </script>
 }

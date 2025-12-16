@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewModels.Product;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -57,47 +58,15 @@ public class ProductsController : Controller
     {
         var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
         var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        var categories =
-            new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key", "Value");
-        var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
-            "Value");
-        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key",
-            "Value");
-        var deliveryWindows =
-            new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
+        var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        var deliveryWindows = new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
         return View(new AddProductViewModel
         {
-            SKU = "SKU-0001",
             BrandId = 1,
-            CategoryIds = [1,2],
-            ProductGroupId = 1,
-            Name = "IPhone 17",
-            Slug = "iphone-17",
-            Display = "Display",
-            Breadcrumb = "Breadcrumb",
-            AnchorText = "Anchor Text",
-            AnchorTitle = "Anchor Title",
-            IsActive = true,
-            ShortDescription = "Short Description",
-            Price = 10000,
-            AdditionalShippingCharge = 1,
-            UnitOfMeasureId = 1,
-            QuantityPerUnitOfMeasure = 1,
-            Stock = 1,
-            MinOrderQuantity = 1,
-            DeliveryWindowId = 1,
             Status = ProductStatus.Active,
-            AllowReviews = true,
-            ShowAvailability = true,
-            FreeShipping = true,
-            IsFeatured = true,
-            IsNew = true,
-            IsBestSeller = true,
-            IsReturnable = true,
-            H1 = "H2",
-            MetaTitle = "Meta Title",
-            
             PageTitle = "Add Product",
             SortOrder = sortOrder + 1,
             Brands = brands,
@@ -122,15 +91,10 @@ public class ProductsController : Controller
         {
             var sortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken);
             var brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-            var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key",
-                "Value");
-            var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken),
-                "Key", "Value");
-            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key",
-                "Value");
-            var deliveryWindows =
-                new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key",
-                    "Value");
+            var categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
+            var productGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+            var uoms = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+            var deliveryWindows = new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
             model.SortOrder = sortOrder + 1;
             model.Brands = brands;
@@ -154,7 +118,164 @@ public class ProductsController : Controller
         }
         catch (DomainException domainException)
         {
-            //Translate DomainException to ModelState.
+           switch (domainException.Error.Code)
+            {
+                case $"{nameof(Product)}.{nameof(Product.SKU)}":
+                    ModelState.AddModelError(nameof(model.SKU), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.GTIN)}":
+                    ModelState.AddModelError(nameof(model.GTIN), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.MPN)}":
+                    ModelState.AddModelError(nameof(model.MPN), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.MFC)}":
+                    ModelState.AddModelError(nameof(model.MFC), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.EAN)}":
+                    ModelState.AddModelError(nameof(model.EAN), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.UPC)}":
+                    ModelState.AddModelError(nameof(model.UPC), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.RedirectUrl)}":
+                    ModelState.AddModelError(nameof(model.RedirectUrl), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.FullDescription)}":
+                    ModelState.AddModelError(nameof(model.FullDescription), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.AllowReviews)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.ShowAvailability)}":
+                    ModelState.AddModelError(nameof(model.ShowAvailability), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.FreeShipping)}":
+                    ModelState.AddModelError(nameof(model.FreeShipping), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsFeatured)}":
+                    ModelState.AddModelError(nameof(model.IsFeatured), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsNew)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsBestSeller)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsReturnable)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.BrandId)}":
+                    ModelState.AddModelError(nameof(model.BrandId), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Categories)}":
+                    ModelState.AddModelError(nameof(model.CategoryIds), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Price)}":
+                    ModelState.AddModelError(nameof(model.Price), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.OldPrice)}":
+                    ModelState.AddModelError(nameof(model.OldPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.CostPrice)}":
+                    ModelState.AddModelError(nameof(model.CostPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.MinOrderQuantity)}":
+                    ModelState.AddModelError(nameof(model.MinOrderQuantity), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.MaxOrderQuantity)}":
+                    ModelState.AddModelError(nameof(model.MaxOrderQuantity), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.Stock)}":
+                    ModelState.AddModelError(nameof(model.CostPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.MinStock)}":
+                    ModelState.AddModelError(nameof(model.CostPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.AdditionalShippingCharge)}":
+                    ModelState.AddModelError(nameof(model.AdditionalShippingCharge), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.UnitOfMeasureId)}":
+                    ModelState.AddModelError(nameof(model.UnitOfMeasureId), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.QuantityPerUnitOfMeasure)}":
+                    ModelState.AddModelError(nameof(model.QuantityPerUnitOfMeasure), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.DeliveryWindowId)}":
+                    ModelState.AddModelError(nameof(model.DeliveryWindowId), domainException.Message);
+                    break;
+                
+                case $"{nameof(ProductPage)}.{nameof(ProductPage.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    break;
+                
+                case $"{nameof(ProductPage)}.{nameof(ProductPage.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    break;
+
+                default:
+                    ModelState.AddModelError(string.Empty, domainException.Message);
+                    break;
+            }
         }
 
         return LocalRedirect($"/Products/Index");
@@ -168,7 +289,7 @@ public class ProductsController : Controller
         
         var model = EditProductViewModel.FromDTO(product);
         model.Brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        model.Categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key", "Value");
+        model.Categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
         model.ProductGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
         model.UnitOfMeasures = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
         model.DeliveryWindows = new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
@@ -191,11 +312,11 @@ public class ProductsController : Controller
         {
             model.SortOrder = await _productService.GetMaxSortOrderAsync(cancellationToken) + 1;
             model.Brands = new SelectList(await _brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-            model.Categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, null, cancellationToken), "Key", "Value");
+            model.Categories = new SelectList(await _categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
             model.ProductGroups = new SelectList(await _productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
             model.UnitOfMeasures = new SelectList(await _unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
             model.DeliveryWindows = new SelectList(await _deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
-            model.PageTitle = "Add Product";
+            model.PageTitle = "Edit Product";
             return View(model);
         }
         
@@ -210,7 +331,164 @@ public class ProductsController : Controller
         }
         catch (DomainException domainException)
         {
-            //Translate DomainException to ModelState.
+            switch (domainException.Error.Code)
+            {
+                case $"{nameof(Product)}.{nameof(Product.SKU)}":
+                    ModelState.AddModelError(nameof(model.SKU), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.GTIN)}":
+                    ModelState.AddModelError(nameof(model.GTIN), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.MPN)}":
+                    ModelState.AddModelError(nameof(model.MPN), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.MFC)}":
+                    ModelState.AddModelError(nameof(model.MFC), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.EAN)}":
+                    ModelState.AddModelError(nameof(model.EAN), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.UPC)}":
+                    ModelState.AddModelError(nameof(model.UPC), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Name)}":
+                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Slug)}":
+                    ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Display)}":
+                    ModelState.AddModelError(nameof(model.Display), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Breadcrumb)}":
+                    ModelState.AddModelError(nameof(model.Breadcrumb), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.AnchorText)}":
+                    ModelState.AddModelError(nameof(model.AnchorText), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.AnchorTitle)}":
+                    ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.RedirectUrl)}":
+                    ModelState.AddModelError(nameof(model.RedirectUrl), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.ShortDescription)}":
+                    ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.FullDescription)}":
+                    ModelState.AddModelError(nameof(model.FullDescription), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.AllowReviews)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.ShowAvailability)}":
+                    ModelState.AddModelError(nameof(model.ShowAvailability), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.FreeShipping)}":
+                    ModelState.AddModelError(nameof(model.FreeShipping), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsFeatured)}":
+                    ModelState.AddModelError(nameof(model.IsFeatured), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsNew)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsBestSeller)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.IsReturnable)}":
+                    ModelState.AddModelError(nameof(model.AllowReviews), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.BrandId)}":
+                    ModelState.AddModelError(nameof(model.BrandId), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Categories)}":
+                    ModelState.AddModelError(nameof(model.CategoryIds), domainException.Message);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Price)}":
+                    ModelState.AddModelError(nameof(model.Price), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.OldPrice)}":
+                    ModelState.AddModelError(nameof(model.OldPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.CostPrice)}":
+                    ModelState.AddModelError(nameof(model.CostPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.MinOrderQuantity)}":
+                    ModelState.AddModelError(nameof(model.MinOrderQuantity), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.MaxOrderQuantity)}":
+                    ModelState.AddModelError(nameof(model.MaxOrderQuantity), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.Stock)}":
+                    ModelState.AddModelError(nameof(model.CostPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.MinStock)}":
+                    ModelState.AddModelError(nameof(model.CostPrice), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.AdditionalShippingCharge)}":
+                    ModelState.AddModelError(nameof(model.AdditionalShippingCharge), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.UnitOfMeasureId)}":
+                    ModelState.AddModelError(nameof(model.UnitOfMeasureId), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.QuantityPerUnitOfMeasure)}":
+                    ModelState.AddModelError(nameof(model.QuantityPerUnitOfMeasure), domainException.Message);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.DeliveryWindowId)}":
+                    ModelState.AddModelError(nameof(model.DeliveryWindowId), domainException.Message);
+                    break;
+                
+                case $"{nameof(ProductPage)}.{nameof(ProductPage.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    break;
+                
+                case $"{nameof(ProductPage)}.{nameof(ProductPage.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    break;
+
+                default:
+                    ModelState.AddModelError(string.Empty, domainException.Message);
+                    break;
+            }
         }
 
         return LocalRedirect($"/Products/Index"); 
