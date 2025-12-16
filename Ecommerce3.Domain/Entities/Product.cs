@@ -429,8 +429,6 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        // return true;
     }
 
     private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)

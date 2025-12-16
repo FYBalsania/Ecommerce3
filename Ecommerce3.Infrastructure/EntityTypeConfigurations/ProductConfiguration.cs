@@ -177,7 +177,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasMany(x => x.Categories)
             .WithOne(x => x.Product)
             .HasForeignKey(x => x.ProductId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(x => x.TextListItems)
             .WithOne(x => x.Product)
             .HasForeignKey(x => x.ProductId)

@@ -35,9 +35,9 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
-        builder.HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique()
+        builder.HasIndex(x => new { x.ProductId, x.CategoryId, x.DeletedAt }).IsUnique()
             .HasDatabaseName(
-                $"UK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}");
+                $"UK_{nameof(ProductCategory)}_{nameof(ProductCategory.ProductId)}_{nameof(ProductCategory.CategoryId)}_{nameof(ProductCategory.DeletedAt)}");
         builder.HasIndex(x => x.IsPrimary)
             .HasDatabaseName($"IX_{nameof(ProductCategory)}_{nameof(ProductCategory.IsPrimary)}");
         builder.HasIndex(x => x.CreatedAt)

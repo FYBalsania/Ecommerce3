@@ -135,15 +135,11 @@ internal sealed class ProductService(
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
             command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-        
-        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+
+        page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        // repository.Update(product);
-        // pageRepository.Update(page);
-
-        // if (productUpdated || pageUpdated) 
-            await unitOfWork.CompleteAsync(cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken)

@@ -14,7 +14,7 @@ internal sealed class ProductPageRepository(AppDbContext dbContext) : PageReposi
         CancellationToken cancellationToken)
     {
         var query = trackChanges
-            ? _dbContext.ProductPages.Where(x => x.ProductId == productId).AsQueryable()
+            ? _dbContext.ProductPages.Where(x => x.ProductId == productId).AsTracking()
             : _dbContext.ProductPages.Where(x => x.ProductId == productId).AsNoTracking();
 
         if ((includes & ProductPageInclude.Product) == ProductPageInclude.Product) 

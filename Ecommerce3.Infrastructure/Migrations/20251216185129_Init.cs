@@ -1393,7 +1393,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -3011,9 +3011,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "UK_ProductCategory_ProductId_CategoryId",
+                name: "UK_ProductCategory_ProductId_CategoryId_DeletedAt",
                 table: "ProductCategory",
-                columns: new[] { "ProductId", "CategoryId" },
+                columns: new[] { "ProductId", "CategoryId", "DeletedAt" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

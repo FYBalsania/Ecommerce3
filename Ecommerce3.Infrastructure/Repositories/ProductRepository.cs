@@ -6,14 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class ProductRepository(AppDbContext dbContext) : EntityWithImagesRepository<Product, ProductImage>(dbContext), IProductRepository
+internal sealed class ProductRepository(AppDbContext dbContext) 
+    : EntityWithImagesRepository<Product, ProductImage>(dbContext), IProductRepository
 {
     private readonly AppDbContext _dbContext1 = dbContext;
 
     private IQueryable<Product> GetQuery(ProductInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext1.Products.AsQueryable()
+            ? _dbContext1.Products.AsTracking()
             : _dbContext1.Products.AsNoTracking();
 
         // Use bitwise checks (avoid Enum.HasFlag boxing)
@@ -48,37 +49,10 @@ internal sealed class ProductRepository(AppDbContext dbContext) : EntityWithImag
         
         return query;
     }
-    
-    public async Task<(IEnumerable<Product> ListItems, int Count)?> GetProductsAsync(string? skuCode, string? gtin,
-        string? mpn, string? mfc, string? ean, string? upc, string? name, string? slug, int? brandId, int? categoryId,
-        int? productGroupId, int? deliveryWindowId, ProductStatus productStatus, ProductInclude includes,
-        bool trackChanges, int pageNumber, int pageSize, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Product?> GetBySlugAsync(string slug, ProductInclude includes, bool trackChanges,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Product?> GetByNameAsync(string name, ProductInclude includes, bool trackChanges,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Product?> GetBySKUCodeAsync(string skuCode, ProductInclude includes, bool trackChanges,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
 
     public async Task<Product?> GetByIdAsync(int id, ProductInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
-        var query = GetQuery(includes, trackChanges);
-        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return await GetQuery(includes, trackChanges).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

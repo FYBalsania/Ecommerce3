@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251215090603_SeedData")]
-    partial class SeedData
+    [Migration("20251216185129_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2633,9 +2633,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("UpdatedBy");
 
-                    b.HasIndex("ProductId", "CategoryId")
+                    b.HasIndex("ProductId", "CategoryId", "DeletedAt")
                         .IsUnique()
-                        .HasDatabaseName("UK_ProductCategory_ProductId_CategoryId");
+                        .HasDatabaseName("UK_ProductCategory_ProductId_CategoryId_DeletedAt");
 
                     b.ToTable("ProductCategory", (string)null);
                 });
@@ -4873,7 +4873,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasOne("Ecommerce3.Domain.Entities.Product", "Product")
                         .WithMany("Categories")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "UpdatedByUser")
