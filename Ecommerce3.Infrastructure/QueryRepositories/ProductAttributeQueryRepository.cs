@@ -7,6 +7,7 @@ using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.Extensions;
 using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
+using ProductAttributeExtensions = Ecommerce3.Infrastructure.Extensions.Admin.ProductAttributeExtensions;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
@@ -34,7 +35,7 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
         var productAttributes = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ProjectToListItemDTO()
+            .Select(ProductAttributeExtensions.ListItemDTOExpression)
             .ToListAsync(cancellationToken);
 
         return new PagedResult<ProductAttributeListItemDTO>()
@@ -71,14 +72,12 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
 
     public async Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var productAttribute = await dbContext.ProductAttributes
+        return await dbContext.ProductAttributes
+            .Where(x => x.Id == id)
             .Include(x => x.Values)
                 .ThenInclude(x => x.CreatedByUser)
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        
-        if (productAttribute == null) return null;
-
-        return new ProductAttributeDTO();
+            .Select(ProductAttributeExtensions.DTOExpression)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken)

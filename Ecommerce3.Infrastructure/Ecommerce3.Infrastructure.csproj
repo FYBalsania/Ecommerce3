@@ -25,7 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Expressions\Admin\" />
       <Folder Include="Extensions\StoreFront\" />
       <Folder Include="QueryRepositories\Admin\" />
     </ItemGroup>
