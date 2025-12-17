@@ -87,7 +87,7 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
     {
         var query = dbContext.Categories.AsQueryable();
         if (excludeIds is not null) query = query.Where(x => !excludeIds.Contains(x.Id));
-        return await query.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+        return await query.ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
     }
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
