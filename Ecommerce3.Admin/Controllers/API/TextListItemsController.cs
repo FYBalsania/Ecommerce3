@@ -5,12 +5,15 @@ namespace Ecommerce3.Admin.Controllers.API;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TextListItemsController(ILogger<TextListItemsController> logger, ITextListItemService textListItemService)
-    : ControllerBase
+public class TextListItemsController(
+    ILogger<TextListItemsController> logger, 
+    ITextListItemService textListItemService) : ControllerBase
 {
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
-        return Ok();
+        var textListItem = await textListItemService.GetByIdAsync(id, cancellationToken);
+        if (textListItem == null) return NotFound("Text list item not found");
+        return Ok(textListItem);
     }
 }

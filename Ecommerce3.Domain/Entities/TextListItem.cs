@@ -43,10 +43,10 @@ public abstract class TextListItem : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    public static TextListItem Create(Type parentEntity, int parentEntityId, TextListItemType type, string text,
+    public static TextListItem Create(Type entity, int parentEntityId, TextListItemType type, string text,
         decimal sortOrder, int createdBy, DateTime createdAt, string createdByIp)
     {
-        return parentEntity == typeof(ProductTextListItem)
+        return entity == typeof(ProductTextListItem)
             ? new ProductTextListItem(parentEntityId, type, text, sortOrder, createdBy, createdAt, createdByIp)
             : throw new NotImplementedException("Create method not implemented for this entity type.");
     }

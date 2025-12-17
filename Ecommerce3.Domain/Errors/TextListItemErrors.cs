@@ -6,6 +6,12 @@ public static partial class DomainErrors
 {
     public static class TextListItemErrors
     {
+        public static readonly DomainError ParentEntityRequired =
+            new($"{nameof(TextListItem)}.ParentEntity", "Parent entity is required.");
+        
+        public static readonly DomainError EntityRequired =
+            new($"{nameof(TextListItem)}.Entity", "Entity is required.");
+        
         public static readonly DomainError InvalidId =
             new($"{nameof(TextListItem)}.{nameof(TextListItem.Id)}", "Id is invalid.");
         

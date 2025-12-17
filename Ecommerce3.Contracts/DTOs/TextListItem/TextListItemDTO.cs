@@ -1,8 +1,11 @@
+using Ecommerce3.Domain.Enums;
+
 namespace Ecommerce3.Contracts.DTOs.TextListItem;
 
 public record TextListItemDTO
 {
     public required int Id { get; init; }
+    public required TextListItemType Type { get; init; }
     public required string Text { get; init; }
     public required decimal SortOrder { get; init; }
     public required string CreatedAppUserFullName { get; init; }   

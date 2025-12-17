@@ -4,7 +4,7 @@ namespace Ecommerce3.Application.Commands.TextListItem;
 
 public record EditTextListItemCommand
 {
-    public required Type ParentEntity { get; init; }
+    public required string ParentEntity { get; init; }
     public required int ParentEntityId { get; init; }
     public required int Id { get; init; }
     public required TextListItemType Type { get; init; }

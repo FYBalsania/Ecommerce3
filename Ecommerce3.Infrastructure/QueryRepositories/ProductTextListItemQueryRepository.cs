@@ -17,7 +17,7 @@ internal class ProductTextListItemQueryRepository(AppDbContext dbContext) : Text
         return await dbContext.ProductTextListItems
             .Where(x => x.ProductId == productId
                         && x.Type == type
-                        && x.Text.Equals(text, StringComparison.OrdinalIgnoreCase)
+                        && x.Text.ToLower() == text.ToLower()
                         && (!excludeId.HasValue || x.Id != excludeId.Value))
             .AnyAsync(cancellationToken);
     }

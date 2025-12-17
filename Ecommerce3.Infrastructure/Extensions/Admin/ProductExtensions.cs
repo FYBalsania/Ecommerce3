@@ -65,8 +65,16 @@ public static class ProductExtensions
         MetaTitle = p.Page.MetaTitle,
         MetaDescription = p.Page.MetaDescription,
         MetaKeywords = p.Page.MetaKeywords,
-        Images = p.Images.AsQueryable().OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
-            .Select(ImageExtensions.DTOExpression).ToList()
+        Images = p.Images
+            .AsQueryable()
+            .OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
+            .Select(ImageExtensions.DTOExpression).
+            ToList(),
+        TextListItems = p.TextListItems.
+            AsQueryable()
+            .OrderBy(tl => tl.Text).ThenBy(tli => tli.SortOrder)
+            .Select(TextListItemExtensions.ToDtoExpression)
+            .ToList()
     };
     
     public static IQueryable<ProductDTO> ProjectToDTO(this IQueryable<Product> query) => 

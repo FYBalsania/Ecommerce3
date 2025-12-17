@@ -1,4 +1,5 @@
 @using Ecommerce3.Contracts.DTOs.KVPListItem
+@using Ecommerce3.Contracts.DTOs.TextListItem
 @using Ecommerce3.Domain.Entities
 @using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Product.EditProductViewModel
@@ -487,68 +488,17 @@
             images = Model.Images
         })
 
-        @* <!-- Highlight, Disclaimer --> *@
-        @* <div class="card mb-4"> *@
-        @*     <div class="card-header d-flex justify-content-between align-items-center"> *@
-        @*         <h5 class="mb-0 text-muted py-2"> *@
-        @*             <i class="fas fa-comment"></i> Highlight, Disclaimer, Etc *@
-        @*         </h5> *@
-        @*         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTextModal"> *@
-        @*             <i class="fas fa-plus"></i> Add Text *@
-        @*         </button> *@
-        @*     </div> *@
-        @*     <div class="card-body"> *@
-        @*         <div class="card-body"> *@
-        @*             <div class="table-responsive"> *@
-        @*                 <table class="table align-middle"> *@
-        @*                     <thead> *@
-        @*                     <tr> *@
-        @*                         <th>Discriminator</th> *@
-        @*                         <th>Type</th> *@
-        @*                         <th>Text</th> *@
-        @*                         <th class="text-end" style="width: 20%;">Sort Order</th> *@
-        @*                         <th class="text-end" style="width: 20%;">Created</th> *@
-        @*                         <th class="text-center" style="width: 10%;">Action</th> *@
-        @*                     </tr> *@
-        @*                     </thead> *@
-        @*                     <tbody> *@
-        @*                     <tr> *@
-        @*                         <td>XYZ</td> *@
-        @*                         <td>Disclaimer</td> *@
-        @*                         <td>This is a disclaimer</td> *@
-        @*                         <td class="text-end">1</td> *@
-        @*                         <td class="text-end">John Doe<br/>25-Sept-2025 09:15</td> *@
-        @*                         <td class="text-center"> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#editTextModal"> *@
-        @*                                 <i class="fas fa-edit me-2 fs-6 text-success"></i> *@
-        @*                             </a> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#deleteTextModal"> *@
-        @*                                 <i class="fas fa-trash fs-6 text-danger"></i> *@
-        @*                             </a> *@
-        @*                         </td> *@
-        @*                     </tr> *@
-        @*                     <tr> *@
-        @*                         <td>ABC</td> *@
-        @*                         <td>Highlight</td> *@
-        @*                         <td>This is a Highlight</td> *@
-        @*                         <td class="text-end">2</td> *@
-        @*                         <td class="text-end">Jane Doe<br/>25-Sept-2025 09:15</td> *@
-        @*                         <td class="text-center"> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#editTextModal"> *@
-        @*                                 <i class="fas fa-edit me-2 fs-6 text-success"></i> *@
-        @*                             </a> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#deleteTextModal"> *@
-        @*                                 <i class="fas fa-trash fs-6 text-danger"></i> *@
-        @*                             </a> *@
-        @*                         </td> *@
-        @*                     </tr> *@
-        @*                     </tbody> *@
-        @*                 </table> *@
-        @*             </div> *@
-        @*         </div> *@
-        @*     </div> *@
-        @* </div> *@
-        @* *@
+        @{
+            IReadOnlyList<TextListItemDTO> highlightItems = Model.TextListItems.Where(x => x.Type == TextListItemType.Highlight).ToList();
+            IReadOnlyList<TextListItemDTO> disclaimerItems = Model.TextListItems.Where(x => x.Type == TextListItemType.Disclaimer).ToList();
+        }
+        <!-- Highlight -->
+        <partial name="_TextListPartial" model="(typeof(Product).AssemblyQualifiedName, Model.Id, typeof(ProductTextListItem).AssemblyQualifiedName, TextListItemType.Highlight, highlightItems)" />
+
+        <!-- Disclaimer -->
+        <partial name="_TextListPartial" model="(typeof(Product).AssemblyQualifiedName, Model.Id, typeof(ProductTextListItem).AssemblyQualifiedName, TextListItemType.Disclaimer, disclaimerItems)" />
+
+        
         @* $1$ Nutrition #1# *@
         @* <partial name="_KVPListPartial" *@
         @*          model="@Tuple.Create(typeof(Product), Model.Id, KVPListItemType.Nutrition, new List<KVPListItemDTO>())"/> *@
@@ -919,6 +869,7 @@
 @section Scripts
 {
     <script src="~/js/product.js"></script>
+    <script src="~/js/textlistitems.js"></script>
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script src="~/js/image.js"></script>

@@ -1,16 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.TextListItem;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ViewModels.TextListItem;
 
 public class AddTextListItemViewModel
 {
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Entity is required.")]
-    public Type ParentEntity { get; set; }
+    [HiddenInput, Required(AllowEmptyStrings = false, ErrorMessage = "Parent Entity is required.")]
+    public string ParentEntity { get; set; }
     
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Entity id is required.")]
+    [HiddenInput, Required(AllowEmptyStrings = false, ErrorMessage = "Parent Entity id is required.")]
     public int ParentEntityId { get; set; }
+
+    [HiddenInput, Required(AllowEmptyStrings = false, ErrorMessage = "Entity is required.")]
+    public string Entity { get; set; }
     
     [Required(AllowEmptyStrings = false, ErrorMessage = "Type is required.")]
     public TextListItemType Type { get; set; }
@@ -27,6 +32,7 @@ public class AddTextListItemViewModel
         {
             ParentEntity = ParentEntity,
             ParentEntityId = ParentEntityId,
+            Entity = Entity,
             Type = Type,
             Text = Text,
             SortOrder = SortOrder,

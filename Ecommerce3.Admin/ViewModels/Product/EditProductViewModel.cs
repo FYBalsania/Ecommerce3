@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Image;
+using Ecommerce3.Contracts.DTOs.TextListItem;
+using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -200,6 +202,9 @@ public class EditProductViewModel
     public string? MetaKeywords { get; set; }
 
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
+    
+    public IReadOnlyList<TextListItemDTO> TextListItems = [];
+
 
     public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
@@ -298,6 +303,7 @@ public class EditProductViewModel
             RedirectUrl = productDTO.RedirectUrl,
             SortOrder = productDTO.SortOrder,
             Images = productDTO.Images,
+            TextListItems = productDTO.TextListItems,
             MetaTitle = productDTO.MetaTitle,
             MetaDescription = productDTO.MetaDescription,
             MetaKeywords = productDTO.MetaKeywords,

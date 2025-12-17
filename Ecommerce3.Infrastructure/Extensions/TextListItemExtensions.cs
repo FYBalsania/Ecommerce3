@@ -6,9 +6,10 @@ namespace Ecommerce3.Infrastructure.Extensions;
 
 public static class TextListItemExtensions
 {
-    private static readonly Expression<Func<TextListItem, TextListItemDTO>> ToDtoExpression = x => new TextListItemDTO
+    public static readonly Expression<Func<TextListItem, TextListItemDTO>> ToDtoExpression = x => new TextListItemDTO
     {
         Id = x.Id,
+        Type = x.Type,
         Text = x.Text,
         SortOrder = x.SortOrder,
         // be defensive: use null-conditional to avoid null nav prop issues

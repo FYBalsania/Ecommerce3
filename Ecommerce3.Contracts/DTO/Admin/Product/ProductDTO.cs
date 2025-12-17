@@ -1,4 +1,5 @@
 using Ecommerce3.Contracts.DTOs.Image;
+using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.DTO.Admin.Product;
@@ -51,4 +52,5 @@ public record ProductDTO
     public string? MetaDescription { get; init; }
     public string? MetaKeywords { get; init; }
     public string? H1 { get; init; }
+    public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
 }
