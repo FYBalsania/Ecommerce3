@@ -67,8 +67,8 @@ internal sealed class CategoryKVPListItemQueryRepository(AppDbContext dbContext)
     public override async Task<IReadOnlyList<KVPListItemDTO>> GetAllByParamsAsync(int parentEntityId,
         KVPListItemType type, CancellationToken cancellationToken)
     {
-        return await dbContext.ProductKVPListItems
-            .Where(x => x.ProductId == parentEntityId && x.Type == type)
+        return await dbContext.CategoryKVPListItems
+            .Where(x => x.CategoryId == parentEntityId && x.Type == type)
             .OrderBy(x => x.SortOrder).ThenBy(x => x.Key)
             .ProjectToDTO()
             .ToListAsync(cancellationToken);

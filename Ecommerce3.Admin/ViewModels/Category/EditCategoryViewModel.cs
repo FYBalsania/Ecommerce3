@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Category;
 using Ecommerce3.Contracts.DTOs.Category;
 using Ecommerce3.Contracts.DTOs.Image;
+using Ecommerce3.Contracts.DTOs.KVPListItem;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.ViewModels.Category;
@@ -82,6 +83,9 @@ public class EditCategoryViewModel
     public int SortOrder { get; set; }
     
     public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
+    
+    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; private set; } = [];
+
 
     public EditCategoryCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
@@ -131,7 +135,8 @@ public class EditCategoryViewModel
             FullDescription = dto.FullDescription,
             IsActive = dto.IsActive,
             SortOrder = dto.SortOrder,
-            Images = dto.Images
+            Images = dto.Images,
+            KVPListItems = dto.KVPListItems,
         };
     }
 }

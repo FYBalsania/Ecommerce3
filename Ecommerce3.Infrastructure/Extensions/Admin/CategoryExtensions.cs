@@ -40,7 +40,13 @@ public static class CategoryExtensions
         MetaDescription = c.Page!.MetaDescription,
         MetaKeywords = c.Page!.MetaKeywords,
         Images = c.Images.AsQueryable().OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
-            .Select(ImageExtensions.DTOExpression).ToList()
+            .Select(ImageExtensions.DTOExpression).ToList(),
+        KVPListItems = c.KVPListItems
+            .AsQueryable()
+            .Where(tl => tl.CategoryId == c.Id)
+            .OrderBy(tl => tl.Key).ThenBy(tli => tli.SortOrder)
+            .Select(KVPListItemExtensions.ToDtoExpression)
+            .ToList()
     };
     
     public static IQueryable<CategoryDTO> ProjectToDTO(this IQueryable<Category> query) =>

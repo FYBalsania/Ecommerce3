@@ -53,6 +53,6 @@ public record ProductDTO
     public string? MetaDescription { get; init; }
     public string? MetaKeywords { get; init; }
     public string? H1 { get; init; }
-    public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
-    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; set; } = [];
+    public IReadOnlyList<TextListItemDTO> TextListItems { get; init; } = [];
+    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; init; } = [];
 }
