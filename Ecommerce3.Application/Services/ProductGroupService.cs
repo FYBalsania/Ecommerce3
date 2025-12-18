@@ -64,17 +64,16 @@ internal sealed class ProductGroupService(
         var page = await pageRepository.GetByProductGroupIdAsync(command.Id, ProductGroupPageInclude.None, true, cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.ProductGroupPageErrors.InvalidProductGroupId);
 
-        var productGroupUpdated = productGroup.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
+        productGroup.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
             command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
         var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        if (productGroupUpdated) repository.Update(productGroup);
+        
         if (pageUpdated) pageRepository.Update(page);
 
-        if (productGroupUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
     
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)

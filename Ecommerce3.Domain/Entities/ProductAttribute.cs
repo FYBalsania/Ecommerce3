@@ -6,6 +6,11 @@ namespace Ecommerce3.Domain.Entities;
 
 public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletable
 {
+    public static readonly int NameMaxLength = 256;
+    public static readonly int SlugMaxLength = 256;
+    public static readonly int DisplayMaxLength = 256;
+    public static readonly int BreadcrumbMaxLength = 256;
+
     private readonly List<ProductAttributeValue> _values = [];
 
     public string Name { get; private set; }
@@ -13,7 +18,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     public string Display { get; private set; }
     public string Breadcrumb { get; private set; }
     public DataType DataType { get; private set; }
-    public int SortOrder { get; private set; }
+    public decimal SortOrder { get; private set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -28,18 +33,26 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     public string? DeletedByIp { get; private set; }
 
     public IReadOnlyList<ProductAttributeValue> Values => _values;
-    
-    private ProductAttribute(){}
+
+    private ProductAttribute()
+    {
+    }
 
     public ProductAttribute(string name, string slug, string display, string breadcrumb, DataType dataType,
-        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        decimal sortOrder, int createdBy, DateTime createdAt, string createdByIp)
     {
-        ValidateName(name);
-        ValidateSlug(slug);
-        ValidateDisplay(display);
-        ValidateBreadcrumb(breadcrumb);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductAttributeErrors.NameRequired,
+            DomainErrors.ProductAttributeErrors.NameTooLong);
+        ValidateRequiredAndTooLong(slug, SlugMaxLength, DomainErrors.ProductAttributeErrors.SlugRequired,
+            DomainErrors.ProductAttributeErrors.SlugTooLong);
+        ValidateRequiredAndTooLong(display, DisplayMaxLength, DomainErrors.ProductAttributeErrors.DisplayRequired,
+            DomainErrors.ProductAttributeErrors.DisplayTooLong);
+        ValidateRequiredAndTooLong(breadcrumb, BreadcrumbMaxLength,
+            DomainErrors.ProductAttributeErrors.BreadcrumbRequired,
+            DomainErrors.ProductAttributeErrors.BreadcrumbTooLong);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductAttributeErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductAttributeErrors.CreatedByIpRequired,
+            DomainErrors.ProductAttributeErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -59,15 +72,21 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             createdByIp));
     }
 
-    public bool Update(string name, string slug, string display, string breadcrumb, int sortOrder, int updatedBy,
+    public bool Update(string name, string slug, string display, string breadcrumb, decimal sortOrder, int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
-        ValidateName(name);
-        ValidateSlug(slug);
-        ValidateDisplay(display);
-        ValidateBreadcrumb(breadcrumb);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductAttributeErrors.NameRequired,
+            DomainErrors.ProductAttributeErrors.NameTooLong);
+        ValidateRequiredAndTooLong(slug, SlugMaxLength, DomainErrors.ProductAttributeErrors.SlugRequired,
+            DomainErrors.ProductAttributeErrors.SlugTooLong);
+        ValidateRequiredAndTooLong(display, DisplayMaxLength, DomainErrors.ProductAttributeErrors.DisplayRequired,
+            DomainErrors.ProductAttributeErrors.DisplayTooLong);
+        ValidateRequiredAndTooLong(breadcrumb, BreadcrumbMaxLength,
+            DomainErrors.ProductAttributeErrors.BreadcrumbRequired,
+            DomainErrors.ProductAttributeErrors.BreadcrumbTooLong);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductAttributeErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductAttributeErrors.UpdatedByIpRequired,
+            DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             SortOrder == sortOrder) return false;
@@ -91,58 +110,6 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         DeletedByIp = deletedByIp;
     }
 
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.ProductAttributeErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.ProductAttributeErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidCreatedBy);
-    }
-
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidUpdatedBy);
-    }
-
-    private static void ValidateBreadcrumb(string breadcrumb)
-    {
-        if (string.IsNullOrWhiteSpace(breadcrumb))
-            throw new DomainException(DomainErrors.ProductAttributeErrors.BreadcrumbRequired);
-        if (breadcrumb.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.BreadcrumbTooLong);
-    }
-
-    private static void ValidateDisplay(string display)
-    {
-        if (string.IsNullOrWhiteSpace(display))
-            throw new DomainException(DomainErrors.ProductAttributeErrors.DisplayRequired);
-        if (display.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.DisplayTooLong);
-    }
-
-    private static void ValidateSlug(string slug)
-    {
-        if (string.IsNullOrWhiteSpace(slug))
-            throw new DomainException(DomainErrors.ProductAttributeErrors.SlugRequired);
-        if (slug.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.SlugTooLong);
-    }
-
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new DomainException(DomainErrors.ProductAttributeErrors.NameRequired);
-        if (name.Length > 256) throw new DomainException(DomainErrors.ProductAttributeErrors.NameTooLong);
-    }
-
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp))
-            throw new DomainException(DomainErrors.ProductAttributeErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
-    }
-
     public void AddValue(ProductAttributeValue value)
     {
         if (value is null) throw new DomainException(DomainErrors.Common.Null);
@@ -157,7 +124,8 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             case ProductAttributeDecimalValue:
             {
                 exists = _values.Any(x =>
-                    ((ProductAttributeDecimalValue)x).DecimalValue == ((ProductAttributeDecimalValue)value).DecimalValue);
+                    ((ProductAttributeDecimalValue)x).DecimalValue ==
+                    ((ProductAttributeDecimalValue)value).DecimalValue);
                 break;
             }
             case ProductAttributeDateOnlyValue:
@@ -175,6 +143,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             default:
                 throw new DomainException(DomainErrors.Common.OutOfRange);
         }
+
         if (exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.DuplicateValue);
 
         exists = _values.Any(x => stringComparer.Equals(x.Slug, value.Slug));

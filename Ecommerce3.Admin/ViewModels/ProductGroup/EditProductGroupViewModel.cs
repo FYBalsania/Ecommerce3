@@ -70,7 +70,7 @@ public class EditProductGroupViewModel
 
     [Required(ErrorMessage = "Sort order is required.")]
     [Display(Name = "Sort order")]
-    public int SortOrder { get; set; }
+    public decimal SortOrder { get; set; }
     
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
     

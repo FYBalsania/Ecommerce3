@@ -7,12 +7,12 @@ public record ProductAttributeValueDTO
     public string Slug { get; init; }
     public string Display { get; init; }
     public string Breadcrumb { get; init; }
-    public int SortOrder { get; init; }
+    public decimal SortOrder { get; init; }
     public string CreatedUserFullName { get; init; }
     public DateTime CreatedAt { get; init; }
 
     public ProductAttributeValueDTO(int id, string value, string slug, string display, string breadcrumb,
-        int sortOrder, string createdUserFullName, DateTime createdAt)
+        decimal sortOrder, string createdUserFullName, DateTime createdAt)
     {
         Id = id;
         Value = value;

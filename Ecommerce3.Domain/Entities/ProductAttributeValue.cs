@@ -11,7 +11,7 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
     public string Slug { get; protected set; }
     public string Display { get; protected set; }
     public string Breadcrumb { get; protected set; }
-    public int SortOrder { get; protected set; }
+    public decimal SortOrder { get; protected set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -29,7 +29,7 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
     {
     }
 
-    public ProductAttributeValue(string value, string slug, string display, string breadcrumb, int sortOrder,
+    public ProductAttributeValue(string value, string slug, string display, string breadcrumb, decimal sortOrder,
         int createdBy, DateTime createdAt, string createdByIp)
     {
         ValidateValue(value);
@@ -59,7 +59,7 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
         DeletedByIp = deletedByIp;
     }
 
-    internal bool Update(string value, string slug, string display, string breadcrumb, int sortOrder, int updatedBy,
+    internal bool Update(string value, string slug, string display, string breadcrumb, decimal sortOrder, int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
         ValidateValue(value);

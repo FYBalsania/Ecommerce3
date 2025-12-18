@@ -18,6 +18,6 @@ public class ProductGroupDTO
     public string? ShortDescription { get; set; }
     public string? FullDescription { get; set; }
     public bool IsActive { get; set; }
-    public int SortOrder { get; set; }
+    public decimal SortOrder { get; set; }
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 }

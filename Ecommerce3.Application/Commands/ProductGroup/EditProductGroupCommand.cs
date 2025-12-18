@@ -16,7 +16,7 @@ public record EditProductGroupCommand
     public string? ShortDescription { get; init; }
     public string? FullDescription { get; init; }
     public bool IsActive { get; init; }
-    public int SortOrder { get; init; }
+    public decimal SortOrder { get; init; }
     public int UpdatedBy { get; init; }
     public DateTime UpdatedAt { get; init; }
     public string UpdatedByIp { get; init; }

@@ -32,7 +32,7 @@ public sealed class EditProductAttributeViewModel
 
     [Required(ErrorMessage = "Sort order is required.")]
     [Display(Name = "Sort order")]
-    public int SortOrder { get; set; }
+    public decimal SortOrder { get; set; }
     
     [Required(ErrorMessage = "Data type is required.")]
     public DataType DataType { get; set; }

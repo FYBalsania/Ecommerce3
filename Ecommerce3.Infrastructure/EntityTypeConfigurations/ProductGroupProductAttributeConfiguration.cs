@@ -19,9 +19,9 @@ public sealed class ProductGroupProductAttributeConfiguration : IEntityTypeConfi
         //Properties.
         builder.Property(x => x.ProductGroupId).HasColumnType("integer").HasColumnOrder(2);
         builder.Property(x => x.ProductAttributeId).HasColumnType("integer").HasColumnOrder(3);
-        builder.Property(x => x.ProductAttributeSortOrder).HasColumnType("integer").HasColumnOrder(4);
+        builder.Property(x => x.ProductAttributeSortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(4);
         builder.Property(x => x.ProductAttributeValueId).HasColumnType("integer").HasColumnOrder(5);
-        builder.Property(x => x.ProductAttributeValueSortOrder).HasColumnType("integer").HasColumnOrder(6);
+        builder.Property(x => x.ProductAttributeValueSortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(6);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);

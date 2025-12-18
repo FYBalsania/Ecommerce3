@@ -5,6 +5,14 @@ namespace Ecommerce3.Domain.Entities;
 
 public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatable, IUpdatable, IDeletable
 {
+    public static readonly int NameMaxLength = 256;
+    public static readonly int SlugMaxLength = 256;
+    public static readonly int DisplayMaxLength = 256;
+    public static readonly int BreadcrumbMaxLength = 256;
+    public static readonly int AnchorTextMaxLength = 256;
+    public static readonly int AnchorTitleMaxLength = 256;
+    public static readonly int ShortDescriptionMaxLength = 512;
+
     private readonly List<ProductGroupProductAttribute> _attributes = [];
     public override string ImageNamePrefix => Slug;
     public string Name { get; set; }
@@ -16,7 +24,7 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }
     public bool IsActive { get; private set; }
-    public int SortOrder { get; private set; }
+    public decimal SortOrder { get; private set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -37,18 +45,27 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
     }
 
     public ProductGroup(string name, string slug, string display, string breadcrumb, string anchorText,
-        string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
+        string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, decimal sortOrder,
         int createdBy, string createdByIp)
     {
-        ValidateName(name);
-        ValidateSlug(slug);
-        ValidateDisplay(display);
-        ValidateBreadcrumb(breadcrumb);
-        ValidateAnchorText(anchorText);
-        ValidateAnchorTitle(anchorTitle);
-        ValidateShortDescription(shortDescription);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductGroupErrors.NameRequired,
+            DomainErrors.ProductGroupErrors.NameTooLong);
+        ValidateRequiredAndTooLong(slug, SlugMaxLength, DomainErrors.ProductGroupErrors.SlugRequired,
+            DomainErrors.ProductGroupErrors.SlugTooLong);
+        ValidateRequiredAndTooLong(display, DisplayMaxLength, DomainErrors.ProductGroupErrors.DisplayRequired,
+            DomainErrors.ProductGroupErrors.DisplayTooLong);
+        ValidateRequiredAndTooLong(breadcrumb, BreadcrumbMaxLength, DomainErrors.ProductGroupErrors.BreadcrumbRequired,
+            DomainErrors.ProductGroupErrors.BreadcrumbTooLong);
+        ValidateRequiredAndTooLong(anchorText, AnchorTextMaxLength, DomainErrors.ProductGroupErrors.AnchorTextRequired,
+            DomainErrors.ProductGroupErrors.AnchorTextTooLong);
+        if (anchorTitle is not null)
+            ValidateTooLong(anchorTitle, AnchorTitleMaxLength, DomainErrors.ProductGroupErrors.AnchorTitleTooLong);
+        if (shortDescription is not null)
+            ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
+                DomainErrors.ProductGroupErrors.ShortDescriptionTooLong);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductGroupErrors.CreatedByIpRequired,
+            DomainErrors.ProductGroupErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -64,25 +81,34 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
     }
-    
-    public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
-        string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
+
+    public void Update(string name, string slug, string display, string breadcrumb, string anchorText,
+        string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, decimal sortOrder,
         int updatedBy, string updatedByIp)
     {
-        ValidateName(name);
-        ValidateSlug(slug);
-        ValidateDisplay(display);
-        ValidateBreadcrumb(breadcrumb);
-        ValidateAnchorText(anchorText);
-        ValidateAnchorTitle(anchorTitle);
-        ValidateShortDescription(shortDescription);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
-        
+        ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductGroupErrors.NameRequired,
+            DomainErrors.ProductGroupErrors.NameTooLong);
+        ValidateRequiredAndTooLong(slug, SlugMaxLength, DomainErrors.ProductGroupErrors.SlugRequired,
+            DomainErrors.ProductGroupErrors.SlugTooLong);
+        ValidateRequiredAndTooLong(display, DisplayMaxLength, DomainErrors.ProductGroupErrors.DisplayRequired,
+            DomainErrors.ProductGroupErrors.DisplayTooLong);
+        ValidateRequiredAndTooLong(breadcrumb, BreadcrumbMaxLength, DomainErrors.ProductGroupErrors.BreadcrumbRequired,
+            DomainErrors.ProductGroupErrors.BreadcrumbTooLong);
+        ValidateRequiredAndTooLong(anchorText, AnchorTextMaxLength, DomainErrors.ProductGroupErrors.AnchorTextRequired,
+            DomainErrors.ProductGroupErrors.AnchorTextTooLong);
+        if (anchorTitle is not null)
+            ValidateTooLong(anchorTitle, AnchorTitleMaxLength, DomainErrors.ProductGroupErrors.AnchorTitleTooLong);
+        if (shortDescription is not null)
+            ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
+                DomainErrors.ProductGroupErrors.ShortDescriptionTooLong);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupErrors.UpdatedByIpRequired,
+            DomainErrors.ProductGroupErrors.UpdatedByIpTooLong);
+
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
             FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
-            return false;
+            return;
 
         Name = name;
         Slug = slug;
@@ -97,81 +123,53 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
         UpdatedBy = updatedBy;
         UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
-
-        return true;
     }
-    
+
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductGroupErrors.InvalidDeletedBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductGroupErrors.DeletedByIpRequired,
+            DomainErrors.ProductGroupErrors.DeletedByIpTooLong);
+
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
-    
-    private static void ValidateCreatedByIp(string createdByIp)
+
+    public void AddAttribute(int productAttributeId, decimal productAttributeSortOrder,
+        IDictionary<int, decimal> values, int createdBy, DateTime createdAt, string createdByIp)
     {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.ProductGroupErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.ProductGroupErrors.CreatedByIpTooLong);
+        //Validate inputs.
+        ValidatePositiveNumber(productAttributeId,
+            DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
+        if (values is null || values.Count == 0)
+            throw new DomainException(DomainErrors.ProductGroupErrors.AttributeValueRequired);
+        foreach (var keyValuePair in values)
+        {
+            ValidatePositiveNumber(keyValuePair.Key,
+                DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeValueId);
+        }
+
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpRequired,
+            DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpTooLong);
+
+        //Check if attributeId already exists.
+        if (_attributes.Any(x => x.ProductAttributeId == productAttributeId))
+            throw new DomainException(DomainErrors.ProductGroupProductAttributeErrors.DuplicateProductAttributeId);
+
+        //Add attribute values.
+        foreach (var value in values)
+        {
+            _attributes.Add(new ProductGroupProductAttribute(productAttributeId, productAttributeSortOrder, value.Key,
+                value.Value, createdBy, createdAt, createdByIp));
+        }
     }
 
-    private static void ValidateCreatedBy(int createdBy)
+    public void UpdateAttribute(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.ProductGroupErrors.InvalidCreatedBy);
-    }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.ProductGroupErrors.InvalidUpdatedBy);
-    }
-
-    private static void ValidateShortDescription(string? shortDescription)
-    {
-        if (shortDescription is not null && shortDescription.Length > 512)
-            throw new DomainException(DomainErrors.ProductGroupErrors.ShortDescriptionTooLong);
-    }
-
-    private static void ValidateAnchorTitle(string? anchorTitle)
-    {
-        if (anchorTitle is not null && anchorTitle.Length > 256)
-            throw new DomainException(DomainErrors.ProductGroupErrors.AnchorTitleTooLong);
-    }
-
-    private static void ValidateAnchorText(string anchorText)
-    {
-        if (string.IsNullOrWhiteSpace(anchorText))
-            throw new DomainException(DomainErrors.ProductGroupErrors.AnchorTextRequired);
-        if (anchorText.Length > 256) throw new DomainException(DomainErrors.ProductGroupErrors.AnchorTextTooLong);
-    }
-
-    private static void ValidateBreadcrumb(string breadcrumb)
-    {
-        if (string.IsNullOrWhiteSpace(breadcrumb))
-            throw new DomainException(DomainErrors.ProductGroupErrors.BreadcrumbRequired);
-        if (breadcrumb.Length > 256) throw new DomainException(DomainErrors.ProductGroupErrors.BreadcrumbTooLong);
-    }
-
-    private static void ValidateDisplay(string display)
-    {
-        if (string.IsNullOrWhiteSpace(display)) throw new DomainException(DomainErrors.ProductGroupErrors.DisplayRequired);
-        if (display.Length > 256) throw new DomainException(DomainErrors.ProductGroupErrors.DisplayTooLong);
-    }
-
-    private static void ValidateSlug(string slug)
-    {
-        if (string.IsNullOrWhiteSpace(slug)) throw new DomainException(DomainErrors.ProductGroupErrors.SlugRequired);
-        if (slug.Length > 256) throw new DomainException(DomainErrors.ProductGroupErrors.SlugTooLong);
-    }
-
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.ProductGroupErrors.NameRequired);
-        if (name.Length > 256) throw new DomainException(DomainErrors.ProductGroupErrors.NameTooLong);
-    }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.ProductGroupErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.ProductGroupErrors.UpdatedByIpTooLong);
+        //Validate inputs.
+       
+        
     }
 }

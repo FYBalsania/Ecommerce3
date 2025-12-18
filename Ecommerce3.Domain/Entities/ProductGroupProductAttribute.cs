@@ -6,10 +6,10 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
     public ProductGroup? ProductGroup { get; private set; }
     public int ProductAttributeId { get; private set; }
     public ProductAttribute? ProductAttribute { get; private set; }
-    public int ProductAttributeSortOrder { get; private set; }
+    public decimal ProductAttributeSortOrder { get; private set; }
     public int ProductAttributeValueId { get; private set; }
     public ProductAttributeValue? ProductAttributeValue { get; private set; }
-    public int ProductAttributeValueSortOrder { get; private set; }
+    public decimal ProductAttributeValueSortOrder { get; private set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -25,10 +25,29 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
 
     private ProductGroupProductAttribute()
     {
-        
     }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+
+    internal ProductGroupProductAttribute(int productAttributeId, decimal productAttributeSortOrder,
+        int productAttributeValueId, decimal productAttributeValueSortOrder, int createdBy, DateTime createdAt,
+        string createdByIp)
+    {
+        ProductAttributeId = productAttributeId;
+        ProductAttributeSortOrder = productAttributeSortOrder;
+        ProductAttributeValueId = productAttributeValueId;
+        ProductAttributeValueSortOrder = productAttributeValueSortOrder;
+        CreatedBy = createdBy;
+        CreatedAt = createdAt;
+        CreatedByIp = createdByIp;
+    }
+
+    internal void Update(int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+    }
+
+    internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;

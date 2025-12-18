@@ -9,7 +9,7 @@ public record ProductAttributeListItemDTO
     public string Breadcrumb { get; init; }
     public int ValuesCount { get; init; }
     public string DataType { get; init; }
-    public int SortOrder { get; init; }
+    public decimal SortOrder { get; init; }
     public string CreatedUserFullName { get; init; }
     public DateTime CreatedAt { get; init; }
 }

@@ -21,26 +21,36 @@ public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
         builder.Navigation(x => x.Attributes).HasField("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
-        builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
-        builder.Property(x => x.Slug).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(3);
-        builder.Property(x => x.Display).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(4);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(5);
-        builder.Property(x => x.AnchorText).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(6);
-        builder.Property(x => x.AnchorTitle).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(7);
-        builder.Property(x => x.ShortDescription).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(8);
+        builder.Property(x => x.Name).HasMaxLength(ProductGroup.NameMaxLength).HasColumnType("citext")
+            .HasColumnOrder(2);
+        builder.Property(x => x.Slug).HasMaxLength(ProductGroup.SlugMaxLength).HasColumnType("citext")
+            .HasColumnOrder(3);
+        builder.Property(x => x.Display).HasMaxLength(ProductGroup.DisplayMaxLength).HasColumnType("citext")
+            .HasColumnOrder(4);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(ProductGroup.BreadcrumbMaxLength).HasColumnType("citext")
+            .HasColumnOrder(5);
+        builder.Property(x => x.AnchorText).HasMaxLength(ProductGroup.AnchorTextMaxLength).HasColumnType("citext")
+            .HasColumnOrder(6);
+        builder.Property(x => x.AnchorTitle).HasMaxLength(ProductGroup.AnchorTitleMaxLength).HasColumnType("citext")
+            .HasColumnOrder(7);
+        builder.Property(x => x.ShortDescription).HasMaxLength(ProductGroup.ShortDescriptionMaxLength)
+            .HasColumnType($"varchar({ProductGroup.ShortDescriptionMaxLength})").HasColumnOrder(8);
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(9);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(10);
-        builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(11);
+        builder.Property(x => x.SortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(11);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
+        builder.Property(x => x.CreatedByIp).HasMaxLength(ICreatable.CreatedByIpMaxLength)
+            .HasColumnType($"varchar({ICreatable.CreatedByIpMaxLength})").HasColumnOrder(52);
         builder.Property(x => x.UpdatedBy).HasColumnType("integer").HasColumnOrder(53);
         builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
+        builder.Property(x => x.UpdatedByIp).HasMaxLength(IUpdatable.UpdatedByIpMaxLength)
+            .HasColumnType($"varchar({IUpdatable.UpdatedByIpMaxLength})").HasColumnOrder(55);
         builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
-        
+        builder.Property(x => x.DeletedByIp).HasMaxLength(IDeletable.DeletedByIpMaxLength)
+            .HasColumnType($"varchar({IDeletable.DeletedByIpMaxLength})").HasColumnOrder(58);
+
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
@@ -61,9 +71,11 @@ public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
             .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.IsActive)}");
         builder.HasIndex(x => x.SortOrder)
             .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.SortOrder)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.DeletedAt)}");
-        
+        builder.HasIndex(x => x.CreatedAt)
+            .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.CreatedAt)}");
+        builder.HasIndex(x => x.DeletedAt)
+            .HasDatabaseName($"IX_{nameof(ProductGroup)}_{nameof(ProductGroup.DeletedAt)}");
+
         //Relations.
         builder.HasMany(x => x.Images)
             .WithOne(x => x.ProductGroup)

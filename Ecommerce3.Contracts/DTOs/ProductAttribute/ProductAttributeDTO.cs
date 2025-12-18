@@ -9,7 +9,7 @@ public class ProductAttributeDTO
     public string Slug { get; set; }
     public string Display { get; set; }
     public string Breadcrumb { get; set; }
-    public int SortOrder { get; set; }
+    public decimal SortOrder { get; set; }
     public DataType DataType { get; set; }
     public IReadOnlyList<ProductAttributeValueDTO> Values { get; set; } = [];
 }
