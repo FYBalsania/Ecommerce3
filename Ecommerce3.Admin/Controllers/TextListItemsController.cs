@@ -1,15 +1,11 @@
 using Ecommerce3.Admin.ViewModels.TextListItem;
 using Ecommerce3.Application.Services.Interfaces;
-using Ecommerce3.Domain.Entities;
-using Ecommerce3.Domain.Errors;
-using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
 
 public class TextListItemsController(
     ILogger<TextListItemsController> logger,
-    IConfiguration configuration,
     IIPAddressService ipAddressService,
     ITextListItemService textListItemService) : Controller
 {

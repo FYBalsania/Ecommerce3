@@ -14,6 +14,9 @@ public static class ProductExtensions
         Slug = p.Slug,
         SortOrder = p.SortOrder,
         ImageCount = p.Images.Count,
+        SKU = p.SKU,
+        Status =  p.Status,
+        Categories = p.Categories,
         CreatedUserFullName = p.CreatedByUser!.FullName,
         CreatedAt = p.CreatedAt
     };

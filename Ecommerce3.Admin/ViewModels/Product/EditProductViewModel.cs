@@ -202,8 +202,8 @@ public class EditProductViewModel
     public string? MetaKeywords { get; set; }
 
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
-    
-    public IReadOnlyList<TextListItemDTO> TextListItems = [];
+
+    public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
 
 
     public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)

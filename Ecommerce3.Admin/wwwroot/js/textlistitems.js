@@ -44,7 +44,7 @@ async function show_EditTextItemView(event, type) {
         $(`#${type}-EditText`).val(textListItem.text);
         $(`#${type}-EditSortOrder`).val(textListItem.sortOrder);
     } catch (err) {
-        alert('Error occured, please try again.')
+        alert('Error occurred, please try again.')
     }
 }
 
@@ -127,7 +127,7 @@ async function edit_TextItemsSaveClicked(type) {
             }
         }
     } catch (err) {
-        alert('Error occured while updating, please try again.');
+        alert('Error occurred while updating, please try again.');
     }
 }
 
@@ -147,6 +147,8 @@ async function textItemsDeleteClicked(type) {
             $(`#delete${type}Modal`).modal('hide');
         } else {
             const error = await result.json();
+            const errorMessage = error.message || error.errors?.[Object.keys(error.errors)[0]]?.[0] || 'Failed to delete item.';
+            alert(errorMessage);
         }
     } catch (err) {
         alert('Error occured while deleting, please try again.');

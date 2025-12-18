@@ -48,96 +48,78 @@
 <div class="modal fade" id="@addModalId" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add @type</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header">
+                <h5 class="modal-title">Add @type</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label required">Text</label>
+                    <textarea class="form-control" id="@type-AddText"></textarea>
+                    <span class="text-danger" id="@type-AddTextError"></span>
                 </div>
-
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label required">Text</label>
-                        <textarea class="form-control" id="@type-AddText"></textarea>
-                        <span class="text-danger" id="@type-AddTextError"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label required">Sort Order</label>
-                        <input type="number" class="form-control" id="@type-AddSortOrder"/>
-                        <span class="text-danger" id="@type-AddSortOrderError"></span>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label required">Sort Order</label>
+                    <input type="number" class="form-control" id="@type-AddSortOrder"/>
+                    <span class="text-danger" id="@type-AddSortOrderError"></span>
                 </div>
-
-                <div class="modal-footer">
-                    <input type="hidden" id="@type-AddParentEntity" value="@Model.Item1" />
-                    <input type="hidden" id="@type-AddParentEntityId" value="@Model.Item2"/>
-                    <input type="hidden" id="@type-AddEntity" value="@Model.Item3"/>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="@type-Add-Save">Save</button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="@type-AddParentEntity" value="@Model.Item1" />
+                <input type="hidden" id="@type-AddParentEntityId" value="@Model.Item2"/>
+                <input type="hidden" id="@type-AddEntity" value="@Model.Item3"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="@type-Add-Save">Save</button>
+            </div>
         </div>
     </div>
 </div>
 <div class="modal fade" id="@editModalId" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="post">
-                <input type="hidden" />
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit @type</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header">
+                <h5 class="modal-title">Edit @type</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label required">Text</label>
+                    <textarea class="form-control" id="@type-EditText"></textarea>
+                    <span class="text-danger" id="@type-EditTextError"></span>
                 </div>
-
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label required">Text</label>
-                        <textarea class="form-control" id="@type-EditText"></textarea>
-                        <span class="text-danger" id="@type-EditTextError"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label required">Sort Order</label>
-                        <input type="number" class="form-control" id="@type-EditSortOrder"/>
-                        <span class="text-danger" id="@type-EditSortOrderError"></span>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label required">Sort Order</label>
+                    <input type="number" class="form-control" id="@type-EditSortOrder"/>
+                    <span class="text-danger" id="@type-EditSortOrderError"></span>
                 </div>
-
-                <div class="modal-footer">
-                    <input type="hidden" id="@type-EditParentEntity" value="@Model.Item1" />
-                    <input type="hidden" id="@type-EditParentEntityId" value="@Model.Item2"/>
-                    <input type="hidden" id="@type-EditId"/>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="@type-Edit-Save">Update</button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="@type-EditParentEntity" value="@Model.Item1" />
+                <input type="hidden" id="@type-EditParentEntityId" value="@Model.Item2"/>
+                <input type="hidden" id="@type-EditId"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="@type-Edit-Save">Update</button>
+            </div>
         </div>
     </div>
 </div>
 <div class="modal fade" id="@deleteModalId" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post">
-                <input type="hidden" />
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete @type</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body">
-                    Are you sure you want to delete <span class="text-danger" id="@type-DeleteText"></span>?
-                </div>
-
-                <div class="modal-footer">
-                    <input type="hidden" id="@type-DeleteParentEntity" value="@Model.Item1" />
-                    <input type="hidden" id="@type-DeleteParentEntityId" value="@Model.Item2"/>
-                    <input type="hidden" id="@type-DeleteId"/>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="@type-Delete">Delete</button>
-                </div>
-            </form>
+            <div class="modal-header">
+                <h5 class="modal-title">Delete @type</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <span class="text-danger" id="@type-DeleteText"></span>?
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="@type-DeleteParentEntity" value="@Model.Item1" />
+                <input type="hidden" id="@type-DeleteParentEntityId" value="@Model.Item2"/>
+                <input type="hidden" id="@type-DeleteId"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="@type-Delete">Delete</button>
+            </div>
         </div>
     </div>
 </div>

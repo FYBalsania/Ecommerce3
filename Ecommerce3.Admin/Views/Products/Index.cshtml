@@ -1,3 +1,4 @@
+@using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Product.ProductsIndexViewModel
 
 <div class="content-section">
@@ -66,8 +67,7 @@
                     <thead>
                         <tr>
                             <th style="width: 50%;">Name & Slug</th>
-                            <th style="width: 5%;">SKU</th>
-                            <th style="width: 5%;">Brand</th>
+                            <th style="width: 10%;">SKU</th>
                             <th style="width: 5%;">Category</th>
                             <th class="text-end" style="width: 10%;">Sort Order</th>
                             <th class="text-end" style="width: 5%;">Images</th>
@@ -80,12 +80,31 @@
                     {
                         <tr>
                             <td>
-                                @product.Name<br/>
+                                @product.Name 
+                                @{
+                                    var (badgeClass, statusText) = product.Status switch
+                                    {
+                                        ProductStatus.Active => ("bg-success", product.Status.ToString()),
+                                        ProductStatus.Inactive => ("bg-secondary", product.Status.ToString()),
+                                        ProductStatus.Discontinued => ("bg-danger", product.Status.ToString()),
+                                        ProductStatus.RedirectToPrimaryCategory => ("bg-warning", product.Status.ToString()),
+                                        ProductStatus.RedirectToUrl => ("bg-warning", product.Status.ToString()),
+                                        _ => ("bg-danger", product.Status.ToString())
+                                    };
+                                }
+                                <span class="badge @badgeClass ms-2">@statusText</span><br/>
                                 <span class="text-muted">@product.Slug</span>
                             </td>
                             <td>@product.SKU</td>
-                            <td>@product.Brand</td>
-                            <td>@product.Category</td>
+                            <td>
+                                @foreach (var pc in product.Categories.Where(pc => pc.Category != null))
+                                {
+                                    <span class="badge bg-light text-dark me-1">
+                                        @pc.Category!.Name
+                                    </span>
+                                }
+                                @string.Join(", ", product.Categories.Where(pc => pc.Category != null).Select(pc => pc.Category!.Name))
+                            </td>
                             <td class="text-end">@product.SortOrder</td>
                             <td class="text-end">@product.ImageCount</td>
                             <td class="text-end">@product.CreatedUserFullName <br/>@product.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")</td>

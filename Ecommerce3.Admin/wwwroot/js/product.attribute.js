@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    $($('#Name')).on('change', name_changed);
     // const delete_ValueModal = $('#delete_ValueModal');
     // delete_ValueModal.on('show.bs.modal', show_DeleteValueView);
     // delete_ValueModal.on('hidden.bs.modal', hide_DeleteValueView);
@@ -60,6 +61,15 @@ $(document).ready(() => {
     // $('#editProductAttributeDecimalValue_Save').on('click', editProductAttributeDecimalValue_SaveClicked)
     // $('#deleteProductAttributeDecimalValue').on('click', deleteProductAttributeDecimalValueClicked)
 });
+
+function name_changed(event) {
+    const name = $(event.target).val();
+    const slug = toSlug(name);
+
+    $('#Slug').val(slug);
+    $('#Display').val(name);
+    $('#Breadcrumb').val(name);
+}
 
 function valueChanged(value) {
     return {slug: toSlug(value), display: value, breadcrumb: value};
