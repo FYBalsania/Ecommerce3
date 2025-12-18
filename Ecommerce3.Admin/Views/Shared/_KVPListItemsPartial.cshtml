@@ -1,0 +1,29 @@
+@model IReadOnlyList<Ecommerce3.Contracts.DTOs.KVPListItem.KVPListItemDTO>
+@{
+    var prefix = ViewData["KVPPrefix"]!;
+    var kvpTableId = ViewData["KVPTableId"]!;
+    var kvpEditModalId = $"{prefix}-EditModal";
+    var kvpDeleteModalId = $"{prefix}-DeleteModal";
+}
+<tbody id="@kvpTableId">
+@foreach (var item in Model)
+{
+    <tr data-id="@item.Id">
+        <td>@item.Key</td>
+        <td>@item.Value</td>
+        <td class="text-end">@item.SortOrder</td>
+        <td class="text-end">
+            @item.CreatedUserFullName<br />
+            @item.CreatedAt.ToString("dd-MMM-yyyy HH:mm")
+        </td>
+        <td class="text-center">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@kvpEditModalId" data-kvp-id="@item.Id">
+                <i class="fas fa-edit me-2 fs-6 text-success"></i>
+            </a>
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@kvpDeleteModalId" data-kvp-id="@item.Id" data-kvp-key="@item.Key">
+                <i class="fas fa-trash fs-6 text-danger"></i>
+            </a>
+        </td>
+    </tr>
+}
+</tbody>

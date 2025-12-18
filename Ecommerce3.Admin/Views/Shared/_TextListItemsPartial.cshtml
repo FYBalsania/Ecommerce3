@@ -1,11 +1,11 @@
 @model IReadOnlyList<Ecommerce3.Contracts.DTOs.TextListItem.TextListItemDTO>
 @{
-    var type = ViewData["TextListType"]!;
-    var tableId = $"textlist{type}";
-    var editModalId = $"edit{type}Modal";
-    var deleteModalId = $"delete{type}Modal";
+    var prefix = ViewData["TextPrefix"]!;
+    var textTableId = ViewData["TextTableId"]!;
+    var textEditModalId = $"{prefix}-EditModal";
+    var textDeleteModalId = $"{prefix}-DeleteModal";
 }
-<tbody id="@tableId">
+<tbody id="@textTableId">
 @foreach (var item in Model)
 {
     <tr data-id="@item.Id">
@@ -16,10 +16,10 @@
             @item.CreatedAt.ToString("dd-MMM-yyyy HH:mm")
         </td>
         <td class="text-center">
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@editModalId" data-tli-id="@item.Id">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@textEditModalId" data-tli-id="@item.Id">
                 <i class="fas fa-edit me-2 fs-6 text-success"></i>
             </a>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@deleteModalId" data-tli-id="@item.Id" data-tli-text="@item.Text">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@textDeleteModalId" data-tli-id="@item.Id" data-tli-text="@item.Text">
                 <i class="fas fa-trash fs-6 text-danger"></i>
             </a>
         </td>

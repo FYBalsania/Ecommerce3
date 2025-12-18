@@ -5,7 +5,7 @@ namespace Ecommerce3.Application.Commands.KVPListItem;
 public record EditKVPListItemCommand
 {
     public required int Id { get; init; }
-    public required Type ParentEntityType { get; init; }
+    public required string ParentEntity { get; init; }
     public required int ParentEntityId { get; init; }
     public required KVPListItemType Type { get; init; }
     public required string Key { get; init; }

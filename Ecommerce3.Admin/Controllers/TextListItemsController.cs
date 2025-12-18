@@ -19,7 +19,12 @@ public class TextListItemsController(
         await textListItemService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         
         var textListItemDTOs = await textListItemService.GetByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId, model.Type, cancellationToken);
-        ViewData["TextListType"] = model.Type.ToString();
+        
+        var textType = model.Type.ToString();
+        var prefix = "text-" + textType;
+        ViewData["TextPrefix"] = "text-" + textType;
+        ViewData["TextTableId"] = $"{prefix}-List";
+        
         return PartialView("_TextListItemsPartial", textListItemDTOs);
     }
 
@@ -33,7 +38,12 @@ public class TextListItemsController(
 
         await textListItemService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         var textListItemDTOs = await textListItemService.GetByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId, model.Type, cancellationToken);
-        ViewData["TextListType"] = model.Type.ToString();
+
+        var textType = model.Type.ToString();
+        var prefix = "text-" + textType;
+        ViewData["TextPrefix"] = "text-" + textType;
+        ViewData["TextTableId"] = $"{prefix}-List";
+        
         return PartialView("_TextListItemsPartial", textListItemDTOs);
     }
 
@@ -49,7 +59,11 @@ public class TextListItemsController(
         var textListItemDTOs = await textListItemService.GetByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,
             model.Type, cancellationToken);
 
-        ViewData["TextListType"] = model.Type.ToString();
+        var textType = model.Type.ToString();
+        var prefix = "text-" + textType;
+        ViewData["TextPrefix"] = "text-" + textType;
+        ViewData["TextTableId"] = $"{prefix}-List";
+
         return PartialView("_TextListItemsPartial", textListItemDTOs);
     }
 }

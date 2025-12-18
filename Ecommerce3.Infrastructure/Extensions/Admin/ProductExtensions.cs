@@ -73,10 +73,15 @@ public static class ProductExtensions
             .OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
             .Select(ImageExtensions.DTOExpression).
             ToList(),
-        TextListItems = p.TextListItems.
-            AsQueryable()
+        TextListItems = p.TextListItems
+            .AsQueryable()
             .OrderBy(tl => tl.Text).ThenBy(tli => tli.SortOrder)
             .Select(TextListItemExtensions.ToDtoExpression)
+            .ToList(),
+        KVPListItems = p.KVPListItems
+            .AsQueryable()
+            .OrderBy(tl => tl.Key).ThenBy(tli => tli.SortOrder)
+            .Select(KVPListItemExtensions.ToDtoExpression)
             .ToList()
     };
     

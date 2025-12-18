@@ -6,6 +6,9 @@ public static partial class DomainErrors
 {
     public static class KVPListItemErrors
     {
+        public static readonly DomainError ParentEntityRequired =
+            new($"{nameof(KVPListItem)}.ParentEntity", "Parent entity is required.");
+        
         public static readonly DomainError InvalidId =
             new($"{nameof(KVPListItem)}.{nameof(KVPListItem.Id)}", "Id is invalid.");
         

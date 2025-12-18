@@ -13,23 +13,25 @@ namespace Ecommerce3.Application.Services;
 internal sealed class KVPListItemService(
     IKVPListItemRepository repository,
     IEnumerable<IKVPListItemQueryRepository> queryRepositories,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    IKVPListItemQueryRepository textListItemQueryRepository)
     : IKVPListItemService
 {
     public async Task AddAsync(AddKVPListItemCommand command, CancellationToken cancellationToken)
     {
-        var queryRepository = TryGetKVPListItemQueryRepository(command.ParentEntityType);
+        var parentEntity = Type.GetType(command.ParentEntity);
+        if (parentEntity is null)
+            throw new DomainException(DomainErrors.KVPListItemErrors.ParentEntityRequired);
+        
+        var queryRepository = TryGetKVPListItemQueryRepository(parentEntity);
 
-        var exists =
-            await queryRepository.KeyExistsAsync(command.ParentEntityId, command.Type, command.Key, null,
-                cancellationToken);
+        var exists = await queryRepository.KeyExistsAsync(command.ParentEntityId, command.Type, command.Key, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.KVPListItemErrors.DuplicateKey);
 
-        exists = await queryRepository.ValueExistsAsync(command.ParentEntityId, command.Type, command.Value, null,
-            cancellationToken);
+        exists = await queryRepository.ValueExistsAsync(command.ParentEntityId, command.Type, command.Value, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.KVPListItemErrors.DuplicateValue);
 
-        var kvpListItem = KVPListItem.Create(command.ParentEntityType, command.ParentEntityId, command.Type,
+        var kvpListItem = KVPListItem.Create(parentEntity, command.ParentEntityId, command.Type,
             command.Key, command.Value, command.SortOrder, command.CreatedBy, command.CreatedAt, command.CreatedByIp);
 
         await repository.AddAsync(kvpListItem, cancellationToken);
@@ -38,20 +40,20 @@ internal sealed class KVPListItemService(
 
     public async Task EditAsync(EditKVPListItemCommand command, CancellationToken cancellationToken)
     {
-        var kvpListItem =
-            await repository.GetByIdAsync(command.Id, KVPListItemInclude.None, true, cancellationToken);
+        var parentEntity = Type.GetType(command.ParentEntity);
+        if (parentEntity is null)
+            throw new DomainException(DomainErrors.KVPListItemErrors.ParentEntityRequired);
+        
+        var kvpListItem = await repository.GetByIdAsync(command.Id, KVPListItemInclude.None, true, cancellationToken);
         if (kvpListItem is null)
             throw new DomainException(DomainErrors.KVPListItemErrors.InvalidId);
 
-        var queryRepository = TryGetKVPListItemQueryRepository(command.ParentEntityType);
+        var queryRepository = TryGetKVPListItemQueryRepository(parentEntity);
 
-        var exists =
-            await queryRepository.KeyExistsAsync(command.ParentEntityId, command.Type, command.Key, command.Id,
-                cancellationToken);
+        var exists = await queryRepository.KeyExistsAsync(command.ParentEntityId, command.Type, command.Key, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.KVPListItemErrors.DuplicateKey);
 
-        exists = await queryRepository.ValueExistsAsync(command.ParentEntityId, command.Type, command.Value, command.Id,
-            cancellationToken);
+        exists = await queryRepository.ValueExistsAsync(command.ParentEntityId, command.Type, command.Value, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.KVPListItemErrors.DuplicateValue);
 
         var updated = kvpListItem.Update(command.Key, command.Value, command.SortOrder, command.UpdatedBy,
@@ -61,8 +63,7 @@ internal sealed class KVPListItemService(
 
     public async Task DeleteAsync(DeleteKVPListItemCommand command, CancellationToken cancellationToken)
     {
-        var kvpListItem =
-            await repository.GetByIdAsync(command.Id, KVPListItemInclude.None, true, cancellationToken);
+        var kvpListItem = await repository.GetByIdAsync(command.Id, KVPListItemInclude.None, true, cancellationToken);
         if (kvpListItem is null)
             throw new DomainException(DomainErrors.KVPListItemErrors.InvalidId);
 
@@ -74,8 +75,7 @@ internal sealed class KVPListItemService(
     public async Task<IReadOnlyList<KVPListItemDTO>> GetAllByParamsAsync(Type parentEntityType, int parentEntityId,
         KVPListItemType type, CancellationToken cancellationToken)
     {
-        return await TryGetKVPListItemQueryRepository(parentEntityType)
-            .GetAllByParamsAsync(parentEntityId, type, cancellationToken);
+        return await TryGetKVPListItemQueryRepository(parentEntityType).GetAllByParamsAsync(parentEntityId, type, cancellationToken);
     }
 
     private IKVPListItemQueryRepository TryGetKVPListItemQueryRepository(Type entityType)
@@ -86,4 +86,7 @@ internal sealed class KVPListItemService(
                throw new NotImplementedException(
                    $"Specific ({nameof(entityType)}) KVPListItemQueryRepository not found.");
     }
+    
+    public async Task<KVPListItemDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await textListItemQueryRepository.GetByIdAsync(id, cancellationToken);
 }

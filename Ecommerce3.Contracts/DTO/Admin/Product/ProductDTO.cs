@@ -1,4 +1,5 @@
 using Ecommerce3.Contracts.DTOs.Image;
+using Ecommerce3.Contracts.DTOs.KVPListItem;
 using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Domain.Enums;
 
@@ -53,4 +54,5 @@ public record ProductDTO
     public string? MetaKeywords { get; init; }
     public string? H1 { get; init; }
     public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
+    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; set; } = [];
 }

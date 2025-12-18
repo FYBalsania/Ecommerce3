@@ -8,7 +8,7 @@ public record KVPListItemDTO
     public required KVPListItemType Type { get; init; }
     public required string Key { get; init; }
     public required string Value { get; init; }
-    public required int SortOrder { get; init; }
+    public required decimal SortOrder { get; init; }
     public required string CreatedUserFullName { get; init; }
     public required DateTime CreatedAt { get; init; }
     public string? UpdatedUserFullName { get; init; }

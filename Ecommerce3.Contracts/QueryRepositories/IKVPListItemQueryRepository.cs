@@ -15,4 +15,6 @@ public interface IKVPListItemQueryRepository
 
     Task<IReadOnlyList<KVPListItemDTO>> GetAllByParamsAsync(int parentEntityId, KVPListItemType type,
         CancellationToken cancellationToken);
+    
+    Task<KVPListItemDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }

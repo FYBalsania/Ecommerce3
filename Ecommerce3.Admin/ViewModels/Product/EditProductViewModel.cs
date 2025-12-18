@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Image;
+using Ecommerce3.Contracts.DTOs.KVPListItem;
 using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
@@ -204,6 +205,8 @@ public class EditProductViewModel
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 
     public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
+    
+    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; set; } = [];
 
 
     public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
@@ -304,6 +307,7 @@ public class EditProductViewModel
             SortOrder = productDTO.SortOrder,
             Images = productDTO.Images,
             TextListItems = productDTO.TextListItems,
+            KVPListItems = productDTO.KVPListItems,
             MetaTitle = productDTO.MetaTitle,
             MetaDescription = productDTO.MetaDescription,
             MetaKeywords = productDTO.MetaKeywords,

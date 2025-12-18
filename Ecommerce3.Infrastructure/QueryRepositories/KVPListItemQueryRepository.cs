@@ -3,6 +3,7 @@ using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
@@ -21,6 +22,14 @@ internal abstract class KVPListItemQueryRepository(AppDbContext dbContext) : IKV
 
     public abstract Task<IReadOnlyList<KVPListItemDTO>> GetAllByParamsAsync(int parentEntityId, KVPListItemType type,
         CancellationToken cancellationToken);
+
+    public async Task<KVPListItemDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await dbContext.KVPListItems
+            .Where(x => x.Id == id)
+            .ProjectToDTO()
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }
 
 internal sealed class CategoryKVPListItemQueryRepository(AppDbContext dbContext) : KVPListItemQueryRepository(dbContext)
@@ -33,8 +42,8 @@ internal sealed class CategoryKVPListItemQueryRepository(AppDbContext dbContext)
         var query = dbContext.CategoryKVPListItems
             .Where(x => x.CategoryId == parentEntityId
                         && x.Type == type
-                        && x.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
-
+                        && x.Key.ToLower() == key.ToLower());
+        
         if (excludeId is not null)
             query = query.Where(x => x.Id != excludeId);
 
@@ -47,8 +56,8 @@ internal sealed class CategoryKVPListItemQueryRepository(AppDbContext dbContext)
         var query = dbContext.CategoryKVPListItems
             .Where(x => x.CategoryId == parentEntityId
                         && x.Type == type
-                        && x.Value.Equals(value, StringComparison.OrdinalIgnoreCase));
-
+                        && x.Value.ToLower() == value.ToLower());
+        
         if (excludeId is not null)
             query = query.Where(x => x.Id != excludeId);
 
@@ -58,7 +67,11 @@ internal sealed class CategoryKVPListItemQueryRepository(AppDbContext dbContext)
     public override async Task<IReadOnlyList<KVPListItemDTO>> GetAllByParamsAsync(int parentEntityId,
         KVPListItemType type, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await dbContext.ProductKVPListItems
+            .Where(x => x.ProductId == parentEntityId && x.Type == type)
+            .OrderBy(x => x.SortOrder).ThenBy(x => x.Key)
+            .ProjectToDTO()
+            .ToListAsync(cancellationToken);
     }
 }
 
@@ -72,7 +85,7 @@ internal sealed class ProductKVPListItemQueryRepository(AppDbContext dbContext) 
         var query = dbContext.ProductKVPListItems
             .Where(x => x.ProductId == parentEntityId
                         && x.Type == type
-                        && x.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
+                        && x.Key.ToLower() == key.ToLower());
 
         if (excludeId is not null)
             query = query.Where(x => x.Id != excludeId);
@@ -86,8 +99,8 @@ internal sealed class ProductKVPListItemQueryRepository(AppDbContext dbContext) 
         var query = dbContext.ProductKVPListItems
             .Where(x => x.ProductId == parentEntityId
                         && x.Type == type
-                        && x.Value.Equals(value, StringComparison.OrdinalIgnoreCase));
-
+                        && x.Value.ToLower() == value.ToLower());
+        
         if (excludeId is not null)
             query = query.Where(x => x.Id != excludeId);
 
@@ -97,6 +110,10 @@ internal sealed class ProductKVPListItemQueryRepository(AppDbContext dbContext) 
     public override async Task<IReadOnlyList<KVPListItemDTO>> GetAllByParamsAsync(int parentEntityId,
         KVPListItemType type, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await dbContext.ProductKVPListItems
+            .Where(x => x.ProductId == parentEntityId && x.Type == type)
+            .OrderBy(x => x.SortOrder).ThenBy(x => x.Key)
+            .ProjectToDTO()
+            .ToListAsync(cancellationToken);
     }
 }

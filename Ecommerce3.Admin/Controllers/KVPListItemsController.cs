@@ -18,8 +18,14 @@ public class KVPListItemsController(
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         await kvpListItemService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
 
-        var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(model.ParentEntityType, model.ParentEntityId,
+        var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,
             model.Type, cancellationToken);
+        
+        var kvpType = model.Type.ToString();
+        var prefix = "kvp-" + kvpType;
+        ViewData["KVPPrefix"] = "kvp-" + kvpType;
+        ViewData["KVPTableId"] = $"{prefix}-List";
+        
         return PartialView("_KVPListItemsPartial", kvpListItemDTOs);
     }
 
@@ -32,8 +38,14 @@ public class KVPListItemsController(
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         await kvpListItemService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         
-        var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(model.ParentEntityType, model.ParentEntityId,
+        var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,
             model.Type, cancellationToken);
+        
+        var kvpType = model.Type.ToString();
+        var prefix = "kvp-" + kvpType;
+        ViewData["KVPPrefix"] = "kvp-" + kvpType;
+        ViewData["KVPTableId"] = $"{prefix}-List";
+        
         return PartialView("_KVPListItemsPartial", kvpListItemDTOs);
     }
 
@@ -46,8 +58,14 @@ public class KVPListItemsController(
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         await kvpListItemService.DeleteAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         
-        var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(model.ParentEntityType, model.ParentEntityId,
+        var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,
             model.Type, cancellationToken);
+        
+        var kvpType = model.Type.ToString();
+        var prefix = "kvp-" + kvpType;
+        ViewData["KVPPrefix"] = "kvp-" + kvpType;
+        ViewData["KVPTableId"] = $"{prefix}-List";
+        
         return PartialView("_KVPListItemsPartial", kvpListItemDTOs);
     }
 }

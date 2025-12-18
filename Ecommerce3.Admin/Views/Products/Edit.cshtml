@@ -3,6 +3,7 @@
 @using Ecommerce3.Domain.Entities
 @using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Product.EditProductViewModel
+
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
@@ -492,85 +493,23 @@
             IReadOnlyList<TextListItemDTO> highlightItems = Model.TextListItems.Where(x => x.Type == TextListItemType.Highlight).ToList();
             IReadOnlyList<TextListItemDTO> disclaimerItems = Model.TextListItems.Where(x => x.Type == TextListItemType.Disclaimer).ToList();
         }
-        <!-- Highlight -->
+        
+        @* Highlight *@
         <partial name="_TextListPartial" model="(typeof(Product).AssemblyQualifiedName, Model.Id, typeof(ProductTextListItem).AssemblyQualifiedName, TextListItemType.Highlight, highlightItems)" />
 
-        <!-- Disclaimer -->
+        @* Disclaimer *@
         <partial name="_TextListPartial" model="(typeof(Product).AssemblyQualifiedName, Model.Id, typeof(ProductTextListItem).AssemblyQualifiedName, TextListItemType.Disclaimer, disclaimerItems)" />
-
         
-        @* $1$ Nutrition #1# *@
-        @* <partial name="_KVPListPartial" *@
-        @*          model="@Tuple.Create(typeof(Product), Model.Id, KVPListItemType.Nutrition, new List<KVPListItemDTO>())"/> *@
-        @* *@
-        @* $1$ FAQ #1# *@
-        @* <partial name="_KVPListPartial" *@
-        @*          model="@Tuple.Create(typeof(Product), Model.Id, KVPListItemType.FAQ, new List<KVPListItemDTO>())"/> *@
-        @* *@
-        @* <div class="card mb-4"> *@
-        @*     <div class="card-header d-flex justify-content-between align-items-center"> *@
-        @*         <h5 class="mb-0 text-muted py-2"> *@
-        @*             <i class="fas fa-question"></i> FAQ, Nutrition, Etc *@
-        @*         </h5> *@
-        @*         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addKVPModal"> *@
-        @*             <i class="fas fa-plus"></i> Add Key Value *@
-        @*         </button> *@
-        @*     </div> *@
-        @*     <div class="card-body"> *@
-        @*         <div class="card-body"> *@
-        @*             <div class="table-responsive"> *@
-        @*                 <table class="table align-middle"> *@
-        @*                     <thead> *@
-        @*                     <tr> *@
-        @*                         <th>Discriminator</th> *@
-        @*                         <th>Type</th> *@
-        @*                         <th>Key</th> *@
-        @*                         <th>Value</th> *@
-        @*                         <th class="text-end" style="width: 20%;">Sort Order</th> *@
-        @*                         <th class="text-end" style="width: 20%;">Created</th> *@
-        @*                         <th class="text-center" style="width: 10%;">Action</th> *@
-        @*                     </tr> *@
-        @*                     </thead> *@
-        @*                     <tbody> *@
-        @*                     <tr> *@
-        @*                         <td>XYZ</td> *@
-        @*                         <td>FAQ</td> *@
-        @*                         <td>Is this product safe?</td> *@
-        @*                         <td>Yes, it is WHO and FDA approved</td> *@
-        @*                         <td class="text-end">1</td> *@
-        @*                         <td class="text-end">John Doe <br/>25-Sept-2025 09:15</td> *@
-        @*                         <td class="text-center"> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#editKVPModal"> *@
-        @*                                 <i class="fas fa-edit me-2 fs-6 text-success"></i> *@
-        @*                             </a> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#deleteKVPModal"> *@
-        @*                                 <i class="fas fa-trash fs-6 text-danger"></i> *@
-        @*                             </a> *@
-        @*                         </td> *@
-        @*                     </tr> *@
-        @*                     <tr> *@
-        @*                         <td>ABC</td> *@
-        @*                         <td>Nutrition</td> *@
-        @*                         <td>kCAL</td> *@
-        @*                         <td>100kCAL/10grams</td> *@
-        @*                         <td class="text-end">2</td> *@
-        @*                         <td class="text-end">John Doe<br/>25-Sept-2025 09:15</td> *@
-        @*                         <td class="text-center"> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#editKVPModal"> *@
-        @*                                 <i class="fas fa-edit me-2 fs-6 text-success"></i> *@
-        @*                             </a> *@
-        @*                             <a href="#" data-bs-toggle="modal" data-bs-target="#deleteKVPModal"> *@
-        @*                                 <i class="fas fa-trash fs-6 text-danger"></i> *@
-        @*                             </a> *@
-        @*                         </td> *@
-        @*                     </tr> *@
-        @*                     </tbody> *@
-        @*                 </table> *@
-        @*             </div> *@
-        @*         </div> *@
-        @* *@
-        @*     </div> *@
-        @* </div> *@
+        @{
+            IReadOnlyList<KVPListItemDTO> nutritionItems = Model.KVPListItems.Where(x => x.Type == KVPListItemType.Nutrition).ToList();
+            IReadOnlyList<KVPListItemDTO> faqItems = Model.KVPListItems.Where(x => x.Type == KVPListItemType.FAQ).ToList();
+        }
+        
+        @* Nutrition *@
+        <partial name="_KVPListPartial" model="(typeof(Product).AssemblyQualifiedName, Model.Id, KVPListItemType.Nutrition, nutritionItems)"/>
+        
+        @* FAQ *@
+        <partial name="_KVPListPartial" model="(typeof(Product).AssemblyQualifiedName, Model.Id, KVPListItemType.FAQ, faqItems)"/>
 
         <div class="row mb-7">
             <div class="col-xl-12">
@@ -579,154 +518,6 @@
             </div>
         </div>
     </form>
-</div>
-
-<!-- Add KVP Modal -->
-<div class="modal fade" id="addKVPModal" tabindex="-1" aria-labelledby="addKVPModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-muted" id="addKVPModalLabel">
-                    <i class="fas fa-plus"></i> Add FAQ, Nutrition, Etc
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Discriminator</label>
-                            <input type="text" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Type</label>
-                            <select class="form-select">
-                                <option value="">Select Type</option>
-                                <option value="banner">FAQ</option>
-                                <option value="Grid">Nutrition</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Sort Order</label>
-                            <input type="number" class="form-control" value="1">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Key</label>
-                            <input type="number" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Quill Editor Container -->
-                        <div id="valueAddEditor" style="height: 200px;"></div>
-                        <!-- Hidden input to store HTML content for form submission -->
-                        <input type="hidden" id="valueAddInput">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit KVP Modal -->
-<div class="modal fade" id="editKVPModal" tabindex="-1" aria-labelledby="editKVPModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-muted" id="editKVPModalLabel">
-                    <i class="fas fa-plus"></i> Edit FAQ, Nutrition, Etc
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Discriminator</label>
-                            <input type="text" class="form-control" value="XYZ"/>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Type</label>
-                            <select class="form-select">
-                                <option value="">Select Type</option>
-                                <option value="banner" selected>FAQ</option>
-                                <option value="Grid">Nutrition</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Sort Order</label>
-                            <input type="number" class="form-control" value="1">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Key</label>
-                            <input type="text" class="form-control" value="Is this product safe?">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Quill Editor Container -->
-                        <div id="valueEditEditor" style="height: 200px;">Yes, it is WHO and FDA approved</div>
-                        <!-- Hidden input to store HTML content for form submission -->
-                        <input type="hidden" id="valueEditInput">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Delete KVP Modal -->
-<div class="modal fade" id="deleteKVPModal" tabindex="-1" aria-labelledby="deleteKVPModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header text-danger">
-                <h5 class="modal-title" id="deleteKVPModalLabel">
-                    <i class="fas fa-trash"></i> Delete Text
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <p class="text-muted">
-                    Are you sure you want to delete key value <span class="text-danger">FAQ</span>?
-                </p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 @section StyleSheet
@@ -739,6 +530,7 @@
 {
     <script src="~/js/product.js"></script>
     <script src="~/js/textlistitems.js"></script>
+    <script src="~/js/kvplistitems.js"></script>
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script src="~/js/image.js"></script>
@@ -784,86 +576,6 @@
         });
         quill.on('text-change', function () {
             document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-        });
-
-        // Initialize Quill for Text Add Editor
-        var textAddQuill = new Quill('#textAddEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{color: []}, {background: []}],
-                    [{list: 'ordered'}, {list: 'bullet'}],
-                    [{align: []}],
-                    ['link', 'image', 'blockquote', 'code-block'],
-                    ['clean']
-                ]
-            }
-        });
-        textAddQuill.on('text-change', function () {
-            document.getElementById('textAddInput').value = textAddQuill.root.innerHTML;
-        });
-
-        // Initialize Quill for Text Edit Editor
-        var textEditQuill = new Quill('#textEditEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{color: []}, {background: []}],
-                    [{list: 'ordered'}, {list: 'bullet'}],
-                    [{align: []}],
-                    ['link', 'image', 'blockquote', 'code-block'],
-                    ['clean']
-                ]
-            }
-        });
-        textEditQuill.on('text-change', function () {
-            document.getElementById('textEditInput').value = textEditQuill.root.innerHTML;
-        });
-
-        // Initialize Quill for KVP Add Editor
-        var valueAddQuill = new Quill('#valueAddEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{color: []}, {background: []}],
-                    [{list: 'ordered'}, {list: 'bullet'}],
-                    [{align: []}],
-                    ['link', 'image', 'blockquote', 'code-block'],
-                    ['clean']
-                ]
-            }
-        });
-        valueAddQuill.on('text-change', function () {
-            document.getElementById('valueAddInput').value = valueAddQuill.root.innerHTML;
-        });
-
-        // Initialize Quill for KVP Add Editor
-        var valueEditQuill = new Quill('#valueEditEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{color: []}, {background: []}],
-                    [{list: 'ordered'}, {list: 'bullet'}],
-                    [{align: []}],
-                    ['link', 'image', 'blockquote', 'code-block'],
-                    ['clean']
-                ]
-            }
-        });
-        valueEditQuill.on('text-change', function () {
-            document.getElementById('valueEditInput').value = valueEditQuill.root.innerHTML;
         });
 
         function toggleRedirectUrl() {
