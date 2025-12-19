@@ -11,9 +11,9 @@ public class ProductGroupsController(
     IProductGroupService productGroupService)
     : ControllerBase
 {
-    [HttpPost("/attributes")]
+    [HttpPost("{productGroupId:int}/attributes")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddAttribute(AddProductGroupAttributeViewModel model,
+    public async Task<IActionResult> AddAttribute(int productGroupId, AddProductGroupAttributeViewModel model,
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
@@ -23,8 +23,8 @@ public class ProductGroupsController(
 
         try
         {
-            await productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
-                cancellationToken);
+            await productGroupService.AddAttributeAsync(
+                model.ToCommand(productGroupId, userId, DateTime.Now, ipAddress), cancellationToken);
         }
         catch (Exception e)
         {
@@ -32,6 +32,14 @@ public class ProductGroupsController(
             throw;
         }
 
+        return Ok();
+    }
+
+
+    [HttpGet("{productGroupId:int}/attributes/{productAttributeId:int}")]
+    public async Task<IActionResult> Get(int productGroupId, int productAttributeId,
+        CancellationToken cancellationToken)
+    {
         return Ok();
     }
 }
