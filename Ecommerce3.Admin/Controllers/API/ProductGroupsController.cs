@@ -13,7 +13,7 @@ public class ProductGroupsController(
 {
     [HttpPost("{productGroupId:int}/attributes")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddAttribute(int productGroupId, AddProductGroupAttributeViewModel model,
+    public async Task<IActionResult> AddAttribute(int productGroupId, [FromForm] AddProductGroupAttributeViewModel model,
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);

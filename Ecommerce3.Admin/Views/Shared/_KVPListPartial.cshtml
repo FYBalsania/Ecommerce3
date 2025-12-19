@@ -29,27 +29,24 @@
             @kvpType
         </h5>
         <a href="javascript:;" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#@kvpAddModalId">
-            Add @kvpType
+            <i class="fas fa-plus"></i> Add @kvpType
         </a>
     </div>
     <div class="card-body">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table align-middle">
-                    <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                        <th class="text-end" style="width: 10%;">Sort Order</th>
-                        <th class="text-end" style="width: 15%;">Created</th>
-                        <th class="text-center" style="width: 10%;">Action</th>
-                    </tr>
-                    </thead>
-                    <partial name="_KVPListItemsPartial" model="Model.Item4"/>
-                </table>
-            </div>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th style="width: 30%;">Key</th>
+                    <th style="width: 40%;">Value</th>
+                    <th class="text-end" style="width: 10%;">Sort Order</th>
+                    <th class="text-end" style="width: 15%;">Created</th>
+                    <th class="text-center" style="width: 5%;">Action</th>
+                </tr>
+                </thead>
+                <partial name="_KVPListItemsPartial" model="Model.Item4"/>
+            </table>
         </div>
-
     </div>
 </div>
 <!-- Add KVP Modal -->
