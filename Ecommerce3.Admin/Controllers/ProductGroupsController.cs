@@ -24,7 +24,8 @@ public class ProductGroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(ProductGroupFilter filter, int pageNumber, CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(ProductGroupFilter filter, int pageNumber,
+        CancellationToken cancellationToken)
     {
         pageNumber = pageNumber == 0 ? 1 : pageNumber;
         var result = await _productGroupService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
@@ -34,7 +35,7 @@ public class ProductGroupsController : Controller
             ProductGroups = result,
             PageTitle = "Product Groups"
         };
-        
+
         ViewData["Title"] = "Product Groups";
         return View(response);
     }
@@ -90,7 +91,7 @@ public class ProductGroupsController : Controller
                     return View(model);
             }
         }
-        
+
         return LocalRedirect("/ProductGroups/Index");
     }
 

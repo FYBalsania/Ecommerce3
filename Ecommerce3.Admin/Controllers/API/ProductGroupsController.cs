@@ -1,14 +1,37 @@
+using Ecommerce3.Admin.ViewModels.ProductGroup;
+using Ecommerce3.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers.API;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductGroupsController : ControllerBase
+public class ProductGroupsController(
+    IIPAddressService ipAddressService,
+    IProductGroupService productGroupService)
+    : ControllerBase
 {
-    [HttpGet("{id:int}/available-attributes/lookup")]
-    public IActionResult Index(int id, CancellationToken cancellationToken)
+    [HttpPost("/attributes")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddAttribute(AddProductGroupAttributeViewModel model,
+        CancellationToken cancellationToken)
     {
-        return Ok(new { Id = 1, Name = "Test" });
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        const int userId = 1;
+
+        try
+        {
+            await productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
+                cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return Ok();
     }
 }

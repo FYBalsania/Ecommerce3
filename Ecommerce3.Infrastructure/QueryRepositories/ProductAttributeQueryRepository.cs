@@ -47,6 +47,11 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
         };
     }
 
+    public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductAttributes.AnyAsync(x => x.Id == id, cancellationToken);
+    }
+
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
         var query = dbContext.ProductAttributes.AsQueryable();

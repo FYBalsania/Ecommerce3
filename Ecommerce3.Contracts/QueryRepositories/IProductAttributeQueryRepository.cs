@@ -11,10 +11,11 @@ public interface IProductAttributeQueryRepository
         int pageSize,
         CancellationToken cancellationToken);
 
-    public Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
-    public Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
+    Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
+    Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken);
+    Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
     Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken);
-    public Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<ProductAttributeDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
     Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken);
 

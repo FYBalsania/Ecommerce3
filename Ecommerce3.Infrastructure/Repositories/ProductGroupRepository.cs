@@ -6,24 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class ProductGroupRepository : EntityWithImagesRepository<ProductGroup, ProductGroupImage>,
-    IProductGroupRepository
+internal sealed class ProductGroupRepository(AppDbContext dbContext)
+    : EntityWithImagesRepository<ProductGroup, ProductGroupImage>(dbContext),
+        IProductGroupRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public ProductGroupRepository(AppDbContext dbContext) : base(dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     private IQueryable<ProductGroup> GetQuery(ProductGroupInclude includes, bool trackChanges)
     {
         var query = trackChanges
-            ? _dbContext.ProductGroups.AsTracking()
-            : _dbContext.ProductGroups.AsNoTracking();
+            ? dbContext.ProductGroups.AsTracking()
+            : dbContext.ProductGroups.AsNoTracking();
 
         if ((includes & ProductGroupInclude.Images) == ProductGroupInclude.Images)
             query = query.Include(x => x.Images);
+        if ((includes & ProductGroupInclude.Attributes) == ProductGroupInclude.Attributes)
+            query = query.Include(x => x.Attributes);
         if ((includes & ProductGroupInclude.CreatedByUser) == ProductGroupInclude.CreatedByUser)
             query = query.Include(x => x.CreatedByUser);
         if ((includes & ProductGroupInclude.UpdatedByUser) == ProductGroupInclude.UpdatedByUser)
