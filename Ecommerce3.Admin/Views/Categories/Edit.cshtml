@@ -1,4 +1,6 @@
+@using Ecommerce3.Contracts.DTOs.KVPListItem
 @using Ecommerce3.Domain.Entities
+@using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Category.EditCategoryViewModel
 
 <div class="content-section">
@@ -179,8 +181,11 @@
         })
         
         @* FAQ *@
-        @* <partial name="_KVPListPartial" *@
-        @*          model="@Tuple.Create(typeof(Category), Model.Id, KVPListItemType.FAQ, new List<KVPListItemDTO>())"/> *@
+        @{
+            IReadOnlyList<KVPListItemDTO> faqItems = Model.KVPListItems.Where(x => x.Type == KVPListItemType.FAQ).ToList();
+        }
+        <partial name="_KVPListPartial" model="(typeof(Category).AssemblyQualifiedName, Model.Id, KVPListItemType.FAQ, faqItems)"/>
+
         
         <div class="row mb-7">
             <div class="col-xl-12">
@@ -199,6 +204,7 @@
 @section Scripts
 {
     <script src="~/js/category.js"></script>
+    <script src="~/js/kvplistitems.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script>
     // Initialize Quill

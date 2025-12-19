@@ -1,4 +1,5 @@
 using Ecommerce3.Contracts.DTOs.Image;
+using Ecommerce3.Contracts.DTOs.KVPListItem;
 
 namespace Ecommerce3.Contracts.DTOs.Category;
 
@@ -22,6 +23,6 @@ public class CategoryDTO
     public string? FullDescription { get; set; }
     public bool IsActive { get; set; }
     public int SortOrder { get; set; }
-    
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
+    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; set; } = [];
 }

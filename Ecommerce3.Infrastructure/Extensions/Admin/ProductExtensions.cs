@@ -80,6 +80,7 @@ public static class ProductExtensions
             .ToList(),
         KVPListItems = p.KVPListItems
             .AsQueryable()
+            .Where(tl => tl.ProductId == p.Id)
             .OrderBy(tl => tl.Key).ThenBy(tli => tli.SortOrder)
             .Select(KVPListItemExtensions.ToDtoExpression)
             .ToList()
