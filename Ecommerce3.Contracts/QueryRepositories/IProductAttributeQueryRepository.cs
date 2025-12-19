@@ -19,4 +19,7 @@ public interface IProductAttributeQueryRepository
     Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken);
 
     Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id, CancellationToken cancellationToken);
+
+    Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeProductGroupId,
+        CancellationToken cancellationToken);
 }

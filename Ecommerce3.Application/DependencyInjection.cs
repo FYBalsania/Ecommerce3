@@ -11,10 +11,10 @@ public static class DependencyInjection
         public IServiceCollection AddCommonApplicationServices()
         {
             services.AddScoped<IIPAddressService, IPAddressService>();
-            
+
             return services;
         }
-        
+
         public IServiceCollection AddAdminApplicationServices()
         {
             services.AddScoped<IBrandService, BrandService>();
@@ -41,6 +41,16 @@ public static class DependencyInjection
             services.AddScoped<Services.StoreFront.Interfaces.IPageService, Services.StoreFront.PageService>();
             services.AddScoped<Services.StoreFront.Interfaces.IProductService, Services.StoreFront.ProductService>();
             services.AddScoped<Services.StoreFront.Interfaces.ICategoryService, Services.StoreFront.CategoryService>();
+            return services;
+        }
+
+        public IServiceCollection AddAPIServices()
+        {
+            services
+                .AddScoped<Services.API.Interfaces.IProductAttributeService, Services.API.ProductAttributeService>();
+            services
+                .AddScoped<Services.API.Interfaces.IProductAttributeValueService,
+                    Services.API.ProductAttributeValueService>();
             return services;
         }
     }

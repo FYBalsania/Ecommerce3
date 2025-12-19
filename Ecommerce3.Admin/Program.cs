@@ -28,10 +28,8 @@ builder.Services.AddExceptionHandler<FallbackExceptionHandler>();
 builder.Services.AddDataProtection();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(x => x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
-builder.Services.AddCommonApplicationServices();
-builder.Services.AddAdminApplicationServices();
-builder.Services.AddCommonInfrastructure(builder.Configuration);
-builder.Services.AddAdminInfrastructure();
+builder.Services.AddCommonApplicationServices().AddAdminApplicationServices().AddAPIServices();
+builder.Services.AddCommonInfrastructure(builder.Configuration).AddAdminInfrastructure().AddAPIInfrastructure();
 
 var app = builder.Build();
 

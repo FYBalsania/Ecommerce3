@@ -5,3 +5,15 @@
       context: .
       dockerfile: Ecommerce3.StoreFront/Dockerfile
 
+  ecommerce3.api:
+    image: ecommerce3.api
+    build:
+      context: .
+      dockerfile: Ecommerce3.API/Dockerfile
+
+  ecommerce3.api-1:
+    image: ecommerce3.api-1
+    build:
+      context: .
+      dockerfile: Ecommerce3.API/Dockerfile
+

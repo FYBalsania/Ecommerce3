@@ -95,12 +95,21 @@ public static class DependencyInjection
         {
             //Query Repositories.
             services.AddScoped<Contracts.QueryRepositories.StoreFront.IPageQueryRepository,
-                    QueryRepositories.StoreFront.PageQueryRepository>();
+                QueryRepositories.StoreFront.PageQueryRepository>();
             services.AddScoped<Contracts.QueryRepositories.StoreFront.IProductQueryRepository,
-                    QueryRepositories.StoreFront.ProductQueryRepository>();
+                QueryRepositories.StoreFront.ProductQueryRepository>();
             services.AddScoped<Contracts.QueryRepositories.StoreFront.ICategoryQueryRepository,
                 QueryRepositories.StoreFront.CategoryQueryRepository>();
 
+            return services;
+        }
+
+        public IServiceCollection AddAPIInfrastructure()
+        {
+            services.AddScoped<Contracts.QueryRepositories.API.IProductAttributeQueryRepository,
+                QueryRepositories.API.ProductAttributeQueryRepository>();
+            services.AddScoped<Contracts.QueryRepositories.API.IProductAttributeValueQueryRepository,
+                QueryRepositories.API.ProductAttributeValueQueryRepository>();
             return services;
         }
     }

@@ -2364,8 +2364,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("citext")
                         .HasColumnOrder(3);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(7);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -2485,8 +2485,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("citext")
                         .HasColumnOrder(5);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(14);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -2721,8 +2721,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("citext")
                         .HasColumnOrder(3);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(11);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -2834,16 +2834,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnOrder(3);
 
-                    b.Property<int>("ProductAttributeSortOrder")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("ProductAttributeSortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(4);
 
                     b.Property<int>("ProductAttributeValueId")
                         .HasColumnType("integer")
                         .HasColumnOrder(5);
 
-                    b.Property<int>("ProductAttributeValueSortOrder")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("ProductAttributeValueSortOrder")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnOrder(6);
 
                     b.Property<int>("ProductGroupId")

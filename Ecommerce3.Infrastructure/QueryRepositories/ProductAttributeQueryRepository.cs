@@ -75,22 +75,40 @@ internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : 
         return await dbContext.ProductAttributes
             .Where(x => x.Id == id)
             .Include(x => x.Values)
-                .ThenInclude(x => x.CreatedByUser)
+            .ThenInclude(x => x.CreatedByUser)
             .Select(ProductAttributeExtensions.DTOExpression)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<ProductAttributeValueDTO?> GetValueByProductAttributeValueIdAsync(int id,
+        CancellationToken cancellationToken)
         => await dbContext.ProductAttributeValues
             .Include(x => x.CreatedByUser)
             .Select(x => x.ToDTO())
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetValuesByIdAsync(int id,
+        CancellationToken cancellationToken)
         => await dbContext.ProductAttributeValues
             .Where(x => x.ProductAttributeId == id)
             .OrderBy(x => x.SortOrder).ThenBy(x => x.Value)
             .Include(x => x.CreatedByUser)
             .Select(x => x.ToDTO())
             .ToListAsync(cancellationToken);
+
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeProductGroupId,
+        CancellationToken cancellationToken)
+    {
+        var query = dbContext.ProductAttributes.AsQueryable();
+
+        if (excludeProductGroupId.HasValue)
+        {
+            query = query.Where(a => !dbContext.ProductGroupProductAttributes
+                .Any(b => b.ProductGroupId == excludeProductGroupId.Value 
+                          && b.ProductAttributeId == a.Id));
+        }
+
+        return await query.OrderBy(a => a.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+    }
 }
