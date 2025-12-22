@@ -1,4 +1,5 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
@@ -46,10 +47,10 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
             TotalItems = total
         };
     }
-    
+
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await dbContext.ProductGroups.Select(x => (int?)x.SortOrder).MaxAsync(cancellationToken) ?? 0;
-    
+
     public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
     {
         var query = dbContext.ProductGroups.AsQueryable();
@@ -69,7 +70,7 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
 
         return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
     }
-    
+
     public async Task<ProductGroupDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await dbContext.ProductGroups
             .Where(x => x.Id == id)
@@ -77,11 +78,30 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken)
-        => await dbContext.ProductGroups.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+        => await dbContext.ProductGroups.OrderBy(x => x.Name)
+            .ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
         => await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
 
-    public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int id, CancellationToken cancellationToken)
-        => throw new NotImplementedException();
+    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(
+        int productGroupId, CancellationToken cancellationToken)
+    {
+        var query = from a in dbContext.ProductGroupProductAttributes
+            where a.ProductGroupId == productGroupId
+            orderby a.ProductAttributeSortOrder, a.Id
+            group a by new { a.ProductGroupId, a.ProductAttribute, a.CreatedAt, a.UpdatedAt, a.CreatedByUser } into g
+            select new ProductGroupProductAttributeListItemDTO
+            {
+                ProductGroupId = g.Key.ProductGroupId,
+                ProductAttributeId = g.Key.ProductAttribute.Id,
+                ProductAttributeName = g.Key.ProductAttribute.Name,
+                ProductAttributeValues = string.Join(", ", g.Select(x => x.ProductAttributeValue!.Value)),
+                CreatedUserFullName = g.Key.CreatedByUser!.FullName,
+                CreatedAt = g.Key.CreatedAt,
+                UpdatedAt = g.Key.UpdatedAt
+            };
+
+        return await query.ToListAsync(cancellationToken);
+    }
 }

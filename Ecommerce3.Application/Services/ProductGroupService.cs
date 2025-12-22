@@ -1,6 +1,7 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
@@ -78,9 +79,15 @@ internal sealed class ProductGroupService(
         //Add ProductAttribute to the ProductGroup.
         productGroup.AddAttribute(command.ProductAttributeId, command.SortOrder, command.Values, command.CreatedBy,
             command.CreatedAt, command.CreatedByIp);
-        
+
         //Commit changes.
         await unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(
+        int productGroupId, CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetAttributesByProductGroupIdAsync(productGroupId, cancellationToken);
     }
 
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)
@@ -112,7 +119,4 @@ internal sealed class ProductGroupService(
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
-    
-    public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int id, CancellationToken cancellationToken)
-        => await queryRepository.GetAttributesAsync(id, cancellationToken);
 }

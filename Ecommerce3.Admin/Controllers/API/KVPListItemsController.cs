@@ -6,7 +6,7 @@ namespace Ecommerce3.Admin.Controllers.API;
 [Route("api/[controller]")]
 [ApiController]
 public class KVPListItemsController(
-    ILogger<KVPListItemsController> logger, 
+    ILogger<KVPListItemsController> logger,
     IKVPListItemService KVPListItemService) : ControllerBase
 {
     [HttpGet("{id:int}")]

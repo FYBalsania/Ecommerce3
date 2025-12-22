@@ -152,17 +152,27 @@ public class ProductGroupsController : Controller
 
         return LocalRedirect("/ProductGroups/Index");
     }
-    
+
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddAttribute([FromForm] AddProductGroupAttributeViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddAttribute([FromForm] AddProductGroupAttributeViewModel model,
+        CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
         const int userId = 1;
-        
-        await _productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
-        var ProductGroupProductAttributeDTO = _productGroupService.GetAttributesAsync(model.ProductGroupId, cancellationToken);
-        return PartialView("_ProductGroupProductAttributesListPartial");    
+
+        try
+        {
+            await _productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
+                cancellationToken);
+        }
+        catch (Exception exception)
+        {
+        }
+
+        var attributes =
+            await _productGroupService.GetAttributesByProductGroupIdAsync(model.ProductGroupId, cancellationToken);
+        return PartialView("_ProductGroupProductAttributesListPartial", attributes);
     }
 }

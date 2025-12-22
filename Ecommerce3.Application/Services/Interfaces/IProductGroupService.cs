@@ -1,5 +1,6 @@
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.ProductGroup;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Domain.Entities;
@@ -16,5 +17,5 @@ public interface IProductGroupService
     Task<ProductGroupDTO?> GetByProductGroupIdAsync(int id, CancellationToken cancellationToken);
     Task<IDictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
     Task AddAttributeAsync(AddProductGroupProductAttributeCommand command, CancellationToken cancellationToken);
-    Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int id, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(int productGroupId, CancellationToken cancellationToken);
 }

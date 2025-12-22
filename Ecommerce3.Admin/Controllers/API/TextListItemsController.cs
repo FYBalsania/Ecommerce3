@@ -6,7 +6,7 @@ namespace Ecommerce3.Admin.Controllers.API;
 [Route("api/[controller]")]
 [ApiController]
 public class TextListItemsController(
-    ILogger<TextListItemsController> logger, 
+    ILogger<TextListItemsController> logger,
     ITextListItemService textListItemService) : ControllerBase
 {
     [HttpGet("{id:int}")]

@@ -12,7 +12,8 @@ public class ImageTypesController(
     IDataProtectionProvider dataProtectionProvider)
     : ControllerBase
 {
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
+    private readonly IDataProtector
+        _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
 
     [HttpGet("IdAndNamesByEntity")]
     public async Task<ActionResult<IEnumerable<object[]>>> IdAndNamesByEntity([FromQuery] string entity,

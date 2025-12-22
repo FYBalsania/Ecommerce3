@@ -1,4 +1,5 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 
@@ -14,5 +15,5 @@ public interface IProductGroupQueryRepository
     Task<ProductGroupDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
     Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
-    Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int id, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(int productGroupId, CancellationToken cancellationToken);
 }
