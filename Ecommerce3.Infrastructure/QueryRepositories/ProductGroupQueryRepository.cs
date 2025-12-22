@@ -81,4 +81,7 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
         => await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
+
+    public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int id, CancellationToken cancellationToken)
+        => throw new NotImplementedException();
 }

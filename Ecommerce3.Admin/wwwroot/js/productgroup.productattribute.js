@@ -141,9 +141,9 @@ async function add_AttributeSaveClicked(event) {
 async function add_AttributeSaveClicked() {
         if (!add_AttrValidate()) return;
 
-        const productGroupId = $('#productGroupId').val();
         const formData = new FormData();
         formData.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
+        formData.append('productGroupId', $('#productGroupId').val());
         formData.append('ProductAttributeId', $('#addNameAttribute').val());
         formData.append('ProductAttributeSortOrder', $('#addSortOrderAttribute').val());
         $('#addAttributeValuesTableBody .form-check-input:checked').each(function () {
@@ -156,7 +156,7 @@ async function add_AttributeSaveClicked() {
         });
 
         try {
-                const result = await fetch(`/api/ProductGroups/${productGroupId}/attributes`, {method: 'POST', body: formData, credentials: 'same-origin'});
+                const result = await fetch(`/ProductGroups/AddAttribute`, {method: 'POST', body: formData, credentials: 'same-origin'});
                 if (result.ok) {
                         const response = await result.text();
                         $('#AttributesTableBody').replaceWith(response);

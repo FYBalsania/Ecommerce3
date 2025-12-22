@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
+using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Admin.ViewModels.ProductGroup;
 
@@ -73,6 +74,7 @@ public class EditProductGroupViewModel
     public decimal SortOrder { get; set; }
     
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
+    public IReadOnlyList<ProductGroupProductAttribute> Attirbutes { get; set; } = [];
     
     //public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
     
@@ -120,7 +122,8 @@ public class EditProductGroupViewModel
             FullDescription = dto.FullDescription,
             IsActive = dto.IsActive,
             SortOrder = dto.SortOrder,
-            Images = dto.Images
+            Images = dto.Images,
+            Attirbutes = dto.Attributes,
         };
     }
 }

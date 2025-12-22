@@ -112,4 +112,7 @@ internal sealed class ProductGroupService(
 
     public async Task<int> GetMaxSortOrderAsync(CancellationToken cancellationToken)
         => await queryRepository.GetMaxSortOrderAsync(cancellationToken);
+    
+    public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int id, CancellationToken cancellationToken)
+        => await queryRepository.GetAttributesAsync(id, cancellationToken);
 }

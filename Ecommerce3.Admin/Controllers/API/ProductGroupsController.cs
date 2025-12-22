@@ -11,35 +11,35 @@ public class ProductGroupsController(
     IProductGroupService productGroupService)
     : ControllerBase
 {
-    [HttpPost("{productGroupId:int}/attributes")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddAttribute(int productGroupId, [FromForm] AddProductGroupAttributeViewModel model,
-        CancellationToken cancellationToken)
-    {
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
-
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
-        const int userId = 1;
-
-        try
-        {
-            await productGroupService.AddAttributeAsync(
-                model.ToCommand(productGroupId, userId, DateTime.Now, ipAddress), cancellationToken);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
-        return Ok();
-    }
-
-
-    [HttpGet("{productGroupId:int}/attributes/{productAttributeId:int}")]
-    public async Task<IActionResult> Get(int productGroupId, int productAttributeId,
-        CancellationToken cancellationToken)
-    {
-        return Ok();
-    }
+    // [HttpPost("{productGroupId:int}/attributes")]
+    // [ValidateAntiForgeryToken]
+    // public async Task<IActionResult> AddAttribute(int productGroupId, [FromForm] AddProductGroupAttributeViewModel model,
+    //     CancellationToken cancellationToken)
+    // {
+    //     if (!ModelState.IsValid) return ValidationProblem(ModelState);
+    //
+    //     var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+    //     const int userId = 1;
+    //
+    //     try
+    //     {
+    //         await productGroupService.AddAttributeAsync(
+    //             model.ToCommand(productGroupId, userId, DateTime.Now, ipAddress), cancellationToken);
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         throw;
+    //     }
+    //
+    //     return Ok();
+    // }
+    //
+    //
+    // [HttpGet("{productGroupId:int}/attributes/{productAttributeId:int}")]
+    // public async Task<IActionResult> Get(int productGroupId, int productAttributeId,
+    //     CancellationToken cancellationToken)
+    // {
+    //     return Ok();
+    // }
 }
