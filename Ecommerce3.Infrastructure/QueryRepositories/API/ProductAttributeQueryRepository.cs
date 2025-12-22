@@ -8,7 +8,7 @@ namespace Ecommerce3.Infrastructure.QueryRepositories.API;
 
 internal sealed class ProductAttributeQueryRepository(AppDbContext dbContext) : IProductAttributeQueryRepository
 {
-    public async Task<IReadOnlyList<ProductAttributeDTO>> GetAllAsync(int? excludeProductGroupId,
+    public async Task<IReadOnlyList<ProductAttributeListItemDTO>> GetAllAsync(int? excludeProductGroupId,
         CancellationToken cancellationToken)
     {
         var query = dbContext.ProductAttributes.AsQueryable();

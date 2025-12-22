@@ -9,7 +9,7 @@ namespace Ecommerce3.Infrastructure.QueryRepositories.API;
 internal class ProductAttributeValueQueryRepository(AppDbContext dbContext)
     : IProductAttributeValueQueryRepository
 {
-    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+    public async Task<IReadOnlyList<ProductAttributeValueListItemDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
         CancellationToken cancellationToken)
     {
         return await dbContext.ProductAttributeValues

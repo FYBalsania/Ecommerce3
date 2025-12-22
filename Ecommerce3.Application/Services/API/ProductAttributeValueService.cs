@@ -8,7 +8,7 @@ internal sealed class ProductAttributeValueService(
     IProductAttributeValueQueryRepository productAttributeValueQueryRepository)
     : IProductAttributeValueService
 {
-    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+    public async Task<IReadOnlyList<ProductAttributeValueListItemDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
         CancellationToken cancellationToken)
     {
         return await productAttributeValueQueryRepository.GetAllByProductAttributeIdAsync(productAttributeId, cancellationToken);

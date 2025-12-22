@@ -4,5 +4,5 @@ namespace Ecommerce3.Contracts.QueryRepositories.API;
 
 public interface IProductAttributeQueryRepository
 {
-    Task<IReadOnlyList<ProductAttributeDTO>> GetAllAsync(int? excludeProductGroupId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ProductAttributeListItemDTO>> GetAllAsync(int? excludeProductGroupId, CancellationToken cancellationToken);
 }

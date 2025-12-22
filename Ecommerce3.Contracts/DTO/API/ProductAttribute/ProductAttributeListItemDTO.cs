@@ -2,7 +2,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.DTO.API.ProductAttribute;
 
-public record ProductAttributeDTO
+public record ProductAttributeListItemDTO
 {
     public required int Id { get; init; }
     public required string Name { get; init; }

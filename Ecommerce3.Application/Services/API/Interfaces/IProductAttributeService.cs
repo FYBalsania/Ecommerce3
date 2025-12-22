@@ -4,6 +4,6 @@ namespace Ecommerce3.Application.Services.API.Interfaces;
 
 public interface IProductAttributeService
 {
-    Task<IReadOnlyList<ProductAttributeDTO>> GetAllAsync(int? excludeProductGroupId,
+    Task<IReadOnlyList<ProductAttributeListItemDTO>> GetAllAsync(int? excludeProductGroupId,
         CancellationToken cancellationToken);
 }

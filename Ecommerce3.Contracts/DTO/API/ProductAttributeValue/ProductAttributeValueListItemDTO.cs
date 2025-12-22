@@ -1,6 +1,6 @@
 namespace Ecommerce3.Contracts.DTO.API.ProductAttributeValue;
 
-public record ProductAttributeValueDTO
+public record ProductAttributeValueListItemDTO
 {
     public required int Id { get; init; }
     public required int ProductAttributeId { get; init; }

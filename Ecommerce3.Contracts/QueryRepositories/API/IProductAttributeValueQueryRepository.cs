@@ -4,6 +4,6 @@ namespace Ecommerce3.Contracts.QueryRepositories.API;
 
 public interface IProductAttributeValueQueryRepository
 {
-    Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+    Task<IReadOnlyList<ProductAttributeValueListItemDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
         CancellationToken cancellationToken);
 }

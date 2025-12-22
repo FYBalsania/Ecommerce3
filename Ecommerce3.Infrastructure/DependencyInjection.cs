@@ -110,6 +110,8 @@ public static class DependencyInjection
                 QueryRepositories.API.ProductAttributeQueryRepository>();
             services.AddScoped<Contracts.QueryRepositories.API.IProductAttributeValueQueryRepository,
                 QueryRepositories.API.ProductAttributeValueQueryRepository>();
+            services.AddScoped<Contracts.QueryRepositories.API.IProductGroupProductAttributeQueryRepository,
+                QueryRepositories.API.ProductGroupProductAttributeQueryRepository>();
             return services;
         }
     }

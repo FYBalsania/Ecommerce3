@@ -7,7 +7,7 @@ namespace Ecommerce3.Application.Services.API;
 internal sealed class ProductAttributeService(IProductAttributeQueryRepository productAttributeQueryRepository)
     : IProductAttributeService
 {
-    public async Task<IReadOnlyList<ProductAttributeDTO>> GetAllAsync(int? excludeProductGroupId,
+    public async Task<IReadOnlyList<ProductAttributeListItemDTO>> GetAllAsync(int? excludeProductGroupId,
         CancellationToken cancellationToken)
     {
         return await productAttributeQueryRepository.GetAllAsync(excludeProductGroupId, cancellationToken);

@@ -1,5 +1,6 @@
 using Ecommerce3.Admin.ViewModels.Product;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTO.API.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
@@ -226,7 +227,7 @@ public class ProductsController : Controller
                 break;
 
             case $"{nameof(Product)}.{nameof(Product.Name)}":
-                ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                ModelState.AddModelError(nameof(ProductGroupProductAttributeValueViewDTO.Value), domainException.Message);
                 break;
 
             case $"{nameof(Product)}.{nameof(Product.Slug)}":

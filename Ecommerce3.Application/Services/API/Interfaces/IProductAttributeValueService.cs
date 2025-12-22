@@ -4,6 +4,6 @@ namespace Ecommerce3.Application.Services.API.Interfaces;
 
 public interface IProductAttributeValueService
 {
-    Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+    Task<IReadOnlyList<ProductAttributeValueListItemDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
         CancellationToken cancellationToken);
 }

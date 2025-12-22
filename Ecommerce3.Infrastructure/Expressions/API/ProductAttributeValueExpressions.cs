@@ -6,8 +6,8 @@ namespace Ecommerce3.Infrastructure.Expressions.API;
 
 public static class ProductAttributeValueExpressions
 {
-    public static readonly Expression<Func<ProductAttributeValue, ProductAttributeValueDTO>> DTOExpression = x =>
-        new ProductAttributeValueDTO
+    public static readonly Expression<Func<ProductAttributeValue, ProductAttributeValueListItemDTO>> DTOExpression = x =>
+        new ProductAttributeValueListItemDTO
         {
             Id = x.Id,
             ProductAttributeId = x.ProductAttributeId,
