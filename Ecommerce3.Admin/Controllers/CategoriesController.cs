@@ -5,7 +5,6 @@ using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NuGet.Packaging;
 
 namespace Ecommerce3.Admin.Controllers;
 

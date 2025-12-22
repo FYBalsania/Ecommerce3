@@ -4,7 +4,6 @@ using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.KVPListItem;
 using Ecommerce3.Contracts.DTOs.TextListItem;
-using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

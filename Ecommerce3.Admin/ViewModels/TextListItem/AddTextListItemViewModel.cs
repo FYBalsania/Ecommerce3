@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.TextListItem;
-using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 

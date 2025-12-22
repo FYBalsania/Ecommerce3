@@ -1,4 +1,5 @@
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Contracts.QueryRepositories.Admin;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Policies;
 using Ecommerce3.Domain.Repositories;
@@ -6,6 +7,7 @@ using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.EFCoreInterceptors;
 using Ecommerce3.Infrastructure.Imaging;
 using Ecommerce3.Infrastructure.QueryRepositories;
+using Ecommerce3.Infrastructure.QueryRepositories.Admin;
 using Ecommerce3.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -87,6 +89,8 @@ public static class DependencyInjection
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
             services.AddScoped<ITextListItemQueryRepository, ProductTextListItemQueryRepository>();
             services.AddScoped<IUnitOfMeasureQueryRepository, UnitOfMeasureQueryRepository>();
+            services
+                .AddScoped<IProductGroupProductAttributeQueryRepository, ProductGroupProductAttributeQueryRepository>();
 
             return services;
         }

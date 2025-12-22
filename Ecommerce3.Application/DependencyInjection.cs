@@ -1,4 +1,6 @@
 using Ecommerce3.Application.Services;
+using Ecommerce3.Application.Services.Admin;
+using Ecommerce3.Application.Services.Admin.Interfaces;
 using Ecommerce3.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,6 +34,7 @@ public static class DependencyInjection
             services.AddScoped<IPostCodeService, PostCodeService>();
             services.AddScoped<ITextListItemService, TextListItemService>();
             services.AddScoped<IUnitOfMeasureService, UnitOfMeasureService>();
+            services.AddScoped<IProductGroupProductAttributeService, ProductGroupProductAttributeService>();
 
             return services;
         }

@@ -1,6 +1,5 @@
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Repositories;
 

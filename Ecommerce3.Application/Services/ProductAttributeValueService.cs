@@ -4,17 +4,19 @@ using Ecommerce3.Contracts.QueryRepositories;
 
 namespace Ecommerce3.Application.Services;
 
-public sealed class ProductAttributeValueService : IProductAttributeValueService
+public sealed class ProductAttributeValueService(
+    IProductAttributeValueQueryRepository productAttributeValueQueryRepository)
+    : IProductAttributeValueService
 {
-    private readonly IProductAttributeValueQueryRepository _productAttributeValueQueryRepository;
-
-    public ProductAttributeValueService(IProductAttributeValueQueryRepository productAttributeValueQueryRepository)
-    {
-        _productAttributeValueQueryRepository = productAttributeValueQueryRepository;
-    }
-    
     public async Task<ProductAttributeValueDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _productAttributeValueQueryRepository.GetByIdAsync(id, cancellationToken);
+        return await productAttributeValueQueryRepository.GetByIdAsync(id, cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+        CancellationToken cancellationToken)
+    {
+        return await productAttributeValueQueryRepository.GetAllByProductAttributeIdAsync(productAttributeId,
+            cancellationToken);
     }
 }

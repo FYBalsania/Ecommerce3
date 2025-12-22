@@ -6,4 +6,7 @@ public interface IProductAttributeValueQueryRepository
 {
     Task<bool> ExistsAsync(int id, int productAttributeId, CancellationToken cancellationToken);
     Task<ProductAttributeValueDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+        CancellationToken cancellationToken);
 }

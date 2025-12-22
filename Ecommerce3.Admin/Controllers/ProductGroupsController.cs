@@ -1,9 +1,11 @@
 using Ecommerce3.Admin.ViewModels.ProductGroup;
+using Ecommerce3.Application.Services.Admin.Interfaces;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.Controllers;
 
@@ -12,14 +14,22 @@ public class ProductGroupsController : Controller
     private readonly IProductGroupService _productGroupService;
     private readonly IIPAddressService _ipAddressService;
     private readonly IConfiguration _configuration;
+    private readonly IProductAttributeService _productAttributeService;
+    private readonly IProductGroupProductAttributeService _productGroupProductAttributeService;
+    private readonly IProductAttributeValueService _productAttributeValueService;
     private readonly int _pageSize;
 
     public ProductGroupsController(IProductGroupService productGroupService, IIPAddressService ipAddressService,
-        IConfiguration configuration)
+        IConfiguration configuration, IProductAttributeService productAttributeService,
+        IProductGroupProductAttributeService productGroupProductAttributeService,
+        IProductAttributeValueService productAttributeValueService)
     {
         _productGroupService = productGroupService;
         _ipAddressService = ipAddressService;
         _configuration = configuration;
+        _productAttributeService = productAttributeService;
+        _productGroupProductAttributeService = productGroupProductAttributeService;
+        _productAttributeValueService = productAttributeValueService;
         _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
     }
 
@@ -153,6 +163,31 @@ public class ProductGroupsController : Controller
         return LocalRedirect("/ProductGroups/Index");
     }
 
+    [HttpGet]
+    public async Task<IActionResult> AddAttribute([FromQuery] int productGroupId,
+        CancellationToken cancellationToken)
+    {
+        var productAttributes =
+            new SelectList(
+                await _productAttributeService.GetIdAndNameDictionaryAsync(productGroupId, cancellationToken),
+                "Id", "Name");
+        var sortOrder =
+            await _productGroupProductAttributeService.GetMaxSortOrderAsync(productGroupId, cancellationToken);
+
+        return PartialView("/ProductGroup/_AddProductAttributePartial", (productAttributes, sortOrder));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAttributeValues([FromQuery] int productAttributeId,
+        CancellationToken cancellationToken)
+    {
+        var attributeValues =
+            await _productAttributeValueService.GetAllByProductAttributeIdAsync(productAttributeId, cancellationToken);
+
+        return PartialView("/ProductGroup/_ProductAttributeValuesPartial", attributeValues);
+    }
+
+
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAttribute([FromForm] AddProductGroupAttributeViewModel model,
         CancellationToken cancellationToken)
@@ -162,17 +197,18 @@ public class ProductGroupsController : Controller
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
         const int userId = 1;
 
-        try
-        {
-            await _productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
-                cancellationToken);
-        }
-        catch (Exception exception)
-        {
-        }
+        await _productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
+            cancellationToken);
 
         var attributes =
             await _productGroupService.GetAttributesByProductGroupIdAsync(model.ProductGroupId, cancellationToken);
-        return PartialView("_ProductGroupProductAttributesListPartial", attributes);
+        return PartialView("ProductGroup/_ProductAttributesPartial", attributes);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditAttribute([FromQuery] int productGroupId, [FromQuery] int productAttributeId,
+        CancellationToken cancellationToken)
+    {
+        return PartialView("_ProductGroupProductAttributeEditPartial");
     }
 }

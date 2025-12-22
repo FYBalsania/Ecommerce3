@@ -5,7 +5,6 @@ using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.Extensions;
-using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 using ProductAttributeExtensions = Ecommerce3.Infrastructure.Extensions.Admin.ProductAttributeExtensions;
 

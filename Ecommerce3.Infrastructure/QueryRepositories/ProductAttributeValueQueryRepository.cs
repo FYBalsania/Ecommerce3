@@ -22,4 +22,14 @@ internal class ProductAttributeValueQueryRepository(AppDbContext dbContext) : IP
             .Select(x => x.ToDTO())
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<ProductAttributeValueDTO>> GetAllByProductAttributeIdAsync(int productAttributeId,
+        CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductAttributeValues
+            .Where(x => x.ProductAttributeId == productAttributeId)
+            .Include(x => x.CreatedByUser)
+            .Select(x => x.ToDTO())
+            .ToListAsync(cancellationToken);
+    }
 }

@@ -1,5 +1,4 @@
 using Ecommerce3.Contracts.DTO.StoreFront.Image;
-using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.DTO.StoreFront.Product;
 
