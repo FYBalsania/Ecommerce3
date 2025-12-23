@@ -1,28 +1,36 @@
+@model IReadOnlyList<Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute.ProductGroupProductAttributeListItemDTO>
+
 <tbody id="AttributesTableBody">
+@foreach (var attr in Model.GroupBy(x => x.ProductAttributeName))
+{
+    var attrGroup = attr.First();
+
     <tr>
-        <td>Colour</td>
-        <td>Red, Yellow, Green</td>
-        <td class="text-end">1</td>
+        <td>@attr.Key</td>
+        <td>
+            @foreach (var item in attr)
+            {
+                <div>
+                    @item.ProductAttributeValues
+                    <small class="text-muted">
+                        (@item.ProductAttributeValuesDisplay)
+                    </small>
+                </div>
+            }
+        </td>
+
+        <td class="text-end">@attrGroup.ProductAttributeSortOrder</td>
+
         <td class="text-center">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#editAttributeModal">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#editAttributeModal"
+               data-attribute-name="@attr.Key">
                 <i class="fas fa-edit me-2 fs-6 text-success"></i>
             </a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteAttributeModal">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteAttributeModal"
+               data-attribute-name="@attr.Key">
                 <i class="fas fa-trash fs-6 text-danger"></i>
             </a>
         </td>
     </tr>
-    <tr>
-        <td>Storage</td>
-        <td>128GB, 256GB</td>
-        <td class="text-end">2</td>
-        <td class="text-center">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#editAttributeModal">
-                <i class="fas fa-edit me-2 fs-6 text-success"></i>
-            </a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteAttributeModal">
-                <i class="fas fa-trash fs-6 text-danger"></i>
-            </a>
-        </td>
-    </tr>
- </tbody>    
+}
+</tbody>

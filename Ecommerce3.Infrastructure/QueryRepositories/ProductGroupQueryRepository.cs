@@ -83,25 +83,11 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
         => await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
-
-    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(
-        int productGroupId, CancellationToken cancellationToken)
-    {
-        var query = from a in dbContext.ProductGroupProductAttributes
-            where a.ProductGroupId == productGroupId
-            orderby a.ProductAttributeSortOrder, a.Id
-            group a by new { a.ProductGroupId, a.ProductAttribute, a.CreatedAt, a.UpdatedAt, a.CreatedByUser } into g
-            select new ProductGroupProductAttributeListItemDTO
-            {
-                ProductGroupId = g.Key.ProductGroupId,
-                ProductAttributeId = g.Key.ProductAttribute.Id,
-                ProductAttributeName = g.Key.ProductAttribute.Name,
-                ProductAttributeValues = string.Join(", ", g.Select(x => x.ProductAttributeValue!.Value)),
-                CreatedUserFullName = g.Key.CreatedByUser!.FullName,
-                CreatedAt = g.Key.CreatedAt,
-                UpdatedAt = g.Key.UpdatedAt
-            };
-
-        return await query.ToListAsync(cancellationToken);
-    }
+    
+    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO?>> GetAttributesByProductGroupIdAsync(int productGroupId, 
+        CancellationToken cancellationToken)
+        => await dbContext.ProductGroupProductAttributes
+            .Where(x => x.ProductGroupId == productGroupId)
+            .ProjectToDTO()
+            .ToListAsync(cancellationToken);
 }

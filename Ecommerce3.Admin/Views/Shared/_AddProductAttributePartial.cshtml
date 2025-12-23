@@ -1,0 +1,26 @@
+@model (Microsoft.AspNetCore.Mvc.Rendering.SelectList productAttributes, decimal sortOrder)
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label fw-bold">Name</label>
+            <select class="form-select" id="addNameAttribute">
+                <option value="">Select Attribute</option>
+                @foreach (var attr in Model.productAttributes)
+                {
+                    <option value="@attr.Value">@attr.Text</option>
+                }
+            </select>
+            <span class="text-danger" id="addNameAttributeError"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label fw-bold">Sort Order</label>
+            <input type="number" class="form-control" id="addSortOrderAttribute" value="@Model.sortOrder" />
+            <span class="text-danger" id="addSortOrderAttributeError"></span>
+        </div>
+    </div>
+</div>
+<div id="attributeValuesContainer"></div>

@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Domain.Entities;
 
@@ -17,7 +18,7 @@ public static class ProductGroupExtensions
         CreatedUserFullName = pg.CreatedByUser!.FullName,
         CreatedAt = pg.CreatedAt
     };
-    
+
     private static readonly Expression<Func<ProductGroup, ProductGroupDTO>> DTOExpression = pg => new ProductGroupDTO
     {
         Id = pg.Id,
@@ -35,10 +36,18 @@ public static class ProductGroupExtensions
         MetaTitle = pg.Page!.MetaTitle,
         MetaDescription = pg.Page!.MetaDescription,
         MetaKeywords = pg.Page!.MetaKeywords,
-        Images = pg.Images.AsQueryable().OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
-            .Select(ImageExtensions.DTOExpression).ToList()
+        Images = pg.Images
+            .AsQueryable()
+            .OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
+            .Select(ImageExtensions.DTOExpression)
+            .ToList(),
+        Attributes = pg.Attributes
+            .AsQueryable()
+            .OrderBy(pgn => pgn.ProductAttribute!.Name).ThenBy(pgs => pgs.ProductAttribute!.SortOrder)
+            .Select(ProductGroupProductAttributesExtensions.DTOExpression)
+            .ToList(),
     };
-    
+
     public static IQueryable<ProductGroupDTO> ProjectToDTO(this IQueryable<ProductGroup> query) =>
         query.Select(DTOExpression);
     

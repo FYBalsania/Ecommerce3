@@ -3,15 +3,16 @@ $(document).ready(() => {
         const textAddModal = $(`#addAttributeModal`);
         textAddModal.on('show.bs.modal', () => show_AddProductAttributeView());
         textAddModal.on('hidden.bs.modal', () => hide_AddProductAttributeView());
-        
-        const nameAttribute = $('#addNameAttribute');
-        nameAttribute.on('change', function () {
+
+        $(document).on('change', '#addNameAttribute', function () {
                 const attributeId = $(this).val();
+
                 if (!attributeId) {
                         $('#addAttributeValuesTableBody').empty();
                         $('#addAttributeValuesWrapper').addClass('d-none');
                         return;
                 }
+
                 getAttributeValues(attributeId);
         });
 
@@ -29,73 +30,31 @@ $(document).ready(() => {
 });
 
 async function show_AddProductAttributeView() {
+        const productGroupId = $('#productGroupId').val();
+        const modalBody = $('#addAttributeModalBody');
 
-        const data = { excludeProductGroupId: $('#productGroupId').val() };
         try {
-                const attributeIdAndNames = await doAjax('/api/ProductAttributes', 'GET', data, true).promise();
-                const nameDropdown = $('#addNameAttribute');
-                attributeIdAndNames.forEach(attributeIdAndName => {
-                        const option = $('<option></option>');
-                        option.attr('value', attributeIdAndName.id);
-                        option.text(attributeIdAndName.name);
-                        nameDropdown.append(option);
-                });
+                const response = await fetch(
+                    `/ProductGroups/AddAttribute?productGroupId=${productGroupId}`, 
+                    { method: 'GET', credentials: 'same-origin'});
+                
+                const html = await response.text();
+                modalBody.html(html);
         } catch (err) {
                 alert('Error occured, please try again.')
         }
 }
 
 async function getAttributeValues(attributeId) {
+        const container = $('#attributeValuesContainer');
+
         try {
-                const values = await doAjax(`/api/ProductAttributes/${attributeId}/values`, 'GET', null, true).promise();
-                const tbody = $('#addAttributeValuesTableBody');
-                const wrapper = $('#addAttributeValuesWrapper');
+                const response = await fetch(
+                    `/ProductGroups/GetAttributeValues?productAttributeId=${attributeId}`,
+                    { method: 'GET', credentials: 'same-origin'});
 
-                tbody.empty();
-                wrapper.removeClass('d-none');
-
-                if (!values || values.length === 0) {
-                        const row = $('<tr>').append(
-                            $('<td>', {
-                                    colspan: 2,
-                                    class: 'text-muted text-center',
-                                    text: 'No values available'
-                            })
-                        );
-                        tbody.append(row);
-                        return;
-                }
-
-                values.forEach(v => {
-                        const row = $('<tr>').css('height', '56px');
-                        
-                        // Checkbox column
-                        const checkboxCell = $('<td>', { class: 'w-75' });
-                        const checkbox = $('<input>', {
-                                type: 'checkbox',
-                                class: 'form-check-input',
-                                id: `attrValue_${v.value}`,
-                                'data-value-id': v.id
-                        });
-                        const label = $('<label>', {
-                                class: 'form-check-label ms-2',
-                                for: `attrValue_${v.value}`,
-                                text: v.value
-                        });
-                        checkboxCell.append(checkbox, label);
-
-                        // Sort order column (hidden initially)
-                        const sortCell = $('<td>');
-                        const sortInput = $('<input>', {
-                                type: 'number',
-                                class: 'form-control form-control-sm d-none'
-                        });
-                        sortCell.append(sortInput);
-
-                        row.append(checkboxCell, sortCell);
-                        tbody.append(row);
-                });
-
+                const html = await response.text();
+                container.html(html);
         } catch (err) {
                 console.error('Error loading attribute values:', err);
                 alert('Error loading attribute values.');
@@ -112,11 +71,10 @@ async function add_AttributeSaveClicked(event) {
         event.preventDefault();
 
         if (!add_AttrValidate()) return;
-
-        const productGroupId = $('#productGroupId').val();
-
+        
         const data = new FormData();
         data.append('__RequestVerificationToken', $("[name='__RequestVerificationToken']").val());
+        data.append('ProductGroupId', $('#productGroupId').val());
         data.append('ProductAttributeId', $('#addNameAttribute').val());
         data.append('ProductAttributeSortOrder', $('#addSortOrderAttribute').val());
 
@@ -131,7 +89,7 @@ async function add_AttributeSaveClicked(event) {
         });
 
         try {
-                const result = await fetch(`/api/ProductGroupAttributes/${productGroupId}/attributes`, {method: 'POST', body: data, credentials: 'same-origin'});
+                const result = await fetch(`/ProductGroups/AddAttribute/`, {method: 'POST', body: data, credentials: 'same-origin'});
                 
         } catch (err) {
                 alert('Error occurred while saving attribute. Please try again.');

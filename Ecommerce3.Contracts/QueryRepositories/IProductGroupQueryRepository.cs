@@ -15,5 +15,5 @@ public interface IProductGroupQueryRepository
     Task<ProductGroupDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<Dictionary<int, string>> GetIdAndNameListAsync(CancellationToken cancellationToken);
     Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken);
-    Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(int productGroupId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO?>> GetAttributesByProductGroupIdAsync(int productGroupId, CancellationToken cancellationToken);
 }

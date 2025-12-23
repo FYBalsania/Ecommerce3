@@ -107,12 +107,12 @@ public class ProductGroupsController : Controller
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
-    {
-        var ProductGroup = await _productGroupService.GetByProductGroupIdAsync(id, cancellationToken);
-        if (ProductGroup is null) return NotFound();
+    {   
+        var productGroup = await _productGroupService.GetByProductGroupIdAsync(id, cancellationToken);
+        if (productGroup is null) return NotFound();
 
-        ViewData["Title"] = $"Edit ProductGroup - {ProductGroup.Name}";
-        return View(EditProductGroupViewModel.FromDTO(ProductGroup));
+        ViewData["Title"] = $"Edit ProductGroup - {productGroup.Name}";
+        return View(EditProductGroupViewModel.FromDTO(productGroup));
     }
 
     [HttpPost]
@@ -164,29 +164,21 @@ public class ProductGroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> AddAttribute([FromQuery] int productGroupId,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> AddAttribute([FromQuery] int productGroupId, CancellationToken cancellationToken)
     {
-        var productAttributes =
-            new SelectList(
-                await _productAttributeService.GetIdAndNameDictionaryAsync(productGroupId, cancellationToken),
-                "Id", "Name");
-        var sortOrder =
-            await _productGroupProductAttributeService.GetMaxSortOrderAsync(productGroupId, cancellationToken);
+        var productAttributes = new SelectList(await _productAttributeService.GetIdAndNameDictionaryAsync(productGroupId, cancellationToken), "Key", "Value");
+        var sortOrder = await _productGroupProductAttributeService.GetMaxSortOrderAsync(productGroupId, cancellationToken);
 
-        return PartialView("/ProductGroup/_AddProductAttributePartial", (productAttributes, sortOrder));
+        return PartialView("_AddProductAttributePartial", (productAttributes, sortOrder));
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAttributeValues([FromQuery] int productAttributeId,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAttributeValues([FromQuery] int productAttributeId, CancellationToken cancellationToken)
     {
-        var attributeValues =
-            await _productAttributeValueService.GetAllByProductAttributeIdAsync(productAttributeId, cancellationToken);
+        var attributeValues = await _productAttributeValueService.GetAllByProductAttributeIdAsync(productAttributeId, cancellationToken);
 
-        return PartialView("/ProductGroup/_ProductAttributeValuesPartial", attributeValues);
+        return PartialView("_ProductAttributeValuesPartial", attributeValues);
     }
-
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAttribute([FromForm] AddProductGroupAttributeViewModel model,
@@ -197,12 +189,10 @@ public class ProductGroupsController : Controller
         var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
         const int userId = 1;
 
-        await _productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress),
-            cancellationToken);
+        await _productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
 
-        var attributes =
-            await _productGroupService.GetAttributesByProductGroupIdAsync(model.ProductGroupId, cancellationToken);
-        return PartialView("ProductGroup/_ProductAttributesPartial", attributes);
+        var attributes = await _productGroupService.GetAttributesByProductGroupIdAsync(model.ProductGroupId, cancellationToken);
+        return PartialView("_ProductGroupProductAttributesListItemPartial", attributes);
     }
 
     [HttpGet]

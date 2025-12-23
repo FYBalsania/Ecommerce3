@@ -1,0 +1,46 @@
+@model IReadOnlyList<Ecommerce3.Contracts.DTOs.ProductAttributeValueDTO>
+
+<div class="row">
+    <div class="col-md-12">
+        <label class="form-label fw-bold">Values</label>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Name/Display</th>
+                    <th>Sort Order</th>
+                </tr>
+                </thead>
+                <tbody id="addAttributeValuesTableBody">
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="2" class="text-muted text-center">
+                                No values available
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var value in Model)
+                        {
+                            <tr style="height:56px">
+                                <td class="w-75">
+                                    <input type="checkbox" class="form-check-input" data-value-id="@value.Id" id="attrValue_@value.Id" />
+                                    <label class="form-check-label ms-2" for="attrValue_@value.Id">
+                                        @value.Value (@value.Display)
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm d-none" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<span class="text-danger" id="attributeValuesError"></span>

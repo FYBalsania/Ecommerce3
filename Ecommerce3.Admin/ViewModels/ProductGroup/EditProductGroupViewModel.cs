@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.ProductGroup;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Domain.Entities;
@@ -74,7 +75,7 @@ public class EditProductGroupViewModel
     public decimal SortOrder { get; set; }
     
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
-    public IReadOnlyList<ProductGroupProductAttribute> Attirbutes { get; set; } = [];
+    public IReadOnlyList<ProductGroupProductAttributeListItemDTO> Attirbutes { get; set; } = [];
     
     //public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
     

@@ -1,5 +1,5 @@
+using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.Image;
-using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Contracts.DTOs.ProductGroup;
 
@@ -21,5 +21,5 @@ public class ProductGroupDTO
     public bool IsActive { get; set; }
     public decimal SortOrder { get; set; }
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
-    public IReadOnlyList<ProductGroupProductAttribute> Attributes { get; set; } = [];
+    public IReadOnlyList<ProductGroupProductAttributeListItemDTO> Attributes { get; set; } = [];
 }

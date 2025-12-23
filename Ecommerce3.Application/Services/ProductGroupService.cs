@@ -84,7 +84,7 @@ internal sealed class ProductGroupService(
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO>> GetAttributesByProductGroupIdAsync(
+    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO?>> GetAttributesByProductGroupIdAsync(
         int productGroupId, CancellationToken cancellationToken)
     {
         return await queryRepository.GetAttributesByProductGroupIdAsync(productGroupId, cancellationToken);
