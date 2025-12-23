@@ -1,32 +1,26 @@
 using Ecommerce3.Admin.ViewModels.PostCode;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
+using Ecommerce3.Domain;
+using Ecommerce3.Domain.Entities;
+using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
 
-public class PostCodesController : Controller
+public class PostCodesController(
+    IPostCodeService postCodeService,
+    IIPAddressService ipAddressService,
+    IConfiguration configuration) : Controller
 {
-    private readonly IPostCodeService _postCodeService;
-    private readonly IIPAddressService _ipAddressService;
-    private readonly IConfiguration _configuration;
-    private readonly int _pageSize;
-
-    public PostCodesController(IPostCodeService postCodeService, IIPAddressService ipAddressService,
-        IConfiguration configuration)
-    {
-        _postCodeService = postCodeService;
-        _ipAddressService = ipAddressService;
-        _configuration = configuration;
-        _pageSize = _configuration.GetValue<int>("PagedList:PageSize");
-    }
+    private readonly int _pageSize = configuration.GetValue<int>("PagedList:PageSize");
 
     [HttpGet]
     public async Task<IActionResult> Index(PostCodeFilter filter, int pageNumber, CancellationToken cancellationToken)
     {
         pageNumber = pageNumber == 0 ? 1 : pageNumber;
-        var result = await _postCodeService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var result = await postCodeService.GetListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
         var response = new PostCodesIndexViewModel()
         {
             Filter = filter,
@@ -34,12 +28,11 @@ public class PostCodesController : Controller
             PageTitle = "PostCodes"
         };
         
-        ViewData["Title"] = "PostCodes";
         return View(response);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Add(CancellationToken cancellationToken)
+    public IActionResult Add()
     {
         ViewData["Title"] = "Add PostCode";
         return View(new AddPostCodeViewModel
@@ -48,69 +41,75 @@ public class PostCodesController : Controller
         });
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(AddPostCodeViewModel model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            return View(model);
+        }
 
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
         {
-            await _postCodeService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await postCodeService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (DuplicateException e)
+        catch (DomainException domainException)
         {
-            switch (e.ParamName)
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Code):
-                    ModelState.AddModelError(nameof(model.Code), e.Message);
-                    break;
+                case $"{nameof(PostCode)}.{nameof(PostCode.Code)}":
+                    ModelState.AddModelError(nameof(model.Code), domainException.Message);
+                    return View(model);
             }
         }
         
+        TempData["SuccessMessage"] = Common.AddedSuccessfully(model.Code);
         return LocalRedirect("/PostCodes/Index");
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
     {
-        var postCode = await _postCodeService.GetByPostCodeIdAsync(id, cancellationToken);
+        var postCode = await postCodeService.GetByPostCodeIdAsync(id, cancellationToken);
         if (postCode is null) return NotFound();
 
         ViewData["Title"] = $"Edit PostCode - {postCode.Code}";
         return View(EditPostCodeViewModel.FromDTO(postCode));
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditPostCodeViewModel model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            return View(model);
+        }
 
-        var ipAddress = _ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
         var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
         {
-            await _postCodeService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
+            await postCodeService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         }
-        catch (ArgumentNullException e)
+        catch (DomainException domainException)
         {
-            ModelState.AddModelError(string.Empty, e.Message);
-        }
-        catch (DuplicateException e)
-        {
-            switch (e.ParamName)
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            switch (domainException.Error.Code)
             {
-                case nameof(model.Code):
-                    ModelState.AddModelError(nameof(model.Code), e.Message);
-                    break;
+                case $"{nameof(PostCode)}.{nameof(PostCode.Code)}":
+                    ModelState.AddModelError(nameof(model.Code), domainException.Message);
+                    return View(model);
             }
         }
 
+        TempData["SuccessMessage"] = Common.EditedSuccessfully(model.Code);
         return LocalRedirect("/PostCodes/Index");
     }
 }

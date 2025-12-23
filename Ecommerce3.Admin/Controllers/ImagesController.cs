@@ -1,6 +1,7 @@
 using Ecommerce3.Admin.ViewComponents;
 using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Domain.Errors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +11,11 @@ public class ImagesController(
     IImageService imageService,
     IIPAddressService ipAddressService,
     IConfiguration configuration,
-    IDataProtectionProvider dataProtectionProvider)
-    : Controller
+    IDataProtectionProvider dataProtectionProvider) : Controller
 {
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector(nameof(ImagesViewComponent));
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Add([FromForm] AddImageViewModel model, CancellationToken cancellationToken)
     {
         ModelState.Remove("ImageTypes");
@@ -46,8 +45,7 @@ public class ImagesController(
         return PartialView("_ImageListPartial", imageDTOs);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit([FromForm] EditImageViewModel model, CancellationToken cancellationToken)
     {
         ModelState.Remove("ImageTypes");
@@ -69,11 +67,14 @@ public class ImagesController(
         return PartialView("_ImageListPartial", imageDTOs);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete([FromForm] DeleteImageViewModel model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            return ValidationProblem(ModelState);
+        }
         
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);

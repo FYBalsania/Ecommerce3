@@ -45,5 +45,8 @@ public static partial class DomainErrors
 
         public static readonly DomainError InvalidState =
             new("Common.InvalidState", "The entity is in an invalid state for this operation.");
+        
+        public static readonly DomainError GenericErrorMessage =
+            new("Common.InvalidState", "An unexpected error occurred. Please check the errors.");
     }
 }

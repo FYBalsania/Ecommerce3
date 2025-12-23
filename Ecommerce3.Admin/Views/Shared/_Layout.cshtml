@@ -20,10 +20,53 @@
         @RenderBody()
     </div>
 </main>
+<!--begin::Toast Container-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
+    <!-- Success Toast -->
+    <div id="successToast" style="background-color:green;min-width: 400px" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body text-white fs-6">
+                <!-- Success message will be injected here -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="errorToast" style="background-color:red;min-width: 400px" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body text-white fs-6">
+                <!-- Error message will be injected here -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+<!--end::Toast Container-->
 <script src="~/js/jquery-3.7.1.min.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
 <script src="~/js/jquery-ui.min.js"></script>
 <script src="~/js/site.js"></script>
 @await RenderSectionAsync("Scripts", required: false)
+<!--begin::Toast-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const successMessage = '@TempData["SuccessMessage"]';
+        const errorMessage = '@TempData["ErrorMessage"]';
+
+        if (successMessage) {
+            const successToastEl = document.getElementById('successToast');
+            successToastEl.querySelector(".toast-body").innerText = successMessage;
+            bootstrap.Toast.getOrCreateInstance(successToastEl).show();
+        }
+
+        if (errorMessage) {
+            const errorToastEl = document.getElementById('errorToast');
+            errorToastEl.querySelector(".toast-body").innerText = errorMessage;
+            bootstrap.Toast.getOrCreateInstance(errorToastEl).show();
+        }
+    });
+</script>
+<!--end::Toast-->
 </body>
 </html>
