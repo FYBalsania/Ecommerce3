@@ -1,6 +1,10 @@
 namespace Ecommerce3.Contracts.DTO.Admin.ProductGroup;
 
-public record ProductAttributeValueEditDTO
+public class ProductAttributeValueEditDTO
 {
-    public int ProductAttributeValueId { get; init; }
+    public required int ProductAttributeValueId { get; init; }
+    public required string Value { get; init; }
+    public required string Display { get; init; }
+    public required decimal? ProductAttributeValueSortOrder { get; init; }
+    public required bool IsSelected { get; init; }
 }

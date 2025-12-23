@@ -21,15 +21,18 @@ public static class DependencyInjection
     {
         public IServiceCollection AddCommonInfrastructure(IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("DefaultConnection")!;
+            
             services.AddSingleton<DeleteInterceptor>();
             services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
             services.AddDbContext<AppDbContext>((sp, options) =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+                options.UseNpgsql(connectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     .AddInterceptors(sp.GetRequiredService<DeleteInterceptor>());
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbConnectionFactory>(x => new DbConnectionFactory(connectionString));
 
             return services;
         }

@@ -209,6 +209,10 @@ public class ProductGroupsController : Controller
     public async Task<IActionResult> EditAttribute([FromQuery] int productGroupId, [FromQuery] int productAttributeId,
         CancellationToken cancellationToken)
     {
-        return PartialView("_ProductGroupProductAttributeEditPartial");
+        var productAttributeEditDTO = await _productGroupProductAttributeService.GetByParamsAsync(productGroupId,
+            productAttributeId,
+            cancellationToken);
+
+        return PartialView("ProductGroup/_EditProductAttributePartial", productAttributeEditDTO);
     }
 }
