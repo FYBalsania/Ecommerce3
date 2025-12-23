@@ -1,0 +1,55 @@
+<!-- Edit Attribute Modal -->
+<div class="modal fade" id="editAttributeModal" tabindex="-1" aria-labelledby="editAttributeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-muted" id="editAttributeModalLabel">
+                    <i class="fas fa-plus"></i> Edit New Attribute
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" id="editAttributeModalBody">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Name</label>
+                            <select class="form-select" id="editNameAttribute">
+                                <option value="">Select Attribute</option>
+                            </select>
+                            <span class="text-danger" id="editNameAttributeError"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Sort Order</label>
+                            <input type="number" class="form-control" id="editSortOrderAttribute">
+                            <span class="text-danger" id="editSortOrderAttributeError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-none" id="editAttributeValuesWrapper">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Values</label>
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Name/Display</th>
+                                    <th>Sort Order</th>
+                                </tr>
+                                </thead>
+                                <tbody id="editAttributeValuesTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <span class="text-danger" id="attributeValuesError"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="edit_AttributeSave">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

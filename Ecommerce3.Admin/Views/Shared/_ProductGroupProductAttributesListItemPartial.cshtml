@@ -22,8 +22,10 @@
         <td class="text-end">@attrGroup.ProductAttributeSortOrder</td>
 
         <td class="text-center">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#editAttributeModal"
-               data-attribute-name="@attr.Key">
+            <a href="#" data-bs-toggle="modal" 
+               data-bs-target="#editAttributeModal" 
+               data-product-group-id="@attrGroup.ProductGroupId" 
+               data-product-attribute-id="@attrGroup.ProductAttributeId">
                 <i class="fas fa-edit me-2 fs-6 text-success"></i>
             </a>
             <a href="#" data-bs-toggle="modal" data-bs-target="#deleteAttributeModal"

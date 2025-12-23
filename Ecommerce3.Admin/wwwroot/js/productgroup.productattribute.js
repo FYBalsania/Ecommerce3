@@ -4,6 +4,10 @@ $(document).ready(() => {
         textAddModal.on('show.bs.modal', () => show_AddProductAttributeView());
         textAddModal.on('hidden.bs.modal', () => hide_AddProductAttributeView());
 
+        const textEditModal = $(`#editAttributeModal`);
+        textEditModal.on('show.bs.modal', (e) => show_EditProductAttributeView(e));
+        textEditModal.on('hidden.bs.modal', () => hide_EditProductAttributeView());
+
         $(document).on('change', '#addNameAttribute', function () {
                 const attributeId = $(this).val();
 
@@ -233,4 +237,27 @@ function add_AttrValidate() {
         }
 
         return isValid;
+}
+
+async function show_EditProductAttributeView(event) {
+        const productGroupId = $(event.relatedTarget).data('product-group-id');
+        const productAttributeId = $(event.relatedTarget).data('product-attribute-id');
+        const modalBody = $('#editAttributeModalBody');
+        
+        try {
+                const response = await fetch(
+                    `/ProductGroups/EditAttribute?productGroupId=${productGroupId}&productAttributeId=${productAttributeId}`,
+                    { method: 'GET', credentials: 'same-origin'});
+
+                const html = await response.text();
+                modalBody.html(html);
+        } catch (err) {
+                alert('Error occured, please try again.')
+        }
+}
+
+async function hide_EditProductAttributeView() {
+        $('#addNameAttribute').val('');
+        $('#addAttributeValuesTableBody').empty();
+        $('#addAttributeValuesWrapper').addClass('d-none');
 }

@@ -1,0 +1,68 @@
+@model Ecommerce3.Contracts.DTO.Admin.ProductGroup.ProductAttributeEditDTO
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label fw-bold">Name</label>
+            <input type="text" class="form-control" id="editNameAttribute" value="@Model.Name" readonly />
+            <input type="hidden" id="editProductAttributeId" value="@Model.ProductAttributeId" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label fw-bold">Sort Order</label>
+            <input type="number" class="form-control" id="editSortOrderAttribute" value="@Model.ProductAttributeSortOrder" />
+            <span class="text-danger" id="editSortOrderAttributeError"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label class="form-label fw-bold">Values</label>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Name/Display</th>
+                    <th>Sort Order</th>
+                </tr>
+                </thead>
+                <tbody id="editAttributeValuesTableBody">
+                @if (!Model.Values.Any())
+                {
+                    <tr>
+                        <td colspan="2" class="text-muted text-center">
+                            No values available
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var value in Model.Values)
+                    {
+                        <tr style="height:56px">
+                            <td class="w-75">
+                                <input type="checkbox" 
+                                       class="form-check-input" 
+                                       data-value-id="@value.ProductAttributeValueId" 
+                                       id="attrValue_@value.ProductAttributeValueId"
+                                       @(value.IsSelected ? "checked" : "") />
+                                <label class="form-check-label ms-2" for="attrValue_@value.ProductAttributeValueId">
+                                    @value.Value (@value.Display)
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" 
+                                       class="form-control form-control-sm @(value.IsSelected ? "" : "d-none")" 
+                                       data-sort-input="@value.ProductAttributeValueId"
+                                       value="@(value.ProductAttributeValueSortOrder?.ToString() ?? "")" />
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<span class="text-danger" id="editAttributeValuesError"></span>
