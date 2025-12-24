@@ -2,6 +2,7 @@ using cloudscribe.Pagination.Models;
 using Ecommerce3.Application.Commands.Admin.ProductGroup;
 using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroup;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
@@ -117,8 +118,14 @@ internal sealed class ProductGroupService(
 
         productGroup.UpdateAttribute(command.ProductAttributeId, command.ProductAttributeSortOrder, command.Values,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-        
+
         await unitOfWork.CompleteAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int productGroupId,
+        CancellationToken cancellationToken)
+    {
+        return await queryRepository.GetAttributesAsync(productGroupId, cancellationToken);
     }
 
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)

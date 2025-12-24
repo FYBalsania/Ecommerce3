@@ -1,9 +1,11 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Contracts.DTO.Admin.ProductGroup;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
 using Ecommerce3.Infrastructure.Data;
+using Ecommerce3.Infrastructure.Expressions.Admin.ProductGroup;
 using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
 
@@ -83,11 +85,23 @@ internal sealed class ProductGroupQueryRepository(AppDbContext dbContext) : IPro
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
         => await dbContext.ProductGroups.AnyAsync(x => x.Id == id, cancellationToken);
-    
-    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO?>> GetAttributesByProductGroupIdAsync(int productGroupId, 
+
+    public async Task<IReadOnlyList<ProductGroupProductAttributeListItemDTO?>> GetAttributesByProductGroupIdAsync(
+        int productGroupId,
         CancellationToken cancellationToken)
         => await dbContext.ProductGroupProductAttributes
             .Where(x => x.ProductGroupId == productGroupId)
             .ProjectToDTO()
             .ToListAsync(cancellationToken);
+
+    public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int productGroupId,
+        CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductGroupProductAttributes
+            .Where(x => x.ProductGroupId == productGroupId)
+            .OrderBy(x => x.ProductAttributeSortOrder)
+                .ThenBy(x => x.ProductAttributeValueSortOrder)
+            .Select(ProductGroupProductAttributeExpressions.DTOExpression)
+            .ToListAsync(cancellationToken);
+    }
 }
