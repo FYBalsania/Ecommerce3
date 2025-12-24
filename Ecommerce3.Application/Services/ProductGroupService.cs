@@ -1,4 +1,5 @@
 using cloudscribe.Pagination.Models;
+using Ecommerce3.Application.Commands.Admin.ProductGroup;
 using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
@@ -88,6 +89,36 @@ internal sealed class ProductGroupService(
         int productGroupId, CancellationToken cancellationToken)
     {
         return await queryRepository.GetAttributesByProductGroupIdAsync(productGroupId, cancellationToken);
+    }
+
+    public async Task EditAttributeAsync(EditProductGroupProductAttributesCommand command,
+        CancellationToken cancellationToken)
+    {
+        //Validate ProductAttributeId.
+        var exists =
+            await productAttributeQueryRepository.ExistsByIdAsync(command.ProductAttributeId, cancellationToken);
+        if (!exists) throw new DomainException(DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
+
+        //Validate ProductAttributeValueId.
+        foreach (var commandValue in command.Values)
+        {
+            exists = await productAttributeValueQueryRepository.ExistsAsync(commandValue.Key,
+                command.ProductAttributeId, cancellationToken);
+            if (!exists) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidId);
+        }
+
+        //Fetch ProductGroup.
+        var productGroup =
+            await repository.GetByIdAsync(command.ProductGroupId, ProductGroupInclude.Attributes, true,
+                cancellationToken);
+        if (productGroup is null) throw new DomainException(DomainErrors.ProductGroupErrors.InvalidId);
+
+        //TODO: Validate if attributes marked as deleted are not referenced.
+
+        productGroup.UpdateAttribute(command.ProductAttributeId, command.ProductAttributeSortOrder, command.Values,
+            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task EditAsync(EditProductGroupCommand command, CancellationToken cancellationToken)

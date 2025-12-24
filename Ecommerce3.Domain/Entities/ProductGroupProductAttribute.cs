@@ -40,8 +40,23 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
         CreatedByIp = createdByIp;
     }
 
-    internal void Update(int updatedBy, DateTime updatedAt, string updatedByIp)
+    internal void UpdateProductAttributeValueSortOrder(decimal productAttributeValueSortOrder, int updatedBy,
+        DateTime updatedAt, string updatedByIp)
     {
+        if (ProductAttributeValueSortOrder == productAttributeValueSortOrder) return;
+
+        ProductAttributeValueSortOrder = productAttributeValueSortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+    }
+    
+    internal void UpdateProductAttributeSortOrder(decimal productAttributeSortOrder, int updatedBy,
+        DateTime updatedAt, string updatedByIp)
+    {
+        if (ProductAttributeSortOrder == productAttributeSortOrder) return;
+
+        ProductAttributeSortOrder = productAttributeSortOrder;
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;

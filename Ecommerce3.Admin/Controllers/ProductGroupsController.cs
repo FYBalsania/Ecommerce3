@@ -1,4 +1,5 @@
 using Ecommerce3.Admin.ViewModels.ProductGroup;
+using Ecommerce3.Application.Commands.Admin.ProductGroup;
 using Ecommerce3.Application.Services.Admin.Interfaces;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
@@ -241,5 +242,13 @@ public class ProductGroupsController(
             cancellationToken);
 
         return PartialView("_EditProductAttributePartial", productAttributeEditDTO);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditAttribute([FromBody] EditProductGroupAttributeViewModel model,
+        CancellationToken cancellationToken)
+    {
+
+        return View();
     }
 }

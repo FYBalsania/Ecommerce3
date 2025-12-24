@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -166,10 +167,67 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
         }
     }
 
-    public void UpdateAttribute(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public void UpdateAttribute(int productAttributeId, decimal productAttributeSortOrder,
+        IDictionary<int, decimal> values, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         //Validate inputs.
-       
-        
+        ValidatePositiveNumber(productAttributeId,
+            DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
+        if (values is null || values.Count == 0)
+            throw new DomainException(DomainErrors.ProductGroupErrors.AttributeValueRequired);
+        foreach (var keyValuePair in values)
+        {
+            ValidatePositiveNumber(keyValuePair.Key,
+                DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeValueId);
+        }
+
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpRequired,
+            DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpTooLong);
+
+        //Check if attributeId exists.
+        if (_attributes.All(x => x.ProductAttributeId != productAttributeId))
+            throw new DomainException(DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
+
+        //Update Product Attribute SortOrder.
+        _attributes.ForEach(x =>
+            x.UpdateProductAttributeSortOrder(productAttributeSortOrder, updatedBy, updatedAt, updatedByIp));
+
+        // 0. existing attribute's dictionary.
+        var existing = _attributes
+            .ToDictionary(x => x.ProductAttributeValueId, x => x.ProductAttributeValueSortOrder);
+
+        // 1. Remove attribute's aren't present in desired (values parameter).
+        var toRemove = existing.Keys
+            .Where(key => !values.ContainsKey(key))
+            .ToImmutableList(); // snapshot to avoid modifying during iteration.
+        foreach (var attribute in toRemove
+                     .Select(key => _attributes.First(x => x.ProductAttributeValueId == key)))
+        {
+            attribute.Delete(updatedBy, updatedAt, updatedByIp);
+            _attributes.Remove(attribute);
+
+            existing.Remove(attribute.ProductAttributeValueId);
+        }
+
+        // 2. Add new attributes and update changed values.
+        foreach (var (key, value) in values)
+        {
+            if (existing.TryGetValue(key, out var existingValue))
+            {
+                if (existingValue != value)
+                {
+                    var attribute = _attributes.First(x => x.ProductAttributeValueId == key);
+                    attribute.UpdateProductAttributeValueSortOrder(value, updatedBy, updatedAt, updatedByIp);
+                    existing[key] = value; // update
+                }
+            }
+            else
+            {
+                _attributes.Add(new ProductGroupProductAttribute(productAttributeId, productAttributeSortOrder, key,
+                    value, updatedBy, updatedAt, updatedByIp));
+                existing.Add(key, value); // add
+            }
+        }
     }
 }
