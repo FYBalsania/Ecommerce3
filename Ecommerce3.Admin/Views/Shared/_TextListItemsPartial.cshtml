@@ -16,10 +16,10 @@
             @item.CreatedAt.ToString("dd-MMM-yyyy HH:mm")
         </td>
         <td class="text-center">
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@textEditModalId" data-tli-id="@item.Id">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@textEditModalId" data-tli-id="@item.Id" class="text-decoration-none">
                 <i class="fas fa-edit me-2 fs-6 text-success"></i>
             </a>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@textDeleteModalId" data-tli-id="@item.Id" data-tli-text="@item.Text">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@textDeleteModalId" data-tli-id="@item.Id" data-tli-text="@item.Text" class="text-decoration-none">
                 <i class="fas fa-trash fs-6 text-danger"></i>
             </a>
         </td>

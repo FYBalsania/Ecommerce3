@@ -71,8 +71,8 @@
                             <td>@pageItem.ProductGroupId</td>
                             <td class="text-end">@pageItem.CreatedUserFullName <br/>@pageItem.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")</td>
                             <td class="text-center">
-                                <a asp-controller="Pages" asp-action="Edit" asp-route-id="1"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deletePageModal"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                                <a asp-controller="Pages" asp-action="Edit" asp-route-id="1" class="text-decoration-none"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deletePageModal" class="text-decoration-none"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                     }

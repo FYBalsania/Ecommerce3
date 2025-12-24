@@ -80,18 +80,19 @@
                             <span class="text-danger" asp-validation-for="BrandId"></span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="CategoryIds"></label>
-                            <select class="select-brand form-select" multiple="multiple" asp-for="@Model.CategoryIds"
+                            <select class="select-category form-select" multiple="multiple" asp-for="@Model.CategoryIds"
                                     asp-items="@Model.Categories">
                                 <option value="">Select...</option>
                             </select>
                             <span class="text-danger" asp-validation-for="CategoryIds"></span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -430,18 +431,6 @@
                         </div>
                     </div>
                 </div>
-                @* <div class="row"> *@
-                @*     <div class="col-md-12"> *@
-                @*         <div class="mb-3"> *@
-                @*             <label class="form-label fw-bold">Return Policy</label> *@
-                @*             <!-- Quill Editor Container --> *@
-                @*             <!-- Hidden input to store HTML content for form submission --> *@
-                @*             <div id="returnPolicyEditor" style="height: 200px;"> *@
-                @* *@
-                @*             </div> *@
-                @*             <input type="hidden" id="returnPolicyInput" name="Return"></div> *@
-                @*     </div> *@
-                @* </div> *@
             </div>
         </div>
         
@@ -501,6 +490,7 @@
 @section StyleSheet
 {
     <link href="~/css/select2.min.css" rel="stylesheet">
+    <link href="~/css/select2-bootstrap-5-theme.min.css" rel="stylesheet"/>
     <link href="~/css/quill.snow.css" rel="stylesheet">
 }
 
@@ -512,7 +502,14 @@
     <script>
         //Initialize Select 2
         $(document).ready(function () {
-            $('.select-product, .select-brand').select2();
+            $('.select-product').select2({
+                theme: 'bootstrap-5',
+                width: '100%'
+            });
+
+            $('.select-category').select2({
+                placeholder: 'Select...'
+            });
 
             toggleRedirectUrl();
             $('#Status').on('change', function () {

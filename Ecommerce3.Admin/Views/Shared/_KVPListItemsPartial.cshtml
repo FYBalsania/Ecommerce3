@@ -17,10 +17,10 @@
             @item.CreatedAt.ToString("dd-MMM-yyyy HH:mm")
         </td>
         <td class="text-center">
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@kvpEditModalId" data-kvp-id="@item.Id">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@kvpEditModalId" data-kvp-id="@item.Id" class="text-decoration-none">
                 <i class="fas fa-edit me-2 fs-6 text-success"></i>
             </a>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@kvpDeleteModalId" data-kvp-id="@item.Id" data-kvp-key="@item.Key">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#@kvpDeleteModalId" data-kvp-id="@item.Id" data-kvp-key="@item.Key" class="text-decoration-none">
                 <i class="fas fa-trash fs-6 text-danger"></i>
             </a>
         </td>

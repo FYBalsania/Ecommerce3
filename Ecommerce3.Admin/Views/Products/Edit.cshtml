@@ -83,9 +83,7 @@
                             <span class="text-danger" asp-validation-for="BrandId"></span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Categories</label>
                             <select class="select-brand form-select" multiple="multiple" asp-for="CategoryIds" asp-items="@Model.Categories">
@@ -523,6 +521,7 @@
 @section StyleSheet
 {
     <link href="~/css/select2.min.css" rel="stylesheet">
+    <link href="~/css/select2-bootstrap-5-theme.min.css" rel="stylesheet"/>
     <link href="~/css/quill.snow.css" rel="stylesheet">
 }
 
@@ -538,7 +537,8 @@
         //Initialize Select 2
         $(document).ready(function () {
             $('.select-product').select2({
-                placeholder: 'Select Product Group'
+                theme: 'bootstrap-5',
+                width: '100%'
             });
 
             $('.select-brand').select2({
@@ -548,6 +548,7 @@
             $('.select-colour').select2({
                 placeholder: 'Select Colour'
             });
+            
             $('.select-storage').select2({
                 placeholder: 'Select Storage'
             });
