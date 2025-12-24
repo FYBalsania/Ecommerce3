@@ -47,7 +47,7 @@ public class BanksController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -60,7 +60,7 @@ public class BanksController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(Bank)}.{nameof(Bank.Name)}":
@@ -68,6 +68,24 @@ public class BanksController(
                     return View(model);
                 case $"{nameof(Bank)}.{nameof(Bank.Slug)}":
                     ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaDescription)}":
+                    ModelState.AddModelError(nameof(model.MetaDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaKeywords)}":
+                    ModelState.AddModelError(nameof(model.MetaKeywords), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }
@@ -91,7 +109,7 @@ public class BanksController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -104,7 +122,7 @@ public class BanksController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(Bank)}.{nameof(Bank.Name)}":
@@ -112,6 +130,24 @@ public class BanksController(
                     return View(model);
                 case $"{nameof(Bank)}.{nameof(Bank.Slug)}":
                     ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaDescription)}":
+                    ModelState.AddModelError(nameof(model.MetaDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaKeywords)}":
+                    ModelState.AddModelError(nameof(model.MetaKeywords), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(Bank)}.{nameof(Bank.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }

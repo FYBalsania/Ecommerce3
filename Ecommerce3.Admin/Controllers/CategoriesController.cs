@@ -52,7 +52,7 @@ public class CategoriesController(
         if (!ModelState.IsValid)
         {
             model.Parents = await GetParentsIdAndNameAsync(null, cancellationToken);
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -66,7 +66,7 @@ public class CategoriesController(
         catch (DomainException domainException)
         {
             model.Parents = await GetParentsIdAndNameAsync(null, cancellationToken);
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(Category)}.{nameof(Category.Name)}":
@@ -87,8 +87,35 @@ public class CategoriesController(
                 case $"{nameof(Category)}.{nameof(Category.AnchorTitle)}":
                     ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
                     return View(model);
+                case $"{nameof(Category)}.{nameof(Category.GoogleCategory)}":
+                    ModelState.AddModelError(nameof(model.GoogleCategory), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.ParentId)}":
+                    ModelState.AddModelError(nameof(model.ParentId), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaDescription)}":
+                    ModelState.AddModelError(nameof(model.MetaDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaKeywords)}":
+                    ModelState.AddModelError(nameof(model.MetaKeywords), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    return View(model);
                 case $"{nameof(Category)}.{nameof(Category.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.FullDescription)}":
+                    ModelState.AddModelError(nameof(model.FullDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }
@@ -116,7 +143,7 @@ public class CategoriesController(
         if (!ModelState.IsValid)
         {
             model.Parents = await GetParentsIdAndNameAsync(null, cancellationToken);
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -130,7 +157,7 @@ public class CategoriesController(
         catch (DomainException domainException)
         {
             model.Parents = await GetParentsIdAndNameAsync(null, cancellationToken);
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(Category)}.{nameof(Category.Name)}":
@@ -151,8 +178,35 @@ public class CategoriesController(
                 case $"{nameof(Category)}.{nameof(Category.AnchorTitle)}":
                     ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
                     return View(model);
+                case $"{nameof(Category)}.{nameof(Category.GoogleCategory)}":
+                    ModelState.AddModelError(nameof(model.GoogleCategory), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.ParentId)}":
+                    ModelState.AddModelError(nameof(model.ParentId), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaDescription)}":
+                    ModelState.AddModelError(nameof(model.MetaDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaKeywords)}":
+                    ModelState.AddModelError(nameof(model.MetaKeywords), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    return View(model);
                 case $"{nameof(Category)}.{nameof(Category.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.FullDescription)}":
+                    ModelState.AddModelError(nameof(model.FullDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(Category)}.{nameof(Category.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }

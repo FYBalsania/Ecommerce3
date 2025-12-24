@@ -19,7 +19,11 @@ public class ImagesController(
     public async Task<IActionResult> Add([FromForm] AddImageViewModel model, CancellationToken cancellationToken)
     {
         ModelState.Remove("ImageTypes");
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
+            return ValidationProblem(ModelState);
+        }
 
         var parentEntityType = _dataProtector.Unprotect(model.ParentEntityType);
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
@@ -49,7 +53,11 @@ public class ImagesController(
     public async Task<IActionResult> Edit([FromForm] EditImageViewModel model, CancellationToken cancellationToken)
     {
         ModelState.Remove("ImageTypes");
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
+            return ValidationProblem(ModelState);
+        }
         
         var parentEntityType = _dataProtector.Unprotect(model.ParentEntityType);
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
@@ -72,7 +80,7 @@ public class ImagesController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return ValidationProblem(ModelState);
         }
         

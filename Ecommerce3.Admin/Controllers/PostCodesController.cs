@@ -46,7 +46,7 @@ public class PostCodesController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -59,10 +59,13 @@ public class PostCodesController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(PostCode)}.{nameof(PostCode.Code)}":
+                    ModelState.AddModelError(nameof(model.Code), domainException.Message);
+                    return View(model);
+                case $"{nameof(PostCode)}.{nameof(PostCode.IsActive)}":
                     ModelState.AddModelError(nameof(model.Code), domainException.Message);
                     return View(model);
             }
@@ -87,7 +90,7 @@ public class PostCodesController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -100,10 +103,13 @@ public class PostCodesController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(PostCode)}.{nameof(PostCode.Code)}":
+                    ModelState.AddModelError(nameof(model.Code), domainException.Message);
+                    return View(model);
+                case $"{nameof(PostCode)}.{nameof(PostCode.IsActive)}":
                     ModelState.AddModelError(nameof(model.Code), domainException.Message);
                     return View(model);
             }

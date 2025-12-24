@@ -1,5 +1,6 @@
 using Ecommerce3.Admin.ViewModels.KVPListItem;
 using Ecommerce3.Application.Services.Interfaces;
+using Ecommerce3.Domain.Errors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.Controllers;
@@ -12,7 +13,11 @@ public class KVPListItemsController(
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAsync(AddKVPListItemViewModel model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
+            return ValidationProblem(ModelState);
+        }
 
         const int userId = 1;
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
@@ -32,7 +37,11 @@ public class KVPListItemsController(
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> EditAsync(EditKVPListItemViewModel model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
+            return ValidationProblem(ModelState);
+        }
 
         const int userId = 1;
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
@@ -52,7 +61,11 @@ public class KVPListItemsController(
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteAsync(DeleteKVPListItemViewModel model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
+            return ValidationProblem(ModelState);
+        }
         
         const int userId = 1;
         var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);

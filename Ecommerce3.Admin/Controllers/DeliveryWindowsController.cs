@@ -47,7 +47,7 @@ public class DeliveryWindowsController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -60,11 +60,26 @@ public class DeliveryWindowsController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Name)}":
                     ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Unit)}":
+                    ModelState.AddModelError(nameof(model.Unit), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.MinValue)}":
+                    ModelState.AddModelError(nameof(model.MinValue), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.MaxValue)}":
+                    ModelState.AddModelError(nameof(model.MaxValue), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }
@@ -88,7 +103,7 @@ public class DeliveryWindowsController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -101,11 +116,26 @@ public class DeliveryWindowsController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Name)}":
                     ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Unit)}":
+                    ModelState.AddModelError(nameof(model.Unit), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.MinValue)}":
+                    ModelState.AddModelError(nameof(model.MinValue), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.MaxValue)}":
+                    ModelState.AddModelError(nameof(model.MaxValue), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }

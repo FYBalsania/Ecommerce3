@@ -84,12 +84,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Categories <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold required" asp-for="CategoryIds"></label>
                             <select class="select-brand form-select" multiple="multiple" asp-for="@Model.CategoryIds"
                                     asp-items="@Model.Categories">
                                 <option value="">Select...</option>
                             </select>
-                            <span class="text-danger" asp-validation-for="@Model.CategoryIds"></span>
+                            <span class="text-danger" asp-validation-for="CategoryIds"></span>
                         </div>
                     </div>
                 </div>

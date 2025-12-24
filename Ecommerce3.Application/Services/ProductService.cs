@@ -75,7 +75,7 @@ internal sealed class ProductService(
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
             command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
             command.CreatedBy, command.CreatedAt, command.CreatedByIp);
-
+        
         await repository.AddAsync(product, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
     }

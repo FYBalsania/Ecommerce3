@@ -52,7 +52,7 @@ public class UnitOfMeasureController(
         ModelState.Remove("Bases");
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             model.Bases = await GetIdAndNameDictionaryAsync(null, cancellationToken);
             return View(model);
         }
@@ -66,7 +66,7 @@ public class UnitOfMeasureController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             model.Bases = await GetIdAndNameDictionaryAsync(null, cancellationToken);
             switch (domainException.Error.Code)
             {
@@ -79,8 +79,14 @@ public class UnitOfMeasureController(
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Type)}":
                     ModelState.AddModelError(nameof(model.Type), domainException.Message);
                     return View(model);
+                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.BaseId)}":
+                    ModelState.AddModelError(nameof(model.BaseId), domainException.Message);
+                    return View(model);
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.ConversionFactor)}":
                     ModelState.AddModelError(nameof(model.ConversionFactor), domainException.Message);
+                    return View(model);
+                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
                     return View(model);
             }
         }
@@ -108,7 +114,7 @@ public class UnitOfMeasureController(
         ModelState.Remove("Bases");
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             model.Bases = await GetIdAndNameDictionaryAsync(model.Id, cancellationToken);
             return View(model);
         }
@@ -122,7 +128,7 @@ public class UnitOfMeasureController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             model.Bases = await GetIdAndNameDictionaryAsync(model.Id, cancellationToken);
             switch (domainException.Error.Code)
             {
@@ -135,8 +141,14 @@ public class UnitOfMeasureController(
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Type)}":
                     ModelState.AddModelError(nameof(model.Type), domainException.Message);
                     return View(model);
+                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.BaseId)}":
+                    ModelState.AddModelError(nameof(model.BaseId), domainException.Message);
+                    return View(model);
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.ConversionFactor)}":
                     ModelState.AddModelError(nameof(model.ConversionFactor), domainException.Message);
+                    return View(model);
+                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
                     return View(model);
             }
         }

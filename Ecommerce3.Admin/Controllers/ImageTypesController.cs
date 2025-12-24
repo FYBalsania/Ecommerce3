@@ -46,7 +46,7 @@ public class ImageTypesController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -59,14 +59,23 @@ public class ImageTypesController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
+                case $"{nameof(ImageType)}.{nameof(ImageType.Entity)}":
+                    ModelState.AddModelError(nameof(model.Entity), domainException.Message);
+                    return View(model);
                 case $"{nameof(ImageType)}.{nameof(ImageType.Name)}":
                     ModelState.AddModelError(nameof(model.Name), domainException.Message);
                     return View(model);
                 case $"{nameof(ImageType)}.{nameof(ImageType.Slug)}":
                     ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(ImageType)}.{nameof(ImageType.Description)}":
+                    ModelState.AddModelError(nameof(model.Description), domainException.Message);
+                    return View(model);
+                case $"{nameof(ImageType)}.{nameof(ImageType.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
                     return View(model);
             }
         }
@@ -90,7 +99,7 @@ public class ImageTypesController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -103,14 +112,23 @@ public class ImageTypesController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
+                case $"{nameof(ImageType)}.{nameof(ImageType.Entity)}":
+                    ModelState.AddModelError(nameof(model.Entity), domainException.Message);
+                    return View(model);
                 case $"{nameof(ImageType)}.{nameof(ImageType.Name)}":
                     ModelState.AddModelError(nameof(model.Name), domainException.Message);
                     return View(model);
                 case $"{nameof(ImageType)}.{nameof(ImageType.Slug)}":
                     ModelState.AddModelError(nameof(model.Slug), domainException.Message);
+                    return View(model);
+                case $"{nameof(ImageType)}.{nameof(ImageType.Description)}":
+                    ModelState.AddModelError(nameof(model.Description), domainException.Message);
+                    return View(model);
+                case $"{nameof(ImageType)}.{nameof(ImageType.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
                     return View(model);
             }
         }

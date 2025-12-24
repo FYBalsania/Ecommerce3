@@ -47,7 +47,7 @@ public class BrandsController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -60,7 +60,7 @@ public class BrandsController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(Brand)}.{nameof(Brand.Name)}":
@@ -81,8 +81,29 @@ public class BrandsController(
                 case $"{nameof(Brand)}.{nameof(Brand.AnchorTitle)}":
                     ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
                     return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaDescription)}":
+                    ModelState.AddModelError(nameof(model.MetaDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaKeywords)}":
+                    ModelState.AddModelError(nameof(model.MetaKeywords), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    return View(model);
                 case $"{nameof(Brand)}.{nameof(Brand.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.FullDescription)}":
+                    ModelState.AddModelError(nameof(model.FullDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }
@@ -106,7 +127,7 @@ public class BrandsController(
     {
         if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             return View(model);
         }
 
@@ -119,7 +140,7 @@ public class BrandsController(
         }
         catch (DomainException domainException)
         {
-            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage;
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
                 case $"{nameof(Brand)}.{nameof(Brand.Name)}":
@@ -140,8 +161,29 @@ public class BrandsController(
                 case $"{nameof(Brand)}.{nameof(Brand.AnchorTitle)}":
                     ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
                     return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaTitle)}":
+                    ModelState.AddModelError(nameof(model.MetaTitle), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaDescription)}":
+                    ModelState.AddModelError(nameof(model.MetaDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.MetaKeywords)}":
+                    ModelState.AddModelError(nameof(model.MetaKeywords), domainException.Message);
+                    return View(model);
+                case $"{nameof(Page)}.{nameof(Page.H1)}":
+                    ModelState.AddModelError(nameof(model.H1), domainException.Message);
+                    return View(model);
                 case $"{nameof(Brand)}.{nameof(Brand.ShortDescription)}":
                     ModelState.AddModelError(nameof(model.ShortDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.FullDescription)}":
+                    ModelState.AddModelError(nameof(model.FullDescription), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.IsActive)}":
+                    ModelState.AddModelError(nameof(model.IsActive), domainException.Message);
+                    return View(model);
+                case $"{nameof(Brand)}.{nameof(Brand.SortOrder)}":
+                    ModelState.AddModelError(nameof(model.SortOrder), domainException.Message);
                     return View(model);
             }
         }
