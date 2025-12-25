@@ -84,7 +84,7 @@ public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
         builder.HasMany(x => x.Attributes)
             .WithOne(x => x.ProductGroup)
             .HasForeignKey(x => x.ProductGroupId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedBy)

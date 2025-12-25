@@ -190,11 +190,15 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
             throw new DomainException(DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
 
         //Update Product Attribute SortOrder.
-        _attributes.ForEach(x =>
-            x.UpdateProductAttributeSortOrder(productAttributeSortOrder, updatedBy, updatedAt, updatedByIp));
+        _attributes
+            .Where(x => x.ProductAttributeId == productAttributeId)
+            .ToList()
+            .ForEach(x =>
+                x.UpdateProductAttributeSortOrder(productAttributeSortOrder, updatedBy, updatedAt, updatedByIp));
 
         // 0. existing attribute's dictionary.
         var existing = _attributes
+            .Where(x => x.ProductAttributeId == productAttributeId)
             .ToDictionary(x => x.ProductAttributeValueId, x => x.ProductAttributeValueSortOrder);
 
         // 1. Remove attribute's aren't present in desired (values parameter).

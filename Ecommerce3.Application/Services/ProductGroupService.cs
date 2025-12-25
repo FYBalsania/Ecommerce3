@@ -119,15 +119,7 @@ internal sealed class ProductGroupService(
         productGroup.UpdateAttribute(command.ProductAttributeId, command.ProductAttributeSortOrder, command.Values,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        try
-        {
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<ProductGroupProductAttributeDTO>> GetAttributesAsync(int productGroupId,
