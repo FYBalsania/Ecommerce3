@@ -1,5 +1,4 @@
 using Ecommerce3.Admin.ViewModels.ProductGroup;
-using Ecommerce3.Application.Commands.Admin.ProductGroup;
 using Ecommerce3.Application.Services.Admin.Interfaces;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
@@ -149,7 +148,7 @@ public class ProductGroupsController(
             TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
             switch (domainException.Error.Code)
             {
-                                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Name)}":
+                case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Name)}":
                     ModelState.AddModelError(nameof(model.Name), domainException.Message);
                     return View(model);
                 case $"{nameof(ProductGroup)}.{nameof(ProductGroup.Slug)}":
@@ -204,7 +203,7 @@ public class ProductGroupsController(
         var productAttributes = new SelectList(await productAttributeService.GetIdAndNameDictionaryAsync(productGroupId, cancellationToken), "Key", "Value");
         var sortOrder = await productGroupProductAttributeService.GetMaxSortOrderAsync(productGroupId, cancellationToken);
 
-        return PartialView("_AddProductAttributePartial", (productAttributes, sortOrder));
+        return PartialView("~/Views/Shared/ProductGroup/_AddProductAttributePartial.cshtml", (productAttributes, sortOrder));
     }
 
     [HttpGet]
@@ -212,7 +211,7 @@ public class ProductGroupsController(
     {
         var attributeValues = await productAttributeValueService.GetAllByProductAttributeIdAsync(productAttributeId, cancellationToken);
 
-        return PartialView("_ProductAttributeValuesPartial", attributeValues);
+        return PartialView("~/Views/Shared/ProductGroup/_ProductAttributeValuesPartial.cshtml", attributeValues);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -231,7 +230,7 @@ public class ProductGroupsController(
         await productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
 
         var attributes = await productGroupService.GetAttributesByProductGroupIdAsync(model.ProductGroupId, cancellationToken);
-        return PartialView("_ProductGroupProductAttributesListItemPartial", attributes);
+        return PartialView("~/Views/Shared/ProductGroup/_ProductGroupProductAttributesListItemPartial.cshtml", attributes);
     }
 
     [HttpGet]
@@ -241,14 +240,25 @@ public class ProductGroupsController(
         var productAttributeEditDTO = await productGroupProductAttributeService.GetByParamsAsync(productGroupId, productAttributeId,
             cancellationToken);
 
-        return PartialView("_EditProductAttributePartial", productAttributeEditDTO);
+        return PartialView("~/Views/Shared/ProductGroup/_EditProductAttributePartial.cshtml", productAttributeEditDTO);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditAttribute([FromBody] EditProductGroupAttributeViewModel model,
+    public async Task<IActionResult> EditAttribute([FromForm] EditProductGroupAttributeViewModel model,
         CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
+            return ValidationProblem(ModelState);
+        }
+        
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        const int userId = 1;
+        
+        await productGroupService.EditAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
 
-        return View();
+        var attributes = await productGroupService.GetAttributesByProductGroupIdAsync(model.ProductGroupId, cancellationToken);
+        return PartialView("~/Views/Shared/ProductGroup/_ProductGroupProductAttributesListItemPartial.cshtml", attributes);
     }
 }

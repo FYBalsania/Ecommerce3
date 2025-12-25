@@ -165,7 +165,7 @@ public class ProductsController(
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAttributes(int productGroupId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAttributes([FromQuery] int productGroupId, CancellationToken cancellationToken)
     {
         var productGroupProductAttributes =
             await productGroupService.GetAttributesAsync(productGroupId, cancellationToken);

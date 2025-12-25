@@ -193,6 +193,9 @@ public class AddProductViewModel
     [StringLength(1024, MinimumLength = 1, ErrorMessage = "Meta keywords must be between 1 and 1024 characters.")]
     [Display(Name = "Meta Keywords")]
     public string? MetaKeywords { get; set; }
+    
+    [Required(ErrorMessage = "Please select all product attributes")]
+    public List<int> AttributeValues { get; set; } = new List<int>();
 
     public AddProductCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
     {

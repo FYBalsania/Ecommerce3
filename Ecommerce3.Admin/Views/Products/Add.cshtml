@@ -92,9 +92,6 @@
                     </div>
                 </div>
                 <div class="row">
-
-                </div>
-                <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="Name"></label>
@@ -284,41 +281,19 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold" asp-for="@Model.ProductGroupId"></label>
+                            <label class="form-label fw-bold required" asp-for="@Model.ProductGroupId"></label>
                             <select class="select-product form-select" asp-for="@Model.ProductGroupId"
-                                    asp-items="@Model.ProductGroups">
+                                    asp-items="@Model.ProductGroups" id="addProductGroup">
                                 <option value="">Select...</option>
                             </select>
                             <span class="text-danger" asp-validation-for="@Model.ProductGroupId"></span>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Colour</label>
-                            <select class="select-colour form-select">
-                                <option value="Text">Red</option>
-                                <option value="Number">Yellow</option>
-                                <option value="DateOnly">Green</option>
-                                <option value="Boolean">Blue</option>
-                                <option value="Boolean">Orange</option>
-                                <option value="Boolean">Purple</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Storage</label>
-                            <select class="select-storage form-select">
-                                <option value="">Select Storage</option>
-                                <option value="Text">128GB</option>
-                                <option value="Number">256GB</option>
-                                <option value="DateOnly">512GB</option>
-                                <option value="Boolean">1TB</option>
-                            </select>
-                        </div>
-                    </div>
+                </div>
+                <div class="row" id="addProductGroupAttributesDiv">
+
                 </div>
             </div>
         </div>
@@ -496,9 +471,12 @@
 
 @section Scripts
 {
-    <script src="~/js/product.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
+    
+    <script src="~/js/product.js"></script>
     <script>
         //Initialize Select 2
         $(document).ready(function () {

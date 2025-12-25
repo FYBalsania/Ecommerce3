@@ -85,7 +85,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Shared\ProductGroup\" />
+      <Folder Include="wwwroot\lib\" />
     </ItemGroup>
 
 </Project>
