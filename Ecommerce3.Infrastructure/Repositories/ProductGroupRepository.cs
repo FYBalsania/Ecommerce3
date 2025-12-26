@@ -20,6 +20,9 @@ internal sealed class ProductGroupRepository(AppDbContext dbContext)
             query = query.Include(x => x.Images);
         if ((includes & ProductGroupInclude.Attributes) == ProductGroupInclude.Attributes)
             query = query.Include(x => x.Attributes);
+        if ((includes & ProductGroupInclude.AttributeValues) == ProductGroupInclude.AttributeValues)
+            query = query.Include(x => x.Attributes)
+                .ThenInclude(x => x.ProductAttributeValue);
         if ((includes & ProductGroupInclude.CreatedByUser) == ProductGroupInclude.CreatedByUser)
             query = query.Include(x => x.CreatedByUser);
         if ((includes & ProductGroupInclude.UpdatedByUser) == ProductGroupInclude.UpdatedByUser)

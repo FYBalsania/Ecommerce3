@@ -25,30 +25,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         //Navigation Properties.
         builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.Categories).HasField("_categories").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.TextListItems).HasField("_textListItems").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.TextListItems).HasField("_textListItems")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.QnAs).HasField("_qnas").UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.Reviews).HasField("_reviews").UsePropertyAccessMode(PropertyAccessMode.Field);
         builder.Navigation(x => x.Attributes).HasField("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);
-
-        //JSONOptions.
-        var jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-
-        // Value converter for List<string> <-> json string
-        var converter = new ValueConverter<List<string>, string>(
-            v => JsonSerializer.Serialize(v, jsonOptions),
-            v => JsonSerializer.Deserialize<List<string>>(v, jsonOptions) ?? new()
-        );
-
-        // Value comparer so EF knows when list contents changed
-        var comparer = new ValueComparer<List<string>>(
-            (a, b) => a.SequenceEqual(b),
-            v => v.Aggregate(0, (h, e) => HashCode.Combine(h, e != null ? e.GetHashCode() : 0)),
-            v => v.ToList()
-        );
 
         //Properties
         builder.Property(x => x.SKU).HasMaxLength(Product.SKUMaxLength)
@@ -65,13 +48,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnType($"varchar({Product.UPCMaxLength})").HasColumnOrder(7);
         builder.Property(x => x.Name).HasMaxLength(Product.NameMaxLength).HasColumnType("citext").HasColumnOrder(8);
         builder.Property(x => x.Slug).HasMaxLength(Product.SlugMaxLength).HasColumnType("citext").HasColumnOrder(9);
-        builder.Property(x => x.Display).HasMaxLength(Product.DisplayMaxLength).HasColumnType("citext").HasColumnOrder(10);
-        builder.Property(x => x.Breadcrumb).HasMaxLength(Product.BreadcrumbMaxLength).HasColumnType("citext").HasColumnOrder(11);
-        builder.Property(x => x.AnchorText).HasMaxLength(Product.AnchorTextMaxLength).HasColumnType("citext").HasColumnOrder(12);
-        builder.Property(x => x.AnchorTitle).HasMaxLength(Product.AnchorTitleMaxLength).HasColumnType("citext").HasColumnOrder(13);
+        builder.Property(x => x.Display).HasMaxLength(Product.DisplayMaxLength).HasColumnType("citext")
+            .HasColumnOrder(10);
+        builder.Property(x => x.Breadcrumb).HasMaxLength(Product.BreadcrumbMaxLength).HasColumnType("citext")
+            .HasColumnOrder(11);
+        builder.Property(x => x.AnchorText).HasMaxLength(Product.AnchorTextMaxLength).HasColumnType("citext")
+            .HasColumnOrder(12);
+        builder.Property(x => x.AnchorTitle).HasMaxLength(Product.AnchorTitleMaxLength).HasColumnType("citext")
+            .HasColumnOrder(13);
         builder.Property(x => x.BrandId).HasColumnType("integer").HasColumnOrder(14);
         builder.Property(x => x.ProductGroupId).HasColumnType("integer").HasColumnOrder(15);
-        builder.Property(x => x.ShortDescription).HasMaxLength(Product.ShortDescriptionMaxLength).HasColumnType("varchar(512)").HasColumnOrder(16);
+        builder.Property(x => x.ShortDescription).HasMaxLength(Product.ShortDescriptionMaxLength)
+            .HasColumnType("varchar(512)").HasColumnOrder(16);
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(17);
         builder.Property(x => x.AllowReviews).HasColumnType("boolean").HasColumnOrder(18);
         builder.Property(x => x.AverageRating).HasColumnType("integer").HasColumnOrder(19);
@@ -95,14 +83,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.IsReturnable).HasColumnType("boolean").HasColumnOrder(37);
         builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(32).HasColumnType("varchar(32)")
             .HasColumnOrder(38);
-        builder.Property(x => x.RedirectUrl).HasMaxLength(Product.RedirectUrlMaxLength).HasColumnType("citext").HasColumnOrder(39);
+        builder.Property(x => x.RedirectUrl).HasMaxLength(Product.RedirectUrlMaxLength).HasColumnType("citext")
+            .HasColumnOrder(39);
         builder.Property(x => x.SortOrder).HasColumnType("decimal(18,3)").HasColumnOrder(40);
-        builder.Property<List<string>>("_facets")
-            .HasColumnName(nameof(Product.Facets))
-            .HasColumnType("jsonb")
-            .HasColumnOrder(42)
-            .HasConversion(converter)
-            .Metadata.SetValueComparer(comparer);
+        builder.Property(p => p.Facets).HasColumnName("facets").HasColumnType("text[]").HasDefaultValueSql("'{}'")
+            .IsRequired().HasColumnOrder(41);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
@@ -114,7 +99,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes
-        builder.HasIndex("_facets").HasMethod("gin");
         builder.HasIndex(x => x.SKU).IsUnique().HasDatabaseName($"UK_{nameof(Product)}_{nameof(Product.SKU)}");
         builder.HasIndex(x => x.GTIN).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.GTIN)}");
         builder.HasIndex(x => x.MPN).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.MPN)}");
@@ -140,18 +124,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.IsNew).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsNew)}");
         builder.HasIndex(x => x.IsBestSeller).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsBestSeller)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.SortOrder)}");
+        builder.HasIndex(x => x.Facets).HasMethod("gin");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.CreatedAt)}");
         builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.DeletedAt)}");
-
-        //Navigations.
-        builder.Navigation(x => x.Categories).HasField("_categories").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.TextListItems).HasField("_textListItems")
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems")
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.QnAs).HasField("_qnas").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.Reviews).HasField("_reviews").UsePropertyAccessMode(PropertyAccessMode.Field);
-        builder.Navigation(x => x.Attributes).HasField("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Relations.
         builder.HasMany(x => x.Images)

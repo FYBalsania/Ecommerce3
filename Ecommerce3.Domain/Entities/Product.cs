@@ -28,7 +28,6 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     private readonly List<ProductQnA> _qnas = [];
     private readonly List<ProductReview> _reviews = [];
     private readonly List<ProductProductAttribute> _attributes = [];
-    private readonly List<string> _facets = [];
 
     public override string ImageNamePrefix => Slug;
     public string SKU { get; private set; }
@@ -74,6 +73,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public ProductStatus Status { get; private set; }
     public string? RedirectUrl { get; private set; }
     public decimal SortOrder { get; private set; }
+    public List<string> Facets { get; private set; } = [];
     public int CreatedBy { get; }
     public IAppUser? CreatedByUser { get; }
     public DateTime CreatedAt { get; }
@@ -93,7 +93,6 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public IReadOnlyList<ProductQnA> QnAs => _qnas;
     public IReadOnlyList<ProductReview> Reviews => _reviews;
     public IReadOnlyList<ProductProductAttribute> Attributes => _attributes;
-    public IReadOnlyList<string> Facets => _facets.AsReadOnly();
     public ProductPage? Page { get; private set; }
 
     private Product()
@@ -101,14 +100,17 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     }
 
     public Product(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
-        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int brandId,
-        int[] categoryIds, int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews,
-        decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
-        bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
-        int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
-        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, decimal sortOrder,
-        string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
-        int createdBy, DateTime createdAt, string createdByIp)
+        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
+        KeyValuePair<int, string> brand, 
+        IDictionary<int, string> categories, 
+        KeyValuePair<int, string>? productGroup,
+        IReadOnlyCollection<ValueObjects.ProductAttribute> attributes,
+        string? shortDescription, string? fullDescription, bool allowReviews, decimal price, decimal? oldPrice,
+        decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability, bool freeShipping,
+        decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure, int deliveryWindowId,
+        decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew, bool isBestSeller,
+        bool isReturnable, ProductStatus status, string? redirectUrl, decimal sortOrder, string? h1, string metaTitle,
+        string? metaDescription, string? metaKeywords, int createdBy, DateTime createdAt, string createdByIp)
     {
         //SKU.
         ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
@@ -142,12 +144,22 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         if (anchorTitle is not null)
             ValidateTooLong(anchorTitle, AnchorTitleMaxLength, DomainErrors.ProductErrors.AnchorTitleTooLong);
         //BrandId.
-        ValidatePositiveNumber(brandId, DomainErrors.ProductErrors.InvalidBrandId);
+        ValidatePositiveNumber(brand.Key, DomainErrors.ProductErrors.InvalidBrandId);
         //CategoryIds.
-        ValidateCategoryIds(categoryIds);
+        ValidateCategoryIds(categories.Select(x => x.Key).ToArray());
         //ProductGroupId.
-        if (productGroupId is not null)
-            ValidatePositiveNumber((int)productGroupId, DomainErrors.ProductErrors.InvalidProductGroupId);
+        if (productGroup is not null)
+        {
+            ValidatePositiveNumber(productGroup.Value.Key, DomainErrors.ProductErrors.InvalidProductGroupId);
+            foreach (var attribute in attributes)
+            {
+                ValidatePositiveNumber(attribute.ProductAttributeId,
+                    DomainErrors.ProductAttributeErrors.InvalidProductAttributeId);
+                ValidatePositiveNumber(attribute.ProductAttributeValueId,
+                    DomainErrors.ProductAttributeValueErrors.InvalidId);
+            }
+        }
+
         //ShortDescription.
         if (shortDescription is not null)
             ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
@@ -201,10 +213,10 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        BrandId = brandId;
-        _categories.AddRange(categoryIds.Select((categoryId, index) =>
-            new ProductCategory(categoryId, index == 0, index, createdBy, createdAt, createdByIp)));
-        ProductGroupId = productGroupId;
+        BrandId = brand.Key;
+        _categories.AddRange(categories.Select((category, index) =>
+            new ProductCategory(category.Key, index == 0, index, createdBy, createdAt, createdByIp)));
+        ProductGroupId = productGroup?.Key;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
         AllowReviews = allowReviews;
@@ -232,11 +244,44 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
 
+        //Attributes.
+        if (productGroup is not null)
+        {
+            foreach (var attribute in attributes)
+            {
+                _attributes.Add(new ProductProductAttribute(attribute.ProductAttributeId,
+                    attribute.ProductAttributeSortOrder,
+                    attribute.ProductAttributeValueId, attribute.ProductAttributeValueSortOrder, createdBy, createdAt,
+                    createdByIp));
+            }
+        }
+
+        //Page.
         Page = new ProductPage(null, metaTitle, metaDescription, metaKeywords, null,
             h1, null, null, null, null, null, null, null,
             null, null, null, null, 0, SiteMapFrequency.Always,
             null, true, null, null, "en", "IN", 0,
             true, createdBy, createdAt, createdByIp);
+
+        //Facets.
+        Facets.Add($"b:slug:{brand.Value}");
+        foreach (var category in categories)      
+        {
+            Facets.Add($"c:id:{category.Key}");
+            Facets.Add($"c:slug:{category.Value}");
+        }
+        if (productGroup is not null)
+        {
+            Facets.Add($"pg:slug:{productGroup.Value.Value}");
+            foreach (var attribute in attributes)
+            {
+                Facets.Add($"pa:id:{attribute.ProductAttributeId}");
+                Facets.Add($"pa:slug:{attribute.ProductAttributeSlug}");
+                
+                Facets.Add($"pav:id:{attribute.ProductAttributeValueId}");
+                Facets.Add($"pav:slug:{attribute.ProductAttributeValueSlug}");
+            }
+        }
     }
 
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
@@ -386,7 +431,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             IsNew == isNew && IsBestSeller == isBestSeller && IsReturnable == isReturnable && Status == status &&
             RedirectUrl == redirectUrl && SortOrder == sortOrder
            )
-            return ;
+            return;
 
         SKU = sku;
         GTIN = gtin;

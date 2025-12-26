@@ -106,4 +106,10 @@ internal sealed class CategoryRepository : EntityWithImagesRepository<Category, 
 
         await _dbContext.Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
     }
+
+    public async Task<IReadOnlyCollection<Category>> GetByIdAsync(IEnumerable<int> ids, CategoryInclude include,
+        bool trackChanges, CancellationToken cancellationToken)
+    {
+        return await Query(include, trackChanges).Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
+    }
 }

@@ -22,9 +22,9 @@ public class ProductProductAttributeConfiguration : IEntityTypeConfiguration<Pro
         //Properties.
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(2);
         builder.Property(x => x.ProductAttributeId).HasColumnType("integer").HasColumnOrder(3);
-        builder.Property(x => x.ProductAttributeSortOrder).HasColumnType("integer").HasColumnOrder(4);
+        builder.Property(x => x.ProductAttributeSortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(4);
         builder.Property(x => x.ProductAttributeValueId).HasColumnType("integer").HasColumnOrder(5);
-        builder.Property(x => x.ProductAttributeValueSortOrder).HasColumnType("integer").HasColumnOrder(6);
+        builder.Property(x => x.ProductAttributeValueSortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(6);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
@@ -36,9 +36,10 @@ public class ProductProductAttributeConfiguration : IEntityTypeConfiguration<Pro
         builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
 
         //Indexes.
-        builder.HasIndex(x => new { x.ProductId, x.ProductAttributeId, x.ProductAttributeValueId }).IsUnique()
+        builder.HasIndex(x => new { x.ProductId, x.ProductAttributeId, x.ProductAttributeValueId, x.DeletedAt })
+            .IsUnique()
             .HasDatabaseName(
-                $"UK_{nameof(ProductProductAttribute)}_{nameof(ProductProductAttribute.ProductId)}_{nameof(ProductProductAttribute.ProductAttributeId)}_{nameof(ProductProductAttribute.ProductAttributeValueId)}");
+                $"UK_{nameof(ProductProductAttribute)}_{nameof(ProductProductAttribute.ProductId)}_{nameof(ProductProductAttribute.ProductAttributeId)}_{nameof(ProductProductAttribute.ProductAttributeValueId)}_{nameof(ProductProductAttribute.DeletedAt)}");
         builder.HasIndex(x => x.DeletedAt)
             .HasDatabaseName($"IX_{nameof(ProductProductAttribute)}_{nameof(ProductProductAttribute.DeletedAt)}");
 

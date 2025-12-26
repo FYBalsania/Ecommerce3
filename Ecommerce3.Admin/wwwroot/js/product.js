@@ -31,6 +31,7 @@ async function getAttribute(productGroupId) {
 
         // Re-parse validation for the entire form
         if ($.validator && $.validator.unobtrusive) {
+            alert('attached')
             const form = container.closest('form');
             // Remove old validator instance
             form.removeData('validator');

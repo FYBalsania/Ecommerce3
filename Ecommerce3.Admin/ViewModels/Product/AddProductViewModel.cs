@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce3.Admin.ViewModels.Common;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -73,8 +74,7 @@ public class AddProductViewModel
     public int[] CategoryIds { get; set; }
     public SelectList Categories { get; set; }
 
-    [Display(Name = "Product Group")] 
-    public int? ProductGroupId { get; set; }
+    [Display(Name = "Product Group")] public int? ProductGroupId { get; set; }
     public SelectList ProductGroups { get; set; }
 
     [Display(Name = "Short Description")] 
@@ -120,7 +120,7 @@ public class AddProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Additional Shipping Charge is required.")]
     [Display(Name = "Additional Shipping Charge")]
     [Range(0, int.MaxValue, ErrorMessage = "Additional shipping charge must be greater than or equal to 0.")]
-    public decimal? AdditionalShippingCharge { get; set; }
+    public decimal AdditionalShippingCharge { get; set; } = 0.00m;
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Unit Of Measure is required.")]
@@ -193,9 +193,8 @@ public class AddProductViewModel
     [StringLength(1024, MinimumLength = 1, ErrorMessage = "Meta keywords must be between 1 and 1024 characters.")]
     [Display(Name = "Meta Keywords")]
     public string? MetaKeywords { get; set; }
-    
-    [Required(ErrorMessage = "Please select all product attributes")]
-    public List<int> AttributeValues { get; set; } = new List<int>();
+
+    public IDictionary<int, int> Attributes { get; set; } = new Dictionary<int, int>();
 
     public AddProductCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
     {
@@ -216,6 +215,7 @@ public class AddProductViewModel
             BrandId = BrandId,
             CategoryIds = CategoryIds,
             ProductGroupId = ProductGroupId,
+            Attributes = Attributes,
             ShortDescription = ShortDescription,
             FullDescription = FullDescription,
             AllowReviews = (bool)AllowReviews!,

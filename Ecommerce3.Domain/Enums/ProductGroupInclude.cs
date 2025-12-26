@@ -5,8 +5,9 @@ public enum ProductGroupInclude
 {
     None = 0,
     Attributes = 1 << 0,
-    Images = 1 << 1,
-    CreatedByUser = 1 << 2,
-    UpdatedByUser = 1 << 3,
-    DeletedByUser = 1 << 4,
+    AttributeValues = 1 << 1,
+    Images = 1 << 2,
+    CreatedByUser = 1 << 3,
+    UpdatedByUser = 1 << 4,
+    DeletedByUser = 1 << 5,
 }

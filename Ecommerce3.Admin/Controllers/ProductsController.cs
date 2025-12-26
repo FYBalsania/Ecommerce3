@@ -174,6 +174,7 @@ public class ProductsController(
         var selectListViewModels = lookup.Select(item => new SelectListViewModel
         {
             Id = item.Key.ProductAttributeId, Text = item.Key.ProductAttributeName,
+            ValueId = null,
             Values = new SelectList(item, "ProductAttributeValueId", "ProductAttributeValueDisplay", null)
         }).ToList();
 

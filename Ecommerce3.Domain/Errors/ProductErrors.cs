@@ -81,10 +81,10 @@ public static partial class DomainErrors
 
         public static readonly DomainError CategoryIdRequired =
             new DomainError($"{nameof(Product)}.{nameof(Product.Categories)}", "Category Id is required.");
-        
+
         public static readonly DomainError InvalidCategoryId =
             new($"{nameof(Product)}.{nameof(Product.Categories)}", "Category Id is invalid.");
-        
+
         public static readonly DomainError DuplicateCategoryId =
             new($"{nameof(Product)}.{nameof(Product.Categories)}", "Duplicate categories are not allowed.");
 
@@ -110,16 +110,16 @@ public static partial class DomainErrors
 
         public static readonly DomainError InvalidDeliveryWindowId =
             new($"{nameof(Product)}.{nameof(Product.DeliveryWindowId)}", "Delivery Window Id is invalid.");
-        
+
         public static readonly DomainError InvalidUnitOfMeasureId =
             new($"{nameof(Product)}.{nameof(Product.UnitOfMeasureId)}", "Unit of Measure Id is invalid.");
 
         public static readonly DomainError InvalidPrice =
             new($"{nameof(Product)}.{nameof(Product.Price)}", "Price is invalid.");
-        
+
         public static readonly DomainError InvalidOldPrice =
             new($"{nameof(Product)}.{nameof(Product.OldPrice)}", "Old Price is invalid.");
-        
+
         public static readonly DomainError InvalidCostPrice =
             new($"{nameof(Product)}.{nameof(Product.CostPrice)}", "Cost Price is invalid.");
 
@@ -134,14 +134,14 @@ public static partial class DomainErrors
 
         public static readonly DomainError RedirectUrlRequired =
             new($"{nameof(Product)}.{nameof(Product.RedirectUrl)}", "Redirect URL is required.");
-        
+
         public static readonly DomainError RedirectUrlNotRequired =
             new($"{nameof(Product)}.{nameof(Product.RedirectUrl)}", "Redirect URL is not required.");
 
         public static readonly DomainError RedirectUrlTooLong =
             new($"{nameof(Product)}.{nameof(Product.RedirectUrl)}",
                 $"Redirect URL cannot exceed {Product.RedirectUrlMaxLength} characters.");
-        
+
         public static readonly DomainError InvalidRedirectUrl =
             new($"{nameof(Product)}.{nameof(Product.RedirectUrl)}", "Redirect URL is invalid.");
 
@@ -164,7 +164,7 @@ public static partial class DomainErrors
         public static readonly DomainError UpdatedByIpTooLong =
             new($"{nameof(Product)}.{nameof(Product.UpdatedByIp)}",
                 $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
-        
+
         public static readonly DomainError InvalidDeletedBy =
             new($"{nameof(Product)}.{nameof(Product.DeletedBy)}", "Deleted by is invalid.");
 
@@ -174,5 +174,17 @@ public static partial class DomainErrors
         public static readonly DomainError DeletedByIpTooLong =
             new($"{nameof(Product)}.{nameof(Product.DeletedByIp)}",
                 $"Updated by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
+
+        public static readonly DomainError InvalidAttributesCount =
+            new($"{nameof(Product)}.{nameof(Product.Attributes)}",
+                "Supplied attributes count does not match with Product Group's attribute count.");
+
+        public static readonly DomainError InvalidAttributeId =
+            new($"{nameof(Product)}.{nameof(Product.Attributes)}",
+                "Supplied attribute id index does not match with Product Group's attribute id index.");
+
+        public static readonly DomainError InvalidAttributeValueId =
+            new($"{nameof(Product)}.{nameof(Product.Attributes)}",
+                "Supplied attribute value id index does not match with Product Group's attribute value id index.");
     }
 }

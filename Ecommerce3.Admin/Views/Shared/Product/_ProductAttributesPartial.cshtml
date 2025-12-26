@@ -6,9 +6,10 @@
         <div class="col-md-12">
             <label class="form-label fw-bold required">@Model[i].Text</label>
 
+            <input type="hidden" name="Attributes[@i].Id" value="@Model[i].Id" />
             <select class="form-select" 
-                    name="AttributeValues[@i]" 
-                    id="AttributeValues_@i" 
+                    name="Attributes[@i].ValueId" 
+                    id="Attributes[@i].ValueId" 
                     data-val="true"  
                     data-val-required="Please select @Model[i].Text">
                 <option value="">Select...</option>
@@ -19,7 +20,7 @@
             </select>
 
             <span class="text-danger field-validation-valid" 
-                  data-valmsg-for="AttributeValues[@i]" 
+                  data-valmsg-for="Attributes[@i]" 
                   data-valmsg-replace="true"></span>
         </div>
     </div>
