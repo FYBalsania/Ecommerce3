@@ -61,6 +61,6 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
     public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await dbContext.Products
             .Where(x => x.Id == id)
-            .ProjectToDTO()
+            .Select(ProductExtensions.DTOExpression)
             .FirstOrDefaultAsync(cancellationToken);
 }

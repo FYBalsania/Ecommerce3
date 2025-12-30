@@ -1,5 +1,6 @@
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.KVPListItem;
+using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Domain.Enums;
 
@@ -21,8 +22,8 @@ public record ProductDTO
     public required string AnchorText { get; init; }
     public required string? AnchorTitle { get; init; }
     public required int BrandId { get; init; }
-    public required int? ProductGroupId { get; init; }
     public required int[] CategoryIds { get; init; }
+    public required int? ProductGroupId { get; init; }
     public required string? ShortDescription { get; init; }
     public required string? FullDescription { get; init; }
     public required bool AllowReviews { get; init; }
@@ -48,11 +49,12 @@ public record ProductDTO
     public required ProductStatus Status { get; init; }
     public required string? RedirectUrl { get; init; }
     public required decimal SortOrder { get; init; }
-    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
-    public string MetaTitle { get; init; }
-    public string? MetaDescription { get; init; }
-    public string? MetaKeywords { get; init; }
-    public string? H1 { get; init; }
-    public IReadOnlyList<TextListItemDTO> TextListItems { get; init; } = [];
-    public IReadOnlyList<KVPListItemDTO> KVPListItems { get; init; } = [];
+    public required string MetaTitle { get; init; }
+    public required string? MetaDescription { get; init; }
+    public required string? MetaKeywords { get; init; }
+    public required string? H1 { get; init; }
+    public required IReadOnlyList<ImageDTO> Images { get; init; } = [];
+    public required IReadOnlyList<TextListItemDTO> TextListItems { get; init; } = [];
+    public required IReadOnlyList<KVPListItemDTO> KVPListItems { get; init; } = [];
+    public required IReadOnlyList<ProductProductAttributeDTO> Attributes { get; init; }
 }

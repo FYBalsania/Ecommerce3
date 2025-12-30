@@ -19,7 +19,6 @@ internal sealed class ProductService(
     IUnitOfWork unitOfWork,
     IBrandRepository brandRepository,
     ICategoryRepository categoryRepository,
-    ICategoryQueryRepository categoryQueryRepository,
     IUnitOfMeasureQueryRepository unitOfMeasureQueryRepository,
     IDeliveryWindowQueryRepository deliveryWindowQueryRepository,
     IProductPageRepository pageRepository,
@@ -153,17 +152,59 @@ internal sealed class ProductService(
         if (brand is null) throw new DomainException(DomainErrors.ProductErrors.InvalidBrandId);
 
         //Category exists check.
-        exists = await categoryQueryRepository.ExistsByIdsAsync(command.CategoryIds, cancellationToken);
-        if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidCategoryId);
+        var categories =
+            await categoryRepository.GetByIdAsync(command.CategoryIds, CategoryInclude.None, false, cancellationToken);
+        if (categories is null || categories.Count == 0 || categories.Count != command.CategoryIds.Length)
+            throw new DomainException(DomainErrors.ProductErrors.InvalidCategoryId);
 
-        //Product group exists check.
+        //Product group & attributes check.
         ProductGroup? productGroup = null;
+        var productAttributes = new List<Domain.ValueObjects.ProductAttribute>();
         if (command.ProductGroupId is not null)
         {
+            //Exists check.
             productGroup = await productGroupRepository.GetByIdAsync(command.ProductGroupId.Value,
-                ProductGroupInclude.None,
-                false, cancellationToken);
+                ProductGroupInclude.Attributes | ProductGroupInclude.AttributeValues, false, cancellationToken);
             if (productGroup is null) throw new DomainException(DomainErrors.ProductErrors.InvalidProductGroupId);
+
+            var productGroupAttributeIds = productGroup.Attributes
+                .Select(x => x.ProductAttributeId).Distinct().ToArray();
+
+            //Attributes count check.
+            if (productGroupAttributeIds.Length != command.Attributes.Count)
+                throw new DomainException(DomainErrors.ProductErrors.InvalidAttributesCount);
+
+            //AttributeId & AttributeValueId exists check.
+            for (var idx = 0; idx < productGroupAttributeIds.Length; idx++)
+            {
+                //Attribute and its index position must be equal to the ProductGroupAttribute and its index position.
+                if (command.Attributes.ElementAt(idx).Key != productGroupAttributeIds.ElementAt(idx))
+                    throw new DomainException(DomainErrors.ProductErrors.InvalidAttributeId);
+
+                //ProductAttributeValueId validity check.
+                if (!productGroup.Attributes
+                        .Any(x => x.ProductAttributeId == command.Attributes.ElementAt(idx).Key
+                                  && x.ProductAttributeValueId == command.Attributes.ElementAt(idx).Value))
+                    throw new DomainException(DomainErrors.ProductErrors.InvalidAttributeValueId);
+            }
+
+            //Populate productAttribute value objects.
+            for (var idx = 0; idx < productGroupAttributeIds.Length; idx++)
+            {
+                var attribute = productGroup.Attributes
+                    .First(x => x.ProductAttributeId == command.Attributes.ElementAt(idx).Key
+                                && x.ProductAttributeValueId == command.Attributes.ElementAt(idx).Value);
+
+                productAttributes.Add(new Domain.ValueObjects.ProductAttribute
+                {
+                    ProductAttributeId = attribute.ProductAttributeId,
+                    ProductAttributeSlug = attribute.ProductAttribute!.Slug,
+                    ProductAttributeSortOrder = attribute.ProductAttributeSortOrder,
+                    ProductAttributeValueId = attribute.ProductAttributeValueId,
+                    ProductAttributeValueSlug = attribute.ProductAttributeValue!.Slug,
+                    ProductAttributeValueSortOrder = attribute.ProductAttributeValueSortOrder
+                });
+            }
         }
 
         //Unit of measure exists check.
@@ -174,27 +215,24 @@ internal sealed class ProductService(
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidDeliveryWindowId);
 
-        //Get Product
-
-
         var page = await pageRepository.GetByProductIdAsync(command.Id, ProductPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.ProductPageErrors.InvalidProductId);
 
-        // product.Update(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN,
-        //     command.UPC, command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
-        //     command.AnchorTitle,
-        //     new KeyValuePair<int, string>(brand.Id, brand.Slug),
-        //     command.CategoryIds,
-        //     productGroup is not null ? new KeyValuePair<int, string>(productGroup.Id, productGroup.Slug) : null,
-        //     command.ShortDescription,
-        //     command.FullDescription, command.AllowReviews, command.Price, command.OldPrice, command.CostPrice,
-        //     command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
-        //     command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
-        //     command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
-        //     command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
-        //     command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
-        //     command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        product.Update(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN,
+            command.UPC, command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
+            command.AnchorTitle,
+            new KeyValuePair<int, string>(brand.Id, brand.Slug),
+            categories.ToDictionary(x => x.Id, y => y.Slug),
+            productGroup is not null ? new KeyValuePair<int, string>(productGroup.Id, productGroup.Slug) : null,
+            productAttributes,
+            command.ShortDescription, command.FullDescription, command.AllowReviews, command.Price, command.OldPrice,
+            command.CostPrice, command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
+            command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
+            command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
+            command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
+            command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
+            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);

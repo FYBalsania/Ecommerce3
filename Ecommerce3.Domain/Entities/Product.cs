@@ -426,8 +426,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             AnchorTitle == anchorTitle && 
             BrandId == brand.Key &&
             categories.Select(x => x.Key).SequenceEqual(_categories.OrderByDescending(x => x.IsPrimary).Select(x => x.CategoryId)) &&
-            ProductGroupId == productGroup?.Key 
-            && ShortDescription == shortDescription &&
+            ProductGroupId == productGroup?.Key && 
+            ShortDescription == shortDescription &&
             FullDescription == fullDescription && AllowReviews == allowReviews && Price == price &&
             OldPrice == oldPrice && CostPrice == costPrice && Stock == stock && MinStock == minStock &&
             ShowAvailability == showAvailability && FreeShipping == freeShipping &&
@@ -492,6 +492,14 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         if (productGroup is not null)
         {
             Facets.Add($"product_group:slug:{productGroup.Value.Value}");
+            foreach (var attribute in attributes)
+            {
+                Facets.Add($"product_attribute:id:{attribute.ProductAttributeId}");
+                Facets.Add($"product_attribute:slug:{attribute.ProductAttributeSlug}");
+                
+                Facets.Add($"product_attribute_value:id:{attribute.ProductAttributeValueId}");
+                Facets.Add($"product_attribute_value:slug:{attribute.ProductAttributeValueSlug}");
+            }
         }
     }
 
@@ -532,5 +540,10 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
                     updatedByIp));
             }
         }
+    }
+
+    private void UpdateAttributes(IDictionary<int, int> attributes, int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        
     }
 }

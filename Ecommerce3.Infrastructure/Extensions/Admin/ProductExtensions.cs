@@ -2,26 +2,28 @@ using System.Linq.Expressions;
 using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Domain.Entities;
+using Ecommerce3.Infrastructure.Expressions.Admin.Product;
 
 namespace Ecommerce3.Infrastructure.Extensions.Admin;
 
 public static class ProductExtensions
 {
-    private static readonly Expression<Func<Product, ProductListItemDTO>> ListItemDTOExpression = p => new ProductListItemDTO
-    {
-        Id = p.Id,
-        Name = p.Name,
-        Slug = p.Slug,
-        SortOrder = p.SortOrder,
-        ImageCount = p.Images.Count,
-        SKU = p.SKU,
-        Status =  p.Status,
-        Categories = p.Categories,
-        CreatedUserFullName = p.CreatedByUser!.FullName,
-        CreatedAt = p.CreatedAt
-    };
-    
-    private static readonly Expression<Func<Product, ProductDTO>> DTOExpression = p => new ProductDTO
+    private static readonly Expression<Func<Product, ProductListItemDTO>> ListItemDTOExpression = p =>
+        new ProductListItemDTO
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Slug = p.Slug,
+            SortOrder = p.SortOrder,
+            ImageCount = p.Images.Count,
+            SKU = p.SKU,
+            Status = p.Status,
+            Categories = p.Categories,
+            CreatedUserFullName = p.CreatedByUser!.FullName,
+            CreatedAt = p.CreatedAt
+        };
+
+    public static readonly Expression<Func<Product, ProductDTO>> DTOExpression = p => new ProductDTO
     {
         Id = p.Id,
         SKU = p.SKU,
@@ -68,11 +70,16 @@ public static class ProductExtensions
         MetaTitle = p.Page.MetaTitle,
         MetaDescription = p.Page.MetaDescription,
         MetaKeywords = p.Page.MetaKeywords,
+        Attributes = p.Attributes
+            .AsQueryable()
+            .OrderBy(x => x.ProductAttributeSortOrder)
+            .Select(ProductProductAttributeExpression.DTOExpression)
+            .ToList(),
         Images = p.Images
             .AsQueryable()
             .OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
-            .Select(ImageExtensions.DTOExpression).
-            ToList(),
+            .Select(ImageExtensions.DTOExpression)
+            .ToList(),
         TextListItems = p.TextListItems
             .AsQueryable()
             .OrderBy(tl => tl.Text).ThenBy(tli => tli.SortOrder)
@@ -85,12 +92,9 @@ public static class ProductExtensions
             .Select(KVPListItemExtensions.ToDtoExpression)
             .ToList()
     };
-    
-    public static IQueryable<ProductDTO> ProjectToDTO(this IQueryable<Product> query) => 
-        query.Select(DTOExpression);
-    
+
     public static IQueryable<ProductListItemDTO> ProjectToListItemDTO(this IQueryable<Product> query) =>
         query.Select(ListItemDTOExpression);
-    
+
     public static ProductDTO MapToDTO(this Product product) => DTOExpression.Compile()(product);
 }

@@ -206,7 +206,8 @@ public class EditProductViewModel
     public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
     
     public IReadOnlyList<KVPListItemDTO> KVPListItems { get; set; } = [];
-
+    
+    public IDictionary<int, int> Attributes { get; set; } = new Dictionary<int, int>();
 
     public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
@@ -228,7 +229,7 @@ public class EditProductViewModel
             BrandId = BrandId,
             CategoryIds = CategoryIds,
             ProductGroupId = ProductGroupId,
-            Attributes = new Dictionary<int, int>(),
+            Attributes = Attributes,
             ShortDescription = ShortDescription,
             FullDescription = FullDescription,
             AllowReviews = AllowReviews,
