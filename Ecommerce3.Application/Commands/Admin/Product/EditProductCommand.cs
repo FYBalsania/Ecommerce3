@@ -20,6 +20,7 @@ public record EditProductCommand
     public required int BrandId { get; init; }
     public required int[] CategoryIds { get; init; }
     public required int? ProductGroupId { get; init; }
+    public required IDictionary<int, int> Attributes { get; init;}
     public required string? ShortDescription { get; init; }
     public required string? FullDescription { get; init; }
     public required bool AllowReviews { get; init; }

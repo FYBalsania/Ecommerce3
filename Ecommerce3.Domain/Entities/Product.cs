@@ -264,22 +264,22 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             true, createdBy, createdAt, createdByIp);
 
         //Facets.
-        Facets.Add($"b:slug:{brand.Value}");
+        Facets.Add($"brand:slug:{brand.Value}");
         foreach (var category in categories)      
         {
-            Facets.Add($"c:id:{category.Key}");
-            Facets.Add($"c:slug:{category.Value}");
+            Facets.Add($"category:id:{category.Key}");
+            Facets.Add($"category:slug:{category.Value}");
         }
         if (productGroup is not null)
         {
-            Facets.Add($"pg:slug:{productGroup.Value.Value}");
+            Facets.Add($"product_group:slug:{productGroup.Value.Value}");
             foreach (var attribute in attributes)
             {
-                Facets.Add($"pa:id:{attribute.ProductAttributeId}");
-                Facets.Add($"pa:slug:{attribute.ProductAttributeSlug}");
+                Facets.Add($"product_attribute:id:{attribute.ProductAttributeId}");
+                Facets.Add($"product_attribute:slug:{attribute.ProductAttributeSlug}");
                 
-                Facets.Add($"pav:id:{attribute.ProductAttributeValueId}");
-                Facets.Add($"pav:slug:{attribute.ProductAttributeValueSlug}");
+                Facets.Add($"product_attribute_value:id:{attribute.ProductAttributeValueId}");
+                Facets.Add($"product_attribute_value:slug:{attribute.ProductAttributeValueSlug}");
             }
         }
     }
@@ -329,8 +329,12 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     }
 
     public void Update(string sku, string? gtin, string? mpn, string? mfc, string? ean, string? upc, string name,
-        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, int brandId,
-        int[] categoryIds, int? productGroupId, string? shortDescription, string? fullDescription, bool allowReviews,
+        string slug, string display, string breadcrumb, string anchorText, string? anchorTitle, 
+        KeyValuePair<int, string> brand,
+        IDictionary<int, string> categories, 
+        KeyValuePair<int, string>? productGroup, 
+        IReadOnlyCollection<ValueObjects.ProductAttribute> attributes,
+        string? shortDescription, string? fullDescription, bool allowReviews,
         decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
         bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
         int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
@@ -370,12 +374,12 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         if (anchorTitle is not null)
             ValidateTooLong(anchorTitle, AnchorTitleMaxLength, DomainErrors.ProductErrors.AnchorTitleTooLong);
         //BrandId.
-        ValidatePositiveNumber(brandId, DomainErrors.ProductErrors.InvalidBrandId);
+        ValidatePositiveNumber(brand.Key, DomainErrors.ProductErrors.InvalidBrandId);
         //CategoryIds.
-        ValidateCategoryIds(categoryIds);
+        ValidateCategoryIds(categories.Select(x => x.Key).ToArray());
         //ProductGroupId.
-        if (productGroupId is not null)
-            ValidatePositiveNumber((int)productGroupId, DomainErrors.ProductErrors.InvalidProductGroupId);
+        if (productGroup is not null)
+            ValidatePositiveNumber(productGroup.Value.Key, DomainErrors.ProductErrors.InvalidProductGroupId);
         //ShortDescription.
         if (shortDescription is not null)
             ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
@@ -419,9 +423,11 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
 
         if (SKU == sku && GTIN == gtin && MPN == mpn && MFC == mfc && EAN == ean && UPC == upc && Name == name &&
             Slug == slug && Display == display && Breadcrumb == breadcrumb && AnchorText == anchorText &&
-            AnchorTitle == anchorTitle && BrandId == brandId &&
-            categoryIds.SequenceEqual(_categories.OrderByDescending(x => x.IsPrimary).Select(x => x.CategoryId)) &&
-            ProductGroupId == productGroupId && ShortDescription == shortDescription &&
+            AnchorTitle == anchorTitle && 
+            BrandId == brand.Key &&
+            categories.Select(x => x.Key).SequenceEqual(_categories.OrderByDescending(x => x.IsPrimary).Select(x => x.CategoryId)) &&
+            ProductGroupId == productGroup?.Key 
+            && ShortDescription == shortDescription &&
             FullDescription == fullDescription && AllowReviews == allowReviews && Price == price &&
             OldPrice == oldPrice && CostPrice == costPrice && Stock == stock && MinStock == minStock &&
             ShowAvailability == showAvailability && FreeShipping == freeShipping &&
@@ -445,9 +451,9 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         Breadcrumb = breadcrumb;
         AnchorText = anchorText;
         AnchorTitle = anchorTitle;
-        BrandId = brandId;
-        UpdateCategories(categoryIds, updatedBy, updatedAt, updatedByIp);
-        ProductGroupId = productGroupId;
+        BrandId = brand.Key;
+        UpdateCategories(categories.Select(x => x.Key).ToArray(), updatedBy, updatedAt, updatedByIp);
+        ProductGroupId = productGroup?.Key;
         ShortDescription = shortDescription;
         FullDescription = fullDescription;
         AllowReviews = allowReviews;
@@ -474,6 +480,19 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
+        
+        //Facets
+        Facets.Clear();
+        Facets.Add($"brand:slug:{brand.Value}");
+        foreach (var category in categories)      
+        {
+            Facets.Add($"category:id:{category.Key}");
+            Facets.Add($"category:slug:{category.Value}");
+        }
+        if (productGroup is not null)
+        {
+            Facets.Add($"product_group:slug:{productGroup.Value.Value}");
+        }
     }
 
     private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)

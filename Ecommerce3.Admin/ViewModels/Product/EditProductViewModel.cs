@@ -228,6 +228,7 @@ public class EditProductViewModel
             BrandId = BrandId,
             CategoryIds = CategoryIds,
             ProductGroupId = ProductGroupId,
+            Attributes = new Dictionary<int, int>(),
             ShortDescription = ShortDescription,
             FullDescription = FullDescription,
             AllowReviews = AllowReviews,

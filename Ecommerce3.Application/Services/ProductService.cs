@@ -19,9 +19,7 @@ internal sealed class ProductService(
     IUnitOfWork unitOfWork,
     IBrandRepository brandRepository,
     ICategoryRepository categoryRepository,
-    IBrandQueryRepository brandQueryRepository,
     ICategoryQueryRepository categoryQueryRepository,
-    IProductGroupQueryRepository productGroupQueryRepository,
     IUnitOfMeasureQueryRepository unitOfMeasureQueryRepository,
     IDeliveryWindowQueryRepository deliveryWindowQueryRepository,
     IProductPageRepository pageRepository,
@@ -133,6 +131,11 @@ internal sealed class ProductService(
 
     public async Task EditAsync(EditProductCommand command, CancellationToken cancellationToken)
     {
+        //Product Id validity check.
+        var product = await repository.GetByIdAsync(command.Id, ProductInclude.Categories | ProductInclude.Attributes,
+            true, cancellationToken);
+        if (product is null) throw new DomainException(DomainErrors.ProductErrors.InvalidId);
+
         //SKU duplicate check.
         var exists = await queryRepository.ExistsBySKUAsync(command.SKU, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ProductErrors.DuplicateSKU);
@@ -146,18 +149,21 @@ internal sealed class ProductService(
         if (exists) throw new DomainException(DomainErrors.ProductErrors.DuplicateSlug);
 
         //Brand exists check.
-        exists = await brandQueryRepository.ExistsByIdAsync(command.BrandId, cancellationToken);
-        if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidBrandId);
+        var brand = await brandRepository.GetByIdAsync(command.BrandId, BrandInclude.None, false, cancellationToken);
+        if (brand is null) throw new DomainException(DomainErrors.ProductErrors.InvalidBrandId);
 
         //Category exists check.
         exists = await categoryQueryRepository.ExistsByIdsAsync(command.CategoryIds, cancellationToken);
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidCategoryId);
 
         //Product group exists check.
+        ProductGroup? productGroup = null;
         if (command.ProductGroupId is not null)
         {
-            exists = await productGroupQueryRepository.ExistsByIdAsync(command.ProductGroupId.Value, cancellationToken);
-            if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidProductGroupId);
+            productGroup = await productGroupRepository.GetByIdAsync(command.ProductGroupId.Value,
+                ProductGroupInclude.None,
+                false, cancellationToken);
+            if (productGroup is null) throw new DomainException(DomainErrors.ProductErrors.InvalidProductGroupId);
         }
 
         //Unit of measure exists check.
@@ -169,23 +175,26 @@ internal sealed class ProductService(
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidDeliveryWindowId);
 
         //Get Product
-        var product = await repository.GetByIdAsync(command.Id, ProductInclude.Categories, true, cancellationToken);
-        if (product is null) throw new DomainException(DomainErrors.ProductErrors.InvalidId);
+
 
         var page = await pageRepository.GetByProductIdAsync(command.Id, ProductPageInclude.None, true,
             cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.ProductPageErrors.InvalidProductId);
 
-        product.Update(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN,
-            command.UPC, command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
-            command.AnchorTitle, command.BrandId, command.CategoryIds, command.ProductGroupId, command.ShortDescription,
-            command.FullDescription, command.AllowReviews, command.Price, command.OldPrice, command.CostPrice,
-            command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
-            command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
-            command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
-            command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
-            command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
-            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        // product.Update(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN,
+        //     command.UPC, command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText,
+        //     command.AnchorTitle,
+        //     new KeyValuePair<int, string>(brand.Id, brand.Slug),
+        //     command.CategoryIds,
+        //     productGroup is not null ? new KeyValuePair<int, string>(productGroup.Id, productGroup.Slug) : null,
+        //     command.ShortDescription,
+        //     command.FullDescription, command.AllowReviews, command.Price, command.OldPrice, command.CostPrice,
+        //     command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
+        //     command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
+        //     command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
+        //     command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
+        //     command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
+        //     command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
