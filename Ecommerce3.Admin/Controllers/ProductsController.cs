@@ -52,6 +52,8 @@ public class ProductsController(
         var deliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken),
             "Key", "Value");
 
+        ViewData["Title"] = "Add Product";
+
         return View(new AddProductViewModel
         {
             BrandId = 1,
