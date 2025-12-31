@@ -25,10 +25,9 @@ public class ProductAttributesController(
         var response = new ProductAttributesIndexViewModel()
         {
             Filter = filter,
-            ProductAttributes = result,
-            PageTitle = "Product Attributes"
+            ProductAttributes = result
         };
-
+        ViewData["Title"] = "Product Attributes";
         return View(response);
     }
 

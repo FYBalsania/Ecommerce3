@@ -24,10 +24,9 @@ public class ImageTypesController(
         var response = new ImageTypeIndexViewModel()
         {
             Filter = filter,
-            ImageTypes = result,
-            PageTitle = "Image Types"
+            ImageTypes = result
         };
-
+        ViewData["Title"] = "Image Types";
         return View(response);
     }
 

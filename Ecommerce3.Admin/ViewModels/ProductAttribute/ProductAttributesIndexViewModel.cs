@@ -8,5 +8,4 @@ public record ProductAttributesIndexViewModel
 {
     public ProductAttributeFilter Filter { get; init; }
     public PagedResult<ProductAttributeListItemDTO> ProductAttributes { get; init; }
-    public string PageTitle { get; init; }
 }

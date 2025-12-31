@@ -24,10 +24,9 @@ public class BanksController(
         var response = new BanksIndexViewModel()
         {
             Filter = filter,
-            Banks = result,
-            PageTitle = "Banks"
+            Banks = result
         };
-        
+        ViewData["Title"] = "Banks";
         return View(response);
     }
 

@@ -24,10 +24,9 @@ public class DeliveryWindowsController(
         var response = new DeliveryWindowIndexViewModel()
         {
             Filter = filter,
-            DeliveryWindows = result,
-            PageTitle = "Delivery Window"
+            DeliveryWindows = result
         };
-        
+        ViewData["Title"] = "Delivery Windows";
         return View(response);
     }
 

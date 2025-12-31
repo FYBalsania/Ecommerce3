@@ -26,10 +26,9 @@ public class CategoriesController(
         {
             Filter = filter,
             Parents = await GetParentsIdAndNameAsync(null, cancellationToken),
-            Categories = result,
-            PageTitle = "Categories"
+            Categories = result
         };
-        
+        ViewData["Title"] = "Categories";
         return View(response);
     }
     

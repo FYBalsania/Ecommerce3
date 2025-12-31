@@ -24,10 +24,9 @@ public class PostCodesController(
         var response = new PostCodesIndexViewModel()
         {
             Filter = filter,
-            PostCodes = result,
-            PageTitle = "PostCodes"
+            PostCodes = result
         };
-        
+        ViewData["Title"] = "PostCodes";
         return View(response);
     }
 

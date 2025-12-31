@@ -24,10 +24,9 @@ public class BrandsController(
         var response = new BrandsIndexViewModel()
         {
             Filter = filter,
-            Brands = result,
-            PageTitle = "Brands"
+            Brands = result
         };
-
+        ViewData["Title"] = "Brands";
         return View(response);
     }
 

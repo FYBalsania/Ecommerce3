@@ -29,10 +29,9 @@ public class ProductGroupsController(
         var response = new ProductGroupsIndexResponse()
         {
             Filter = filter,
-            ProductGroups = result,
-            PageTitle = "Product Groups"
+            ProductGroups = result
         };
-
+        ViewData["Title"] = "Product Groups";
         return View(response);
     }
 

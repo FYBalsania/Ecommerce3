@@ -32,10 +32,9 @@ public class ProductsController(
         var response = new ProductsIndexViewModel()
         {
             Filter = filter,
-            Products = result,
-            PageTitle = "Products"
+            Products = result
         };
-
+        ViewData["Title"] = "Products";
         return View(response);
     }
 

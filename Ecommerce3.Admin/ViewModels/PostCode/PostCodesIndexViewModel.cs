@@ -8,5 +8,4 @@ public record PostCodesIndexViewModel
 {
     public PostCodeFilter Filter { get; init; }
     public PagedResult<PostCodeListItemDTO> PostCodes { get; init; }
-    public string PageTitle { get; init; }
 }
