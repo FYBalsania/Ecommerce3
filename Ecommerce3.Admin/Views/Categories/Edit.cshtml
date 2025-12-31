@@ -6,7 +6,7 @@
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Category - @Model.Name</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"] - @Model.Name</h2>
     </div>
 
     <form method="post" asp-action="Edit">
@@ -206,28 +206,5 @@
     <script src="~/js/category.js"></script>
     <script src="~/js/kvplistitems.js"></script>
     <script src="~/js/quill.min.js"></script>
-    <script>
-    // Initialize Quill
-    var quill = new Quill('#longDescriptionEditor', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, 3, false] }],
-                [{ font: [] }],                               // Font family
-                ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                [{ color: [] }, { background: [] }],          // Text/Background color
-                [{ list: 'ordered' }, { list: 'bullet' }],    // Lists
-                [{ align: [] }],                              // Alignment
-                ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
-                ['clean']                                     // Clear formatting
-            ]
-        }
-    });
-
-    // Sync Quill content to hidden input on change
-    quill.on('text-change', function () {
-        document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-    });
-    </script>
     <script src="~/js/image.js"></script>
 }

@@ -7,6 +7,5 @@ namespace Ecommerce3.Admin.ViewModels.Bank;
 public record BanksIndexViewModel
 {
     public BankFilter Filter { get; init; }
-    public PagedResult<BankListItemDTO> Banks { get; init; }
-    public string PageTitle { get; init; }
+    public PagedResult<BankListItemDTO> Banks { get; init; } 
 }

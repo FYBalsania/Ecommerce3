@@ -85,7 +85,8 @@ public class EditProductViewModel
 
     public SelectList Categories { get; set; }
 
-    [Display(Name = "Product Group")] public int? ProductGroupId { get; set; }
+    [Display(Name = "Product Group")] 
+    public int? ProductGroupId { get; set; }
     public SelectList ProductGroups { get; set; }
 
     [Display(Name = "Short Description")] public string? ShortDescription { get; set; }

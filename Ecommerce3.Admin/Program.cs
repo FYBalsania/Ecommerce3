@@ -53,7 +53,11 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = new PathString("/Images"),
     HttpsCompression = HttpsCompressionMode.Default
 });
-
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Robots-Tag"] = "noindex, nofollow, noarchive, nosnippet";
+    await next();
+});
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Dashboard}/{action=Index}/{id?}")

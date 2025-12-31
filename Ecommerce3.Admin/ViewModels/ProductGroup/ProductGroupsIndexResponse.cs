@@ -8,5 +8,4 @@ public record ProductGroupsIndexResponse
 {
     public ProductGroupFilter Filter { get; init; }
     public PagedResult<ProductGroupListItemDTO> ProductGroups { get; init; }
-    public string PageTitle { get; init; }
 }

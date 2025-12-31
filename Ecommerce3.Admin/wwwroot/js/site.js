@@ -1,4 +1,34 @@
-﻿// Sidebar toggle functionality
+﻿$(document).ready(function () {
+    const editor = document.getElementById('longDescriptionEditor');
+    const input  = document.getElementById('longDescriptionInput');
+
+    // Page does not have FullDescription → do nothing
+    if (!editor || !input) return;
+    
+    // Initialize Quill
+    const quill = new Quill(editor, {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                [{ font: [] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ color: [] }, { background: [] }],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                [{ align: [] }],
+                ['link', 'image', 'blockquote', 'code-block'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Sync Quill content to hidden input on change
+    quill.on('text-change', function () {
+        input.value = quill.root.innerHTML;
+    });
+});
+
+// Sidebar toggle functionality
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
 const sidebarToggle = document.getElementById('sidebarToggle');
@@ -15,23 +45,6 @@ sidebarToggle.addEventListener("click", function () {
     mainContent.classList.toggle("expanded");
 
     localStorage.setItem(SIDEBAR_KEY, isCollapsed);
-});
-
-// Handle sidebar navigation
-const navLinks = document.querySelectorAll('.nav-link[data-section]');
-navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-
-        // Remove active class from all links
-        navLinks.forEach(l => l.classList.remove('active'));
-
-        // Add active class to clicked link
-        this.classList.add('active');
-
-        // Here you would typically load the content for the selected section
-        console.log('Loading section:', this.dataset.section);
-    });
 });
 
 function toSlug(name) {

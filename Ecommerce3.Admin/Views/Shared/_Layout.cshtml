@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+    <meta name="googlebot" content="noindex, nofollow" />
     <title>@ViewData["Title"] - Spice Mart Backoffice</title>
     <script type="importmap"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,8 +50,8 @@
 <script src="~/js/jquery-3.7.1.min.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
 <script src="~/js/jquery-ui.min.js"></script>
-<script src="~/js/site.js"></script>
 @await RenderSectionAsync("Scripts", required: false)
+<script src="~/js/site.js"></script>
 <!--begin::Toast-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {

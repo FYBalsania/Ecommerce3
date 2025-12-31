@@ -32,10 +32,9 @@ public class ProductsController(
         var response = new ProductsIndexViewModel()
         {
             Filter = filter,
-            Products = result,
-            PageTitle = "Products"
+            Products = result
         };
-
+        ViewData["Title"] = "Products";
         return View(response);
     }
 
@@ -52,6 +51,8 @@ public class ProductsController(
             await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
         var deliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken),
             "Key", "Value");
+
+        ViewData["Title"] = "Add Product";
 
         return View(new AddProductViewModel
         {

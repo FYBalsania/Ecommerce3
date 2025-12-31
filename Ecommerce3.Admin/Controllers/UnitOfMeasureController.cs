@@ -28,10 +28,9 @@ public class UnitOfMeasureController(
         var response = new UnitOfMeasureIndexViewModel()
         {
             Filter = filter,
-            UnitOfMeasures = result,
-            PageTitle = "Unit Of Measures",
+            UnitOfMeasures = result
         };
-
+        ViewData["Title"] = "Unit Of Measures";
         return View(response);
     }
 

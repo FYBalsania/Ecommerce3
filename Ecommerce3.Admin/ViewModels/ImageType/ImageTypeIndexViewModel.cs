@@ -8,5 +8,4 @@ public record ImageTypeIndexViewModel
 {
     public ImageTypeFilter Filter { get; init; }
     public PagedResult<ImageTypeListItemDTO> ImageTypes { get; init; }
-    public string PageTitle { get; init; }
 }

@@ -1,12 +1,13 @@
 @using Ecommerce3.Domain.Enums
 @model Ecommerce3.Admin.ViewModels.Product.AddProductViewModel
-<div class="content-section" xmlns="http://www.w3.org/1999/html">
+
+<div class="content-section">
     <form method="post" asp-controller="Products" asp-action="Add" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 
         <div class="d-flex justify-content-between align-items-center mb-2">
             <!-- Left side: Heading -->
-            <h2 class="text-danger fw-bold fs-3 mb-0">Add Product</h2>
+            <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"]</h2>
         </div>
 
         <!-- Identification -->
@@ -283,16 +284,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="@Model.ProductGroupId"></label>
-                            <select class="select-product form-select" asp-for="@Model.ProductGroupId"
-                                    asp-items="@Model.ProductGroups" id="addProductGroup">
+                            <label class="form-label fw-bold" asp-for="ProductGroupId"></label>
+                            <select class="select-product form-select" asp-for="ProductGroupId"
+                                    asp-items="@Model.ProductGroups" id="productGroup">
                                 <option value="">Select...</option>
                             </select>
-                            <span class="text-danger" asp-validation-for="@Model.ProductGroupId"></span>
+                            <span class="text-danger" asp-validation-for="ProductGroupId"></span>
                         </div>
                     </div>
                 </div>
-                <div class="row" id="addProductGroupAttributesDiv">
+                <div class="row" id="productGroupAttributesDiv">
 
                 </div>
             </div>
@@ -475,57 +476,5 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
-    
     <script src="~/js/product.js"></script>
-    <script>
-        //Initialize Select 2
-        $(document).ready(function () {
-            $('.select-product').select2({
-                theme: 'bootstrap-5',
-                width: '100%'
-            });
-
-            $('.select-category').select2({
-                placeholder: 'Select...'
-            });
-
-            toggleRedirectUrl();
-            $('#Status').on('change', function () {
-                toggleRedirectUrl();
-            });
-        });
-
-        // Initialize Quill
-        var quill = new Quill('#longDescriptionEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],                               // Font family
-                    ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                    [{color: []}, {background: []}],          // Text/Background color
-                    [{list: 'ordered'}, {list: 'bullet'}],    // Lists
-                    [{align: []}],                              // Alignment
-                    ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
-                    ['clean']                                     // Clear formatting
-                ]
-            }
-        });
-        quill.on('text-change', function () {
-            document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-        });
-
-
-        function toggleRedirectUrl() {
-            const status = $('#Status').val();
-            const redirectInput = $('#RedirectUrl');
-
-            if (status === 'RedirectToUrl') {
-                redirectInput.prop('disabled', false);
-            } else {
-                redirectInput.val('');
-                redirectInput.prop('disabled', true);
-            }
-        }
-    </script>
 }

@@ -1,7 +1,28 @@
 $(document).ready(function () {
+    $('.select-product').select2({
+        theme: 'bootstrap-5',
+        width: '100%'
+    });
+
+    $('.select-category').select2({
+        placeholder: 'Select...',
+        sorter: function(data) {
+            return data;
+        }
+    }).on('select2:select', function(e) {
+        var element = e.params.data.element;
+        $(element).detach().appendTo($(this));
+        $(this).trigger('change');
+    });
+
+    toggleRedirectUrl();
+    $('#Status').on('change', function () {
+        toggleRedirectUrl();
+    });
+    
     $('#Name').on('change', nameChanged);
 
-    $(document).on('change', '#addProductGroup', function () {
+    $(document).on('change', '#productGroup', function () {
         const productGroupId = $(this).val();
         getAttribute(productGroupId);
     });
@@ -19,7 +40,7 @@ function nameChanged(event) {
 }
 
 async function getAttribute(productGroupId) {
-    const container = $('#addProductGroupAttributesDiv');
+    const container = $('#productGroupAttributesDiv');
 
     try {
         const response = await fetch(
@@ -42,5 +63,17 @@ async function getAttribute(productGroupId) {
     } catch (err) {
         console.error('Error loading attribute values:', err);
         alert('Error loading attribute values.');
+    }
+}
+
+function toggleRedirectUrl() {
+    const status = $('#Status').val();
+    const redirectInput = $('#RedirectUrl');
+
+    if (status === 'RedirectToUrl') {
+        redirectInput.prop('disabled', false);
+    } else {
+        redirectInput.val('');
+        redirectInput.prop('disabled', true);
     }
 }

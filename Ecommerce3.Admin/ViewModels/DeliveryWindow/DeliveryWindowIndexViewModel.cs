@@ -8,5 +8,4 @@ public record DeliveryWindowIndexViewModel
 {
     public DeliveryWindowFilter Filter { get; init; }
     public PagedResult<DeliveryWindowListItemDTO> DeliveryWindows { get; init; }
-    public string PageTitle { get; init; }
 }

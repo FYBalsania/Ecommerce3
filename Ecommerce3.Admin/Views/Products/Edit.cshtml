@@ -7,7 +7,7 @@
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">Edit Product - @Model.Name</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"] - @Model.Name</h2>
     </div>
     <form method="post" asp-action="Edit">
         @Html.AntiForgeryToken()
@@ -85,8 +85,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Categories</label>
-                            <select class="select-brand form-select" multiple="multiple" asp-for="CategoryIds" asp-items="@Model.Categories">
+                            <label class="form-label fw-bold required" asp-for="CategoryIds"></label>
+                            <select class="select-category form-select" multiple="multiple" asp-for="@Model.CategoryIds"
+                                    asp-items="@Model.Categories">
                                 <option value="">Select...</option>
                             </select>
                             <span class="text-danger" asp-validation-for="CategoryIds"></span>
@@ -285,17 +286,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold" asp-for="@Model.ProductGroupId"></label>
-                            <select class="select-product form-select" asp-for="@Model.ProductGroupId"
+                            <label class="form-label fw-bold" asp-for="ProductGroupId"></label>
+                            <select class="select-product form-select" asp-for="ProductGroupId"
                                     asp-items="@Model.ProductGroups" id="productGroup">
                                 <option value="">Select...</option>
                             </select>
-                            <span class="text-danger" asp-validation-for="@Model.ProductGroupId"></span>
+                            <span class="text-danger" asp-validation-for="ProductGroupId"></span>
                         </div>
                     </div>
                 </div>
-                <div class="row" id="editPoductGroupAttributesDiv">
-
+                <div class="row" id="productGroupAttributesDiv">
+                    <partial name="~/Views/Shared/Product/_ProductAttributesPartial.cshtml" model="@Model.AttributesSelectList"/>
                 </div>
             </div>
         </div>
@@ -514,62 +515,4 @@
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/quill.min.js"></script>
     <script src="~/js/image.js"></script>
-    <script>
-        //Initialize Select 2
-        $(document).ready(function () {
-            $('.select-product').select2({
-                theme: 'bootstrap-5',
-                width: '100%'
-            });
-
-            $('.select-brand').select2({
-                placeholder: 'Select Brand'
-            });
-
-            $('.select-colour').select2({
-                placeholder: 'Select Colour'
-            });
-            
-            $('.select-storage').select2({
-                placeholder: 'Select Storage'
-            });
-
-            toggleRedirectUrl();
-            $('#Status').on('change', function () {
-                toggleRedirectUrl();
-            });
-        });
-
-        // Initialize Quill for Long Description
-        var quill = new Quill('#longDescriptionEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{header: [1, 2, 3, false]}],
-                    [{font: []}],                               // Font family
-                    ['bold', 'italic', 'underline', 'strike'],    // Formatting
-                    [{color: []}, {background: []}],          // Text/Background color
-                    [{list: 'ordered'}, {list: 'bullet'}],    // Lists
-                    [{align: []}],                              // Alignment
-                    ['link', 'image', 'blockquote', 'code-block'], // Media / blocks
-                    ['clean']                                     // Clear formatting
-                ]
-            }
-        });
-        quill.on('text-change', function () {
-            document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
-        });
-
-        function toggleRedirectUrl() {
-            const status = $('#Status').val();
-            const redirectInput = $('#RedirectUrl');
-
-            if (status === 'RedirectToUrl') {
-                redirectInput.prop('disabled', false);
-            } else {
-                redirectInput.val('');
-                redirectInput.prop('disabled', true);
-            }
-        }
-    </script>
 }
