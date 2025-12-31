@@ -54,4 +54,14 @@ public sealed class ProductProductAttribute : Entity, ICreatable, IUpdatable, ID
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
+
+    internal void UpdateValueId(int valueId, int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        if (ProductAttributeValueId == valueId) return;
+        
+        ProductAttributeValueId = valueId;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+    }
 }
