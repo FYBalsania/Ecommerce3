@@ -122,6 +122,28 @@ public class ProductsController(
         model.DeliveryWindows =
             new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
+        if (product.ProductGroupId is not null)
+        {
+            var productGroupProductAttributes =
+                await productGroupService.GetAttributesAsync(product.ProductGroupId.Value, cancellationToken);
+            var lookup = productGroupProductAttributes
+                .ToLookup(x => new { x.ProductAttributeId, x.ProductAttributeName });
+
+            var selectListViewModels = lookup.Select(item => new SelectListViewModel
+            {
+                Id = item.Key.ProductAttributeId,
+                Text = item.Key.ProductAttributeName,
+                ValueId = product.Attributes.FirstOrDefault(x => x.ProductAttributeId == item.Key.ProductAttributeId)?.ProductAttributeValueId,
+                Values = new SelectList(
+                    item, 
+                    "ProductAttributeValueId",
+                    "ProductAttributeValueDisplay",
+                    product.Attributes.FirstOrDefault(x => x.ProductAttributeId == item.Key.ProductAttributeId)?.ProductAttributeValueId)
+            }).ToList();
+            
+            model.AttributesSelectList = selectListViewModels;
+        }
+
         ViewData["Title"] = $"Edit Product - {product.Name}";
         return View(model);
     }
@@ -169,11 +191,13 @@ public class ProductsController(
     {
         var productGroupProductAttributes =
             await productGroupService.GetAttributesAsync(productGroupId, cancellationToken);
-        var lookup = productGroupProductAttributes.ToLookup(x => new { x.ProductAttributeId, x.ProductAttributeName });
+        var lookup = productGroupProductAttributes
+            .ToLookup(x => new { x.ProductAttributeId, x.ProductAttributeName });
 
         var selectListViewModels = lookup.Select(item => new SelectListViewModel
         {
-            Id = item.Key.ProductAttributeId, Text = item.Key.ProductAttributeName,
+            Id = item.Key.ProductAttributeId,
+            Text = item.Key.ProductAttributeName,
             ValueId = null,
             Values = new SelectList(item, "ProductAttributeValueId", "ProductAttributeValueDisplay", null)
         }).ToList();

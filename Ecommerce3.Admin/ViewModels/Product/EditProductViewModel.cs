@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce3.Admin.ViewModels.Common;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Image;
@@ -75,22 +76,21 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Brand is required.")]
     [Display(Name = "Brand")]
     public int BrandId { get; set; }
+
     public SelectList Brands { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Category(s) is required.")]
     [Display(Name = "Category")]
     public int[] CategoryIds { get; set; }
+
     public SelectList Categories { get; set; }
 
-    [Display(Name = "Product Group")] 
-    public int? ProductGroupId { get; set; }
+    [Display(Name = "Product Group")] public int? ProductGroupId { get; set; }
     public SelectList ProductGroups { get; set; }
 
-    [Display(Name = "Short Description")] 
-    public string? ShortDescription { get; set; }
+    [Display(Name = "Short Description")] public string? ShortDescription { get; set; }
 
-    [Display(Name = "Full Description")] 
-    public string? FullDescription { get; set; }
+    [Display(Name = "Full Description")] public string? FullDescription { get; set; }
 
     [Required(ErrorMessage = "Allow reviews is required.")]
     [Display(Name = "Allow Reviews?")]
@@ -134,6 +134,7 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
     [Display(Name = "Unit Of Measure")]
     public int UnitOfMeasureId { get; set; }
+
     public SelectList UnitOfMeasures { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Quantity Per Unit Of Measure is required.")]
@@ -144,6 +145,7 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Delivery Window is required.")]
     [Display(Name = "Delivery Window")]
     public int DeliveryWindowId { get; set; }
+
     public SelectList DeliveryWindows { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Minimum Order Quantity is required.")]
@@ -204,10 +206,13 @@ public class EditProductViewModel
     public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 
     public IReadOnlyList<TextListItemDTO> TextListItems { get; set; } = [];
-    
+
     public IReadOnlyList<KVPListItemDTO> KVPListItems { get; set; } = [];
-    
-    public IDictionary<int, int> Attributes { get; set; } = new Dictionary<int, int>();
+
+    public IDictionary<int, int> Attributes { get; set; } = new Dictionary<int, int>(); //used in post.
+
+    public IReadOnlyList<SelectListViewModel> AttributesSelectList { get; set; } =
+        new List<SelectListViewModel>(); //used in get.
 
     public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
     {
@@ -262,7 +267,7 @@ public class EditProductViewModel
             UpdatedByIp = updatedByIp,
         };
     }
-    
+
     public static EditProductViewModel FromDTO(ProductDTO productDTO)
     {
         return new EditProductViewModel
