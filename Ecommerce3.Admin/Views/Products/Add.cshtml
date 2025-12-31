@@ -283,16 +283,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="@Model.ProductGroupId"></label>
-                            <select class="select-product form-select" asp-for="@Model.ProductGroupId"
-                                    asp-items="@Model.ProductGroups" id="addProductGroup">
+                            <label class="form-label fw-bold" asp-for="ProductGroupId"></label>
+                            <select class="select-product form-select" asp-for="ProductGroupId"
+                                    asp-items="@Model.ProductGroups" id="productGroup">
                                 <option value="">Select...</option>
                             </select>
-                            <span class="text-danger" asp-validation-for="@Model.ProductGroupId"></span>
+                            <span class="text-danger" asp-validation-for="ProductGroupId"></span>
                         </div>
                     </div>
                 </div>
-                <div class="row" id="addProductGroupAttributesDiv">
+                <div class="row" id="productGroupAttributesDiv">
 
                 </div>
             </div>
@@ -486,7 +486,14 @@
             });
 
             $('.select-category').select2({
-                placeholder: 'Select...'
+                placeholder: 'Select...',
+                sorter: function(data) {
+                    return data;
+                }
+            }).on('select2:select', function(e) {
+                var element = e.params.data.element;
+                $(element).detach().appendTo($(this));
+                $(this).trigger('change');
             });
 
             toggleRedirectUrl();

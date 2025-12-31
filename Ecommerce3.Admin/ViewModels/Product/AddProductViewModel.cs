@@ -74,7 +74,8 @@ public class AddProductViewModel
     public int[] CategoryIds { get; set; }
     public SelectList Categories { get; set; }
 
-    [Display(Name = "Product Group")] public int? ProductGroupId { get; set; }
+    [Display(Name = "Product Group")] 
+    public int? ProductGroupId { get; set; }
     public SelectList ProductGroups { get; set; }
 
     [Display(Name = "Short Description")] 

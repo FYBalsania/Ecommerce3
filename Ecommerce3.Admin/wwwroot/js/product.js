@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#Name').on('change', nameChanged);
 
-    $(document).on('change', '#addProductGroup', function () {
+    $(document).on('change', '#productGroup', function () {
         const productGroupId = $(this).val();
         getAttribute(productGroupId);
     });
@@ -19,7 +19,7 @@ function nameChanged(event) {
 }
 
 async function getAttribute(productGroupId) {
-    const container = $('#addProductGroupAttributesDiv');
+    const container = $('#productGroupAttributesDiv');
 
     try {
         const response = await fetch(
