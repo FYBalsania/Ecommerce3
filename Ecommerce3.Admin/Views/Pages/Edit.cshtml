@@ -1,27 +1,390 @@
-@using Ecommerce3.Contracts.DTOs.Image
 @using Ecommerce3.Domain.Entities
+@model Ecommerce3.Admin.ViewModels.Page.EditPageViewModel
 
-@{
-    Layout = null;
-}
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        @{
+            string title = Model.Type switch
+            {
+                nameof(BrandPage) => $"Brand - {Model.BrandName}",
+                nameof(CategoryPage) => $"Category - {Model.CategoryName}",
+                nameof(ProductPage) => $"Product - {Model.ProductName}",
+                nameof(ProductGroupPage) => $"Product Group - {Model.ProductGroupName}",
+                nameof(BankPage) => $"Bank - {Model.BankName}",
+                nameof(BrandCategoryPage) => $"Brand - {Model.BrandName} / Category - {Model.CategoryName}",
+                _ => $"Page - {Model.Path}"
+            };
+        }
+        <h2 class="text-danger fw-bold fs-3 mb-0">@title</h2>
+    </div>
 
-<!DOCTYPE html>
+    <form method="post" asp-action="Edit">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Type" />
+        
+        <!-- General -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-info"></i> General Info</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="Path"></label>
+                            <input class="form-control" asp-for="Path"/>
+                            <span asp-validation-for="Path" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="CanonicalUrl"></label>
+                            <input class="form-control" asp-for="CanonicalUrl"/>
+                            <span asp-validation-for="CanonicalUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="IsActive"></label>
+                            <select class="form-select" asp-for="IsActive">
+                                <option value="">Select</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="IsIndexed"></label>
+                            <select class="form-select" asp-for="IsIndexed">
+                                <option value="">Select</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <span asp-validation-for="IsIndexed" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="Language"></label>
+                            <input class="form-control" asp-for="Language"/>
+                            <span asp-validation-for="Language" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="Region"></label>
+                            <input class="form-control" asp-for="Region"/>
+                            <span asp-validation-for="Region" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<html>
-<head>
-    <title>title</title>
-    <!-- Images -->
-    @await Component.InvokeAsync("Images", new
-    {
-        parentEntityType = typeof(Page),
-        parentEntityId = 1,
-        imageEntityType = typeof(PageImage),
-        images = new List<ImageDTO>()
-    })
-</head>
-<body>
-<div>
+        <!-- SEO -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-magnifying-glass"></i> SEO</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="H1"></label>
+                            <input class="form-control" asp-for="H1"/>
+                            <span asp-validation-for="H1" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="MetaTitle"></label>
+                            <input class="form-control" asp-for="MetaTitle"/>
+                            <span asp-validation-for="MetaTitle" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="MetaDescription"></label>
+                            <textarea class="form-control" rows="3" asp-for="MetaDescription"></textarea>
+                            <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="MetaKeywords"></label>
+                            <textarea class="form-control" rows="3" asp-for="MetaKeywords"></textarea>
+                            <span asp-validation-for="MetaKeywords" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="MetaRobots"></label>
+                            <input class="form-control" asp-for="MetaRobots"/>
+                            <span asp-validation-for="MetaRobots" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="SchemaJsonLd"></label>
+                            <textarea class="form-control" rows="6" asp-for="SchemaJsonLd"></textarea>
+                            <span asp-validation-for="SchemaJsonLd" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="BreadcrumbsJson"></label>
+                            <textarea class="form-control" rows="6" asp-for="BreadcrumbsJson"></textarea>
+                            <span asp-validation-for="BreadcrumbsJson" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="HreflangMapJson"></label>
+                            <textarea class="form-control" rows="6" asp-for="HreflangMapJson"></textarea>
+                            <span asp-validation-for="HreflangMapJson" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="SeoScore"></label>
+                            <input type="number" class="form-control" asp-for="SeoScore"/>
+                            <span asp-validation-for="SeoScore" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-pen-nib"></i> Body</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="ContentHtml"></label>
+                            <div id="contentHtmlEditor" style="height: 200px;"></div>
+                            <input type="hidden" id="contentHtmlInput" asp-for="ContentHtml">
+                            <span asp-validation-for="ContentHtml" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="Summary"></label>
+                            <textarea class="form-control" rows="4" asp-for="Summary"></textarea>
+                            <span asp-validation-for="Summary" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Social -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-share-nodes"></i> Social</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="OgTitle"></label>
+                            <input class="form-control" asp-for="OgTitle"/>
+                            <span asp-validation-for="OgTitle" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="OgImageUrl"></label>
+                            <input class="form-control" asp-for="OgImageUrl"/>
+                            <span asp-validation-for="OgImageUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="OgDescription"></label>
+                            <textarea class="form-control" rows="3" asp-for="OgDescription"></textarea>
+                            <span asp-validation-for="OgDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="OgType"></label>
+                            <input class="form-control" asp-for="OgType"/>
+                            <span asp-validation-for="OgType" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="TwitterCard"></label>
+                            <textarea class="form-control" rows="5" asp-for="TwitterCard"></textarea>
+                            <span asp-validation-for="TwitterCard" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scripts -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-code"></i> Scripts</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="HeaderScripts"></label>
+                            <textarea class="form-control" rows="5" asp-for="HeaderScripts"></textarea>
+                            <span asp-validation-for="HeaderScripts" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="FooterScripts"></label>
+                            <textarea class="form-control" rows="5" asp-for="FooterScripts"></textarea>
+                            <span asp-validation-for="FooterScripts" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sitemap -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-sitemap"></i> Sitemap</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="SitemapPriority"></label>
+                            <input type="number" class="form-control" asp-for="SitemapPriority"/>
+                            <span asp-validation-for="SitemapPriority" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="SitemapFrequency"></label>
+                            <select class="form-select" asp-for="SitemapFrequency" asp-items="Html.GetEnumSelectList<Ecommerce3.Domain.Enums.SiteMapFrequency>()">
+                                <option value="">Select..</option>
+                            </select>
+                            <span asp-validation-for="SitemapFrequency" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Redirects -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted py-2"><i class="fas fa-arrow-turn-up"></i> Redirects</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" asp-for="RedirectFromJson"></label>
+                            <textarea class="form-control" rows="6" asp-for="RedirectFromJson"></textarea>
+                            <span asp-validation-for="RedirectFromJson" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Images -->
+        @await Component.InvokeAsync("Images", new
+        {
+            parentEntityType = typeof(Page),
+            parentEntityId = Model.Id,
+            imageEntityType = typeof(PageImage),
+            images = Model.Images 
+        })
 
+        <div class="row mb-7">
+            <div class="col-xl-12">
+                <button type="submit" class="btn btn-primary float-end">Update</button>
+            </div>
+        </div>
+
+    </form>
 </div>
-</body>
-</html>
+@section StyleSheet
+{
+    <link href="~/css/quill.snow.css" rel="stylesheet">
+}
+@section Scripts
+{
+    <script src="~/js/image.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <!-- Quill RTE JS for this page only -->
+    <script src="~/js/quill.min.js"></script>
+    <script>
+        const editor = document.getElementById('contentHtmlEditor');
+        const input  = document.getElementById('contentHtmlInput');
+
+        // Initialize Quill
+        const quill = new Quill(editor, {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    [{ font: [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ color: [] }, { background: [] }],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ align: [] }],
+                    ['link', 'image', 'blockquote', 'code-block'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // Sync Quill content to hidden input on change
+        quill.on('text-change', function () {
+            input.value = quill.root.innerHTML;
+        });
+    </script>
+}

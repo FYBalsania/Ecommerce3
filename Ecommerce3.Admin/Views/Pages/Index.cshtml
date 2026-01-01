@@ -1,4 +1,5 @@
-@model Ecommerce3.Admin.ViewModels.Page.PagesIndexResponse
+@using Ecommerce3.Domain.Entities
+@model Ecommerce3.Admin.ViewModels.Page.PagesIndexViewModel
 
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -15,69 +16,122 @@
     </div>
 
     <!-- Main Content -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row mb-2">
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Name contains</label>
-                    <input type="text" class="form-control" />
+    <form method="get" asp-controller="Pages" asp-action="Index">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Type:</label>
+                        <select class="form-select" asp-for="Filter.Type">
+                            <option value="">All</option>
+                            <option value="@nameof(BrandPage)">Brand</option>
+                            <option value="@nameof(CategoryPage)">Category</option>
+                            <option value="@nameof(ProductPage)">Product</option>
+                            <option value="@nameof(ProductGroupPage)">Product Group</option>
+                            <option value="@nameof(BankPage)">Bank</option>
+                            <option value="@nameof(BrandCategoryPage)">Brand + Category</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold" asp-for="Filter.Path">Path:</label>
+                        <input type="text" class="form-control" asp-for="Filter.Path"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold" asp-for="Filter.MetaTitle">Name:</label>
+                        <input type="text" class="form-control" asp-for="Filter.MetaTitle"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Is Active:</label>
+                        <select class="form-select" asp-for="Filter.IsActive">
+                            <option value="" selected="selected">Any</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
                 </div>
-
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Is active</label>
-                    <select class="form-select">
-                        <option value="">Select Status</option>
-                        <option value="0">Any</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-end">
-                    <a href="@Url.Action("Index", ViewContext.RouteData.Values["controller"]!.ToString())" class="btn btn-outline-danger px-4 me-2">
-                        <i class="fas fa-undo"></i> Reset
-                    </a>
-                    <button type="submit" class="btn btn-primary px-4">
-                        <i class="fas fa-filter"></i> Filter
-                    </button>
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <a href="@Url.Action("Index", ViewContext.RouteData.Values["controller"]!.ToString())" class="btn btn-outline-danger px-4 me-2">
+                            <i class="fas fa-undo"></i> Reset
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="card mb-4">
         <div class="card-body">
-            <!-- Brand Table -->
+            <!-- Page Table -->
             <div class="table-responsive">
                 <table class="table align-middle">
                     <thead>
                     <tr>
-                        <th style="width: 20%;">Discriminator</th>
-                        <th style="width: 10%;">Path</th>
-                        <th style="width: 10%;">Brand</th>
-                        <th style="width: 10%;">Category</th>
-                        <th style="width: 10%;">Product</th>
-                        <th style="width: 10%;">Product Group</th>
-                        <th class="text-end" style="width: 20%;">Created</th>
-                        <th class="text-center" style="width: 10%;">Action</th>
+                        <th style="width: 70%;">Name/Path</th>
+                        <th style="width: 10%;">Type</th>
+                        <th class="text-end" style="width: 15%;">Created</th>
+                        <th class="text-center" style="width: 5%;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var pageItem in Model.PageListItems)
+                    @foreach (var pg in Model.Pages.Data)
                     {
                         <tr>
                             <td>
-                                @pageItem.Discriminator <span class="badge @(pageItem.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
+                                @pg.MetaTitle <span class="badge @(pg.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
+                                <span class="text-muted">@pg.Path</span>
                             </td>
-                            <td>@pageItem.Path</td>
-                            <td>@pageItem.BrandId</td>
-                            <td>@pageItem.CategoryId</td>
-                            <td>@pageItem.ProductId</td>
-                            <td>@pageItem.ProductGroupId</td>
-                            <td class="text-end">@pageItem.CreatedUserFullName <br/>@pageItem.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")</td>
+                            <td>
+                                @switch (pg.Type)
+                                {
+                                    case "BankPage":
+                                        @:Bank
+                                        break;
+
+                                    case "BrandPage":
+                                        @:Brand
+                                        break;
+
+                                    case "CategoryPage":
+                                        @:Category
+                                        break;
+
+                                    case "ProductPage":
+                                        @:Product
+                                        break;
+
+                                    case "ProductGroupPage":
+                                        @:Product Group
+                                        break;
+
+                                    case "BrandCategoryPage":
+                                        @:Brand + Category
+                                        break;
+
+                                    default:
+                                        @:Page
+                                        break;
+                                }
+                            </td>
+                            <td class="text-end">
+                                @pg.CreatedUserFullName <br/>@pg.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
+                            </td>
                             <td class="text-center">
-                                <a asp-controller="Pages" asp-action="Edit" asp-route-id="1" class="text-decoration-none"><i class="fas fa-edit me-2 fs-6 text-success"></i></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deletePageModal" class="text-decoration-none"><i class="fas fa-trash fs-6 text-danger"></i></a>
+                                <a asp-controller="Pages"
+                                   asp-action="Edit"
+                                   asp-route-id="@pg.Id"
+                                   asp-route-type="@pg.Type"
+                                   class="text-decoration-none">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                                <a href="#" 
+                                   class="delete-page-btn text-decoration-none"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deletePageModal"
+                                   data-page-id="@pg.Id"
+                                   data-page-name="@pg.MetaTitle"><i class="fas fa-trash fs-6 text-danger"></i></a>
                             </td>
                         </tr>
                     }
@@ -88,20 +142,77 @@
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <!-- Left: Page Size -->
                 <div class="text-muted">
-                    Displaying 10 of 43 records
+                    Displaying @Model.Pages.Data.Count of @Model.Pages.TotalItems records
                 </div>
 
                 <!-- Right: Pagination -->
                 <nav>
-                    <ul class="pagination mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
+                    <cs-pager cs-pager-ul-class="pagination mb-0"
+                              cs-pager-li-current-class="page-item active"
+                              cs-pager-li-other-class="page-item"
+                              cs-pager-link-current-class="page-link"
+                              cs-pager-link-other-class="page-link"
+                              cs-show-first-last="true"
+                              cs-show-disabled-page-items="true"
+                              cs-first-page-text="<i class='fas fa-angles-left'></i>"
+                              cs-last-page-text="<i class='fas fa-angles-right'></i>"
+                              cs-previous-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-left'></i></a></li>"
+                              cs-next-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-right'></i></a></li>"
+                              cs-paging-pagesize="@Model.Pages.PageSize"
+                              cs-paging-pagenumber="@Model.Pages.PageNumber"
+                              cs-paging-totalitems="@Model.Pages.TotalItems"
+                              cs-pagenumber-param="pageNumber"
+                              asp-controller="Pages"
+                              asp-action="Index">
+                    </cs-pager>
                 </nav>
             </div>
         </div>
     </div>
 </div>
+<!-- Delete Page Modal -->
+<div class="modal fade" id="deletePageModal" tabindex="-1" aria-labelledby="deletePageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">
+                    <i class="fas fa-trash"></i> Delete Page
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="text-muted">
+                    Are you sure you want to delete the page 
+                    <span id="deletePageName" class="fw-bold text-danger"></span>?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-controller="Pages" asp-action="Delete" class="d-inline">
+                    <input type="hidden" id="deletePageId" name="id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteModal = document.getElementById("deletePageModal");
+
+        deleteModal.addEventListener("show.bs.modal", function (event) {
+            const button = event.relatedTarget; // Button that triggered the modal
+            const pageId = button.getAttribute("data-page-id");
+            const pageName = button.getAttribute("data-page-name");
+
+            // Set modal content dynamically
+            deleteModal.querySelector("#deletePageId").value = pageId;
+            deleteModal.querySelector("#deletePageName").textContent = pageName;
+        });
+    });
+</script>
+}

@@ -6,14 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal class PageRepository<T> : EntityWithImagesRepository<T, PageImage>, IPageRepository<T> where T : Page
+internal class PageRepository<T>(AppDbContext dbContext) : EntityWithImagesRepository<T, PageImage>(dbContext), IPageRepository<T>
+    where T : Page
 {
-    private readonly AppDbContext _dbContext;
-
-    public PageRepository(AppDbContext dbContext) : base(dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly AppDbContext _dbContext = dbContext;
 
     private IQueryable<T> GetQuery(PageInclude includes, bool trackChanges)
     {
@@ -47,6 +43,7 @@ internal class PageRepository<T> : EntityWithImagesRepository<T, PageImage>, IPa
     public async Task<T?> GetByIdAsync(int id, PageInclude includes, bool trackChanges,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var query = GetQuery(includes, trackChanges);
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

@@ -68,6 +68,7 @@ public static class DependencyInjection
             services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IBankRepository>());
             services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IProductGroupRepository>());
             services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IProductRepository>());
+            services.AddScoped<IImageEntityRepository>(sp => sp.GetRequiredService<IPageRepository<Page>>());
             services.AddScoped<IImageRepository<Image>, ImageRepository<Image>>();
             services.AddScoped<ITextListItemRepository, TextListItemRepository>();
             services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
@@ -79,6 +80,7 @@ public static class DependencyInjection
             services.AddScoped<IImageQueryRepository, BrandImageQueryRepository>();
             services.AddScoped<IImageQueryRepository, CategoryImageQueryRepository>();
             services.AddScoped<IImageQueryRepository, ProductImageQueryRepository>();
+            services.AddScoped<IImageQueryRepository, PageImageQueryRepository>();
             services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
             services.AddScoped<IProductAttributeValueQueryRepository, ProductAttributeValueQueryRepository>();
             services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
@@ -86,15 +88,21 @@ public static class DependencyInjection
             services.AddScoped<IImageTypeQueryRepository, ImageTypeQueryRepository>();
             services.AddScoped<IKVPListItemQueryRepository, CategoryKVPListItemQueryRepository>();
             services.AddScoped<IKVPListItemQueryRepository, ProductKVPListItemQueryRepository>();
-            services.AddScoped<IPageQueryRepository, PageQueryRepository>();
+            // services.AddScoped<IPageQueryRepository, PageQueryRepository>();
+            services.AddScoped<IPageRepository<Page>, PageRepository<Page>>();
             services.AddScoped<IDeliveryWindowQueryRepository, DeliveryWindowQueryRepository>();
             services.AddScoped<IProductGroupQueryRepository, ProductGroupQueryRepository>();
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
             services.AddScoped<ITextListItemQueryRepository, ProductTextListItemQueryRepository>();
             services.AddScoped<IUnitOfMeasureQueryRepository, UnitOfMeasureQueryRepository>();
-            services
-                .AddScoped<IProductGroupProductAttributeQueryRepository, ProductGroupProductAttributeQueryRepository>();
-
+            services.AddScoped<IProductGroupProductAttributeQueryRepository, ProductGroupProductAttributeQueryRepository>();
+            services.AddScoped<IPageQueryRepository, BrandPageQueryRepository>();
+            services.AddScoped<IPageQueryRepository, CategoryPageQueryRepository>();
+            services.AddScoped<IPageQueryRepository, BankPageQueryRepository>();
+            services.AddScoped<IPageQueryRepository, ProductPageQueryRepository>();
+            services.AddScoped<IPageQueryRepository, ProductGroupPageQueryRepository>();
+            services.AddScoped<IPageQueryRepository, PagePageQueryRepository>();
+            
             return services;
         }
 
