@@ -6,6 +6,12 @@ public static partial class DomainErrors
 {
     public static class PageErrors
     {
+        public static readonly DomainError PageQueryRepositoryNotFound =
+            new($"{nameof(Page)}.{nameof(Page.Id)}", "Specific page query repository not found.");
+        
+        public static readonly DomainError InvalidId =
+            new($"{nameof(Page)}.{nameof(Page.Id)}", "Page id is invalid.");
+        
         public static readonly DomainError InvalidPath =
             new($"{nameof(Page)}.{nameof(Page.Path)}", "Path is invalid.");
 
@@ -14,6 +20,9 @@ public static partial class DomainErrors
 
         public static readonly DomainError PathTooLong =
             new($"{nameof(Page)}.{nameof(Page.Path)}", "Path cannot exceed 256 characters.");
+        
+        public static readonly DomainError DuplicatePath =
+            new($"{nameof(Page)}.{nameof(Page.Path)}", "Duplicate path");
 
         public static readonly DomainError MetaTitleRequired =
             new($"{nameof(Page)}.{nameof(Page.MetaTitle)}", "Meta title is required.");

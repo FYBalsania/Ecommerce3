@@ -12,6 +12,5 @@ public interface IPageRepository<T> : IEntityWithImagesRepository<T, PageImage> 
     public Task<T?> GetByPathAsync(string path, PageInclude include, bool trackChanges,
         CancellationToken cancellationToken);
 
-    public Task<T?> GetByIdAsync(int id, PageInclude include, bool trackChanges,
-        CancellationToken cancellationToken);
+    public Task<T?> GetByIdAsync(int id, PageInclude include, bool trackChanges, CancellationToken cancellationToken);
 }

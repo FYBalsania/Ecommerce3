@@ -1,3 +1,4 @@
+using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.DTOs.Page;
@@ -32,4 +33,6 @@ public record PageDTO
     public required string? Region { get; init; } = "UK";
     public required int? SeoScore { get; init; }
     public required bool IsActive { get; init; }
+    public required string PageType { get; init; }
+    public IReadOnlyList<ImageDTO> Images { get; set; } = [];
 }

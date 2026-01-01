@@ -6,17 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.QueryRepositories;
 
-internal sealed class BankImageQueryRepository(AppDbContext dbContext) : ImageQueryRepository(dbContext)
+internal sealed class PageImageQueryRepository(AppDbContext dbContext) : ImageQueryRepository(dbContext)
 {
     private readonly AppDbContext _dbContext = dbContext;
-    public override Type ImageType => typeof(BankImage);
+    
+    public override Type ImageType => typeof(PageImage);
 
     public override async Task<IReadOnlyList<ImageDTO>> GetByParentIdAsync(int parentId, CancellationToken cancellationToken)
-        => await _dbContext.BankImages
-            .Where(x => x.BankId == parentId)
+        => await _dbContext.PageImages
+            .Where(x => x.PageId == parentId)
             .OrderBy(x => x.ImageType!.Name)
-            .ThenBy(x => x.Size)
-            .ThenBy(x => x.SortOrder)
+            .ThenBy(x => x.Size).
+            ThenBy(x => x.SortOrder)
             .ProjectToDTO()
             .ToListAsync(cancellationToken);
 }
