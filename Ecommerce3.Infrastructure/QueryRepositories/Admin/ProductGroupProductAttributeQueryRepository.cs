@@ -1,4 +1,3 @@
-using Dapper;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroup;
 using Ecommerce3.Contracts.QueryRepositories.Admin;
 using Ecommerce3.Infrastructure.Data;

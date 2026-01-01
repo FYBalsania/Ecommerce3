@@ -1,10 +1,7 @@
-using System.Text.Json;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce3.Infrastructure.EntityTypeConfigurations;
 

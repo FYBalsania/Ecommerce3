@@ -1,6 +1,5 @@
 using Ecommerce3.Admin.ViewModels.ProductAttribute;
 using Ecommerce3.Application.Services.Interfaces;
-using Ecommerce3.Domain;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;

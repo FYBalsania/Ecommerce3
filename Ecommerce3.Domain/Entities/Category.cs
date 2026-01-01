@@ -9,6 +9,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     IKVPListItems<CategoryKVPListItem>
 {
     private readonly List<CategoryKVPListItem> _kvpListItems = [];
+    private readonly List<Category> _children = [];
     public override string ImageNamePrefix => Slug;
     public string Name { get; private set; }
     public string Slug { get; private set; }
@@ -37,6 +38,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
     public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
+    public IReadOnlyList<Category> Children => _children;
 
     // public IReadOnlyList<CategoryKVPListItem> GetKVPListItems(KVPListItemType type) =>
     //     _kvpListItems.Where(x => x.Type == type).OrderBy(x => x.SortOrder).ToList();

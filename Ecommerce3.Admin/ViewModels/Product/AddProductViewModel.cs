@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce3.Admin.ViewModels.Common;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;

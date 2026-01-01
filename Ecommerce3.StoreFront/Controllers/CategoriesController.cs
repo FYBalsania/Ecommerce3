@@ -1,14 +1,37 @@
+using Ecommerce3.Contracts.QueryRepositories.StoreFront;
+using Ecommerce3.StoreFront.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.StoreFront.Controllers;
 
 [Route("{category0Slug}")]
-public class CategoriesController : Controller
+public class CategoriesController(ICategoryQueryRepository categoryQueryRepository) : Controller
 {
     [HttpGet("c")]
-    public async Task<IActionResult> CategoryLevel0(string category0Slug, CancellationToken cancellationToken)
+    public async Task<IActionResult> CategoryLevel0(string category0Slug, string[]? brands, decimal? minPrice,
+        decimal? maxPrice, IDictionary<string, decimal>? weights, IDictionary<string, string>? attributes,
+        CancellationToken cancellationToken)
     {
-        await Task.Delay(0, cancellationToken);
+        //Category.
+        var category = await categoryQueryRepository.GetWithChildrenBySlugAsync(category0Slug, cancellationToken);
+        if (category is null) return NotFound();
+
+        //Brands.
+        //Products.
+        //Weights.
+
+        //Breadcrumb.
+        var breadcrumb = new List<BreadcrumbItem>
+        {
+            new()
+            {
+                Text = "Home",
+                Url = Url.Action(nameof(HomeController.Index),
+                    nameof(HomeController).Replace("Controller", string.Empty))
+            },
+            new() { Text = category.Breadcrumb }
+        };
+
         return View();
     }
 

@@ -15,9 +15,12 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         //PK
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
-        
+
         //Navigation Properties.
         builder.Navigation(x => x.Images).HasField("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(x => x.Children).HasField("_children").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Properties.
         builder.Property(x => x.Name).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(2);
@@ -46,10 +49,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
 
-        //Navigation.
-        builder.Navigation(x => x.KVPListItems).HasField("_kvpListItems")
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
-
         //Indexes.
         builder.HasIndex(x => x.Name).IsUnique()
             .HasDatabaseName($"UK_{nameof(Category)}_{nameof(Category.Name)}");
@@ -76,6 +75,10 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         //relations.
         builder.HasOne(x => x.Parent)
             .WithMany()
+            .HasForeignKey(x => x.ParentId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasMany(x => x.Children)
+            .WithOne(x => x.Parent)
             .HasForeignKey(x => x.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(x => x.Images)

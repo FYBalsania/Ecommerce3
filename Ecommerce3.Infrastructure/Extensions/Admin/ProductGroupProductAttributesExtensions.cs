@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
-using Ecommerce3.Contracts.DTO.API.ProductGroup;
 using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Infrastructure.Extensions.Admin;

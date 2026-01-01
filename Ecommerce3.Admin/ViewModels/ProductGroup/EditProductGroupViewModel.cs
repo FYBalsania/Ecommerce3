@@ -3,7 +3,6 @@ using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.ProductGroup;
-using Ecommerce3.Domain.Entities;
 
 namespace Ecommerce3.Admin.ViewModels.ProductGroup;
 

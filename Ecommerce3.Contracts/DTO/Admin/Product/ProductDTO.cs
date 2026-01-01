@@ -1,6 +1,5 @@
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.KVPListItem;
-using Ecommerce3.Contracts.DTOs.ProductAttribute;
 using Ecommerce3.Contracts.DTOs.TextListItem;
 using Ecommerce3.Domain.Enums;
 

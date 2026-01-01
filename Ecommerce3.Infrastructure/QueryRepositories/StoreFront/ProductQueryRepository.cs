@@ -1,4 +1,6 @@
+using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTO.StoreFront.Product;
+using Ecommerce3.Contracts.Filters.StoreFront;
 using Ecommerce3.Contracts.QueryRepositories.StoreFront;
 using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.Expressions.StoreFront;
@@ -16,5 +18,10 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
             .AsSplitQuery()
             .Select(ProductExpressions.DTOExpression)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<PagedResult<ProductListItemDTO>> GetListAsync(ProductListPageFilter filter, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

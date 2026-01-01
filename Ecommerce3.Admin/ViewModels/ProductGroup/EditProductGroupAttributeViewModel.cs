@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Application.Commands.Admin.ProductGroup;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ViewModels.ProductGroup;
 
