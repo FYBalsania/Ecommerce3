@@ -9,7 +9,7 @@ public record ProductListItemDTO
     public string Name { get; init; }
     public string Slug { get; init; }
     public string SKU { get; init; }
-    public IReadOnlyList<ProductCategory> Categories { get; set; } = [];    
+    public required string[] CategoryNames { get; init; }
     public decimal SortOrder { get; init; }
     public ProductStatus Status { get; init; }
     public int ImageCount { get; init; }

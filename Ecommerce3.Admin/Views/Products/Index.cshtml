@@ -71,9 +71,9 @@
                 <table class="table align-middle">
                     <thead>
                         <tr>
-                            <th style="width: 50%;">Name & Slug</th>
+                            <th style="width: 40%;">Name & Slug</th>
                             <th style="width: 10%;">SKU</th>
-                            <th style="width: 5%;">Category</th>
+                            <th style="width: 10%;">Category</th>
                             <th class="text-end" style="width: 10%;">Sort Order</th>
                             <th class="text-end" style="width: 5%;">Images</th>
                             <th class="text-end" style="width: 15%;">Created</th>
@@ -102,13 +102,10 @@
                             </td>
                             <td>@product.SKU</td>
                             <td>
-                                @foreach (var pc in product.Categories.Where(pc => pc.Category != null))
+                                @foreach (var categoryName in product.CategoryNames)
                                 {
-                                    <span class="badge bg-light text-dark me-1">
-                                        @pc.Category!.Name
-                                    </span>
+                                    @categoryName<br/>
                                 }
-                                @string.Join(", ", product.Categories.Where(pc => pc.Category != null).Select(pc => pc.Category!.Name))
                             </td>
                             <td class="text-end">@product.SortOrder</td>
                             <td class="text-end">@product.ImageCount</td>

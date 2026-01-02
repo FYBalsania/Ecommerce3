@@ -18,7 +18,7 @@ public static class ProductExtensions
             ImageCount = p.Images.Count,
             SKU = p.SKU,
             Status = p.Status,
-            Categories = p.Categories,
+            CategoryNames = p.Categories.Select(c => c.Category!.Name).ToArray(),
             CreatedUserFullName = p.CreatedByUser!.FullName,
             CreatedAt = p.CreatedAt
         };
