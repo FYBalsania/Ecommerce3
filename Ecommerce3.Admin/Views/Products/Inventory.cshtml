@@ -1,0 +1,170 @@
+@using Ecommerce3.Domain.Enums
+@model Ecommerce3.Admin.ViewModels.Product.InventoryIndexViewModel
+
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <!-- Left side: Heading -->
+        <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"]</h2>
+
+        <!-- Right side: button -->
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary" asp-controller="Products" asp-action="Add">
+                <i class="fas fa-plus"></i> Add New
+            </a>
+            <!-- Add more button here -->
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <form method="get" asp-controller="Products" asp-action="Inventory">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold" asp-for="Filter.Name">Name:</label>
+                        <input type="text" class="form-control" asp-for="Filter.Name" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold" asp-for="Filter.SKU">SKU:</label>
+                        <input type="text" class="form-control" asp-for="Filter.SKU" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Price Range:</label>
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control" asp-for="Filter.MinPrice" placeholder="Min" />
+                            <span class="input-group-text">-</span>
+                            <input type="number" step="0.01" class="form-control" asp-for="Filter.MaxPrice" placeholder="Max" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Stock Range:</label>
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control" asp-for="Filter.MinStock" placeholder="Min" />
+                            <span class="input-group-text">-</span>
+                            <input type="number" step="0.01" class="form-control" asp-for="Filter.MaxStock" placeholder="Max" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold" asp-for="Filter.StockStatus">Stock Status:</label>
+                        <select class="form-select" asp-for="Filter.StockStatus">
+                            <option value="@StockStatus.All">All</option>
+                            <option value="@StockStatus.InStock">In stock</option>
+                            <option value="@StockStatus.OutOfStock">Out of stock</option>
+                            <option value="@StockStatus.LowStock">Low</option>
+                            <option value="@StockStatus.MediumStock">Medium</option>
+                            <option value="@StockStatus.HighStock">High</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <a href="@Url.Action("Inventory", "Products")" class="btn btn-outline-danger px-4 me-2">
+                            <i class="fas fa-undo"></i> Reset
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">SKU</th>
+                        <th class="text-end" style="width: 10%;">Price</th>
+                        <th class="text-end" style="width: 10%;">Old Price</th>
+                        <th class="text-end" style="width: 10%;">Stock</th>
+                        <th class="text-end" style="width: 15%;">Updated</th>
+                        <th class="text-center" style="width: 5%;">Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var inventory in Model.Inventories.Data)
+                    {
+                        var failedRowId = TempData["RowId"] as int?;
+                        var failedField = TempData["Field"] as string;
+                        var isThisRow = failedRowId == inventory.Id;
+                        <tr>
+                            <form asp-action="EditInventory" asp-controller="Products" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="Id" value="@inventory.Id"/>
+                                <input type="hidden" name="Name" value="@inventory.Name"/>
+                                <input type="hidden" name="ReturnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+
+                                <td>@inventory.Name</td>
+                                <td>@inventory.SKU</td>
+
+                                <td class="text-end @(isThisRow && failedField == "Price" ? "bg-danger-subtle" : "")">
+                                    <input name="Price" type="number" value="@inventory.Price"
+                                           class="form-control form-control-sm text-end" />
+                                </td>
+                                
+                                <td class="text-end @(isThisRow && failedField == "OldPrice" ? "bg-danger-subtle border" : "")">
+                                    <input name="OldPrice" type="number" value="@inventory.OldPrice"
+                                           class="form-control form-control-sm text-end"/>
+                                </td>
+                                
+                                <td class="text-end @(isThisRow && failedField == "Stock" ? "bg-danger-subtle border" : "")">
+                                    <input name="Stock" type="number" value="@inventory.Stock"
+                                           class="form-control form-control-sm text-end"/>
+                                </td>
+
+                                <td class="text-end">
+                                    @inventory.UpdatedUserFullName<br/>
+                                    @(inventory.UpdatedAt.HasValue ? inventory.UpdatedAt.Value.ToString("dd-MMM-yyyy HH:mm tt") : "")
+                                </td>
+
+                                <td class="text-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </td>
+                            </form>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination + Page Size -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- Left: Page Size -->
+                <div class="text-muted">
+                    Displaying @Model.Inventories.Data.Count of @Model.Inventories.TotalItems records
+                </div>
+
+                <!-- Right: Pagination -->
+                <nav>
+                    <cs-pager cs-pager-ul-class="pagination mb-0"
+                              cs-pager-li-current-class="page-item active"
+                              cs-pager-li-other-class="page-item"
+                              cs-pager-link-current-class="page-link"
+                              cs-pager-link-other-class="page-link"
+                              cs-show-first-last="true"
+                              cs-show-disabled-page-items="true"
+                              cs-first-page-text="<i class='fas fa-angles-left'></i>"
+                              cs-last-page-text="<i class='fas fa-angles-right'></i>"
+                              cs-previous-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-left'></i></a></li>"
+                              cs-next-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-right'></i></a></li>"
+                              cs-paging-pagesize="@Model.Inventories.PageSize"
+                              cs-paging-pagenumber="@Model.Inventories.PageNumber"
+                              cs-paging-totalitems="@Model.Inventories.TotalItems"
+                              cs-pagenumber-param="pageNumber"
+                              asp-controller="Products"
+                              asp-action="Inventory">
+                    </cs-pager>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,7 @@ public abstract class Entity
 
     protected static void ValidatePositiveNumber(decimal value, DomainError domainError)
     {
-        if (value <= 0) throw new DomainException(domainError);
+        if (value < 0) throw new DomainException(domainError);
     }
 
     protected static void ValidatePositiveAndZeroNumber(decimal value, DomainError domainError)

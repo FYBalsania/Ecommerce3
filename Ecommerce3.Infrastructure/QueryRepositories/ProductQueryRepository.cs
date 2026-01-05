@@ -3,6 +3,7 @@ using Ecommerce3.Contracts.DTO.Admin.Product;
 using Ecommerce3.Contracts.DTOs.Product;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Contracts.QueryRepositories;
+using Ecommerce3.Domain.Enums;
 using Ecommerce3.Infrastructure.Data;
 using Ecommerce3.Infrastructure.Extensions.Admin;
 using Microsoft.EntityFrameworkCore;
@@ -63,4 +64,60 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
             .Where(x => x.Id == id)
             .Select(ProductExtensions.DTOExpression)
             .FirstOrDefaultAsync(cancellationToken);
+    
+    public async Task<PagedResult<InventoryListItemDTO>> GetInventoryListItemsAsync(InventoryFilter filter, int pageNumber,
+        int pageSize, CancellationToken cancellationToken)
+    {
+        var query = dbContext.Products.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(filter.Name))
+            query = query.Where(x => x.Name.Contains(filter.Name));
+        if (!string.IsNullOrWhiteSpace(filter.SKU))
+            query = query.Where(x => x.SKU.Contains(filter.SKU));
+        if (filter.MinPrice.HasValue)
+            query = query.Where(x => x.Price >= filter.MinPrice.Value);
+        if (filter.MaxPrice.HasValue)
+            query = query.Where(x => x.Price <= filter.MaxPrice.Value);
+        if (filter.MinStock.HasValue)
+            query = query.Where(x => x.Stock >= filter.MinStock.Value);
+        if (filter.MaxStock.HasValue)
+            query = query.Where(x => x.Stock <= filter.MaxStock.Value);
+        if (filter.StockStatus.HasValue && filter.StockStatus.Value != StockStatus.All)
+        {
+            switch (filter.StockStatus.Value)
+            {
+                case StockStatus.InStock:
+                    query = query.Where(x => x.Stock > 0);
+                    break;
+                case StockStatus.OutOfStock:
+                    query = query.Where(x => x.Stock == 0);
+                    break;
+                case StockStatus.LowStock:
+                    query = query.Where(x => x.Stock > 0 && x.Stock <= 10);
+                    break;
+                case StockStatus.MediumStock:
+                    query = query.Where(x => x.Stock > 10 && x.Stock <= 100);
+                    break;
+                case StockStatus.HighStock:
+                    query = query.Where(x => x.Stock > 100);
+                    break;
+            }
+        }
+
+        var total = await query.CountAsync(cancellationToken);
+        query = query.OrderBy(x => x.Name);
+        var inventories = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ProjectToInventoryListItemDTO()
+            .ToListAsync(cancellationToken);
+
+        return new PagedResult<InventoryListItemDTO>()
+        {
+            Data = inventories,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalItems = total
+        };
+    }
 }

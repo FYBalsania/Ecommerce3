@@ -14,4 +14,8 @@ public interface IProductService
     Task EditAsync(EditProductCommand command, CancellationToken cancellationToken);
     Task<decimal> GetMaxSortOrderAsync(CancellationToken cancellationToken);
     Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<PagedResult<InventoryListItemDTO>> GetInventoryListItemsAsync(InventoryFilter filter, int pageNumber, int pageSize,
+        CancellationToken cancellationToken);
+    Task EditInventoryAsync(EditInventoryCommand command, CancellationToken cancellationToken);
+
 }

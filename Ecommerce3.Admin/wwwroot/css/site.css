@@ -246,7 +246,7 @@ main {
 
 .main-content {
   margin-left: var(--sidebar-width);
-  margin-top: 50px;
+  margin-top: 60px;
   padding: var(--spacing-lg);
   transition: margin-left var(--transition-standard);
 }

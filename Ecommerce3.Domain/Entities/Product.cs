@@ -617,4 +617,36 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             _attributes.Remove(attribute);
         }
     }
+
+    public bool Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt, string updatedByIp)
+    {
+        ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
+        if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);
+        ValidatePositiveNumber(stock, DomainErrors.ProductErrors.InvalidStock);
+        ValidateUpdatedBy(updatedBy);
+        ValidateUpdatedByIp(updatedByIp);
+        
+        if (Price == price && OldPrice == oldPrice && Stock == stock)
+            return false;
+        
+        Price = price;
+        OldPrice = oldPrice;
+        Stock = stock;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+        
+        return true;
+    }
+    
+    private static void ValidateUpdatedBy(int updatedBy)
+    {
+        if (updatedBy <= 0) throw new DomainException(DomainErrors.BrandErrors.InvalidUpdatedBy);
+    }
+    
+    private static void ValidateUpdatedByIp(string updatedByIp)
+    {
+        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.BrandErrors.UpdatedByIpRequired);
+        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.BrandErrors.UpdatedByIpTooLong);
+    }
 }

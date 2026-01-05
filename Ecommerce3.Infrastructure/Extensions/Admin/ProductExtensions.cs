@@ -92,9 +92,25 @@ public static class ProductExtensions
             .Select(KVPListItemExtensions.ToDtoExpression)
             .ToList()
     };
+    
+    private static readonly Expression<Func<Product, InventoryListItemDTO>> InventoryListItemDTOExpression = i =>
+        new InventoryListItemDTO
+        {
+            Id = i.Id,
+            Name = i.Name,
+            SKU = i.SKU,
+            Price = i.Price,
+            OldPrice = i.OldPrice,
+            Stock = i.Stock,
+            UpdatedUserFullName = i.UpdatedByUser!.FullName,
+            UpdatedAt = i.UpdatedAt
+        };
 
     public static IQueryable<ProductListItemDTO> ProjectToListItemDTO(this IQueryable<Product> query) =>
         query.Select(ListItemDTOExpression);
 
     public static ProductDTO MapToDTO(this Product product) => DTOExpression.Compile()(product);
+    
+    public static IQueryable<InventoryListItemDTO> ProjectToInventoryListItemDTO(this IQueryable<Product> query) =>
+        query.Select(InventoryListItemDTOExpression);
 }

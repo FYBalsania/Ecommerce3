@@ -14,4 +14,6 @@ public interface IProductQueryRepository
     Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken);
     Task<bool> ExistsBySKUAsync(string sku, int? excludeId, CancellationToken cancellationToken);
     Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<PagedResult<InventoryListItemDTO>> GetInventoryListItemsAsync(InventoryFilter filter, int pageNumber, 
+        int pageSize, CancellationToken cancellationToken);
 }

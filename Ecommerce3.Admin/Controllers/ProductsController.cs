@@ -206,6 +206,78 @@ public class ProductsController(
         return PartialView("~/Views/Shared/Product/_ProductAttributesPartial.cshtml", selectListViewModels);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Inventory(InventoryFilter filter, int pageNumber, CancellationToken cancellationToken)
+    {
+        pageNumber = pageNumber == 0 ? 1 : pageNumber;
+        var result = await productService.GetInventoryListItemsAsync(filter, pageNumber, _pageSize, cancellationToken);
+        var response = new InventoryIndexViewModel()
+        {
+            Filter = filter,
+            Inventories = result
+        };
+        ViewData["Title"] = "Inventories";
+        return View(response);
+    }
+    
+    
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditInventory(EditInventoryViewModel model, CancellationToken cancellationToken)
+    {
+        ModelState.Remove(nameof(model.Name));
+        if (!ModelState.IsValid)
+        {
+            var rowId = model.Id;
+            var fieldName = ModelState.First(x => x.Value!.Errors.Count > 0).Key;
+            var message = ModelState[fieldName]!.Errors.First().ErrorMessage;
+        
+            TempData["RowId"] = rowId;
+            TempData["Field"] = fieldName;
+            TempData["ErrorMessage"] = message;
+        
+            return LocalRedirect(model.ReturnUrl ?? "/Products/Inventory");
+        }
+
+        var userId = 1;
+        var createdAt = DateTime.Now;
+        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+
+        var command = model.ToCommand(userId, createdAt, ipAddress);
+        try
+        {
+            await productService.EditInventoryAsync(command, cancellationToken);
+        }
+        catch (DomainException domainException)
+        {
+            var rowId = model.Id;
+            string field = string.Empty;
+
+            switch (domainException.Error.Code)
+            {
+                case $"{nameof(Product)}.{nameof(Product.Price)}":
+                    field = nameof(model.Price);
+                    break;
+                
+                case $"{nameof(Product)}.{nameof(Product.OldPrice)}":
+                    field = nameof(model.OldPrice);
+                    break;
+
+                case $"{nameof(Product)}.{nameof(Product.Stock)}":
+                    field = nameof(model.Stock);
+                    break;
+            }
+
+            TempData["RowId"] = rowId;
+            TempData["Field"] = field;
+            TempData["ErrorMessage"] = domainException.Message;
+
+            return LocalRedirect(model.ReturnUrl ?? "/Products/Inventory");
+        }
+
+        TempData["SuccessMessage"] = Common.EditedSuccessfully(model.Name);
+        return LocalRedirect("/Products/Inventory");
+    }
+    
     #region Private Helper Methods
 
     private async Task PopulateViewModelForAdd(AddProductViewModel model, CancellationToken cancellationToken)

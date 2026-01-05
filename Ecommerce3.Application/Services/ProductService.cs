@@ -245,4 +245,24 @@ internal sealed class ProductService(
 
     public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await queryRepository.GetByIdAsync(id, cancellationToken);
+    
+    public async Task<PagedResult<InventoryListItemDTO>> GetInventoryListItemsAsync(InventoryFilter filter, int pageNumber,
+        int pageSize, CancellationToken cancellationToken)
+        => await queryRepository.GetInventoryListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
+    
+    public async Task EditInventoryAsync(EditInventoryCommand command, CancellationToken cancellationToken)
+    {
+        //Product Id validity check.
+        var product = await repository.GetByIdAsync(command.Id, ProductInclude.None, true, cancellationToken);
+        if (product is null) throw new DomainException(DomainErrors.ProductErrors.InvalidId);
+
+        var inventoryUpdated = product.Update(command.Price, command.OldPrice, command.Stock, 
+            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        if (inventoryUpdated)
+        {
+            repository.Update(product);
+            await unitOfWork.CompleteAsync(cancellationToken);
+        }
+    }
 }
