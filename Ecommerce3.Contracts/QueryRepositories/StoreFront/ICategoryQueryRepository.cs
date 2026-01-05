@@ -7,4 +7,5 @@ public interface ICategoryQueryRepository
 {
     Task<IReadOnlyList<CategoryListItemDTO>> GetListAsync(CancellationToken cancellationToken);
     Task<PLPParentCategoryDTO?> GetWithChildrenBySlugAsync(string slug, CancellationToken cancellationToken);
+    Task<int[]> GetDescendantIdsAsync(int categoryId, CancellationToken cancellationToken);
 }

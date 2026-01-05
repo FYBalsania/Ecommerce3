@@ -114,7 +114,9 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
 
     public async Task<int[]> GetDescendantIdsAsync(int id, CancellationToken cancellationToken)
     {
-        var allCategories = await dbContext.Categories.Select(x => new { x.Id, x.ParentId }).ToListAsync(cancellationToken);
+        var allCategories = await dbContext.Categories
+            .Select(x => new { x.Id, x.ParentId })
+            .ToListAsync(cancellationToken);
         
         var result = new List<int>();
         var stack = new Stack<int>();

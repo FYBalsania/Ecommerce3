@@ -16,4 +16,13 @@ internal sealed class PageQueryRepository(AppDbContext dbContext) : IPageQueryRe
             .Select(PageExpressions.DTOExpression)
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task<PageDTO?> GetByCategoryIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await dbContext.CategoryPages
+            .Where(x => x.CategoryId == id)
+            .AsSplitQuery()
+            .Select(PageExpressions.DTOExpression)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

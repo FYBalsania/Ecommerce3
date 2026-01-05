@@ -26,4 +26,17 @@ internal sealed class CategoryQueryRepository(AppDbContext dbContext) : ICategor
             .Select(CategoryExpressions.PLPParentCategoryDTOExpression)
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task<int[]> GetDescendantIdsAsync(int categoryId, CancellationToken cancellationToken)
+    {
+        var categoryPath = await dbContext.Categories
+            .Where(x => x.Id == categoryId)
+            .Select(x => x.Path)
+            .SingleAsync(cancellationToken);
+
+        return await dbContext.Categories
+            .Where(x => x.Path.IsDescendantOf(categoryPath) && x.IsActive)
+            .Select(x => x.Id)
+            .ToArrayAsync(cancellationToken);
+    }
 }

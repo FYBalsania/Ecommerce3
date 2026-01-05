@@ -1,23 +1,43 @@
 using Ecommerce3.Contracts.QueryRepositories.StoreFront;
+using Ecommerce3.Domain.Enums;
 using Ecommerce3.StoreFront.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.StoreFront.Controllers;
 
 [Route("{category0Slug}")]
-public class CategoriesController(ICategoryQueryRepository categoryQueryRepository) : Controller
+public class CategoriesController(
+    ICategoryQueryRepository categoryQueryRepository,
+    IBrandQueryRepository brandQueryRepository,
+    IPageQueryRepository pageQueryRepository,
+    IProductQueryRepository productQueryRepository,
+    IConfiguration configuration) : Controller
 {
     [HttpGet("c")]
-    public async Task<IActionResult> CategoryLevel0(string category0Slug, string[]? brands, decimal? minPrice,
-        decimal? maxPrice, IDictionary<string, decimal>? weights, IDictionary<string, string>? attributes,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> CategoryLevel0(string category0Slug, int[] brands, decimal? minPrice,
+        decimal? maxPrice, IDictionary<int, decimal>? weights, IDictionary<int, int>? attributes,
+        SortOrder sortOrder = SortOrder.NameAsc, CancellationToken cancellationToken = default)
     {
-        //Category.
+        weights ??= new Dictionary<int, decimal>();
+        attributes ??= new Dictionary<int, int>();
+        var pageSize = configuration.GetValue<int>("PLPSize");
+
+        //Category with children.
         var category = await categoryQueryRepository.GetWithChildrenBySlugAsync(category0Slug, cancellationToken);
         if (category is null) return NotFound();
 
-        //Brands.
+        //Category page.
+        var page = await pageQueryRepository.GetByCategoryIdAsync(category.Id, cancellationToken);
+
+        //Descendant category Ids.
+        var descendantIds = await categoryQueryRepository.GetDescendantIdsAsync(category.Id, cancellationToken);
+
+        //Brands by descendant category Ids.
+        var brandCheckBoxListItems = await brandQueryRepository.GetByCategoryIdsAsync(descendantIds, cancellationToken);
+
         //Products.
+        var products = await productQueryRepository.GetListAsync(descendantIds, brands, minPrice, maxPrice,
+            weights, attributes, sortOrder, 1, pageSize, cancellationToken);
         //Weights.
 
         //Breadcrumb.

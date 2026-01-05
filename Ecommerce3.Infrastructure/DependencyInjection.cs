@@ -22,7 +22,7 @@ public static class DependencyInjection
         public IServiceCollection AddCommonInfrastructure(IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection")!;
-            
+
             services.AddSingleton<DeleteInterceptor>();
             services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
             services.AddDbContext<AppDbContext>((sp, options) =>
@@ -95,14 +95,15 @@ public static class DependencyInjection
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
             services.AddScoped<ITextListItemQueryRepository, ProductTextListItemQueryRepository>();
             services.AddScoped<IUnitOfMeasureQueryRepository, UnitOfMeasureQueryRepository>();
-            services.AddScoped<IProductGroupProductAttributeQueryRepository, ProductGroupProductAttributeQueryRepository>();
+            services
+                .AddScoped<IProductGroupProductAttributeQueryRepository, ProductGroupProductAttributeQueryRepository>();
             services.AddScoped<IPageQueryRepository, BrandPageQueryRepository>();
             services.AddScoped<IPageQueryRepository, CategoryPageQueryRepository>();
             services.AddScoped<IPageQueryRepository, BankPageQueryRepository>();
             services.AddScoped<IPageQueryRepository, ProductPageQueryRepository>();
             services.AddScoped<IPageQueryRepository, ProductGroupPageQueryRepository>();
             services.AddScoped<IPageQueryRepository, PagePageQueryRepository>();
-            
+
             return services;
         }
 
@@ -115,6 +116,8 @@ public static class DependencyInjection
                 QueryRepositories.StoreFront.ProductQueryRepository>();
             services.AddScoped<Contracts.QueryRepositories.StoreFront.ICategoryQueryRepository,
                 QueryRepositories.StoreFront.CategoryQueryRepository>();
+            services.AddScoped<Contracts.QueryRepositories.StoreFront.IBrandQueryRepository,
+                QueryRepositories.StoreFront.BrandQueryRepository>();
 
             return services;
         }
