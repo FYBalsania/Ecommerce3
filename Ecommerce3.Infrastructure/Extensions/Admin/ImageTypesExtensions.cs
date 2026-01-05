@@ -11,6 +11,7 @@ public static class ImageTypesExtensions
         Id = it.Id,
         Entity = it.Entity,
         Name = it.Name,
+        Slug = it.Slug,
         IsActive = it.IsActive,
         CreatedUserFullName = it.CreatedByUser!.FullName,
         CreatedAt = it.CreatedAt
@@ -21,6 +22,7 @@ public static class ImageTypesExtensions
         Id = it.Id,
         Entity = it.Entity,
         Name = it.Name,
+        Slug = it.Slug,
         Description = it.Description,
         IsActive = it.IsActive,
     };

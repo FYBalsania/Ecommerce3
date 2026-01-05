@@ -255,14 +255,9 @@ internal sealed class ProductService(
         //Product Id validity check.
         var product = await repository.GetByIdAsync(command.Id, ProductInclude.None, true, cancellationToken);
         if (product is null) throw new DomainException(DomainErrors.ProductErrors.InvalidId);
-
-        var inventoryUpdated = product.Update(command.Price, command.OldPrice, command.Stock, 
-            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        if (inventoryUpdated)
-        {
-            repository.Update(product);
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
+        
+        product.Update(command.Price, command.OldPrice, command.Stock, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        repository.Update(product);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 }

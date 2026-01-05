@@ -33,8 +33,8 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
         ValidateName(name);
         ValidateSlug(slug);
         ValidateDescription(description);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ImageTypeErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ImageTypeErrors.CreatedByIpRequired, DomainErrors.ImageTypeErrors.CreatedByIpTooLong);
 
         Entity = entity;
         Name = name;
@@ -46,17 +46,17 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    public bool Update(string? entity, string name, string slug, string? description, bool isActive,
+    public void Update(string? entity, string name, string slug, string? description, bool isActive,
         int updatedBy, string updatedByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
         ValidateDescription(description);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ImageTypeErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ImageTypeErrors.UpdatedByIpRequired, DomainErrors.ImageTypeErrors.UpdatedByIpTooLong);
         
         if (Entity == entity && Name == name && Slug == slug && Description == description && IsActive == isActive)
-            return false;
+            return;
 
         Entity = entity;
         Name = name;
@@ -65,15 +65,6 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedBy = updatedBy;
         UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
-
-        return true;
-    }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
     }
     
     private static void ValidateName(string name)
@@ -92,28 +83,5 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
     {
         if (description is not null && description.Length > 1024)
             throw new DomainException(DomainErrors.ImageTypeErrors.DescriptionTooLong);
-    }
-    
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.ImageTypeErrors.InvalidCreatedBy);
-    }
-    
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.ImageTypeErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.ImageTypeErrors.CreatedByIpTooLong);
-    }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.ImageTypeErrors.InvalidUpdatedBy);
-    }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.ImageTypeErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.ImageTypeErrors.UpdatedByIpTooLong);
     }
 }

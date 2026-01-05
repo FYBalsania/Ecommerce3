@@ -137,15 +137,13 @@ internal sealed class ImageService(
         }
         
         //Create an image instance.
-        var imageUpdated = image.Update(command.ImageTypeId, command.ImageSize, command.AltText, command.Title, 
-            command.Loading, newFileName ?? oldFileName, command.Link, command.LinkTarget, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
+        image.Update(command.ImageTypeId, command.ImageSize, command.AltText, command.Title, 
+            command.Loading, newFileName ?? oldFileName, command.Link, command.LinkTarget, command.SortOrder, 
+            command.UpdatedBy, command.UpdatedByIp);
 
         //Save the image to a database.
-        if (imageUpdated)
-        {
-            imageRepository.Update(image);
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
+        imageRepository.Update(image);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteImageAsync(DeleteImageCommand command, CancellationToken cancellationToken)

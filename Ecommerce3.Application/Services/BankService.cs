@@ -61,15 +61,15 @@ internal sealed class BankService(
         var page = await pageRepository.GetByBankIdAsync(command.Id, BankPageInclude.None, true, cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.BankPageErrors.InvalidBankId);
 
-        var bankUpdated = bank.Update(command.Name, command.Slug, command.IsActive, command.SortOrder, 
+        bank.Update(command.Name, command.Slug, command.IsActive, command.SortOrder, 
             command.UpdatedBy, command.UpdatedByIp);
         
-        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+        page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (bankUpdated) repository.Update(bank);
-        if (pageUpdated) pageRepository.Update(page);
-        if (bankUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
+        repository.Update(bank);
+        pageRepository.Update(page);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)

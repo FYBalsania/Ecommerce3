@@ -64,17 +64,16 @@ internal sealed class BrandService(
         var page = await pageRepository.GetByBrandIdAsync(command.Id, BrandPageInclude.None, true, cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.BrandPageErrors.InvalidBrandId);
 
-        var brandUpdated = brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
+        brand.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
             command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
-        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+        page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (brandUpdated) repository.Update(brand);
-        if (pageUpdated) pageRepository.Update(page);
-
-        if (brandUpdated || pageUpdated) await unitOfWork.CompleteAsync(cancellationToken);
+        repository.Update(brand);
+        pageRepository.Update(page);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)

@@ -27,6 +27,9 @@ public static partial class DomainErrors
         public static readonly DomainError UnitTooLong =
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.Unit)}", "Unit cannot exceed 8 characters.");
         
+        public static readonly DomainError MaxValueGreaterThanMinValue =
+            new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.MaxValue)}", "MaxValue must be greater than MinValue.");
+        
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(DeliveryWindow)}.{nameof(DeliveryWindow.CreatedBy)}", "Created by is invalid.");
 

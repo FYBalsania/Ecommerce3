@@ -36,9 +36,9 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
     {
         ValidateName(name);
         ValidateUnit(deliveryUnit.ToString());
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
-        if (maxValue <= minValue) throw new ArgumentException("MaxValue must be greater than MinValue.", nameof(maxValue));
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.DeliveryWindowErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.DeliveryWindowErrors.CreatedByIpRequired, DomainErrors.DeliveryWindowErrors.CreatedByIpTooLong);
+        if (maxValue <= minValue) throw new DomainException(DomainErrors.DeliveryWindowErrors.MaxValueGreaterThanMinValue);
         
         Name = name;
         Unit = deliveryUnit;
@@ -67,18 +67,18 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
     
-    public bool Update(string name, DeliveryUnit deliveryUnit, uint minValue, uint? maxValue, bool isActive, int sortOrder,
+    public void Update(string name, DeliveryUnit deliveryUnit, uint minValue, uint? maxValue, bool isActive, int sortOrder,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         ValidateName(name);
         ValidateUnit(deliveryUnit.ToString());
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.DeliveryWindowErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.DeliveryWindowErrors.UpdatedByIpRequired, DomainErrors.DeliveryWindowErrors.UpdatedByIpTooLong);
         
         if (Name == name && Unit == deliveryUnit && MinValue == minValue && MaxValue == maxValue && IsActive == isActive && SortOrder == sortOrder)
-            return false;
+            return;
         
-        if (maxValue <= minValue) throw new ArgumentException("MaxValue must be greater than MinValue.", nameof(maxValue));
+        if (maxValue <= minValue) throw new DomainException(DomainErrors.DeliveryWindowErrors.MaxValueGreaterThanMinValue);
         
         Name = name;
         Unit = deliveryUnit;
@@ -105,38 +105,6 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-        
-        return true;
-    }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
-    }
-    
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.DeliveryWindowErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.DeliveryWindowErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidCreatedBy);
-    }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidUpdatedBy);
-    }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.DeliveryWindowErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.DeliveryWindowErrors.UpdatedByIpTooLong);
     }
     
     private static void ValidateName(string name)

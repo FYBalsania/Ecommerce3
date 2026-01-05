@@ -78,8 +78,8 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         ValidateSummary(summary);
         ValidateLanguage(language);
         ValidateRegion(region);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.PageErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.PageErrors.CreatedByIpRequired, DomainErrors.PageErrors.CreatedByIpTooLong);
 
         Path = path;
         MetaTitle = metaTitle;
@@ -111,17 +111,6 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp)) throw new DomainException(DomainErrors.PageErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.PageErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.PageErrors.InvalidCreatedBy);
     }
 
     private static void ValidateRegion(string? region)
@@ -207,19 +196,8 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
             throw new DomainException(DomainErrors.PageErrors.InvalidPath);
         if (path.Length > 256) throw new DomainException(DomainErrors.PageErrors.PathTooLong);
     }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.PageErrors.InvalidUpdatedBy);
-    }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.PageErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.PageErrors.UpdatedByIpTooLong);
-    }
 
-    public bool Update(string path, string metaTitle, string? metaDescription, string? metaKeywords,
+    public void Update(string path, string metaTitle, string? metaDescription, string? metaKeywords,
         string? metaRobots, string? h1, string? canonicalUrl, string? ogTitle, string? ogDescription,
         string? ogImageUrl, string? ogType, string? twitterCard, string? contentHtml, string? summary,
         string? schemaJsonLd, string? breadcrumbsJson, string? hreflangMapJson, decimal sitemapPriority,
@@ -242,8 +220,8 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         ValidateSummary(summary);
         ValidateLanguage(language);
         ValidateRegion(region);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.PageErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.PageErrors.UpdatedByIpRequired, DomainErrors.PageErrors.UpdatedByIpTooLong);
         
         if (Path == path && MetaTitle == metaTitle && MetaDescription == metaDescription &&
             MetaKeywords == metaKeywords && MetaRobots == metaRobots && H1 == h1 &&
@@ -254,7 +232,7 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
             SitemapPriority == sitemapPriority && SitemapFrequency == sitemapFrequency &&
             RedirectFromJson == redirectFromJson && IsIndexed == isIndexed && HeaderScripts == headerScripts &&
             FooterScripts == footerScripts && Language == language && Region == region &&
-            SeoScore == seoScore && IsActive == isActive) return false;
+            SeoScore == seoScore && IsActive == isActive) return;
 
         Path = path;
         MetaTitle = metaTitle;
@@ -286,22 +264,20 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        return true;
     }
 
-    public bool Update(string metaTitle, string? metaDescription, string? metaKeywords, string? h1, int updatedBy,
+    public void Update(string metaTitle, string? metaDescription, string? metaKeywords, string? h1, int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
         ValidateMetaTitle(metaTitle);
         ValidateMetaDescription(metaDescription);
         ValidateMetaKeywords(metaKeywords);
         ValidateH1(h1);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
-        
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.PageErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.PageErrors.UpdatedByIpRequired, DomainErrors.PageErrors.UpdatedByIpTooLong);
+
         if (MetaTitle == metaTitle && MetaDescription == metaDescription && MetaKeywords == metaKeywords && H1 == h1)
-            return false;
+            return;
 
         MetaTitle = metaTitle;
         MetaDescription = metaDescription;
@@ -310,14 +286,5 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        return true;
-    }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
     }
 }

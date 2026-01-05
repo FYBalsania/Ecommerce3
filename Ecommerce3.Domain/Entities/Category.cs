@@ -60,8 +60,8 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         ValidateAnchorText(anchorText);
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.CategoryErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.CategoryErrors.CreatedByIpRequired, DomainErrors.CategoryErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -81,7 +81,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         CreatedByIp = createdByIp;
     }
 
-    public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
+    public void Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, Category? parent, string? googleCategory, string? shortDescription,
         string? fullDescription, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
     {
@@ -92,14 +92,14 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         ValidateAnchorText(anchorText);
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.CategoryErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.CategoryErrors.UpdatedByIpRequired, DomainErrors.CategoryErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ParentId == parent?.Id &&
             GoogleCategory == googleCategory && ShortDescription == shortDescription &&
             FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
-            return false;
+            return;
 
         ValidateParent(parent);
 
@@ -128,8 +128,6 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedBy = updatedBy;
         UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
-
-        return true;
     }
 
     public void ChangeParent(Category? parent, int updatedBy, DateTime updatedAt, string updatedByIp)
@@ -145,13 +143,6 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedByIp = updatedByIp;
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
-    }
-
     private void ValidateParent(Category? parent)
     {
         if (parent is null) return;
@@ -159,23 +150,6 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         if (parent.Path == Path) // || parent.Path.IsDescendantOf(Path)
             throw new InvalidOperationException(
                 "Cannot set a category's parent to one of its own descendants (circular reference detected).");
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.CategoryErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.CategoryErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.CategoryErrors.InvalidCreatedBy);
-    }
-
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.CategoryErrors.InvalidUpdatedBy);
     }
 
     private static void ValidateShortDescription(string? shortDescription)
@@ -220,12 +194,5 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     {
         if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.CategoryErrors.NameRequired);
         if (name.Length > 256) throw new DomainException(DomainErrors.CategoryErrors.NameTooLong);
-    }
-
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp))
-            throw new DomainException(DomainErrors.CategoryErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.CategoryErrors.UpdatedByIpTooLong);
     }
 }

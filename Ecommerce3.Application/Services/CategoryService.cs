@@ -82,16 +82,14 @@ internal sealed class CategoryService(
             ? await repository.GetByIdAsync((int)command.ParentId, CategoryInclude.None, false, cancellationToken)
             : null;
 
-        var categoryUpdated = category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
+        category.Update(command.Name, command.Slug, command.Display, command.Breadcrumb,
             command.AnchorText, command.AnchorTitle, parent, command.GoogleCategory, command.ShortDescription,
             command.FullDescription, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
-        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+        page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (!categoryUpdated && !pageUpdated) return;
-
-        if (categoryUpdated && category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().Any())
+        if (category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().Any())
         {
             var slugUpdatedDomainEvent =
                 category.DomainEvents.OfType<CategorySlugUpdatedDomainEvent>().FirstOrDefault()!;
@@ -99,7 +97,7 @@ internal sealed class CategoryService(
             try
             {
                 repository.Update(category);
-                if (pageUpdated) pageRepository.Update(page);
+                pageRepository.Update(page);
                 await repository.UpdateDescendantPathsAsync(slugUpdatedDomainEvent.OldPath,
                     slugUpdatedDomainEvent.NewPath, cancellationToken);
                 await unitOfWork.CompleteAsync(cancellationToken);
@@ -114,8 +112,8 @@ internal sealed class CategoryService(
         }
         else
         {
-            if (categoryUpdated) repository.Update(category);
-            if (pageUpdated) pageRepository.Update(page);
+            repository.Update(category);
+            pageRepository.Update(page);
             await unitOfWork.CompleteAsync(cancellationToken);
         }
     }

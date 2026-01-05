@@ -43,13 +43,10 @@ internal sealed class PostCodeService(
         var postCode = await repository.GetByIdAsync(command.Id, PostCodeInclude.None, true, cancellationToken);
         if (postCode is null) throw new DomainException(DomainErrors.PostCodeErrors.InvalidId);
 
-        var postCodeUpdated = postCode.Update(command.Code, command.IsActive, command.UpdatedBy, command.UpdatedByIp);
-
-        if (postCodeUpdated)
-        {
-            repository.Update(postCode);
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
+        postCode.Update(command.Code, command.IsActive, command.UpdatedBy, command.UpdatedByIp);
+        
+        repository.Update(postCode);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)

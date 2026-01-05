@@ -39,24 +39,24 @@ internal sealed class ImageTypeQueryRepository(AppDbContext dbContext) : IImageT
         };
     }
 
-    public async Task<bool> ExistsByNameAsync(string name, int? excludeId, CancellationToken cancellationToken)
+    public async Task<bool> ExistsByNameForEntityAsync(string name, string entity, int? excludeId, CancellationToken cancellationToken)
     {
         var query = dbContext.ImageTypes.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
 
-        return await query.AnyAsync(x => x.Name == name, cancellationToken);
+        return await query.AnyAsync(x => x.Name == name && x.Entity == entity, cancellationToken);
     }
     
-    public async Task<bool> ExistsBySlugAsync(string slug, int? excludeId, CancellationToken cancellationToken)
+    public async Task<bool> ExistsBySlugForEntityAsync(string slug, string entity, int? excludeId, CancellationToken cancellationToken)
     {
         var query = dbContext.ImageTypes.AsQueryable();
 
         if (excludeId is not null)
             return await query.AnyAsync(x => x.Id != excludeId && x.Slug == slug, cancellationToken);
 
-        return await query.AnyAsync(x => x.Slug == slug, cancellationToken);
+        return await query.AnyAsync(x => x.Slug == slug && x.Entity == entity, cancellationToken);
     }
 
     public async Task<ImageTypeDTO> GetByIdAsync(int id, CancellationToken cancellationToken)

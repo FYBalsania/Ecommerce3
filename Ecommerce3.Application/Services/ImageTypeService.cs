@@ -22,11 +22,11 @@ internal sealed class ImageTypeService(
 
     public async Task AddAsync(AddImageTypeCommand command, CancellationToken cancellationToken)
     {
-        var exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        var exists = await queryRepository.ExistsByNameForEntityAsync(command.Name, command.Entity, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateName);
         
-        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
-        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
+        exists = await queryRepository.ExistsBySlugForEntityAsync(command.Slug, command.Entity, null, cancellationToken);
+        if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateSlug);
 
         var imageType = new ImageType(command.Entity, command.Name, command.Slug, command.Description, command.IsActive,
             command.CreatedBy, command.CreatedByIp);
@@ -40,23 +40,20 @@ internal sealed class ImageTypeService(
 
     public async Task EditAsync(EditImageTypeCommand command, CancellationToken cancellationToken)
     {
-        var exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        var exists = await queryRepository.ExistsByNameForEntityAsync(command.Name, command.Entity, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateName);
         
-        exists = await queryRepository.ExistsBySlugAsync(command.Slug, null, cancellationToken);
-        if (exists) throw new DomainException(DomainErrors.CategoryErrors.DuplicateSlug);
+        exists = await queryRepository.ExistsBySlugForEntityAsync(command.Slug, command.Entity, command.Id, cancellationToken);
+        if (exists) throw new DomainException(DomainErrors.ImageTypeErrors.DuplicateSlug);
 
         var imageType = await repository.GetByIdAsync(command.Id, true, cancellationToken);
         if (imageType is null) throw new DomainException(DomainErrors.ImageTypeErrors.InvalidId);
 
-        var imageTypeUpdated = imageType.Update(command.Entity, command.Name, command.Slug, command.Description,
+        imageType.Update(command.Entity, command.Name, command.Slug, command.Description,
             command.IsActive, command.UpdatedBy, command.UpdatedByIp);
 
-        if (imageTypeUpdated)
-        {
-            repository.Update(imageType);
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
+        repository.Update(imageType);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)

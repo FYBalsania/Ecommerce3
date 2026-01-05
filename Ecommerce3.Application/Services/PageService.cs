@@ -47,19 +47,16 @@ internal sealed class PageService(
         var page = await pageRepository.GetByIdAsync(command.Id, PageInclude.None, true, cancellationToken);
         if (page is null) throw new DomainException(DomainErrors.PageErrors.InvalidId);
 
-        var pageUpdated = page.Update(command.Path!, command.MetaTitle, command.MetaDescription, command.MetaKeywords, 
+        page.Update(command.Path!, command.MetaTitle, command.MetaDescription, command.MetaKeywords, 
             command.MetaRobots, command.H1, command.CanonicalUrl, command.OgTitle, command.OgDescription, 
             command.OgImageUrl, command.OgType, command.TwitterCard, command.ContentHtml, command.Summary, 
             command.SchemaJsonLd, command.BreadcrumbsJson, command.HreflangMapJson, command.SitemapPriority, 
             command.SitemapFrequency, command.RedirectFromJson, command.IsIndexed, command.HeaderScripts, 
             command.FooterScripts, command.Language, command.Region, command.SeoScore, command.IsActive, 
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        if (pageUpdated)
-        {
-            pageRepository.Update(page);
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
+        
+        pageRepository.Update(page);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task<PageDTO?> GetByIdAsync(int id, Type entity, CancellationToken cancellationToken)

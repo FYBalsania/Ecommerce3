@@ -36,8 +36,8 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
         ValidateSlug(slug);
         ValidateDisplay(display);
         ValidateBreadcrumb(breadcrumb);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductAttributeValueErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductAttributeValueErrors.CreatedByIpRequired, DomainErrors.ProductAttributeValueErrors.CreatedByIpTooLong);
 
         Value = value;
         Slug = slug;
@@ -51,8 +51,8 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
 
     internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
-        ValidateDeletedBy(deletedBy);
-        ValidateDeletedByIp(deletedByIp);
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductAttributeValueErrors.InvalidDeletedBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductAttributeValueErrors.DeletedByIpRequired, DomainErrors.ProductAttributeValueErrors.DeletedByIpTooLong);
 
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
@@ -66,8 +66,8 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
         ValidateSlug(slug);
         ValidateDisplay(display);
         ValidateBreadcrumb(breadcrumb);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductAttributeValueErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductAttributeValueErrors.UpdatedByIpRequired, DomainErrors.ProductAttributeValueErrors.UpdatedByIpTooLong);
 
         if (Value == value && Slug == slug && Display == display && Breadcrumb == breadcrumb && SortOrder == sortOrder)
             return false;
@@ -80,7 +80,7 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
+        
         return true;
     }
 
@@ -111,44 +111,5 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
             throw new DomainException(DomainErrors.ProductAttributeValueErrors.BreadcrumbRequired);
         if (breadcrumb.Length > 256)
             throw new DomainException(DomainErrors.ProductAttributeValueErrors.BreadcrumbTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidCreatedBy);
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.ProductAttributeValueErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128)
-            throw new DomainException(DomainErrors.ProductAttributeValueErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidUpdatedBy);
-    }
-
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp))
-            throw new DomainException(DomainErrors.ProductAttributeValueErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128)
-            throw new DomainException(DomainErrors.ProductAttributeValueErrors.UpdatedByIpTooLong);
-    }
-
-    private static void ValidateDeletedBy(int deletedBy)
-    {
-        if (deletedBy <= 0) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidDeletedBy);
-    }
-
-    private static void ValidateDeletedByIp(string deletedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(deletedByIp))
-            throw new DomainException(DomainErrors.ProductAttributeValueErrors.DeletedByIpRequired);
-        if (deletedByIp.Length > 128)
-            throw new DomainException(DomainErrors.ProductAttributeValueErrors.DeletedByIpTooLong);
     }
 }

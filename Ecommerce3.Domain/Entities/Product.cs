@@ -618,16 +618,16 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         }
     }
 
-    public bool Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt, string updatedByIp)
+    public void Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
         if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);
         ValidatePositiveNumber(stock, DomainErrors.ProductErrors.InvalidStock);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidCreatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductErrors.CreatedByIpRequired, DomainErrors.ProductErrors.CreatedByIpTooLong);
         
         if (Price == price && OldPrice == oldPrice && Stock == stock)
-            return false;
+            return;
         
         Price = price;
         OldPrice = oldPrice;
@@ -635,18 +635,5 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-        
-        return true;
-    }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.BrandErrors.InvalidUpdatedBy);
-    }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.BrandErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.BrandErrors.UpdatedByIpTooLong);
     }
 }

@@ -126,17 +126,6 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
         UpdatedByIp = updatedByIp;
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductGroupErrors.InvalidDeletedBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductGroupErrors.DeletedByIpRequired,
-            DomainErrors.ProductGroupErrors.DeletedByIpTooLong);
-
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
-    }
-
     public void AddAttribute(int productAttributeId, decimal productAttributeSortOrder,
         IDictionary<int, decimal> values, int createdBy, DateTime createdAt, string createdByIp)
     {

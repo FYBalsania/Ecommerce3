@@ -43,15 +43,11 @@ internal sealed class DeliveryWindowService(
         var deliveryWindow = await repository.GetByIdAsync(command.Id, true, cancellationToken);
         if (deliveryWindow is null) throw new DomainException(DomainErrors.DeliveryWindowErrors.InvalidId);
         
-        var deliveryWindowUpdated = deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, 
-            (uint)command.MaxValue!.Value, command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, 
-            command.UpdatedByIp);
-        
-        if (deliveryWindowUpdated)
-        {
-            repository.Update(deliveryWindow);
-            await unitOfWork.CompleteAsync(cancellationToken);
-        }
+        deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value, 
+            command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        repository.Update(deliveryWindow);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken) 

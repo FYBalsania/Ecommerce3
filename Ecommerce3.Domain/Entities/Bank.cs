@@ -23,13 +23,17 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedByIp { get; private set; }
     public BankPage? Page { get; private set; }
+    
+    private Bank()
+    {
+    }
 
     public Bank(string name, string slug, bool isActive, int sortOrder, int createdBy, string createdByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.BankErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.BankErrors.CreatedByIpRequired, DomainErrors.BankErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -40,15 +44,15 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
         CreatedByIp = createdByIp;
     }
 
-    public bool Update(string name, string slug, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
+    public void Update(string name, string slug, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.BankErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.BankErrors.UpdatedByIpRequired, DomainErrors.BankErrors.UpdatedByIpTooLong);
         
         if (Name == name && Slug == slug && IsActive == isActive && SortOrder == sortOrder)
-            return false;
+            return;
 
         Name = name;
         Slug = slug;
@@ -57,15 +61,6 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
         UpdatedBy = updatedBy;
         UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
-
-        return true;
-    }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
     }
     
     private static void ValidateName(string name)
@@ -78,28 +73,5 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
     {
         if (string.IsNullOrWhiteSpace(slug)) throw new DomainException(DomainErrors.BankErrors.SlugRequired);
         if (slug.Length > 256) throw new DomainException(DomainErrors.BankErrors.SlugTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.BankErrors.InvalidCreatedBy);
-    }
-    
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.BankErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.BankErrors.CreatedByIpTooLong);
-    }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.BankErrors.InvalidUpdatedBy);
-    }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.BankErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.BankErrors.UpdatedByIpTooLong);
     }
 }

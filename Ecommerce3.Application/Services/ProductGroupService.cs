@@ -147,11 +147,11 @@ internal sealed class ProductGroupService(
             command.AnchorText, command.AnchorTitle, command.ShortDescription, command.FullDescription,
             command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
-        var pageUpdated = page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
+        page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (pageUpdated) pageRepository.Update(page);
-
+        repository.Update(productGroup);
+        pageRepository.Update(page);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

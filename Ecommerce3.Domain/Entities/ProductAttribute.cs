@@ -72,7 +72,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             createdByIp));
     }
 
-    public bool Update(string name, string slug, string display, string breadcrumb, decimal sortOrder, int updatedBy,
+    public void Update(string name, string slug, string display, string breadcrumb, decimal sortOrder, int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductAttributeErrors.NameRequired,
@@ -89,7 +89,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
-            SortOrder == sortOrder) return false;
+            SortOrder == sortOrder) return;
 
         Name = name;
         Slug = slug;
@@ -99,15 +99,6 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        return true;
-    }
-
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
     }
 
     public void AddValue(ProductAttributeValue value)

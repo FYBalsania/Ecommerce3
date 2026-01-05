@@ -38,24 +38,18 @@ public static partial class DomainErrors
 
         public static readonly DomainError InvalidImageTypeId =
             new($"{nameof(Image)}.{nameof(Image.ImageTypeId)}", "Image type Id is invalid.");
+        
+        public static readonly DomainError InvalidImageType =
+            new($"{nameof(Image)}.{nameof(Image.ImageType)}", "Invalid image type.");
 
-        public static readonly DomainError InvalidLink = new($"{nameof(Image)}.{nameof(Image.Link)}",
-            "Image link is invalid.");
+        public static readonly DomainError InvalidLink = 
+            new($"{nameof(Image)}.{nameof(Image.Link)}", "Image link is invalid.");
 
         public static readonly DomainError LinkTargetRequiredWhenLinkProvided =
             new($"{nameof(Image)}.{nameof(Image.LinkTarget)}", "Link target is required when Link is provided.");
 
         public static readonly DomainError InvalidLinkTarget =
             new($"{nameof(Image)}.{nameof(Image.LinkTarget)}", "Link target is invalid.");
-
-        public static readonly DomainError InvalidCreatedByUser =
-            new($"{nameof(Image)}.{nameof(Image.CreatedBy)}", "Created-by user Id is invalid.");
-
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(Image)}.{nameof(Image.CreatedByIp)}", "Created-by IP address is required.");
-
-        public static readonly DomainError InvalidCreatedIp =
-            new($"{nameof(Image)}.{nameof(Image.CreatedByIp)}", "Created-by IP address is invalid.");
 
         public static readonly DomainError InvalidBrandId =
             new($"{nameof(Image)}.{nameof(BrandImage.BrandId)}", "Brand Id is invalid.");
@@ -92,5 +86,34 @@ public static partial class DomainErrors
         
         public static readonly DomainError InvalidImageEntityType =
             new($"{nameof(Image)}.ImageEntityType", "Image entity type is invalid.");
+        
+        public static readonly DomainError InvalidCreatedBy =
+            new($"{nameof(Image)}.{nameof(Image.CreatedBy)}", "Created by is invalid.");
+
+        public static readonly DomainError CreatedByIpRequired =
+            new($"{nameof(Image)}.{nameof(Image.CreatedByIp)}", "Created by IP address is required.");
+
+        public static readonly DomainError CreatedByIpTooLong =
+            new($"{nameof(Image)}.{nameof(Image.CreatedByIp)}", $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
+
+        public static readonly DomainError InvalidUpdatedBy =
+            new($"{nameof(Image)}.{nameof(Image.UpdatedBy)}", "Updated by is invalid.");
+
+        public static readonly DomainError UpdatedByIpRequired =
+            new($"{nameof(Image)}.{nameof(Image.UpdatedByIp)}", "Updated by IP address is required.");
+
+        public static readonly DomainError UpdatedByIpTooLong =
+            new($"{nameof(Image)}.{nameof(Image.UpdatedByIp)}",
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
+        
+        public static readonly DomainError InvalidDeletedBy =
+            new($"{nameof(Image)}.{nameof(Image.DeletedBy)}", "Deleted by is invalid.");
+
+        public static readonly DomainError DeletedByIpRequired =
+            new($"{nameof(Image)}.{nameof(Image.DeletedByIp)}", "Deleted by IP address is required.");
+
+        public static readonly DomainError DeletedByIpTooLong =
+            new($"{nameof(Image)}.{nameof(Image.DeletedByIp)}",
+                $"Deleted by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
     }
 }

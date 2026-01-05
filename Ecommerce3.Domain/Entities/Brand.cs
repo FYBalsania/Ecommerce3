@@ -45,8 +45,8 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         ValidateAnchorText(anchorText);
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.BrandErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.BrandErrors.CreatedByIpRequired, DomainErrors.BrandErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -61,24 +61,6 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         CreatedBy = createdBy;
         CreatedAt = DateTime.Now;
         CreatedByIp = createdByIp;
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.BrandErrors.CreatedByIpRequired);
-        if (createdByIp.Length > 128) throw new DomainException(DomainErrors.BrandErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) 
-            throw new DomainException(DomainErrors.BrandErrors.InvalidCreatedBy);
-    }
-    
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.BrandErrors.InvalidUpdatedBy);
     }
 
     private static void ValidateShortDescription(string? shortDescription)
@@ -124,14 +106,8 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.BrandErrors.NameRequired);
         if (name.Length > 256) throw new DomainException(DomainErrors.BrandErrors.NameTooLong);
     }
-    
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(DomainErrors.BrandErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > 128) throw new DomainException(DomainErrors.BrandErrors.UpdatedByIpTooLong);
-    }
 
-    public bool Update(string name, string slug, string display, string breadcrumb, string anchorText,
+    public void Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
         int updatedBy, string updatedByIp)
     {
@@ -142,13 +118,13 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         ValidateAnchorText(anchorText);
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.BrandErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.BrandErrors.UpdatedByIpRequired, DomainErrors.BrandErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
             FullDescription == fullDescription && IsActive == isActive && SortOrder == sortOrder)
-            return false;
+            return;
         
         Name = name;
         Slug = slug;
@@ -163,14 +139,5 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         UpdatedBy = updatedBy;
         UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
-
-        return true;
-    }
-    
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
-    {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
     }
 }
