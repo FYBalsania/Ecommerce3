@@ -53,8 +53,8 @@ internal sealed class TextListItemService(
             command.Text, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.TextListItemErrors.DuplicateText);
 
-        var updated = textListItem.Update(command.Text, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-        if (updated) await unitOfWork.CompleteAsync(cancellationToken);
+        textListItem.Update(command.Text, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(DeleteTextListItemCommand command, CancellationToken cancellationToken)

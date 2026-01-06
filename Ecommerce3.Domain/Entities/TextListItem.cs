@@ -32,8 +32,8 @@ public abstract class TextListItem : Entity, ICreatable, IUpdatable, IDeletable
         string createdByIp)
     {
         ValidateText(text);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.TextListItemErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.TextListItemErrors.CreatedByIpRequired, DomainErrors.TextListItemErrors.CreatedByIpTooLong);
 
         Type = type;
         Text = text;
@@ -51,27 +51,25 @@ public abstract class TextListItem : Entity, ICreatable, IUpdatable, IDeletable
             : throw new NotImplementedException("Create method not implemented for this entity type.");
     }
 
-    public bool Update(string text, decimal sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
+    public void Update(string text, decimal sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         ValidateText(text);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.TextListItemErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.TextListItemErrors.UpdatedByIpRequired, DomainErrors.TextListItemErrors.UpdatedByIpTooLong);
 
-        if (Text == text && SortOrder == sortOrder) return false;
+        if (Text == text && SortOrder == sortOrder) return;
 
         Text = text;
         SortOrder = sortOrder;
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        return true;
     }
 
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
-        ValidateDeletedBy(deletedBy);
-        ValidateDeletedByIp(deletedByIp);
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.TextListItemErrors.InvalidDeletedBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.TextListItemErrors.DeletedByIpRequired, DomainErrors.TextListItemErrors.DeletedByIpTooLong);
 
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
@@ -82,44 +80,5 @@ public abstract class TextListItem : Entity, ICreatable, IUpdatable, IDeletable
     {
         if (string.IsNullOrWhiteSpace(text))
             throw new DomainException(DomainErrors.TextListItemErrors.TextRequired);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.TextListItemErrors.InvalidCreatedBy);
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.TextListItemErrors.CreatedByIpRequired);
-        if (createdByIp.Length > ICreatable.CreatedByIpMaxLength)
-            throw new DomainException(DomainErrors.TextListItemErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.TextListItemErrors.InvalidUpdatedBy);
-    }
-
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp))
-            throw new DomainException(DomainErrors.TextListItemErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > IUpdatable.UpdatedByIpMaxLength)
-            throw new DomainException(DomainErrors.TextListItemErrors.UpdatedByIpTooLong);
-    }
-
-    private static void ValidateDeletedBy(int deletedBy)
-    {
-        if (deletedBy <= 0) throw new DomainException(DomainErrors.TextListItemErrors.InvalidDeletedBy);
-    }
-
-    private static void ValidateDeletedByIp(string deletedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(deletedByIp))
-            throw new DomainException(DomainErrors.TextListItemErrors.DeletedByIpRequired);
-        if (deletedByIp.Length > IDeletable.DeletedByIpMaxLength)
-            throw new DomainException(DomainErrors.TextListItemErrors.DeletedByIpTooLong);
     }
 }

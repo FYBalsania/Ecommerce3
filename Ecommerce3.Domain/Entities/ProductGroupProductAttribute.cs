@@ -1,3 +1,5 @@
+using Ecommerce3.Domain.Errors;
+
 namespace Ecommerce3.Domain.Entities;
 
 public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDeletable
@@ -31,6 +33,12 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
         int productAttributeValueId, decimal productAttributeValueSortOrder, int createdBy, DateTime createdAt,
         string createdByIp)
     {
+        ValidatePositiveNumber(productAttributeId, DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
+        ValidatePositiveNumber(productAttributeValueId, DomainErrors.ProductGroupProductAttributeErrors.InvalidId);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpRequired, 
+            DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpTooLong);
+        
         ProductAttributeId = productAttributeId;
         ProductAttributeSortOrder = productAttributeSortOrder;
         ProductAttributeValueId = productAttributeValueId;
@@ -43,6 +51,10 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
     internal void UpdateProductAttributeValueSortOrder(decimal productAttributeValueSortOrder, int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpRequired, 
+            DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpTooLong);
+        
         if (ProductAttributeValueSortOrder == productAttributeValueSortOrder) return;
 
         ProductAttributeValueSortOrder = productAttributeValueSortOrder;
@@ -54,6 +66,10 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
     internal void UpdateProductAttributeSortOrder(decimal productAttributeSortOrder, int updatedBy,
         DateTime updatedAt, string updatedByIp)
     {
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpRequired, 
+            DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpTooLong);
+        
         if (ProductAttributeSortOrder == productAttributeSortOrder) return;
 
         ProductAttributeSortOrder = productAttributeSortOrder;
@@ -64,6 +80,10 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
 
     internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidDeleteddBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductGroupProductAttributeErrors.DeletedByIpRequired, 
+            DomainErrors.ProductGroupProductAttributeErrors.DeletedByIpTooLong);
+        
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;

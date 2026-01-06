@@ -32,8 +32,9 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
     {
         ValidateKey(key);
         ValidateValue(value);
-        ValidateCreatedBy(createdBy);
-        ValidateCreatedByIp(createdByIp);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.KVPListItemErrors.InvalidCreatedBy);
+        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.KVPListItemErrors.CreatedByIpRequired, 
+            DomainErrors.KVPListItemErrors.CreatedByIpTooLong);
 
         Type = type;
         Key = key;
@@ -44,16 +45,17 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    public bool Update(string key, string value, decimal sortOrder, int updatedBy, DateTime updatedAt,
+    public void Update(string key, string value, decimal sortOrder, int updatedBy, DateTime updatedAt,
         string updatedByIp)
     {
         ValidateKey(key);
         ValidateValue(value);
-        ValidateUpdatedBy(updatedBy);
-        ValidateUpdatedByIp(updatedByIp);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.KVPListItemErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.KVPListItemErrors.UpdatedByIpRequired, 
+            DomainErrors.KVPListItemErrors.UpdatedByIpTooLong);
 
         if (Key == key && Value == value && SortOrder == sortOrder)
-            return false;
+            return;
 
         Key = key;
         Value = value;
@@ -61,14 +63,13 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        return true;
     }
 
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
-        ValidateDeletedBy(deletedBy);
-        ValidateDeletedByIp(deletedByIp);
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.KVPListItemErrors.InvalidDeletedBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.KVPListItemErrors.DeletedByIpRequired, 
+            DomainErrors.KVPListItemErrors.DeletedByIpTooLong);
 
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
@@ -99,44 +100,5 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new DomainException(DomainErrors.KVPListItemErrors.ValueRequired);
-    }
-
-    private static void ValidateCreatedBy(int createdBy)
-    {
-        if (createdBy <= 0) throw new DomainException(DomainErrors.KVPListItemErrors.InvalidCreatedBy);
-    }
-
-    private static void ValidateCreatedByIp(string createdByIp)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp))
-            throw new DomainException(DomainErrors.KVPListItemErrors.CreatedByIpRequired);
-        if (createdByIp.Length > ICreatable.CreatedByIpMaxLength)
-            throw new DomainException(DomainErrors.KVPListItemErrors.CreatedByIpTooLong);
-    }
-
-    private static void ValidateUpdatedBy(int updatedBy)
-    {
-        if (updatedBy <= 0) throw new DomainException(DomainErrors.KVPListItemErrors.InvalidUpdatedBy);
-    }
-
-    private static void ValidateUpdatedByIp(string updatedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp))
-            throw new DomainException(DomainErrors.KVPListItemErrors.UpdatedByIpRequired);
-        if (updatedByIp.Length > IUpdatable.UpdatedByIpMaxLength)
-            throw new DomainException(DomainErrors.KVPListItemErrors.UpdatedByIpTooLong);
-    }
-
-    private static void ValidateDeletedBy(int deletedBy)
-    {
-        if (deletedBy <= 0) throw new DomainException(DomainErrors.KVPListItemErrors.InvalidDeletedBy);
-    }
-
-    private static void ValidateDeletedByIp(string deletedByIp)
-    {
-        if (string.IsNullOrWhiteSpace(deletedByIp))
-            throw new DomainException(DomainErrors.KVPListItemErrors.DeletedByIpRequired);
-        if (deletedByIp.Length > IDeletable.DeletedByIpMaxLength)
-            throw new DomainException(DomainErrors.KVPListItemErrors.DeletedByIpTooLong);
     }
 }

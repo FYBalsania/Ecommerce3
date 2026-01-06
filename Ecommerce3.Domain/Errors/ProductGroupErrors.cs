@@ -63,7 +63,7 @@ public static partial class DomainErrors
 
         public static readonly DomainError CreatedByIpTooLong =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.CreatedByIp)}",
-                "Created by IP address cannot exceed 128 characters.");
+                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedBy)}", "Updated by is invalid.");
@@ -73,7 +73,7 @@ public static partial class DomainErrors
 
         public static readonly DomainError UpdatedByIpTooLong =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.UpdatedByIp)}",
-                "Updated by IP address cannot exceed 128 characters.");
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidDeletedBy =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.DeletedBy)}", "Deleted by is invalid.");
@@ -83,7 +83,7 @@ public static partial class DomainErrors
 
         public static readonly DomainError DeletedByIpTooLong =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.DeletedByIp)}",
-                "Deleted by IP address cannot exceed 128 characters.");
+                $"Deleted by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
 
         public static readonly DomainError AttributeValueRequired =
             new($"{nameof(ProductGroup)}.{nameof(ProductGroup.AddAttribute)}", "Product attribute value is required.");
@@ -117,7 +117,7 @@ public static partial class DomainErrors
 
         public static readonly DomainError CreatedByIpTooLong =
             new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.CreatedByIp)}",
-                "Created by IP address cannot exceed 128 characters.");
+                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.UpdatedBy)}",
@@ -129,6 +129,18 @@ public static partial class DomainErrors
 
         public static readonly DomainError UpdatedByIpTooLong =
             new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.UpdatedByIp)}",
-                "Updated by IP address cannot exceed 128 characters.");
+                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
+        
+        public static readonly DomainError InvalidDeleteddBy =
+            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedBy)}",
+                "Deleted by is invalid.");
+
+        public static readonly DomainError DeletedByIpRequired =
+            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedByIp)}",
+                "Deleted by IP address is required.");
+
+        public static readonly DomainError DeletedByIpTooLong =
+            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedByIp)}",
+                $"Deleted by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
     }
 }

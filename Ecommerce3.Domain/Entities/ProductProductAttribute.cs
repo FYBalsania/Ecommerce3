@@ -50,6 +50,10 @@ public sealed class ProductProductAttribute : Entity, ICreatable, IUpdatable, ID
 
     internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
     {
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductAttributeErrors.InvalidDeleteddBy);
+        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductAttributeErrors.DeletedByIpRequired, 
+            DomainErrors.ProductAttributeErrors.DeletedByIpTooLong);
+        
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
@@ -57,6 +61,10 @@ public sealed class ProductProductAttribute : Entity, ICreatable, IUpdatable, ID
 
     internal void UpdateValueId(int valueId, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductAttributeErrors.InvalidUpdatedBy);
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductAttributeErrors.UpdatedByIpRequired,
+            DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
+        
         if (ProductAttributeValueId == valueId) return;
         
         ProductAttributeValueId = valueId;

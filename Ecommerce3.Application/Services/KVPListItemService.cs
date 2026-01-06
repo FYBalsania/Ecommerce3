@@ -56,9 +56,10 @@ internal sealed class KVPListItemService(
         exists = await queryRepository.ValueExistsAsync(command.ParentEntityId, command.Type, command.Value, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.KVPListItemErrors.DuplicateValue);
 
-        var updated = kvpListItem.Update(command.Key, command.Value, command.SortOrder, command.UpdatedBy,
+        kvpListItem.Update(command.Key, command.Value, command.SortOrder, command.UpdatedBy,
             command.UpdatedAt, command.UpdatedByIp);
-        if (updated) await unitOfWork.CompleteAsync(cancellationToken);
+        
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(DeleteKVPListItemCommand command, CancellationToken cancellationToken)

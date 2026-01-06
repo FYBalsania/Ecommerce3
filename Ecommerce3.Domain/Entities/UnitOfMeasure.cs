@@ -55,9 +55,8 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    public bool Update(string code, string name, UnitOfMeasureType type, int? baseId, decimal conversionFactor,
-        bool isActive,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+    public void Update(string code, string name, UnitOfMeasureType type, int? baseId, decimal conversionFactor,
+        bool isActive, int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
             DomainErrors.UnitOfMeasureErrors.CodeTooLong);
@@ -68,7 +67,7 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
             DomainErrors.UnitOfMeasureErrors.UpdatedByIpTooLong);
 
         if (Code == code && Name == name && Type == type && BaseId == baseId && ConversionFactor == conversionFactor &&
-            IsActive == isActive) return false;
+            IsActive == isActive) return;
 
         Code = code;
         Name = name;
@@ -79,8 +78,6 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
-
-        return true;
     }
 
     public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)

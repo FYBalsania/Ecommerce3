@@ -53,10 +53,10 @@ internal class UnitOfMeasureService(
         exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateName);
 
-        var update = uom.Update(command.Code, command.Name, command.Type, command.BaseId, command.ConversionFactor,
+        uom.Update(command.Code, command.Name, command.Type, command.BaseId, command.ConversionFactor,
             command.IsActive, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        if (update) await unitOfWork.CompleteAsync(cancellationToken);
+        await unitOfWork.CompleteAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(DeleteUnitOfMeasureCommand command, CancellationToken cancellationToken)
