@@ -45,7 +45,6 @@ internal sealed class PostCodeService(
 
         postCode.Update(command.Code, command.IsActive, command.UpdatedBy, command.UpdatedByIp);
         
-        repository.Update(postCode);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

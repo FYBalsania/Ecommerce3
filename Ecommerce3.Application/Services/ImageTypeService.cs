@@ -52,7 +52,6 @@ internal sealed class ImageTypeService(
         imageType.Update(command.Entity, command.Name, command.Slug, command.Description,
             command.IsActive, command.UpdatedBy, command.UpdatedByIp);
 
-        repository.Update(imageType);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

@@ -149,9 +149,7 @@ internal sealed class ProductGroupService(
 
         page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        repository.Update(productGroup);
-        pageRepository.Update(page);
+        
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

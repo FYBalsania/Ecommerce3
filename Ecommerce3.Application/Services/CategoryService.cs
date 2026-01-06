@@ -96,8 +96,6 @@ internal sealed class CategoryService(
             await unitOfWork.BeginTransactionAsync(cancellationToken);
             try
             {
-                repository.Update(category);
-                pageRepository.Update(page);
                 await repository.UpdateDescendantPathsAsync(slugUpdatedDomainEvent.OldPath,
                     slugUpdatedDomainEvent.NewPath, cancellationToken);
                 await unitOfWork.CompleteAsync(cancellationToken);
@@ -112,8 +110,6 @@ internal sealed class CategoryService(
         }
         else
         {
-            repository.Update(category);
-            pageRepository.Update(page);
             await unitOfWork.CompleteAsync(cancellationToken);
         }
     }

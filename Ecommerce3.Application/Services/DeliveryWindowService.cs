@@ -46,7 +46,6 @@ internal sealed class DeliveryWindowService(
         deliveryWindow.Update(command.Name, command.Unit, (uint)command.MinValue, (uint)command.MaxValue!.Value, 
             command.IsActive, command.SortOrder, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
-        repository.Update(deliveryWindow);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

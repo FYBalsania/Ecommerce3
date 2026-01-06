@@ -70,9 +70,7 @@ internal sealed class BrandService(
 
         page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
-
-        repository.Update(brand);
-        pageRepository.Update(page);
+        
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

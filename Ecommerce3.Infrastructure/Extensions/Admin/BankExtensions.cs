@@ -25,6 +25,10 @@ public static class BankExtensions
         Slug = b.Slug,
         IsActive = b.IsActive,
         SortOrder = b.SortOrder,
+        H1 = b.Page!.H1,
+        MetaTitle = b.Page.MetaTitle,
+        MetaDescription = b.Page.MetaDescription,
+        MetaKeywords = b.Page.MetaKeywords,
         Images = b.Images.AsQueryable().OrderBy(y => y.ImageType!.Slug).ThenBy(z => z.SortOrder)
             .Select(ImageExtensions.DTOExpression).ToList()
     };

@@ -55,7 +55,6 @@ internal sealed class PageService(
             command.FooterScripts, command.Language, command.Region, command.SeoScore, command.IsActive, 
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
         
-        pageRepository.Update(page);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 

@@ -142,7 +142,6 @@ internal sealed class ImageService(
             command.UpdatedBy, command.UpdatedByIp);
 
         //Save the image to a database.
-        imageRepository.Update(image);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 
