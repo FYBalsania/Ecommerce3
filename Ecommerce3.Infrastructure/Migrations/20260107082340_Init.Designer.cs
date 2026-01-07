@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251231070505_Init")]
+    [Migration("20260107082340_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -4348,7 +4348,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Ecommerce3.Domain.Entities.Category", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -5844,6 +5844,8 @@ namespace Ecommerce3.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce3.Domain.Entities.Category", b =>
                 {
+                    b.Navigation("Children");
+
                     b.Navigation("Images");
 
                     b.Navigation("KVPListItems");
