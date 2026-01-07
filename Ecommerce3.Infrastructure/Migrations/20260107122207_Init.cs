@@ -2770,21 +2770,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "GTIN");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_IsBestSeller",
-                table: "Product",
-                column: "IsBestSeller");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_IsFeatured",
-                table: "Product",
-                column: "IsFeatured");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_IsNew",
-                table: "Product",
-                column: "IsNew");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Product_MFC",
                 table: "Product",
                 column: "MFC");
@@ -2793,6 +2778,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_Product_MPN",
                 table: "Product",
                 column: "MPN");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Price",
+                table: "Product",
+                column: "Price");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_ProductGroupId",

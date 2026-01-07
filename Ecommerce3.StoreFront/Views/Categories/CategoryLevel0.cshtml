@@ -1,17 +1,863 @@
+@model Ecommerce3.StoreFront.ViewModels.Category.CategoryLevel0ViewModel
 
-@{
-    Layout = null;
+@section Styles{
+    <link rel="stylesheet" href="~/css/spice-listing.css">
+    <link rel="stylesheet" href="~/css/tingle.min.css">
 }
 
-<!DOCTYPE html>
+;
+@* Breadcrumb *@
+<partial name="_BreadcrumbPartial" model="@Model.Breadcrumb"/>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+@* Category *@
+<div class="cat-content">
+    <div class="container">
+        <h1>@Model.Category.Display</h1>
+    </div>
 </div>
-</body>
-</html>
+
+@* Category children *@
+@if (Model.Category.Children.Count > 0)
+{
+    <div class="container">
+        <div class="category-cards">
+            @foreach (var child in Model.Category.Children)
+            {
+                <div class="catcard">
+                    <a asp-controller="Categories" asp-action="CategoryLevel1"
+                       asp-route-category0Slug="@Model.Category.Slug"
+                       asp-route-category1Slug="@child.Slug">
+                        @if (child.ListItemImage != null)
+                        {
+                            <img src="@child.ListItemImage.FileExtension"
+                                 alt="@child.ListItemImage!.AltText"
+                                 title="@child.ListItemImage.Title" width="350" height="350"/>
+                        }
+                        else
+                        {
+                            <img src="@($"https://placehold.co/600x400?text={child.Name}")" alt="@child.Slug"
+                                 width="350" height="350"/>
+                        }
+                        <span>@child.Display</span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@* <section id="listing"> *@
+@*     <div id="product"> *@
+@*         <div class="listingbg-new"> *@
+@*             <div class="products_main"> *@
+@*                 <div class="products" id="products"> *@
+@*                     <div class="product_container"> *@
+@*                         <div class="sortresult-wrapper"> *@
+@*                             <div class="sort_results"> *@
+@*                                 <div class="total_products"> *@
+@*                                     <span class="block_count">165 Product(s)</span> *@
+@*                                 </div> *@
+@*                                 <form id="OrderByform" method="post" action=""> *@
+@*                                     <div class="sortby-dropdown"> *@
+@*                                         <span class="sort-title">Sort By:</span> *@
+@*                                         <select name="" id="ddlOrderBy"> *@
+@*                                             <option value="">Top Seller</option> *@
+@*                                             <option value="">Most Popular</option> *@
+@*                                             <option value="">Price low to High</option> *@
+@*                                             <option value="">Price High to Low</option> *@
+@*                                             <option value="">Top Rated Products</option> *@
+@*                                         </select> *@
+@*                                     </div> *@
+@*                                 </form> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                         <div class="products_listing"> *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@* *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@* *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@* *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@* *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@* *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@* *@
+@*                             <div class="productdata pgrid" data-productid="BW-38907" data-price="86.99"> *@
+@*                                 <div class="product_wrapper"> *@
+@*                                     <figure class="product_image"> *@
+@*                                         <a href="" title="" class="itemclick"> *@
+@*                                             <picture> *@
+@*                                                 <source media="(min-width: 640px)" *@
+@*                                                         data-srcset="images/caraway-seeds.jpg" class="img_1200" *@
+@*                                                         srcset="images/caraway-seeds.jpg"> *@
+@*                                                 <source media="(max-width: 639px)" *@
+@*                                                         data-srcset="images/product-250x250.jpg" class="img_992" *@
+@*                                                         srcset="images/product-250x250.jpg"> *@
+@*                                                 <img data-src="images/product-250x250.jpg" alt="" *@
+@*                                                      data-srcset="images/product-250x250.jpg" *@
+@*                                                      class="img_list ls-is-cached lazyloaded" width="325" *@
+@*                                                      height="325" srcset="images/product-250x250.jpg" *@
+@*                                                      src="images/product-250x250.jpg"> *@
+@*                                             </picture> *@
+@*                                             <noscript> *@
+@*                                                 <img src="images/caraway-seeds.jpg" alt="" class="img_list" *@
+@*                                                      width="325" height="325"> *@
+@*                                             </noscript> *@
+@*                                         </a> *@
+@*                                     </figure> *@
+@*                                     <div class="product_details"> *@
+@*                                         <a href="" title="" class="itemclick">Organic Brown Linseeds</a> *@
+@* *@
+@*                                         <div class="brand-rating-wrap"> *@
+@*                                             <div> *@
+@*                                                 <span class="price">£86.99</span> *@
+@*                                                 <span>RRP: <span class="prrp">£126.14</span></span> *@
+@*                                             </div> *@
+@* *@
+@*                                             <span class="rating-con three-half-star"></span> *@
+@*                                         </div> *@
+@* *@
+@* *@
+@*                                         <span class="ng-freeship-icon instock"> *@
+@*                                             <img src="images/instock-check.svg" *@
+@*                                                  alt="" width="18" height="18">In-Stock</span> *@
+@* *@
+@*                                         <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket" *@
+@*                                                 tabindex="9" aria-label="Add To Basket"> *@
+@*                                             <img *@
+@*                                                 src="images/add-to-basket.svg" alt="Add To Basket" width="22" *@
+@*                                                 height="22">Add To Basket *@
+@*                                         </button> *@
+@* *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="bottom_pagination"> *@
+@*                         <button id="load-more" data-page="2" class="lmb">Load More</button> *@
+@*                     </div> *@
+@*                     <!-- Product Div --> *@
+@*                 </div> *@
+@*                 <div class="filters cat_page"> *@
+@*                     <span class="filter-caption">Filters</span> *@
+@*                     <div id="filters"> *@
+@*                         <form id="filterform" action=""> *@
+@*                             <ul class="accordion side_filters"> *@
+@*                                 <li class="accordion-item"> *@
+@*                                     <span role="button" class="accordion-title" name="Category" *@
+@*                                           aria-controls="Category" aria-expanded="true" tabindex="0">Category</span> *@
+@*                                     <div class="accordion-content filter-div grid" aria-hidden="false" *@
+@*                                          aria-labelledby="Category" id="Category"> *@
+@* *@
+@*                                         <ul> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Almonds" *@
+@*                                                        id="Almonds"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Almonds" class="fancy-checkbox" for="Almonds"> *@
+@*                                                     Almonds *@
+@*                                                     <span>(24)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" *@
+@*                                                        value="Category#Brazil-Nuts" id="Brazil-Nuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Brazil Nuts" class="fancy-checkbox" for="Brazil-Nuts"> *@
+@*                                                     Brazil Nuts *@
+@*                                                     <span>(10)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Hazelnuts" *@
+@*                                                        id="Hazelnuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Hazelnuts" class="fancy-checkbox" for="Hazelnuts"> *@
+@*                                                     Hazelnuts *@
+@*                                                     <span>(9)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Cashews" *@
+@*                                                        id="Cashews"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Cashews" class="fancy-checkbox" for="Cashews"> *@
+@*                                                     Cashews *@
+@*                                                     <span>(29)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" *@
+@*                                                        value="Category#Macadamia-Nuts" id="Macadamia-Nuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Macadamia Nuts" class="fancy-checkbox" *@
+@*                                                        for="Macadamia-Nuts"> *@
+@*                                                     Macadamia Nuts *@
+@*                                                     <span>(24)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" *@
+@*                                                        value="Category#Mixed-Nuts" id="Mixed-Nuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Mixed Nuts" class="fancy-checkbox" for="Mixed-Nuts"> *@
+@*                                                     Mixed Nuts *@
+@*                                                     <span>(10)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Peanuts" *@
+@*                                                        id="Peanuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Peanuts" class="fancy-checkbox" for="Peanuts"> *@
+@*                                                     Peanuts *@
+@*                                                     <span>(23)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" *@
+@*                                                        value="Category#Pecan-Nuts" id="Pecan-Nuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Pecan Nuts" class="fancy-checkbox" for="Pecan-Nuts"> *@
+@*                                                     Pecan Nuts *@
+@*                                                     <span>(4)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Pine-Nuts" *@
+@*                                                        id="Pine-Nuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Pine Nuts" class="fancy-checkbox" for="Pine-Nuts"> *@
+@*                                                     Pine Nuts *@
+@*                                                     <span>(2)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" *@
+@*                                                        value="Category#Pistachios" id="Pistachios"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Pistachios" class="fancy-checkbox" for="Pistachios"> *@
+@*                                                     Pistachios *@
+@*                                                     <span>(5)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Walnuts" *@
+@*                                                        id="Walnuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Walnuts" class="fancy-checkbox" for="Walnuts"> *@
+@*                                                     Walnuts *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" data-id="Category" value="Category#Chestnuts" *@
+@*                                                        id="Chestnuts"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Chestnuts" class="fancy-checkbox" for="Chestnuts"> *@
+@*                                                     Chestnuts *@
+@*                                                     <span>(2)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@* *@
+@*                                         </ul> *@
+@*                                     </div> *@
+@*                                 </li> *@
+@* *@
+@*                                 <li class="accordion-item"> *@
+@*                                     <span role="button" class="accordion-title" name="Price" aria-controls="Price" *@
+@*                                           aria-expanded="true" tabindex="0">Price</span> *@
+@*                                     <div class="accordion-content filter-div grid" aria-hidden="false" *@
+@*                                          aria-labelledby="Price" id="Price"> *@
+@* *@
+@*                                         <ul> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="price-one"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Almonds" class="fancy-checkbox" for="price-one"> *@
+@*                                                     £0.00 - £99.99 *@
+@*                                                     <span>(102)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="price-two"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label id="l_Brazil Nuts" class="fancy-checkbox" for="price-two"> *@
+@*                                                     £100.00 and above *@
+@*                                                     <span>(1)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                         </ul> *@
+@*                                     </div> *@
+@* *@
+@*                                 </li> *@
+@* *@
+@*                                 <li class="accordion-item"> *@
+@*                                     <span role="button" class="accordion-title" name="Weight" aria-controls="Weight" *@
+@*                                           aria-expanded="true" tabindex="0">Weight</span> *@
+@*                                     <div class="accordion-content filter-div grid" aria-hidden="false" *@
+@*                                          aria-labelledby="Weight" id="Weight"> *@
+@* *@
+@*                                         <ul> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="1kg"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="1kg"> *@
+@*                                                     1kg *@
+@*                                                     <span>(29)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="500g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="500g"> *@
+@*                                                     500g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="400g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="400g"> *@
+@*                                                     400g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="375g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="375g"> *@
+@*                                                     375g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="300g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="300g"> *@
+@*                                                     300g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="250g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="250g"> *@
+@*                                                     250g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="200g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="200g"> *@
+@*                                                     200g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="100g"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="100g"> *@
+@*                                                     100g *@
+@*                                                     <span>(21)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                         </ul> *@
+@*                                     </div> *@
+@*                                 </li> *@
+@* *@
+@*                                 <li class="accordion-item"> *@
+@*                                     <span role="button" class="accordion-title" name="Brand" aria-controls="Brand" *@
+@*                                           aria-expanded="true" tabindex="0">Brand</span> *@
+@*                                     <div class="accordion-content filter-div grid" aria-hidden="false" *@
+@*                                          aria-labelledby="Brand" id="Brand"> *@
+@* *@
+@*                                         <ul> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="Brand-one"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="Brand-one"> *@
+@*                                                     Brand One *@
+@*                                                     <span>(99)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="Brand-two"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="Brand-two"> *@
+@*                                                     Brand Two *@
+@*                                                     <span>(2)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="Brand-three"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="Brand-three"> *@
+@*                                                     Brand Three *@
+@*                                                     <span>(5)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                         </ul> *@
+@*                                     </div> *@
+@*                                 </li> *@
+@* *@
+@*                                 <li class="accordion-item"> *@
+@*                                     <span role="button" class="accordion-title" name="Diet" aria-controls="Diet" *@
+@*                                           aria-expanded="true" tabindex="0">Diet</span> *@
+@*                                     <div class="accordion-content filter-div grid" aria-hidden="false" *@
+@*                                          aria-labelledby="Diet" id="Diet"> *@
+@* *@
+@*                                         <ul> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="gluten-free"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="gluten-free"> *@
+@*                                                     Gluten Free *@
+@*                                                     <span>(1)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="organic"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="organic"> *@
+@*                                                     Organic *@
+@*                                                     <span>(2)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="vegan"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="vegan"> *@
+@*                                                     Vegan *@
+@*                                                     <span>(20)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                             <li class="element-item brand"> *@
+@*                                                 <input type="checkbox" id="keto"> *@
+@*                                                 <div class="checkbox__checkmark"></div> *@
+@*                                                 <label class="fancy-checkbox" for="keto"> *@
+@*                                                     Keto *@
+@*                                                     <span>(12)</span> *@
+@*                                                 </label> *@
+@*                                             </li> *@
+@*                                         </ul> *@
+@*                                     </div> *@
+@*                                 </li> *@
+@*                             </ul> *@
+@*                         </form> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </section> *@
+
+<section class="cat-bottom-section">
+    <div class="container">
+        <div class="bottom-content-wrapper">
+            <h3 class="small-heading">Some Title for Bottom Content</h3>
+            <p class="content-para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus maiores,
+                tempore et praesentium, explicabo quae id hic sequi iure sed velit, est voluptatem? Repudiandae
+                voluptates vero ut nobis ab quod? Blanditiis inventore dicta incidunt atque soluta molestias esse
+                enim placeat, temporibus consequuntur tempore adipisci ut numquam nemo laborum ducimus repellendus
+                ipsum tenetur cumque non rerum veritatis eveniet asperiores. Incidunt nobis iste enim ab
+                necessitatibus a ducimus nulla fuga esse commodi sint accusantium accusamus amet aliquid nostrum nam
+                harum eum numquam impedit laborum, consectetur. Earum nihil, odit accusantium eveniet minima ad,
+                facilis at voluptates et dignissimos adipisci beatae, ipsam, alias placeat?</p>
+            <p class="content-para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus maiores,
+                tempore et praesentium, explicabo quae id hic sequi iure sed velit, est voluptatem? Repudiandae
+                voluptates vero ut nobis ab quod? Blanditiis inventore dicta incidunt atque soluta molestias esse
+                enim placeat, temporibus consequuntur tempore adipisci ut numquam nemo laborum ducimus repellendus
+                ipsum tenetur cumque non rerum veritatis eveniet asperiores.</p>
+        </div>
+    </div>
+</section>
+
+<template id="modal-basket">
+    <div class="basket-card">
+        <div class="basket-content">
+            <div class="basket-image">
+                <img src="images/product-250x250.jpg" width="250" height="250" alt="Organic Brown Linseeds">
+            </div>
+
+            <div class="basket-details">
+                <div class="title-rating">
+                    <h1 class="basket-title">Organic Brown Linseeds</h1>
+                    <div class="prating">
+                        <span class="rating-con three-half-star"></span>
+                        <span>Based on 10 Ratings</span>
+                    </div>
+                </div>
+
+                <div class="weight-options">
+                    <div class="weight-title">Package size</div>
+                    <div class="weight-option">
+                        <input type="radio" id="weight-250g" name="weight" value="250g" checked>
+                        <label for="weight-250g" class="weight-label">
+                            <span class="weight-value">250g</span>
+                        </label>
+                    </div>
+                    <div class="weight-option">
+                        <input type="radio" id="weight-500g" name="weight" value="500g">
+                        <label for="weight-500g" class="weight-label">
+                            <span class="weight-value">500g</span>
+                        </label>
+                    </div>
+                    <div class="weight-option">
+                        <input type="radio" id="weight-1kg" name="weight" value="1kg">
+                        <label for="weight-1kg" class="weight-label">
+                            <span class="weight-value">1kg</span>
+                        </label>
+                    </div>
+                    <div class="weight-option">
+                        <input type="radio" id="weight-2kg" name="weight" value="2kg">
+                        <label for="weight-1kg" class="weight-label">
+                            <span class="weight-value">2kg</span>
+                        </label>
+                    </div>
+                    <div class="weight-option">
+                        <input type="radio" id="weight-4kg" name="weight" value="4kg">
+                        <label for="weight-1kg" class="weight-label">
+                            <span class="weight-value">4kg</span>
+                        </label>
+                    </div>
+                    <div class="weight-option">
+                        <input type="radio" id="weight-25kg" name="weight" value="25kg">
+                        <label for="weight-22kg" class="weight-label">
+                            <span class="weight-value">25kg</span>
+                            <span class="discount-badge">10%</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="price-section">
+                    <span class="current-price">£1.69</span>
+                    <span class="price-pipe"></span>
+                    <span class="ppkg">£0.68 per 100g</span>
+                </div>
+
+                <div class="quantity-section">
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
+                        <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                    </div>
+                    <button class="add-to-basket-light"><img src="images/add-to-basket.svg" alt="Add To Basket"
+                                                             width="22" height="22">Add to Basket
+                    </button>
+                </div>
+                <a href="#" class="view-details">View Product Details</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<button type="button" class="filter_button hide-for-large" data-toggle="filters">
+    <img src="images/bw-filter-icon.svg" alt="Filter">
+    Filters
+</button>
+
+@section Scripts {
+    <script src="~/js/tingle.min.js"></script>
+    <script src="~/js/menu.js" defer></script>
+}
+
+;

@@ -2250,15 +2250,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("GTIN")
                         .HasDatabaseName("IX_Product_GTIN");
 
-                    b.HasIndex("IsBestSeller")
-                        .HasDatabaseName("IX_Product_IsBestSeller");
-
-                    b.HasIndex("IsFeatured")
-                        .HasDatabaseName("IX_Product_IsFeatured");
-
-                    b.HasIndex("IsNew")
-                        .HasDatabaseName("IX_Product_IsNew");
-
                     b.HasIndex("MFC")
                         .HasDatabaseName("IX_Product_MFC");
 
@@ -2268,6 +2259,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasDatabaseName("UK_Product_Name");
+
+                    b.HasIndex("Price")
+                        .HasDatabaseName("IX_Product_Price");
 
                     b.HasIndex("ProductGroupId");
 
@@ -4407,7 +4401,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                             b1.HasKey("CustomerId", "__synthesizedOrdinal");
 
-                            b1.ToTable("Customer");
+                            b1.ToTable("Customer", (string)null);
 
                             b1.ToJson("History");
 
@@ -4501,7 +4495,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                             b1.HasKey("CustomerAddressId", "__synthesizedOrdinal");
 
-                            b1.ToTable("CustomerAddress");
+                            b1.ToTable("CustomerAddress", (string)null);
 
                             b1.ToJson("History");
 
@@ -5217,9 +5211,53 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                             b1.HasKey("SalesOrderId");
 
-                            b1.ToTable("SalesOrder");
+                            b1.ToTable("SalesOrder", (string)null);
 
                             b1.ToJson("BillingAddressReference");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SalesOrderId");
+                        });
+
+                    b.OwnsOne("Ecommerce3.Domain.Models.CustomerReference", "CustomerReference", b1 =>
+                        {
+                            b1.Property<int>("SalesOrderId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("CompanyName")
+                                .HasMaxLength(256)
+                                .HasColumnType("varchar(256)")
+                                .HasColumnOrder(4);
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .HasColumnType("varchar(64)")
+                                .HasColumnOrder(2);
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("integer")
+                                .HasColumnOrder(1);
+
+                            b1.Property<bool>("IsEmailVerified")
+                                .HasColumnType("boolean")
+                                .HasColumnOrder(6);
+
+                            b1.Property<string>("LastName")
+                                .HasMaxLength(64)
+                                .HasColumnType("varchar(64)")
+                                .HasColumnOrder(3);
+
+                            b1.Property<string>("PhoneNumber")
+                                .HasMaxLength(64)
+                                .HasColumnType("varchar(64)")
+                                .HasColumnOrder(5);
+
+                            b1.HasKey("SalesOrderId");
+
+                            b1.ToTable("SalesOrder", (string)null);
+
+                            b1.ToJson("CustomerReference");
 
                             b1.WithOwner()
                                 .HasForeignKey("SalesOrderId");
@@ -5290,53 +5328,9 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                             b1.HasKey("SalesOrderId");
 
-                            b1.ToTable("SalesOrder");
+                            b1.ToTable("SalesOrder", (string)null);
 
                             b1.ToJson("ShippingAddressReference");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SalesOrderId");
-                        });
-
-                    b.OwnsOne("Ecommerce3.Domain.Models.CustomerReference", "CustomerReference", b1 =>
-                        {
-                            b1.Property<int>("SalesOrderId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("CompanyName")
-                                .HasMaxLength(256)
-                                .HasColumnType("varchar(256)")
-                                .HasColumnOrder(4);
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
-                                .HasColumnOrder(2);
-
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer")
-                                .HasColumnOrder(1);
-
-                            b1.Property<bool>("IsEmailVerified")
-                                .HasColumnType("boolean")
-                                .HasColumnOrder(6);
-
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
-                                .HasColumnOrder(3);
-
-                            b1.Property<string>("PhoneNumber")
-                                .HasMaxLength(64)
-                                .HasColumnType("varchar(64)")
-                                .HasColumnOrder(5);
-
-                            b1.HasKey("SalesOrderId");
-
-                            b1.ToTable("SalesOrder");
-
-                            b1.ToJson("CustomerReference");
 
                             b1.WithOwner()
                                 .HasForeignKey("SalesOrderId");
@@ -5518,7 +5512,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                             b1.HasKey("SalesOrderLineId");
 
-                            b1.ToTable("SalesOrderLine");
+                            b1.ToTable("SalesOrderLine", (string)null);
 
                             b1.ToJson("ProductReference");
 

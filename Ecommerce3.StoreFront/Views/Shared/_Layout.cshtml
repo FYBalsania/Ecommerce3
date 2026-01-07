@@ -8,28 +8,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/spice.css">
-    <link rel="stylesheet" href="css/splide.min.css">
-    <link rel="stylesheet" href="css/newmenu.css">
-    <script src="js/what-input.min.js"></script>
-    <script src="js/modernizr-custom.js"></script>
+    <link rel="stylesheet" href="~/css/spice.css">
+    <link rel="stylesheet" href="~/css/splide.min.css">
+    <link rel="stylesheet" href="~/css/newmenu.css">
+    @await RenderSectionAsync("Styles", required: false)
+    <script src="~/js/what-input.min.js"></script>
+    <script src="~/js/modernizr-custom.js"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
-<body id="homepage">
-
-<partial name="_HeaderPartial"/>
-
-@RenderBody()
-
-<partial name="_FooterPartial"/>
-
-@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
-@* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
-@* <script src="~/js/site.js" asp-append-version="true"></script> *@
-<script src="js/splide.min.js"></script>
-<script src="js/spice.js" defer></script>
-<script src="js/newmenu.js" defer></script>
-
-@await RenderSectionAsync("Scripts", required: false)
+<body>
+    <partial name="_HeaderPartial"/>
+    @RenderBody()
+    <partial name="_FooterPartial"/>
+    <script src="~/js/splide.min.js"></script>
+    <script src="~/js/spice.js" defer></script>
+    <script src="~/js/newmenu.js" defer></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

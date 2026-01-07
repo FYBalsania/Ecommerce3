@@ -10,6 +10,6 @@ internal sealed class ProductService(
 {
     public async Task<IReadOnlyList<ProductListItemDTO>> GetListAsync(string[] sku, CancellationToken cancellationToken)
     {
-        return await productQueryRepository.GetListAsync(sku, cancellationToken);
+        return await productQueryRepository.GetListItemsAsync(sku, cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 using Ecommerce3.Contracts.QueryRepositories.StoreFront;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.StoreFront.Models;
+using Ecommerce3.StoreFront.ViewModels.Category;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.StoreFront.Controllers;
@@ -32,13 +33,22 @@ public class CategoriesController(
         //Descendant category Ids.
         var descendantIds = await categoryQueryRepository.GetDescendantIdsAsync(category.Id, cancellationToken);
 
-        //Brands by descendant category Ids.
-        var brandCheckBoxListItems = await brandQueryRepository.GetByCategoryIdsAsync(descendantIds, cancellationToken);
+        //Brands for facets.
+        var brandIdAndDisplay =
+            await brandQueryRepository.GetIdAndDisplayByCategoryIdsAsync(descendantIds, cancellationToken);
+
+        //Price range for facets.
+        var priceRange = await productQueryRepository.GetPriceRangeAsync(descendantIds, cancellationToken);
+
+        //Weight range for facets.
+        var weightFacets = await productQueryRepository.GetWeightsAsync(descendantIds, cancellationToken);
+
+        //Attributes for facets.
+        var attributeFacets = await productQueryRepository.GetAttributesAsync(descendantIds, cancellationToken);
 
         //Products.
-        var products = await productQueryRepository.GetListAsync(descendantIds, brands, minPrice, maxPrice,
-            weights, attributes, sortOrder, 1, pageSize, cancellationToken);
-        //Weights.
+        var products = await productQueryRepository.GetListItemsAsync(descendantIds, brands, 
+            minPrice, maxPrice, weights, attributes, sortOrder, 1, pageSize, cancellationToken);
 
         //Breadcrumb.
         var breadcrumb = new List<BreadcrumbItem>
@@ -52,7 +62,11 @@ public class CategoriesController(
             new() { Text = category.Breadcrumb }
         };
 
-        return View();
+        //Model.
+        var model = new CategoryLevel0ViewModel(category, breadcrumb, page!, brandIdAndDisplay, brands,
+            priceRange, minPrice, maxPrice, weightFacets, weights, attributeFacets, attributes, products);
+
+        return View(model);
     }
 
     [HttpGet("{category1Slug}/c")]

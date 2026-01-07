@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="DTO\StoreFront\Brand\" />
       <Folder Include="Filters\StoreFront\" />
     </ItemGroup>
 

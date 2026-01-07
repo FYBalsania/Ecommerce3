@@ -117,9 +117,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.RedirectUrl).HasMethod("gin").HasOperators("gin_trgm_ops")
             .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.RedirectUrl)}");
         builder.HasIndex(x => x.Status).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Status)}");
-        builder.HasIndex(x => x.IsFeatured).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsFeatured)}");
-        builder.HasIndex(x => x.IsNew).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsNew)}");
-        builder.HasIndex(x => x.IsBestSeller).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsBestSeller)}");
+        builder.HasIndex(x => x.Price).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Price)}");
+        // builder.HasIndex(x => x.IsFeatured).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsFeatured)}");
+        // builder.HasIndex(x => x.IsNew).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsNew)}");
+        // builder.HasIndex(x => x.IsBestSeller).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsBestSeller)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.SortOrder)}");
         builder.HasIndex(x => x.Facets).HasMethod("gin");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.CreatedAt)}");

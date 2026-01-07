@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTO.StoreFront.Product;
+using Ecommerce3.Contracts.DTO.StoreFront.UOM;
 using Ecommerce3.Contracts.QueryRepositories.StoreFront;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
@@ -15,7 +17,7 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
         .Where(x => x.Status == ProductStatus.Active)
         .AsQueryable();
 
-    public async Task<IReadOnlyList<ProductListItemDTO>> GetListAsync(string[] sku,
+    public async Task<IReadOnlyList<ProductListItemDTO>> GetListItemsAsync(string[] sku,
         CancellationToken cancellationToken)
     {
         return await Products
@@ -25,8 +27,8 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<PagedResult<ProductListItemDTO>> GetListAsync(int[] categories, int[] brands, decimal? minPrice,
-        decimal? maxPrice, IDictionary<int, decimal> weights, IDictionary<int, int> attributes,
+    public async Task<PagedResult<ProductListItemDTO>> GetListItemsAsync(int[] categories, int[] brands,
+        decimal? minPrice, decimal? maxPrice, IDictionary<int, decimal> weights, IDictionary<int, int> attributes,
         SortOrder sortOrder, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         var query = Products;
@@ -91,5 +93,79 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
             PageSize = pageSize,
             Data = products
         };
+    }
+
+    public async Task<PriceRangeDTO> GetPriceRangeAsync(int[] categories, CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductCategories
+                   .Where(p =>
+                       ((IEnumerable<int>)categories).Contains(p.CategoryId) &&
+                       p.Category!.IsActive &&
+                       p.Product!.Status == ProductStatus.Active)
+                   .GroupBy(_ => 1)
+                   .Select(g => new PriceRangeDTO
+                   {
+                       MinPrice = g.Min(x => x.Product!.Price),
+                       MaxPrice = g.Max(x => x.Product!.Price)
+                   })
+                   .FirstOrDefaultAsync(cancellationToken)
+               ?? new PriceRangeDTO
+               {
+                   MinPrice = 0,
+                   MaxPrice = 0
+               };
+    }
+
+    public async Task<IReadOnlyList<UOMFacetDTO>> GetWeightsAsync(int[] categories, CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductCategories
+            .Where(p =>
+                ((IEnumerable<int>)categories).Contains(p.CategoryId) &&
+                p.Category!.IsActive &&
+                p.Product!.Status == ProductStatus.Active &&
+                p.Product.UnitOfMeasure!.Type == UnitOfMeasureType.Weight)
+            .GroupBy(p => new
+            {
+                p.Product!.UnitOfMeasureId,
+                p.Product.UnitOfMeasure!.Name,
+                p.Product.QuantityPerUnitOfMeasure
+            })
+            .Select(g => new UOMFacetDTO
+            {
+                Id = g.Key.UnitOfMeasureId,
+                Name = g.Key.Name,
+                QtyPerUOM = g.Key.QuantityPerUnitOfMeasure
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<ProductAttributeFacetDTO>> GetAttributesAsync(int[] categories,
+        CancellationToken cancellationToken)
+    {
+        return await dbContext.ProductCategories
+            .Where(pc =>
+                ((IEnumerable<int>)categories).Contains(pc.CategoryId) &&
+                pc.Category!.IsActive &&
+                pc.Product!.Status == ProductStatus.Active)
+            .SelectMany(pc => pc.Product!.Attributes)
+            .GroupBy(a => new
+            {
+                a.ProductAttributeId,
+                AttributeDisplay = a.ProductAttribute!.Display,
+                a.ProductAttributeValueId,
+                AttributeValueDisplay = a.ProductAttributeValue!.Display,
+                a.ProductAttributeSortOrder,
+                a.ProductAttributeValueSortOrder
+            })
+            .OrderBy(g => g.Key.ProductAttributeSortOrder)
+            .ThenBy(g => g.Key.ProductAttributeValueSortOrder)
+            .Select(g => new ProductAttributeFacetDTO
+            {
+                AttributeId = g.Key.ProductAttributeId,
+                AttributeDisplay = g.Key.AttributeDisplay,
+                AttributeValueId = g.Key.ProductAttributeValueId,
+                AttributeValueDisplay = g.Key.AttributeValueDisplay
+            })
+            .ToListAsync(cancellationToken);
     }
 }

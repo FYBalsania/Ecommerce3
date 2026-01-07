@@ -1,0 +1,24 @@
+@model IReadOnlyList<BreadcrumbItem>
+
+<div class="breadcrumb-wrapper">
+    <div class="container">
+        <nav class="breadcrumb">
+            @for (var i = 1; i <= Model.Count; i++)
+            {
+                var breadcrumbItem = Model[i - 1];
+                if (i == 1)
+                {
+                    <a asp-controller="Home" asp-action="Index" class="breadcrumb-item home"></a>
+                }
+                else if (i < Model.Count)
+                {
+                    <a href="@breadcrumbItem.Url" class="breadcrumb-item">@breadcrumbItem.Text</a>
+                }
+                else
+                {
+                    <a href="#" class="breadcrumb-item active">@breadcrumbItem.Text</a>
+                }
+            }
+        </nav>
+    </div>
+</div>

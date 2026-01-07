@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260107082350_SeedData")]
+    [Migration("20260107122220_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />
@@ -2253,15 +2253,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("GTIN")
                         .HasDatabaseName("IX_Product_GTIN");
 
-                    b.HasIndex("IsBestSeller")
-                        .HasDatabaseName("IX_Product_IsBestSeller");
-
-                    b.HasIndex("IsFeatured")
-                        .HasDatabaseName("IX_Product_IsFeatured");
-
-                    b.HasIndex("IsNew")
-                        .HasDatabaseName("IX_Product_IsNew");
-
                     b.HasIndex("MFC")
                         .HasDatabaseName("IX_Product_MFC");
 
@@ -2271,6 +2262,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasDatabaseName("UK_Product_Name");
+
+                    b.HasIndex("Price")
+                        .HasDatabaseName("IX_Product_Price");
 
                     b.HasIndex("ProductGroupId");
 
