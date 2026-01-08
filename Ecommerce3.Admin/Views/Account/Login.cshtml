@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutLogin";
+}
+
+<div class="login-page">
+    <div class="login-card shadow-lg">
+        <div class="text-center mb-4">
+            <img src="~/images/logo.jpg" class="login-logo" />
+        </div>
+
+        <form autocomplete="off">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input name="Email" type="email" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input name="Password" type="password" class="form-control" />
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                    <input name="RememberMe" type="checkbox" class="form-check-input" value="true" />
+                    <label class="form-check-label">Remember me</label>
+                </div>
+                <a href="/Account/ForgotPassword" class="small text-decoration-none">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                <i class="fa fa-lock me-2"></i> Sign In
+            </button>
+
+        </form>
+    </div>
+</div>

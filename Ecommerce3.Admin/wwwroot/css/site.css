@@ -478,3 +478,58 @@ label.form-label.fw-bold.required::after {
 .pagination .page-link svg {
   font-size: 14px;
 }
+
+
+/* ===== Login Page ===== */
+html, body, .login-layout {
+  height: 100%;
+  margin: 0;
+}
+
+.login-layout {
+  overflow: hidden;
+}
+
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #111827, #1f2937);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2.5rem;
+}
+
+.login-logo {
+  height: 50px;
+}
+
+.login-card h2 {
+  font-size: 1.4rem;
+}
+
+.login-card .form-control {
+  height: 48px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.login-card .btn-primary {
+  border: none;
+  border-radius: 8px;
+}
+
+.login-card a {
+  color: #2563eb;
+}
+
+.login-card .alert {
+  border-radius: 8px;
+}
+
