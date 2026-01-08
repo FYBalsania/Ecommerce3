@@ -29,6 +29,8 @@ internal sealed class ProductQueryRepository(AppDbContext dbContext) : IProductQ
             query = query.Where(x => x.Brand.Name.Contains(filter.Brand));
         if (!string.IsNullOrWhiteSpace(filter.Category))
             query = query.Where(x => x.Categories.Any(c => c.Category.Name.Contains(filter.Category)));
+        if (!string.IsNullOrWhiteSpace(filter.SKU))
+            query = query.Where(x => x.SKU.Contains(filter.SKU));
 
         var total = await query.CountAsync(cancellationToken);
         query = query.OrderBy(x => x.Name);
