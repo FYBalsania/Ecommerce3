@@ -1,3 +1,4 @@
+@using Ecommerce3.Domain.Enums
 @model Ecommerce3.StoreFront.ViewModels.Category.CategoryLevel0ViewModel
 
 @section Styles{
@@ -60,11 +61,12 @@
                                     <div class="sortby-dropdown">
                                         <span class="sort-title">Sort By:</span>
                                         <select name="" id="ddlOrderBy">
-                                            <option value="">Top Seller</option>
-                                            <option value="">Most Popular</option>
-                                            <option value="">Price low to High</option>
-                                            <option value="">Price High to Low</option>
-                                            <option value="">Top Rated Products</option>
+                                            <option value="@nameof(SortOrder.NameAsc)">Name (Ascending)</option>
+                                            <option value="@nameof(SortOrder.NameDesc)">Name (Descending)</option>
+                                            <option value="@nameof(SortOrder.PriceAsc)">Price (Low to High)</option>
+                                            <option value="@nameof(SortOrder.PriceDesc)">Price (High to Low)</option>
+                                            <option value="@nameof(SortOrder.DiscountDesc)">Discount</option>
+                                            <option value="@nameof(SortOrder.RatingDesc)">Avg. Rating</option>
                                         </select>
                                     </div>
                                 </form>

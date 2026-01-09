@@ -2,13 +2,13 @@ using System.Net;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Country : Entity//, ICreatable, IUpdatable, IDeletable
+public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
 {
     public static readonly int NameMaxLength = 256;
     public static readonly int Iso2CodeMaxLength = 2;
     public static readonly int Iso3CodeMaxLength = 3;
     public static readonly int NumericCodeMaxLength = 3;
-    
+
     public string Name { get; private set; }
     public string Iso2Code { get; private set; }
     public string Iso3Code { get; private set; }
@@ -36,7 +36,7 @@ public sealed class Country : Entity//, ICreatable, IUpdatable, IDeletable
         int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         //Validation.
-        
+
         Name = name;
         Iso2Code = iso2Code;
         Iso3Code = iso3Code;
@@ -46,5 +46,31 @@ public sealed class Country : Entity//, ICreatable, IUpdatable, IDeletable
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
+    }
+
+    public void Update(string name, string iso2Code, string iso3Code, string? numericCode, bool isActive, int sortOrder,
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
+    {
+        //Validation.
+
+        if (Name == name && Iso2Code == iso2Code && Iso3Code == iso3Code && NumericCode == numericCode &&
+            IsActive == isActive && SortOrder == sortOrder) return;
+
+        Name = name;
+        Iso2Code = iso2Code;
+        Iso3Code = iso3Code;
+        NumericCode = numericCode;
+        IsActive = isActive;
+        SortOrder = sortOrder;
+        UpdatedBy = updatedBy;
+        UpdatedAt = updatedAt;
+        UpdatedByIp = updatedByIp;
+    }
+
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
+    {
+        DeletedBy = deletedBy;
+        DeletedAt = deletedAt;
+        DeletedByIp = deletedByIp;
     }
 }
