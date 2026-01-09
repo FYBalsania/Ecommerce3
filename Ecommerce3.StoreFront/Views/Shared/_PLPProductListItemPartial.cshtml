@@ -1,2 +1,75 @@
 @model Ecommerce3.Contracts.DTO.StoreFront.Product.ProductListItemDTO
 
+<div class="productdata pgrid" data-productid="@Model.SKU" data-price="@Model.Price">
+    <div class="product_wrapper">
+        <figure class="product_image">
+            <a href="" title="" class="itemclick">
+                @{
+                    var imagePath = Model.Image is not null 
+                        ? System.IO.Path.Combine(ImageOptions.Value.PathString, Model.Image.FileName) 
+                        : $"https://placehold.co/600x400?text={Model.Name}";
+                }
+                <picture>
+                    <source media="(min-width: 640px)"
+                            data-srcset="@imagePath" class="img_1200"
+                            srcset="@imagePath">
+                    <source media="(max-width: 639px)"
+                            data-srcset="@imagePath" class="img_992"
+                            srcset="@imagePath">
+                    <img data-src="@imagePath" alt="@Model.Image?.AltText" title="@Model.Image?.Title"
+                         data-srcset="@imagePath"
+                         class="img_list ls-is-cached lazyloaded" width="325"
+                         height="325" srcset="@imagePath"
+                         src="@imagePath">
+                </picture>
+                <noscript>
+                    <img src="@imagePath" alt="@Model.Image?.AltText" title="@Model.Image?.Title" class="img_list"
+                         width="325" height="325">
+                </noscript>
+            </a>
+        </figure>
+        <div class="product_details">
+            <a href="" title="" class="itemclick">@Model.Display</a>
+
+            <div class="brand-rating-wrap">
+                <div>
+                    <span class="price">£@Model.Price</span>
+                    @if (Model.OldPrice is not null)
+                    {
+                        <span>RRP: <span class="prrp">£@Model.OldPrice.Value</span></span>
+                    }
+                </div>
+                @{
+                    var ratingClass = Model.AverageRating switch
+                    {
+                        >= 4.5m => "five-star",
+                        >= 4.0m => "four-half-star",
+                        >= 3.5m => "four-star",
+                        >= 3.0m => "three-half-star",
+                        >= 2.5m => "three-star",
+                        >= 2.0m => "two-half-star",
+                        >= 1.5m => "two-star",
+                        >= 1.0m => "one-half-star",
+                        > 0m => "one-star",
+                        _ => ""
+                    };
+                }
+                <span class="rating-con @ratingClass"></span>
+            </div>
+
+            @if (Model.Stock > 0)
+            {
+                <span class="ng-freeship-icon instock">
+                    <img src="~/images/instock-check.svg" alt="" width="18" height="18"/>
+                    In-Stock
+                </span>
+            }
+
+            <button class="add-to-basket-light js-open-modal" data-modal="#modal-basket"
+                    tabindex="9" aria-label="Add To Basket">
+                <img src="~/images/add-to-basket.svg" alt="Add To Basket" width="22" height="22"/>
+                Add To Basket
+            </button>
+        </div>
+    </div>
+</div>

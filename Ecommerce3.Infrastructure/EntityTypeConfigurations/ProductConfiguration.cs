@@ -59,7 +59,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnType("varchar(512)").HasColumnOrder(16);
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(17);
         builder.Property(x => x.AllowReviews).HasColumnType("boolean").HasColumnOrder(18);
-        builder.Property(x => x.AverageRating).HasColumnType("integer").HasColumnOrder(19);
+        builder.Property(x => x.AverageRating).HasColumnType("decimal(18,2)").HasColumnOrder(19);
         builder.Property(x => x.TotalReviews).HasColumnType("integer").HasColumnOrder(20);
         builder.Property(x => x.Price).HasColumnType("decimal(18,2)").HasColumnOrder(21);
         builder.Property(x => x.OldPrice).HasColumnType("decimal(18,2)").HasColumnOrder(22);

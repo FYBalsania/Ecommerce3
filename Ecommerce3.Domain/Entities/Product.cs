@@ -49,7 +49,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public string? ShortDescription { get; private set; }
     public string? FullDescription { get; private set; }
     public bool AllowReviews { get; private set; }
-    public int AverageRating { get; private set; }
+    public decimal AverageRating { get; private set; }
     public int TotalReviews { get; private set; }
     public decimal Price { get; private set; }
     public decimal? OldPrice { get; private set; }
@@ -256,23 +256,22 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             true, createdBy, createdAt, createdByIp);
 
         //Facets.
-        Facets.Add($"brand:slug:{brand.Value}");
+        SetFacets(false, categories, productGroup, attributes);
+    }
+
+    private void SetFacets(bool clear, IDictionary<int, string> categories, KeyValuePair<int, string>? productGroup
+        , IReadOnlyCollection<ValueObjects.ProductAttribute> attributes)
+    {
+        if (clear) Facets.Clear();
         foreach (var category in categories)
         {
-            Facets.Add($"category:id:{category.Key}");
-            Facets.Add($"category:slug:{category.Value}");
+            Facets.Add($"category:{category.Key}");
         }
-
         if (productGroup is not null)
         {
-            Facets.Add($"product_group:slug:{productGroup.Value.Value}");
             foreach (var attribute in attributes)
             {
-                Facets.Add($"product_attribute:id:{attribute.ProductAttributeId}");
-                Facets.Add($"product_attribute:slug:{attribute.ProductAttributeSlug}");
-
-                Facets.Add($"product_attribute_value:id:{attribute.ProductAttributeValueId}");
-                Facets.Add($"product_attribute_value:slug:{attribute.ProductAttributeValueSlug}");
+                Facets.Add($"attribute:{attribute.ProductAttributeId}:{attribute.ProductAttributeValueId}");
             }
         }
     }
@@ -512,26 +511,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         UpdatedByIp = updatedByIp;
 
         //Facets
-        Facets.Clear();
-        Facets.Add($"brand:slug:{brand.Value}");
-        foreach (var category in categories)
-        {
-            Facets.Add($"category:id:{category.Key}");
-            Facets.Add($"category:slug:{category.Value}");
-        }
-
-        if (productGroup is not null)
-        {
-            Facets.Add($"product_group:slug:{productGroup.Value.Value}");
-            foreach (var attribute in attributes)
-            {
-                Facets.Add($"product_attribute:id:{attribute.ProductAttributeId}");
-                Facets.Add($"product_attribute:slug:{attribute.ProductAttributeSlug}");
-
-                Facets.Add($"product_attribute_value:id:{attribute.ProductAttributeValueId}");
-                Facets.Add($"product_attribute_value:slug:{attribute.ProductAttributeValueSlug}");
-            }
-        }
+        SetFacets(true, categories, productGroup, attributes);
     }
 
     private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)
@@ -618,17 +598,19 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         }
     }
 
-    public void Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt, string updatedByIp)
+    public void Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt,
+        string updatedByIp)
     {
         ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
         if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);
         ValidatePositiveNumber(stock, DomainErrors.ProductErrors.InvalidStock);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidCreatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductErrors.CreatedByIpRequired, DomainErrors.ProductErrors.CreatedByIpTooLong);
-        
+        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductErrors.CreatedByIpRequired,
+            DomainErrors.ProductErrors.CreatedByIpTooLong);
+
         if (Price == price && OldPrice == oldPrice && Stock == stock)
             return;
-        
+
         Price = price;
         OldPrice = oldPrice;
         Stock = stock;

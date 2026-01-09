@@ -34,9 +34,9 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
         var query = Products;
 
         //Filter by categories.
-        if (categories.Length > 0)
+        if (categories.Length > 0)  
         {
-            var categoryFacets = categories.Select(c => $"cat:{c}").ToArray();
+            var categoryFacets = categories.Select(c => $"category:{c}").ToArray();
             query = query.Where(p => p.Facets.Any(f => ((IEnumerable<string>)categoryFacets).Contains(f)));
         }
 

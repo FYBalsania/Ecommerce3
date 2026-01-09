@@ -10,12 +10,14 @@ internal sealed class BrandQueryRepository(AppDbContext dbContext) : IBrandQuery
     public async Task<IReadOnlyDictionary<int, string>> GetIdAndDisplayByCategoryIdsAsync(int[] categoryIds,
         CancellationToken cancellationToken)
     {
-        return await dbContext.ProductCategories
+        var query = dbContext.ProductCategories
             .Where(pc => ((IEnumerable<int>)categoryIds).Contains(pc.CategoryId)
                          && pc.Category!.IsActive
                          && pc.Product!.Brand!.IsActive
                          && pc.Product.Status == ProductStatus.Active)
-            .Distinct()
-            .ToDictionaryAsync(x => x.Product!.Brand!.Id, x => x.Product!.Brand!.Display, cancellationToken);
+            .Select(x => new { Id = x.Product!.BrandId, Display = x.Product.Brand!.Display })
+            .Distinct();
+
+        return await query.ToDictionaryAsync(x => x.Id, x => x.Display, cancellationToken);
     }
 }

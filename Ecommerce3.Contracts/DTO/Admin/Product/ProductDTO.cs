@@ -26,7 +26,7 @@ public record ProductDTO
     public required string? ShortDescription { get; init; }
     public required string? FullDescription { get; init; }
     public required bool AllowReviews { get; init; }
-    public required int AverageRating { get; init; }
+    public required decimal AverageRating { get; init; }
     public required int TotalReviews { get; init; }
     public required decimal Price { get; init; }
     public required decimal? OldPrice { get; init; }

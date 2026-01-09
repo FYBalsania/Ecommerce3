@@ -19,6 +19,8 @@ public static class ProductExpressions
         BrandName = x.Brand!.Name,
         Price = x.Price,
         OldPrice = x.OldPrice,
+        Stock = x.Stock,
+        AverageRating = x.AverageRating,
         Image = x.Images
             .Where(y => y.ImageTypeId == 2)
             .OrderBy(y => y.SortOrder)

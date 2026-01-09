@@ -14,5 +14,7 @@ public record ProductListItemDTO
     public required string BrandName { get; init; }
     public required decimal Price { get; init; }
     public required decimal? OldPrice { get; init; }
+    public required decimal Stock { get; init; }
+    public required decimal AverageRating { get; init; }
     public required ImageDTO? Image { get; init; }
 }
