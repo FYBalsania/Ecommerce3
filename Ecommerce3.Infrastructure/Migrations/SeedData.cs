@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Domain.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -72,6 +73,14 @@ public partial class SeedData : Migration
                 { 3, "pc", "Piece", nameof(UnitOfMeasureType.Count), null, 1, true, 1, DateTime.Now, "localhost" },
                 { 4, "pack", "Pack of 3", nameof(UnitOfMeasureType.Count), 3, 3, true, 1, DateTime.Now, "localhost" }
             });
+
+        //Country.
+        migrationBuilder.Sql("""
+                             INSERT INTO countries
+                             (id, name, iso2_code, iso3_code, numeric_code, is_active, sort_order, created_by, created_at, created_by_ip)
+                             VALUES
+                             (1, 'United Kingdom', 'GB', 'GBR', 826, true, 1, 1, NOW(), '127.0.0.1'::inet);
+                             """);
 
         // DeliveryWindow
         migrationBuilder.InsertData(
@@ -354,8 +363,7 @@ public partial class SeedData : Migration
                     DateTime.Now, "localhost"
                 }
             });
-
-
+        
         //ProductGroup
         migrationBuilder.InsertData(
             "ProductGroup",
@@ -486,394 +494,394 @@ public partial class SeedData : Migration
             "<p>Almond powder produced from blanched almond kernels. Ground almonds (also known as almond flour or almond meal) are popular for baking sweets, cakes and biscuits; all our ground and flaked almonds are blanched with the brown skin removed before grinding. Supplied in our Zip lock stand up Aluminium doypack pouches.<br><br><strong>Storage</strong><br>Store in a cool dry place away from sunlight.<br><br><strong>Ingredients</strong><br>Almond Ground<br><br><strong>Allergen Information</strong><br>Packed on premises that handles nuts, seeds, cereals, soya &amp; products containing gluten.</p>\n";
         string gumHTML =
             "<p>Gum Powder is a natural gum derived from the hardened sap of acacia trees, primarily native to the Middle East and parts of Western Africa, and is widely used in the food and beverage industry as a stabilizer for long shelf life; it is commonly used in soft drink syrups to improve texture and stability. Beyond beverages, gum Arabic is a key ingredient in confections such as gumdrops, marshmallows and edible glitter, and is also popular in modern cake decorating for its versatile, edible glossy finish. 100% Pure, with no fillers, colours or binders. Suitable for vegetarians &amp; vegans. Supplied in our Zip lock stand up Aluminium doypack pouches.<br><br><strong>Storage</strong><br>Store in a cool dry place away from sunlight.<br><br><strong>Ingredients</strong><br>Edible Gum Powder<br><br><strong>Allergen Information</strong><br>Packed on premises that handles nuts, seeds, cereals, soya &amp; products containing gluten.</p>\n";
-        migrationBuilder.InsertData(
-            "Product",
-            [
-                "Id", "SKU",
-                "Name", "Slug", "Display",
-                "Breadcrumb", "AnchorText", "AnchorTitle",
-                "BrandId", "ProductGroupId",
-                "ShortDescription", "FullDescription",
-                "AllowReviews", "AverageRating", "TotalReviews",
-                "Price", "OldPrice", "CostPrice",
-                "Stock", "MinStock", "ShowAvailability",
-                "FreeShipping", "AdditionalShippingCharge",
-                "UnitOfMeasureId", "QuantityPerUnitOfMeasure",
-                "DeliveryWindowId",
-                "MinOrderQuantity", "MaxOrderQuantity",
-                "IsFeatured", "IsNew", "IsBestSeller", "IsReturnable",
-                "Status", "RedirectUrl",
-                "SortOrder", "facets",
-                "CreatedBy", "CreatedAt", "CreatedByIp",
-            ],
-            new object[,]
-            {
-                {
-                    1, "4MP50G",
-                    "4 Mixed Peppercorns 50g", "4-mixed-peppercorns-50g", "4 Mixed Peppercorns 50g",
-                    "4 Mixed Peppercorns 50g", "4 Mixed Peppercorns 50g", "4 Mixed Peppercorns 50g",
-                    1, 1,
-                    null,
-                    fourMixedHtml,
-                    true, 2m, 0,
-                    2.49m, null, null,
-                    10m, null, true,
-                    true, 2.75m,
-                    1, 50m,
-                    3,
-                    1m, null,
-                    true, true, true, true,
-                    "Active", null,
-                    1m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost",
-                },
-                {
-                    2, "4MP90G",
-                    "4 Mixed Peppercorns 90g", "4-mixed-peppercorns-90g", "4 Mixed Peppercorns 90g",
-                    "4 Mixed Peppercorns 90g", "4 Mixed Peppercorns 90g", "4 Mixed Peppercorns 90g",
-                    1, 1,
-                    null,
-                    fourMixedHtml,
-                    true, 2m, 0,
-                    4.49m, null, null,
-                    8m, null, true,
-                    true, 2.75m,
-                    1, 90m,
-                    3,
-                    1m, null,
-                    false, false, true, true,
-                    "Active", null,
-                    2m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost",
-                },
-                {
-                    3, "4MP200G",
-                    "4 Mixed Peppercorns 200g", "4-mixed-peppercorns-200g", "4 Mixed Peppercorns 200g",
-                    "4 Mixed Peppercorns 200g", "4 Mixed Peppercorns 200g", "4 Mixed Peppercorns 200g",
-                    1, 1,
-                    null,
-                    fourMixedHtml,
-                    true, 4m, 0,
-                    7.99m, null, null,
-                    6m, null, true,
-                    true, 2.75m,
-                    1, 200m,
-                    3,
-                    1m, null,
-                    false, false, true, true,
-                    "Active", null,
-                    3m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost",
-                },
-                {
-                    4, "4MP450G",
-                    "4 Mixed Peppercorns 450g", "4-mixed-peppercorns-450g", "4 Mixed Peppercorns 450g",
-                    "4 Mixed Peppercorns 450g", "4 Mixed Peppercorns 450g", "4 Mixed Peppercorns 450g",
-                    1, 1,
-                    null,
-                    fourMixedHtml,
-                    true, 4.5m, 0,
-                    14.99m, null, null,
-                    4m, null, true,
-                    true, 2.75m,
-                    1, 450m,
-                    3,
-                    1m, null,
-                    false, false, true, true,
-                    "Active", null,
-                    4m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost",
-                },
-                {
-                    5, "4MP950G",
-                    "4 Mixed Peppercorns 950g", "4-mixed-peppercorns-950g", "4 Mixed Peppercorns 950g",
-                    "4 Mixed Peppercorns 950g", "4 Mixed Peppercorns 950g", "4 Mixed Peppercorns 950g",
-                    1, 1,
-                    null,
-                    fourMixedHtml,
-                    true, 4.5m, 0,
-                    24.99m, null, null,
-                    3m, null, true,
-                    true, 2.75m,
-                    1, 950m,
-                    3,
-                    1m, null,
-                    false, false, true, true,
-                    "Active", null,
-                    5m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost",
-                },
-                {
-                    6, "4MP19KG",
-                    "4 Mixed Peppercorns 1.9Kg", "4-mixed-peppercorns-1-9kg", "4 Mixed Peppercorns 1.9Kg",
-                    "4 Mixed Peppercorns 1.9Kg", "4 Mixed Peppercorns 1.9Kg", "4 Mixed Peppercorns 1.9Kg",
-                    1, 1,
-                    null,
-                    fourMixedHtml,
-                    true, 3.5m, 0,
-                    44.99m, null, null,
-                    2m, null, true,
-                    true, 2.75m,
-                    2, 1.9m,
-                    3,
-                    1m, null,
-                    false, false, true, true,
-                    "Active", null,
-                    6m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost",
-                },
-                {
-                    7, "5MP50G", "5 Mixed Peppercorns 50g", "5-mixed-peppercorns-50g", "5 Mixed Peppercorns 50g",
-                    "5 Mixed Peppercorns 50g", "5 Mixed Peppercorns 50g", "5 Mixed Peppercorns 50g",
-                    1, 2, null,
-                    fiveMixedHtml,
-                    true, 4m, 0, 2.75m, null, null, 10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true,
-                    true, "Active", null, 1m,
-                    new[] { "category:2" }, 1, DateTime.Now, "localhost"
-                },
-                {
-                    8, "5MP90G", "5 Mixed Peppercorns 90g", "5-mixed-peppercorns-90g", "5 Mixed Peppercorns 90g",
-                    "5 Mixed Peppercorns 90g", "5 Mixed Peppercorns 90g", "5 Mixed Peppercorns 90g",
-                    1, 2, null,
-                    fiveMixedHtml,
-                    true, 4m, 0, 4.99m, null, null, 8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 2m,
-                    new[] { "category:2" }, 1, DateTime.Now, "localhost"
-                },
-                {
-                    9, "5MP200G", "5 Mixed Peppercorns 200g", "5-mixed-peppercorns-200g", "5 Mixed Peppercorns 200g",
-                    "5 Mixed Peppercorns 200g", "5 Mixed Peppercorns 200g", "5 Mixed Peppercorns 200g",
-                    1, 2, null,
-                    fiveMixedHtml,
-                    true, 2.5m, 0, 8.49m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 3m,
-                    new[] { "category:2" }, 1, DateTime.Now, "localhost"
-                },
-                {
-                    10, "5MP450G", "5 Mixed Peppercorns 450g", "5-mixed-peppercorns-450g", "5 Mixed Peppercorns 450g",
-                    "5 Mixed Peppercorns 450g", "5 Mixed Peppercorns 450g", "5 Mixed Peppercorns 450g",
-                    1, 2, null,
-                    fiveMixedHtml,
-                    true, 4.5m, 0, 15.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 4m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    11, "5MP950G", "5 Mixed Peppercorns 950g", "5-mixed-peppercorns-950g", "5 Mixed Peppercorns 950g",
-                    "5 Mixed Peppercorns 950g", "5 Mixed Peppercorns 950g", "5 Mixed Peppercorns 950g",
-                    1, 2, null,
-                    fiveMixedHtml,
-                    true, 2.5m, 0, 26.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 5m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    12, "5MP19KG", "5 Mixed Peppercorns 1.9Kg", "5-mixed-peppercorns-1-9kg",
-                    "5 Mixed Peppercorns 1.9Kg",
-                    "5 Mixed Peppercorns 1.9Kg", "5 Mixed Peppercorns 1.9Kg", "5 Mixed Peppercorns 1.9Kg",
-                    1, 2, null,
-                    fiveMixedHtml,
-                    true, 1.5m, 0, 46.99m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 6m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    13, "ANN50G", "Annatto Seeds 50g", "annatto-seeds-50g", "Annatto Seeds 50g", "Annatto Seeds 50g",
-                    "Annatto Seeds 50g", "Annatto Seeds 50g", 1, 3, null, annatoHTML, true, 2.5m, 0, 3.25m, null, null,
-                    10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    14, "ANN90G", "Annatto Seeds 90g", "annatto-seeds-90g", "Annatto Seeds 90g", "Annatto Seeds 90g",
-                    "Annatto Seeds 90g", "Annatto Seeds 90g", 1, 3, null, annatoHTML, true, 4.5m, 0, 5.99m, null, null,
-                    8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null, 2m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    15, "ANN200G", "Annatto Seeds 200g", "annatto-seeds-200g", "Annatto Seeds 200g",
-                    "Annatto Seeds 200g", "Annatto Seeds 200g", "Annatto Seeds 200g", 1, 3, null, annatoHTML, true,
-                    3.5m,
-                    0, 9.49m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true,
-                    "Active", null, 3m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    16, "ANN450G", "Annatto Seeds 450g", "annatto-seeds-450g", "Annatto Seeds 450g",
-                    "Annatto Seeds 450g", "Annatto Seeds 450g", "Annatto Seeds 450g", 1, 3, null, annatoHTML, true, 4m,
-                    0, 16.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true,
-                    "Active", null, 4m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    17, "ANN950G", "Annatto Seeds 950g", "annatto-seeds-950g", "Annatto Seeds 950g",
-                    "Annatto Seeds 950g", "Annatto Seeds 950g", "Annatto Seeds 950g", 1, 3, null, annatoHTML, true,
-                    3.5m,
-                    0, 24.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true,
-                    "Active", null, 5m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    18, "ANN19KG", "Annatto Seeds 1.9Kg", "annatto-seeds-1-9kg", "Annatto Seeds 1.9Kg",
-                    "Annatto Seeds 1.9Kg", "Annatto Seeds 1.9Kg", "Annatto Seeds 1.9Kg", 1, 3, null, annatoHTML, true,
-                    4.5m, 0, 28.99m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true,
-                    true, "Active", null, 6m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    19, "BAS50G", "Basil Seeds 50g", "basil-seeds-50g", "Basil Seeds 50g", "Basil Seeds 50g",
-                    "Basil Seeds 50g", "Basil Seeds 50g", 1, 4, null, basilHTML, true, 5m, 0, 2.49m, null, null, 10m,
-                    null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    20, "BAS90G", "Basil Seeds 90g", "basil-seeds-90g", "Basil Seeds 90g", "Basil Seeds 90g",
-                    "Basil Seeds 90g", "Basil Seeds 90g", 1, 4, null, basilHTML, true, 4m, 0, 4.49m, null, null, 8m,
-                    null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null, 2m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    21, "BAS200G", "Basil Seeds 200g", "basil-seeds-200g", "Basil Seeds 200g", "Basil Seeds 200g",
-                    "Basil Seeds 200g", "Basil Seeds 200g", 1, 4, null, basilHTML, true, 2m, 0, 7.99m, null, null, 6m,
-                    null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true, "Active", null, 3m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    22, "BAS450G", "Basil Seeds 450g", "basil-seeds-450g", "Basil Seeds 450g", "Basil Seeds 450g",
-                    "Basil Seeds 450g", "Basil Seeds 450g", 1, 4, null, basilHTML, true, 1m, 0, 12.99m, null, null, 4m,
-                    null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true, "Active", null, 4m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    23, "BAS950G", "Basil Seeds 950g", "basil-seeds-950g", "Basil Seeds 950g", "Basil Seeds 950g",
-                    "Basil Seeds 950g", "Basil Seeds 950g", 1, 4, null, basilHTML, true, 1.5m, 0, 17.99m, null, null,
-                    3m,
-                    null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true, "Active", null, 5m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    24, "BAS19KG", "Basil Seeds 1.9Kg", "basil-seeds-1-9kg", "Basil Seeds 1.9Kg", "Basil Seeds 1.9Kg",
-                    "Basil Seeds 1.9Kg", "Basil Seeds 1.9Kg", 1, 4, null, basilHTML, true, 2.5m, 0, 20.75m, null, null,
-                    2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true, true, "Active", null, 6m,
-                    new[] { "category:2" },
-                    1, DateTime.Now, "localhost"
-                },
-                {
-                    25, "ALM50G", "Almond Powder 50g", "almond-powder-50g", "Almond Powder 50g", "Almond Powder 50g",
-                    "Almond Powder 50g", "Almond Powder 50g", 1, 5, null, almondHTML, true, 3m, 0, 2.99m, null, null,
-                    10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    26, "ALM90G", "Almond Powder 90g", "almond-powder-90g", "Almond Powder 90g", "Almond Powder 90g",
-                    "Almond Powder 90g", "Almond Powder 90g", 1, 5, null, almondHTML, true, 4.5m, 0, 4.99m, null, null,
-                    8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null, 2m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    27, "ALM200G", "Almond Powder 200g", "almond-powder-200g", "Almond Powder 200g",
-                    "Almond Powder 200g", "Almond Powder 200g", "Almond Powder 200g", 1, 5, null, almondHTML, true,
-                    2.5m,
-                    0, 8.99m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true,
-                    "Active", null, 3m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    28, "ALM450G", "Almond Powder 450g", "almond-powder-450g", "Almond Powder 450g",
-                    "Almond Powder 450g", "Almond Powder 450g", "Almond Powder 450g", 1, 5, null, almondHTML, true,
-                    1.5m,
-                    0, 14.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true,
-                    "Active", null, 4m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    29, "ALM950G", "Almond Powder 950g", "almond-powder-950g", "Almond Powder 950g",
-                    "Almond Powder 950g", "Almond Powder 950g", "Almond Powder 950g", 1, 5, null, almondHTML, true, 2m,
-                    0, 22.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true,
-                    "Active", null, 5m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    30, "ALM19KG", "Almond Powder 1.9Kg", "almond-powder-1-9kg", "Almond Powder 1.9Kg",
-                    "Almond Powder 1.9Kg", "Almond Powder 1.9Kg", "Almond Powder 1.9Kg", 1, 5, null, almondHTML, true,
-                    4m, 0, 28.75m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true,
-                    true, "Active", null, 6m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    31, "EGP50G", "Edible Gum Powder 50g", "edible-gum-powder-50g", "Edible Gum Powder 50g",
-                    "Edible Gum Powder 50g", "Edible Gum Powder 50g", "Edible Gum Powder 50g", 1, 6, null, gumHTML,
-                    true, 4m, 0, 3.45m, null, null, 10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true,
-                    true, "Active", null, 1m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    32, "EGP100G", "Edible Gum Powder 100g", "edible-gum-powder-100g", "Edible Gum Powder 100g",
-                    "Edible Gum Powder 100g", "Edible Gum Powder 100g", "Edible Gum Powder 100g", 1, 6, null, gumHTML,
-                    true, 4m, 0, 6.49m, null, null, 8m, null, true, true, 2.75m, 1, 100m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 2m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    33, "EGP200G", "Edible Gum Powder 200g", "edible-gum-powder-200g", "Edible Gum Powder 200g",
-                    "Edible Gum Powder 200g", "Edible Gum Powder 200g", "Edible Gum Powder 200g", 1, 6, null, gumHTML,
-                    true, 4m, 0, 11.99m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 3m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    34, "EGP500G", "Edible Gum Powder 500g", "edible-gum-powder-500g", "Edible Gum Powder 500g",
-                    "Edible Gum Powder 500g", "Edible Gum Powder 500g", "Edible Gum Powder 500g", 1, 6, null, gumHTML,
-                    true, 5m, 0, 24.99m, null, null, 4m, null, true, true, 2.75m, 1, 500m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 4m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    35, "EGP1KG", "Edible Gum Powder 1Kg", "edible-gum-powder-1kg", "Edible Gum Powder 1Kg",
-                    "Edible Gum Powder 1Kg", "Edible Gum Powder 1Kg", "Edible Gum Powder 1Kg", 1, 6, null, gumHTML,
-                    true, 4.5m, 0, 39.99m, null, null, 3m, null, true, true, 2.75m, 2, 1m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 5m,
-                    new[] { "category:8" }, 1,
-                    DateTime.Now, "localhost"
-                },
-                {
-                    36, "EGP2KG", "Edible Gum Powder 2Kg", "edible-gum-powder-2kg", "Edible Gum Powder 2Kg",
-                    "Edible Gum Powder 2Kg", "Edible Gum Powder 2Kg", "Edible Gum Powder 2Kg", 1, 6, null, gumHTML,
-                    true, 3.5m, 0, 57.99m, null, null, 2m, null, true, true, 2.75m, 2, 2m, 3, 1m, null, false, false,
-                    true, true, "Active", null, 6m,
-                    new[] { "category:8" },  1,
-                    DateTime.Now, "localhost"
-                }
-            }
+         migrationBuilder.InsertData(
+             "Product",
+             [
+                 "Id", "SKU",
+                 "Name", "Slug", "Display",
+                 "Breadcrumb", "AnchorText", "AnchorTitle",
+                 "BrandId", "ProductGroupId",
+                 "ShortDescription", "FullDescription",
+                 "AllowReviews", "AverageRating", "TotalReviews",
+                 "Price", "OldPrice", "CostPrice",
+                 "Stock", "MinStock", "ShowAvailability",
+                 "FreeShipping", "AdditionalShippingCharge",
+                 "UnitOfMeasureId", "QuantityPerUnitOfMeasure",
+                 "DeliveryWindowId",
+                 "MinOrderQuantity", "MaxOrderQuantity",
+                 "IsFeatured", "IsNew", "IsBestSeller", "IsReturnable",
+                 "Status", "RedirectUrl", "CountryOfOriginId",
+                 "SortOrder", "facets",
+                 "CreatedBy", "CreatedAt", "CreatedByIp",
+             ],
+             new object[,]
+             {
+                 {
+                     1, "4MP50G",
+                     "4 Mixed Peppercorns 50g", "4-mixed-peppercorns-50g", "4 Mixed Peppercorns 50g",
+                     "4 Mixed Peppercorns 50g", "4 Mixed Peppercorns 50g", "4 Mixed Peppercorns 50g",
+                     1, 1,
+                     null,
+                     fourMixedHtml,
+                     true, 2m, 0,
+                     2.49m, null, null,
+                     10m, null, true,
+                     true, 2.75m,
+                     1, 50m,
+                     3,
+                     1m, null,
+                     true, true, true, true,
+                     "Active", null, 1,
+                     1m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost",
+                 },
+                 {
+                     2, "4MP90G",
+                     "4 Mixed Peppercorns 90g", "4-mixed-peppercorns-90g", "4 Mixed Peppercorns 90g",
+                     "4 Mixed Peppercorns 90g", "4 Mixed Peppercorns 90g", "4 Mixed Peppercorns 90g",
+                     1, 1,
+                     null,
+                     fourMixedHtml,
+                     true, 2m, 0,
+                     4.49m, null, null,
+                     8m, null, true,
+                     true, 2.75m,
+                     1, 90m,
+                     3,
+                     1m, null,
+                     false, false, true, true,
+                     "Active", null, 1,
+                     2m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost",
+                 },
+                 {
+                     3, "4MP200G",
+                     "4 Mixed Peppercorns 200g", "4-mixed-peppercorns-200g", "4 Mixed Peppercorns 200g",
+                     "4 Mixed Peppercorns 200g", "4 Mixed Peppercorns 200g", "4 Mixed Peppercorns 200g",
+                     1, 1,
+                     null,
+                     fourMixedHtml,
+                     true, 4m, 0,
+                     7.99m, null, null,
+                     6m, null, true,
+                     true, 2.75m,
+                     1, 200m,
+                     3,
+                     1m, null,
+                     false, false, true, true,
+                     "Active", null, 1,
+                     3m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost",
+                 },
+                 {
+                     4, "4MP450G",
+                     "4 Mixed Peppercorns 450g", "4-mixed-peppercorns-450g", "4 Mixed Peppercorns 450g",
+                     "4 Mixed Peppercorns 450g", "4 Mixed Peppercorns 450g", "4 Mixed Peppercorns 450g",
+                     1, 1,
+                     null,
+                     fourMixedHtml,
+                     true, 4.5m, 0,
+                     14.99m, null, null,
+                     4m, null, true,
+                     true, 2.75m,
+                     1, 450m,
+                     3,
+                     1m, null,
+                     false, false, true, true,
+                     "Active", null, 1,
+                     4m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost",
+                 },
+                 {
+                     5, "4MP950G",
+                     "4 Mixed Peppercorns 950g", "4-mixed-peppercorns-950g", "4 Mixed Peppercorns 950g",
+                     "4 Mixed Peppercorns 950g", "4 Mixed Peppercorns 950g", "4 Mixed Peppercorns 950g",
+                     1, 1,
+                     null,
+                     fourMixedHtml,
+                     true, 4.5m, 0,
+                     24.99m, null, null,
+                     3m, null, true,
+                     true, 2.75m,
+                     1, 950m,
+                     3,
+                     1m, null,
+                     false, false, true, true,
+                     "Active", null, 1,
+                     5m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost",
+                 },
+                 {
+                     6, "4MP19KG",
+                     "4 Mixed Peppercorns 1.9Kg", "4-mixed-peppercorns-1-9kg", "4 Mixed Peppercorns 1.9Kg",
+                     "4 Mixed Peppercorns 1.9Kg", "4 Mixed Peppercorns 1.9Kg", "4 Mixed Peppercorns 1.9Kg",
+                     1, 1,
+                     null,
+                     fourMixedHtml,
+                     true, 3.5m, 0,
+                     44.99m, null, null,
+                     2m, null, true,
+                     true, 2.75m,
+                     2, 1.9m,
+                     3,
+                     1m, null,
+                     false, false, true, true,
+                     "Active", null, 1,
+                     6m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost",
+                 },
+                 {
+                     7, "5MP50G", "5 Mixed Peppercorns 50g", "5-mixed-peppercorns-50g", "5 Mixed Peppercorns 50g",
+                     "5 Mixed Peppercorns 50g", "5 Mixed Peppercorns 50g", "5 Mixed Peppercorns 50g",
+                     1, 2, null,
+                     fiveMixedHtml,
+                     true, 4m, 0, 2.75m, null, null, 10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true,
+                     true, "Active", null, 1, 1m,
+                     new[] { "category:2" }, 1, DateTime.Now, "localhost"
+                 },
+                 {
+                     8, "5MP90G", "5 Mixed Peppercorns 90g", "5-mixed-peppercorns-90g", "5 Mixed Peppercorns 90g",
+                     "5 Mixed Peppercorns 90g", "5 Mixed Peppercorns 90g", "5 Mixed Peppercorns 90g",
+                     1, 2, null,
+                     fiveMixedHtml,
+                     true, 4m, 0, 4.99m, null, null, 8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false,
+                     true, true, "Active", null, 1, 2m,
+                     new[] { "category:2" }, 1, DateTime.Now, "localhost"
+                 },
+                 {
+                     9, "5MP200G", "5 Mixed Peppercorns 200g", "5-mixed-peppercorns-200g", "5 Mixed Peppercorns 200g",
+                     "5 Mixed Peppercorns 200g", "5 Mixed Peppercorns 200g", "5 Mixed Peppercorns 200g",
+                     1, 2, null,
+                     fiveMixedHtml,
+                     true, 2.5m, 0, 8.49m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false,
+                     true, true, "Active", null, 1, 3m,
+                     new[] { "category:2" }, 1, DateTime.Now, "localhost"
+                 },
+                 {
+                     10, "5MP450G", "5 Mixed Peppercorns 450g", "5-mixed-peppercorns-450g", "5 Mixed Peppercorns 450g",
+                     "5 Mixed Peppercorns 450g", "5 Mixed Peppercorns 450g", "5 Mixed Peppercorns 450g",
+                     1, 2, null,
+                     fiveMixedHtml,
+                     true, 4.5m, 0, 15.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false,
+                     true, true, "Active", null, 1, 4m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     11, "5MP950G", "5 Mixed Peppercorns 950g", "5-mixed-peppercorns-950g", "5 Mixed Peppercorns 950g",
+                     "5 Mixed Peppercorns 950g", "5 Mixed Peppercorns 950g", "5 Mixed Peppercorns 950g",
+                     1, 2, null,
+                     fiveMixedHtml,
+                     true, 2.5m, 0, 26.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 5m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     12, "5MP19KG", "5 Mixed Peppercorns 1.9Kg", "5-mixed-peppercorns-1-9kg",
+                     "5 Mixed Peppercorns 1.9Kg",
+                     "5 Mixed Peppercorns 1.9Kg", "5 Mixed Peppercorns 1.9Kg", "5 Mixed Peppercorns 1.9Kg",
+                     1, 2, null,
+                     fiveMixedHtml,
+                     true, 1.5m, 0, 46.99m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 6m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     13, "ANN50G", "Annatto Seeds 50g", "annatto-seeds-50g", "Annatto Seeds 50g", "Annatto Seeds 50g",
+                     "Annatto Seeds 50g", "Annatto Seeds 50g", 1, 3, null, annatoHTML, true, 2.5m, 0, 3.25m, null, null,
+                     10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1,1m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     14, "ANN90G", "Annatto Seeds 90g", "annatto-seeds-90g", "Annatto Seeds 90g", "Annatto Seeds 90g",
+                     "Annatto Seeds 90g", "Annatto Seeds 90g", 1, 3, null, annatoHTML, true, 4.5m, 0, 5.99m, null, null,
+                     8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null,1, 2m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     15, "ANN200G", "Annatto Seeds 200g", "annatto-seeds-200g", "Annatto Seeds 200g",
+                     "Annatto Seeds 200g", "Annatto Seeds 200g", "Annatto Seeds 200g", 1, 3, null, annatoHTML, true,
+                     3.5m,
+                     0, 9.49m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true,
+                     "Active", null,1, 3m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     16, "ANN450G", "Annatto Seeds 450g", "annatto-seeds-450g", "Annatto Seeds 450g",
+                     "Annatto Seeds 450g", "Annatto Seeds 450g", "Annatto Seeds 450g", 1, 3, null, annatoHTML, true, 4m,
+                     0, 16.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true,
+                     "Active", null, 1,4m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     17, "ANN950G", "Annatto Seeds 950g", "annatto-seeds-950g", "Annatto Seeds 950g",
+                     "Annatto Seeds 950g", "Annatto Seeds 950g", "Annatto Seeds 950g", 1, 3, null, annatoHTML, true,
+                     3.5m,
+                     0, 24.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true,
+                     "Active", null,1, 5m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     18, "ANN19KG", "Annatto Seeds 1.9Kg", "annatto-seeds-1-9kg", "Annatto Seeds 1.9Kg",
+                     "Annatto Seeds 1.9Kg", "Annatto Seeds 1.9Kg", "Annatto Seeds 1.9Kg", 1, 3, null, annatoHTML, true,
+                     4.5m, 0, 28.99m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true,
+                     true, "Active", null,1, 6m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     19, "BAS50G", "Basil Seeds 50g", "basil-seeds-50g", "Basil Seeds 50g", "Basil Seeds 50g",
+                     "Basil Seeds 50g", "Basil Seeds 50g", 1, 4, null, basilHTML, true, 5m, 0, 2.49m, null, null, 10m,
+                     null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null,1, 1m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     20, "BAS90G", "Basil Seeds 90g", "basil-seeds-90g", "Basil Seeds 90g", "Basil Seeds 90g",
+                     "Basil Seeds 90g", "Basil Seeds 90g", 1, 4, null, basilHTML, true, 4m, 0, 4.49m, null, null, 8m,
+                     null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null,1, 2m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     21, "BAS200G", "Basil Seeds 200g", "basil-seeds-200g", "Basil Seeds 200g", "Basil Seeds 200g",
+                     "Basil Seeds 200g", "Basil Seeds 200g", 1, 4, null, basilHTML, true, 2m, 0, 7.99m, null, null, 6m,
+                     null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true, "Active", null,1, 3m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     22, "BAS450G", "Basil Seeds 450g", "basil-seeds-450g", "Basil Seeds 450g", "Basil Seeds 450g",
+                     "Basil Seeds 450g", "Basil Seeds 450g", 1, 4, null, basilHTML, true, 1m, 0, 12.99m, null, null, 4m,
+                     null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true, "Active", null,1, 4m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     23, "BAS950G", "Basil Seeds 950g", "basil-seeds-950g", "Basil Seeds 950g", "Basil Seeds 950g",
+                     "Basil Seeds 950g", "Basil Seeds 950g", 1, 4, null, basilHTML, true, 1.5m, 0, 17.99m, null, null,
+                     3m,
+                     null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true, "Active", null, 1,5m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     24, "BAS19KG", "Basil Seeds 1.9Kg", "basil-seeds-1-9kg", "Basil Seeds 1.9Kg", "Basil Seeds 1.9Kg",
+                     "Basil Seeds 1.9Kg", "Basil Seeds 1.9Kg", 1, 4, null, basilHTML, true, 2.5m, 0, 20.75m, null, null,
+                     2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true, true, "Active", null,1, 6m,
+                     new[] { "category:2" },
+                     1, DateTime.Now, "localhost"
+                 },
+                 {
+                     25, "ALM50G", "Almond Powder 50g", "almond-powder-50g", "Almond Powder 50g", "Almond Powder 50g",
+                     "Almond Powder 50g", "Almond Powder 50g", 1, 5, null, almondHTML, true, 3m, 0, 2.99m, null, null,
+                     10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null,1, 1m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     26, "ALM90G", "Almond Powder 90g", "almond-powder-90g", "Almond Powder 90g", "Almond Powder 90g",
+                     "Almond Powder 90g", "Almond Powder 90g", 1, 5, null, almondHTML, true, 4.5m, 0, 4.99m, null, null,
+                     8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null,1, 2m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     27, "ALM200G", "Almond Powder 200g", "almond-powder-200g", "Almond Powder 200g",
+                     "Almond Powder 200g", "Almond Powder 200g", "Almond Powder 200g", 1, 5, null, almondHTML, true,
+                     2.5m,
+                     0, 8.99m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true,
+                     "Active", null,1, 3m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     28, "ALM450G", "Almond Powder 450g", "almond-powder-450g", "Almond Powder 450g",
+                     "Almond Powder 450g", "Almond Powder 450g", "Almond Powder 450g", 1, 5, null, almondHTML, true,
+                     1.5m,
+                     0, 14.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true,
+                     "Active", null,1, 4m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     29, "ALM950G", "Almond Powder 950g", "almond-powder-950g", "Almond Powder 950g",
+                     "Almond Powder 950g", "Almond Powder 950g", "Almond Powder 950g", 1, 5, null, almondHTML, true, 2m,
+                     0, 22.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true,
+                     "Active", null,1, 5m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     30, "ALM19KG", "Almond Powder 1.9Kg", "almond-powder-1-9kg", "Almond Powder 1.9Kg",
+                     "Almond Powder 1.9Kg", "Almond Powder 1.9Kg", "Almond Powder 1.9Kg", 1, 5, null, almondHTML, true,
+                     4m, 0, 28.75m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true,
+                     true, "Active", null,1, 6m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     31, "EGP50G", "Edible Gum Powder 50g", "edible-gum-powder-50g", "Edible Gum Powder 50g",
+                     "Edible Gum Powder 50g", "Edible Gum Powder 50g", "Edible Gum Powder 50g", 1, 6, null, gumHTML,
+                     true, 4m, 0, 3.45m, null, null, 10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true,
+                     true, "Active", null, 1,1m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     32, "EGP100G", "Edible Gum Powder 100g", "edible-gum-powder-100g", "Edible Gum Powder 100g",
+                     "Edible Gum Powder 100g", "Edible Gum Powder 100g", "Edible Gum Powder 100g", 1, 6, null, gumHTML,
+                     true, 4m, 0, 6.49m, null, null, 8m, null, true, true, 2.75m, 1, 100m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 2m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     33, "EGP200G", "Edible Gum Powder 200g", "edible-gum-powder-200g", "Edible Gum Powder 200g",
+                     "Edible Gum Powder 200g", "Edible Gum Powder 200g", "Edible Gum Powder 200g", 1, 6, null, gumHTML,
+                     true, 4m, 0, 11.99m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 3m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     34, "EGP500G", "Edible Gum Powder 500g", "edible-gum-powder-500g", "Edible Gum Powder 500g",
+                     "Edible Gum Powder 500g", "Edible Gum Powder 500g", "Edible Gum Powder 500g", 1, 6, null, gumHTML,
+                     true, 5m, 0, 24.99m, null, null, 4m, null, true, true, 2.75m, 1, 500m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 4m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     35, "EGP1KG", "Edible Gum Powder 1Kg", "edible-gum-powder-1kg", "Edible Gum Powder 1Kg",
+                     "Edible Gum Powder 1Kg", "Edible Gum Powder 1Kg", "Edible Gum Powder 1Kg", 1, 6, null, gumHTML,
+                     true, 4.5m, 0, 39.99m, null, null, 3m, null, true, true, 2.75m, 2, 1m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 5m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 },
+                 {
+                     36, "EGP2KG", "Edible Gum Powder 2Kg", "edible-gum-powder-2kg", "Edible Gum Powder 2Kg",
+                     "Edible Gum Powder 2Kg", "Edible Gum Powder 2Kg", "Edible Gum Powder 2Kg", 1, 6, null, gumHTML,
+                     true, 3.5m, 0, 57.99m, null, null, 2m, null, true, true, 2.75m, 2, 2m, 3, 1m, null, false, false,
+                     true, true, "Active", null,1, 6m,
+                     new[] { "category:8" }, 1,
+                     DateTime.Now, "localhost"
+                 }
+             }
         );
 
         migrationBuilder.InsertData(
@@ -1165,49 +1173,49 @@ public partial class SeedData : Migration
             }
         );
 
-        //Product Category
-        migrationBuilder.InsertData(
-            "ProductCategory",
-            ["Id", "ProductId", "CategoryId", "IsPrimary", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"],
-            new object[,]
-            {
-                { 1, 1, 2, true, 1, 1, DateTime.Now, "localhost" },
-                { 2, 2, 2, true, 2, 1, DateTime.Now, "localhost" },
-                { 3, 3, 2, true, 3, 1, DateTime.Now, "localhost" },
-                { 4, 4, 2, true, 4, 1, DateTime.Now, "localhost" },
-                { 5, 5, 2, true, 5, 1, DateTime.Now, "localhost" },
-                { 6, 6, 2, true, 6, 1, DateTime.Now, "localhost" },
-                { 7, 7, 2, true, 7, 1, DateTime.Now, "localhost" },
-                { 8, 8, 2, true, 8, 1, DateTime.Now, "localhost" },
-                { 9, 9, 2, true, 9, 1, DateTime.Now, "localhost" },
-                { 10, 10, 2, true, 10, 1, DateTime.Now, "localhost" },
-                { 11, 11, 2, true, 11, 1, DateTime.Now, "localhost" },
-                { 12, 12, 2, true, 12, 1, DateTime.Now, "localhost" },
-                { 13, 13, 3, true, 13, 1, DateTime.Now, "localhost" },
-                { 14, 14, 3, true, 14, 1, DateTime.Now, "localhost" },
-                { 15, 15, 3, true, 15, 1, DateTime.Now, "localhost" },
-                { 16, 16, 3, true, 16, 1, DateTime.Now, "localhost" },
-                { 17, 17, 3, true, 17, 1, DateTime.Now, "localhost" },
-                { 18, 18, 3, true, 18, 1, DateTime.Now, "localhost" },
-                { 19, 19, 3, true, 19, 1, DateTime.Now, "localhost" },
-                { 20, 20, 3, true, 20, 1, DateTime.Now, "localhost" },
-                { 21, 21, 3, true, 21, 1, DateTime.Now, "localhost" },
-                { 22, 22, 3, true, 22, 1, DateTime.Now, "localhost" },
-                { 23, 23, 3, true, 23, 1, DateTime.Now, "localhost" },
-                { 24, 24, 3, true, 24, 1, DateTime.Now, "localhost" },
-                { 25, 25, 4, true, 25, 1, DateTime.Now, "localhost" },
-                { 26, 26, 4, true, 26, 1, DateTime.Now, "localhost" },
-                { 27, 27, 4, true, 27, 1, DateTime.Now, "localhost" },
-                { 28, 28, 4, true, 28, 1, DateTime.Now, "localhost" },
-                { 29, 29, 4, true, 29, 1, DateTime.Now, "localhost" },
-                { 30, 30, 4, true, 30, 1, DateTime.Now, "localhost" },
-                { 31, 31, 4, true, 31, 1, DateTime.Now, "localhost" },
-                { 32, 32, 4, true, 32, 1, DateTime.Now, "localhost" },
-                { 33, 33, 4, true, 33, 1, DateTime.Now, "localhost" },
-                { 34, 34, 4, true, 34, 1, DateTime.Now, "localhost" },
-                { 35, 35, 4, true, 35, 1, DateTime.Now, "localhost" },
-                { 36, 36, 4, true, 36, 1, DateTime.Now, "localhost" },
-            });
+        // Product Category
+         migrationBuilder.InsertData(
+             "ProductCategory",
+             ["Id", "ProductId", "CategoryId", "IsPrimary", "SortOrder", "CreatedBy", "CreatedAt", "CreatedByIp"],
+             new object[,]
+             {
+                 { 1, 1, 2, true, 1, 1, DateTime.Now, "localhost" },
+                 { 2, 2, 2, true, 2, 1, DateTime.Now, "localhost" },
+                 { 3, 3, 2, true, 3, 1, DateTime.Now, "localhost" },
+                 { 4, 4, 2, true, 4, 1, DateTime.Now, "localhost" },
+                 { 5, 5, 2, true, 5, 1, DateTime.Now, "localhost" },
+                 { 6, 6, 2, true, 6, 1, DateTime.Now, "localhost" },
+                 { 7, 7, 2, true, 7, 1, DateTime.Now, "localhost" },
+                 { 8, 8, 2, true, 8, 1, DateTime.Now, "localhost" },
+                 { 9, 9, 2, true, 9, 1, DateTime.Now, "localhost" },
+                 { 10, 10, 2, true, 10, 1, DateTime.Now, "localhost" },
+                 { 11, 11, 2, true, 11, 1, DateTime.Now, "localhost" },
+                 { 12, 12, 2, true, 12, 1, DateTime.Now, "localhost" },
+                 { 13, 13, 3, true, 13, 1, DateTime.Now, "localhost" },
+                 { 14, 14, 3, true, 14, 1, DateTime.Now, "localhost" },
+                 { 15, 15, 3, true, 15, 1, DateTime.Now, "localhost" },
+                 { 16, 16, 3, true, 16, 1, DateTime.Now, "localhost" },
+                 { 17, 17, 3, true, 17, 1, DateTime.Now, "localhost" },
+                 { 18, 18, 3, true, 18, 1, DateTime.Now, "localhost" },
+                 { 19, 19, 3, true, 19, 1, DateTime.Now, "localhost" },
+                 { 20, 20, 3, true, 20, 1, DateTime.Now, "localhost" },
+                 { 21, 21, 3, true, 21, 1, DateTime.Now, "localhost" },
+                 { 22, 22, 3, true, 22, 1, DateTime.Now, "localhost" },
+                 { 23, 23, 3, true, 23, 1, DateTime.Now, "localhost" },
+                 { 24, 24, 3, true, 24, 1, DateTime.Now, "localhost" },
+                 { 25, 25, 4, true, 25, 1, DateTime.Now, "localhost" },
+                 { 26, 26, 4, true, 26, 1, DateTime.Now, "localhost" },
+                 { 27, 27, 4, true, 27, 1, DateTime.Now, "localhost" },
+                 { 28, 28, 4, true, 28, 1, DateTime.Now, "localhost" },
+                 { 29, 29, 4, true, 29, 1, DateTime.Now, "localhost" },
+                 { 30, 30, 4, true, 30, 1, DateTime.Now, "localhost" },
+                 { 31, 31, 4, true, 31, 1, DateTime.Now, "localhost" },
+                 { 32, 32, 4, true, 32, 1, DateTime.Now, "localhost" },
+                 { 33, 33, 4, true, 33, 1, DateTime.Now, "localhost" },
+                 { 34, 34, 4, true, 34, 1, DateTime.Now, "localhost" },
+                 { 35, 35, 4, true, 35, 1, DateTime.Now, "localhost" },
+                 { 36, 36, 4, true, 36, 1, DateTime.Now, "localhost" },
+             });
 
         // ImageType
         migrationBuilder.InsertData(

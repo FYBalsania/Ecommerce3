@@ -22,6 +22,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
     public DbSet<CategoryImage> CategoryImages { get; set; }   
     public DbSet<CategoryKVPListItem> CategoryKVPListItems { get; set; }
     public DbSet<CategoryPage> CategoryPages { get; set; }
+    public DbSet<Country> Countries { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<CustomerAddress> CustomerAddresses { get; set; }
     public DbSet<DeliveryWindow> DeliveryWindows { get; set; }
@@ -86,6 +87,7 @@ internal class AppDbContext : IdentityDbContext<AppUser, Role, int>
         builder.ApplyConfiguration(new CategoryImageConfiguration());
         builder.ApplyConfiguration(new CategoryKVPListItemConfiguration());
         builder.ApplyConfiguration(new CategoryPageConfiguration());
+        builder.ApplyConfiguration(new CountryConfiguration());
         builder.ApplyConfiguration(new CustomerAddressConfiguration());
         builder.ApplyConfiguration(new CustomerConfiguration());
         builder.ApplyConfiguration(new DeliveryWindowConfiguration());

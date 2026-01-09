@@ -171,6 +171,12 @@ public class AddProductViewModel
     [Display(Name = "Redirect URL")]
     [Range(5, 2048, ErrorMessage = "Redirect URL must be between 5 and 2048 characters.")]
     public string? RedirectUrl { get; set; }
+    
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Country of origin is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Country of origin is required.")]
+    [Display(Name = "Country of Origin")]
+    public int CountryOfOriginId { get; set; }
+    public SelectList Countries { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Sort Order is required.")]
     [Display(Name = "Sort Order")]
@@ -238,6 +244,7 @@ public class AddProductViewModel
             IsReturnable = (bool)IsReturnable!,
             Status = (ProductStatus)Status!,
             RedirectUrl = RedirectUrl,
+            CountryOfOriginId = CountryOfOriginId,
             SortOrder = SortOrder,
             H1 = H1,
             MetaTitle = MetaTitle,

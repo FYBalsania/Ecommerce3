@@ -1,0 +1,67 @@
+using Ecommerce3.Domain.Entities;
+using Ecommerce3.Infrastructure.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Ecommerce3.Infrastructure.EntityTypeConfigurations;
+
+public sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
+{
+    public void Configure(EntityTypeBuilder<Country> builder)
+    {
+        //Table.
+        builder.ToTable("countries");
+
+        //PK.
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasColumnName("id").UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
+
+        //Filters.
+        builder.HasQueryFilter(x => x.DeletedAt == null);
+
+        //Properties.
+        builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(Country.NameMaxLength).HasColumnType("citext")
+            .HasColumnOrder(2);
+        builder.Property(x => x.Iso2Code).HasColumnName("iso2_code").HasColumnType($"char({Country.Iso2CodeMaxLength})")
+            .HasColumnOrder(3);
+        builder.Property(x => x.Iso3Code).HasColumnName("iso3_code").HasColumnType($"char({Country.Iso3CodeMaxLength})")
+            .HasColumnOrder(4);
+        builder.Property(x => x.NumericCode).HasColumnName("numeric_code")
+            .HasColumnType($"char({Country.NumericCodeMaxLength})").HasColumnOrder(5);
+        builder.Property(x => x.IsActive).HasColumnName("is_active").HasColumnType("boolean").HasColumnOrder(10);
+        builder.Property(x => x.SortOrder).HasColumnName("sort_order").HasColumnType("integer").HasColumnOrder(11);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasMaxLength(128).HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedBy).HasColumnName("updated_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasMaxLength(128).HasColumnType("inet").HasColumnOrder(55);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(56);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(57);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasMaxLength(128).HasColumnType("inet").HasColumnOrder(58);
+
+        //Indexes.
+        builder.HasIndex(x => x.Name).IsUnique().HasDatabaseName($"idx_country_name");
+        builder.HasIndex(x => x.IsActive).HasDatabaseName($"idx_country_is_active");
+        builder.HasIndex(x => x.SortOrder).HasDatabaseName($"idx_country_sort_order");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_country_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_country_deleted_at");
+
+        //Relations
+        builder.HasOne(x => (AppUser?)x.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(x => x.CreatedBy)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => (AppUser?)x.UpdatedByUser)
+            .WithMany()
+            .HasForeignKey(x => x.UpdatedBy)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => (AppUser?)x.DeletedByUser)
+            .WithMany()
+            .HasForeignKey(x => x.DeletedBy)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
+}

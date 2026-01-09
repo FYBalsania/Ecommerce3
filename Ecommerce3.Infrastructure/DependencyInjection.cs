@@ -12,6 +12,7 @@ using Ecommerce3.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace Ecommerce3.Infrastructure;
 
@@ -22,7 +23,7 @@ public static class DependencyInjection
         public IServiceCollection AddCommonInfrastructure(IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection")!;
-
+            
             services.AddSingleton<DeleteInterceptor>();
             services.AddSingleton<IImageTypeDetector, FileSignatureImageTypeDetector>();
             services.AddDbContext<AppDbContext>((sp, options) =>
@@ -47,6 +48,7 @@ public static class DependencyInjection
             services.AddScoped<IBrandPageRepository, BrandPageRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryPageRepository, CategoryPageRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
             services.AddScoped<IProductAttributeQueryRepository, ProductAttributeQueryRepository>();
             services.AddScoped<IProductAttributeColourValueRepository, ProductAttributeColourValueRepository>();
@@ -82,6 +84,7 @@ public static class DependencyInjection
             services.AddScoped<IImageQueryRepository, ProductImageQueryRepository>();
             services.AddScoped<IImageQueryRepository, PageImageQueryRepository>();
             services.AddScoped<IBrandQueryRepository, BrandQueryRepository>();
+            services.AddScoped<ICountryQueryRepository, CountryQueryRepository>();
             services.AddScoped<IProductAttributeValueQueryRepository, ProductAttributeValueQueryRepository>();
             services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
             services.AddScoped<IPostCodeQueryRepository, PostCodeQueryRepository>();

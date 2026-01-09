@@ -110,6 +110,8 @@ internal sealed class ProductService(
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidDeliveryWindowId);
 
+        //Country of origin exists check.
+
         var product = new Product(command.SKU, command.GTIN, command.MPN, command.MFC, command.EAN, command.UPC,
             command.Name, command.Slug, command.Display, command.Breadcrumb, command.AnchorText, command.AnchorTitle,
             new KeyValuePair<int, string>(brand.Id, brand.Slug),
@@ -121,8 +123,8 @@ internal sealed class ProductService(
             command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
             command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
-            command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
-            command.CreatedBy, command.CreatedAt, command.CreatedByIp);
+            command.CountryOfOriginId, command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription,
+            command.MetaKeywords, command.CreatedBy, command.CreatedAt, command.CreatedByIp);
 
         await repository.AddAsync(product, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
@@ -214,6 +216,8 @@ internal sealed class ProductService(
         //Delivery window exists check.
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidDeliveryWindowId);
+        
+        //Country of origin exists check.
 
         var page = await pageRepository.GetByProductIdAsync(command.Id, ProductPageInclude.None, true,
             cancellationToken);
@@ -231,8 +235,8 @@ internal sealed class ProductService(
             command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
             command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
-            command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription, command.MetaKeywords,
-            command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+            command.CountryOfOriginId, command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription,
+            command.MetaKeywords, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
 
         page.Update(command.MetaTitle, command.MetaDescription, command.MetaKeywords, command.H1,
             command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
@@ -245,18 +249,20 @@ internal sealed class ProductService(
 
     public async Task<ProductDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await queryRepository.GetByIdAsync(id, cancellationToken);
-    
-    public async Task<PagedResult<InventoryListItemDTO>> GetInventoryListItemsAsync(InventoryFilter filter, int pageNumber,
+
+    public async Task<PagedResult<InventoryListItemDTO>> GetInventoryListItemsAsync(InventoryFilter filter,
+        int pageNumber,
         int pageSize, CancellationToken cancellationToken)
         => await queryRepository.GetInventoryListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
-    
+
     public async Task EditInventoryAsync(EditInventoryCommand command, CancellationToken cancellationToken)
     {
         //Product Id validity check.
         var product = await repository.GetByIdAsync(command.Id, ProductInclude.None, true, cancellationToken);
         if (product is null) throw new DomainException(DomainErrors.ProductErrors.InvalidId);
-        
-        product.Update(command.Price, command.OldPrice, command.Stock, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+
+        product.Update(command.Price, command.OldPrice, command.Stock, command.UpdatedBy, command.UpdatedAt,
+            command.UpdatedByIp);
         repository.Update(product);
         await unitOfWork.CompleteAsync(cancellationToken);
     }

@@ -21,6 +21,7 @@ public static class DependencyInjection
         {
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IProductAttributeService, ProductAttributeService>();
             services.AddScoped<IProductAttributeValueService, ProductAttributeValueService>();
             services.AddScoped<IProductGroupService, ProductGroupService>();

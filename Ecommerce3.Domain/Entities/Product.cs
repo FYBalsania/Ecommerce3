@@ -73,6 +73,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public ProductStatus Status { get; private set; }
     public string? RedirectUrl { get; private set; }
     public decimal SortOrder { get; private set; }
+    public int CountryOfOriginId { get; private set; }
+    public Country? CountryOfOrigin { get; private set; }
     public List<string> Facets { get; private set; } = [];
     public int CreatedBy { get; }
     public IAppUser? CreatedByUser { get; }
@@ -109,7 +111,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability, bool freeShipping,
         decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure, int deliveryWindowId,
         decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew, bool isBestSeller,
-        bool isReturnable, ProductStatus status, string? redirectUrl, decimal sortOrder, string? h1, string metaTitle,
+        bool isReturnable, ProductStatus status, string? redirectUrl, int countryOfOriginId, decimal sortOrder,
+        string? h1, string metaTitle,
         string? metaDescription, string? metaKeywords, int createdBy, DateTime createdAt, string createdByIp)
     {
         //SKU.
@@ -185,6 +188,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         ValidatePositiveNumber(deliveryWindowId, DomainErrors.ProductErrors.InvalidDeliveryWindowId);
         //MinOrderQuantity & MaxOrderQuantity.
         ValidateMinMaxOrderQuantity(minOrderQuantity, maxOrderQuantity);
+        //CountryOfOrigin.
+        ValidatePositiveNumber(countryOfOriginId, DomainErrors.ProductErrors.InvalidCountryOfOriginId);
         //Status & RedirectUrl.
         ValidateProductStatusAndRedirectUrl(status, redirectUrl);
         //CreatedBy.
@@ -239,6 +244,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         IsReturnable = isReturnable;
         Status = status;
         RedirectUrl = redirectUrl;
+        CountryOfOriginId = countryOfOriginId;
         SortOrder = sortOrder;
         CreatedBy = createdBy;
         CreatedAt = createdAt;
@@ -267,6 +273,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         {
             Facets.Add($"category:{category.Key}");
         }
+
         if (productGroup is not null)
         {
             foreach (var attribute in attributes)
@@ -330,8 +337,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
         bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
         int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
-        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, decimal sortOrder,
-        string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
+        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, int countryOfOriginId,
+        decimal sortOrder, string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
         int updatedBy, DateTime updatedAt, string updatedByIp)
     {
         //SKU.
@@ -399,6 +406,8 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         ValidateMinMaxOrderQuantity(minOrderQuantity, maxOrderQuantity);
         //Status & RedirectUrl.
         ValidateProductStatusAndRedirectUrl(status, redirectUrl);
+        //CountryOfOriginId.
+        ValidatePositiveNumber(countryOfOriginId, DomainErrors.ProductErrors.InvalidCountryOfOriginId);
         //CreatedBy.
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidCreatedBy);
         //CreatedByIp.
@@ -431,7 +440,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
             QuantityPerUnitOfMeasure == quantityPerUnitOfMeasure && DeliveryWindowId == deliveryWindowId &&
             MinOrderQuantity == minOrderQuantity && MaxOrderQuantity == maxOrderQuantity && IsFeatured == isFeatured &&
             IsNew == isNew && IsBestSeller == isBestSeller && IsReturnable == isReturnable && Status == status &&
-            RedirectUrl == redirectUrl && SortOrder == sortOrder
+            RedirectUrl == redirectUrl && CountryOfOriginId == countryOfOriginId && SortOrder == sortOrder
            )
             return;
 
@@ -505,6 +514,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         IsReturnable = isReturnable;
         Status = status;
         RedirectUrl = redirectUrl;
+        CountryOfOriginId = countryOfOriginId;
         SortOrder = sortOrder;
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;

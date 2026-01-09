@@ -1,3 +1,4 @@
+using System.Net.NetworkInformation;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -83,8 +84,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.RedirectUrl).HasMaxLength(Product.RedirectUrlMaxLength).HasColumnType("citext")
             .HasColumnOrder(39);
         builder.Property(x => x.SortOrder).HasColumnType("decimal(18,3)").HasColumnOrder(40);
+        builder.Property(x => x.CountryOfOriginId).HasColumnType("integer").HasColumnOrder(41);
         builder.Property(p => p.Facets).HasColumnName("facets").HasColumnType("text[]").HasDefaultValueSql("'{}'")
-            .IsRequired().HasColumnOrder(41);
+            .IsRequired().HasColumnOrder(42);
         builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
@@ -121,6 +123,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         // builder.HasIndex(x => x.IsFeatured).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsFeatured)}");
         // builder.HasIndex(x => x.IsNew).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsNew)}");
         // builder.HasIndex(x => x.IsBestSeller).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.IsBestSeller)}");
+        builder.HasIndex(x => x.UnitOfMeasureId)
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.UnitOfMeasureId)}");
+        builder.HasIndex(x => x.QuantityPerUnitOfMeasure)
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.QuantityPerUnitOfMeasure)}");
+        builder.HasIndex(x => x.Stock).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.Stock)}");
+        builder.HasIndex(x => x.CountryOfOriginId)
+            .HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.CountryOfOriginId)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.SortOrder)}");
         builder.HasIndex(x => x.Facets).HasMethod("gin");
         builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Product)}_{nameof(Product.CreatedAt)}");
@@ -170,6 +179,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasMany(x => x.Attributes)
             .WithOne(x => x.Product)
             .HasForeignKey(x => x.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.CountryOfOrigin)
+            .WithMany()
+            .HasForeignKey(x => x.CountryOfOriginId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()

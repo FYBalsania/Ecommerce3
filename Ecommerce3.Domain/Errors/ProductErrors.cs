@@ -113,6 +113,9 @@ public static partial class DomainErrors
 
         public static readonly DomainError InvalidUnitOfMeasureId =
             new($"{nameof(Product)}.{nameof(Product.UnitOfMeasureId)}", "Unit of Measure Id is invalid.");
+        
+        public static readonly DomainError InvalidCountryOfOriginId =
+            new($"{nameof(Product)}.{nameof(Product.CountryOfOriginId)}", "Country of Origin Id is invalid.");
 
         public static readonly DomainError InvalidPrice =
             new($"{nameof(Product)}.{nameof(Product.Price)}", "Price is invalid.");

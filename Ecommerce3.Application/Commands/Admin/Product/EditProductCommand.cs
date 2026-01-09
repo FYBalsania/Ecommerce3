@@ -43,6 +43,7 @@ public record EditProductCommand
     public required bool IsReturnable { get; init; }
     public required ProductStatus Status { get; init; }
     public required string? RedirectUrl { get; init; }
+    public required int CountryOfOriginId { get; init; }
     public required decimal SortOrder { get; init; }
     public required string? H1 { get; init; }
     public required string MetaTitle { get; init; }
