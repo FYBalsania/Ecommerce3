@@ -148,6 +148,15 @@
                             <span class="text-danger" asp-validation-for="SortOrder"></span>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="CountryOfOriginId"></label>
+                            <select class="form-select" asp-for="CountryOfOriginId" asp-items="@Model.Countries">
+                                <option value="0">Select...</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="CountryOfOriginId"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">

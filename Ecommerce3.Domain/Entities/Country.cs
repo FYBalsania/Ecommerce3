@@ -1,4 +1,6 @@
 using System.Net;
+using Ecommerce3.Domain.Errors;
+using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -35,8 +37,11 @@ public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
     public Country(string name, string iso2Code, string iso3Code, string? numericCode, bool isActive, int sortOrder,
         int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
-        //Validation.
-
+        ValidateName(name);
+        ValidateIso2Code(iso2Code);
+        ValidateIso3Code(iso3Code);
+        ValidateIsoNumericCode(numericCode!);
+        
         Name = name;
         Iso2Code = iso2Code;
         Iso3Code = iso3Code;
@@ -51,8 +56,11 @@ public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
     public void Update(string name, string iso2Code, string iso3Code, string? numericCode, bool isActive, int sortOrder,
         int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
-        //Validation.
-
+        ValidateName(name);
+        ValidateIso2Code(iso2Code);
+        ValidateIso3Code(iso3Code);
+        ValidateIsoNumericCode(numericCode!);
+        
         if (Name == name && Iso2Code == iso2Code && Iso3Code == iso3Code && NumericCode == numericCode &&
             IsActive == isActive && SortOrder == sortOrder) return;
 
@@ -67,10 +75,26 @@ public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
         UpdatedByIp = updatedByIp;
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
+    private static void ValidateName(string name)
     {
-        DeletedBy = deletedBy;
-        DeletedAt = deletedAt;
-        DeletedByIp = deletedByIp;
+        if (string.IsNullOrWhiteSpace(name)) throw new DomainException(DomainErrors.CountryErrors.NameRequired);
+        if (name.Length > 256) throw new DomainException(DomainErrors.CountryErrors.NameTooLong);
+    }
+    
+    private static void ValidateIso2Code(string iso2Code)
+    {
+        if (string.IsNullOrWhiteSpace(iso2Code)) throw new DomainException(DomainErrors.CountryErrors.Iso2CodeRequired);
+        if (iso2Code.Length > 2) throw new DomainException(DomainErrors.CountryErrors.Iso2CodeTooLong);
+    }
+    
+    private static void ValidateIso3Code(string iso3Code)
+    {
+        if (string.IsNullOrWhiteSpace(iso3Code)) throw new DomainException(DomainErrors.CountryErrors.Iso3CodeRequired);
+        if (iso3Code.Length > 3) throw new DomainException(DomainErrors.CountryErrors.Iso3CodeTooLong);
+    }
+    
+    private static void ValidateIsoNumericCode(string numericCode)
+    {
+        if (numericCode.Length > 3) throw new DomainException(DomainErrors.CountryErrors.NumericCodeTooLong);
     }
 }

@@ -681,7 +681,6 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
                         .HasColumnType("inet")
                         .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
@@ -697,7 +696,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(56);
 
                     b.Property<IPAddress>("DeletedByIp")
-                        .HasMaxLength(128)
                         .HasColumnType("inet")
                         .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
@@ -747,7 +745,6 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(53);
 
                     b.Property<IPAddress>("UpdatedByIp")
-                        .HasMaxLength(128)
                         .HasColumnType("inet")
                         .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);

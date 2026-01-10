@@ -3,8 +3,7 @@ using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Domain.Repositories;
 
-public interface ICountryRepository
+public interface ICountryRepository : IRepository<Country>
 {
-    Task<Country?> GetByIdAsync(int id, CountryInclude includes, bool trackChanges,
-        CancellationToken cancellationToken);
+    Task<Country?> GetByIdAsync(int id, CountryInclude includes, bool trackChanges, CancellationToken cancellationToken);
 }

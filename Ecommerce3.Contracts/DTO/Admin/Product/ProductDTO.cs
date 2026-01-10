@@ -52,6 +52,7 @@ public record ProductDTO
     public required string? MetaDescription { get; init; }
     public required string? MetaKeywords { get; init; }
     public required string? H1 { get; init; }
+    public required int CountryOfOriginId { get; init; }
     public required IReadOnlyList<ImageDTO> Images { get; init; } = [];
     public required IReadOnlyList<TextListItemDTO> TextListItems { get; init; } = [];
     public required IReadOnlyList<KVPListItemDTO> KVPListItems { get; init; } = [];

@@ -22,14 +22,15 @@
                     <span>Products</span>
                 </div>
                 <ul class="nav flex-column nav-submenu">
-                    <li><a class="nav-link @(currentController=="Products"&&currentAction=="Index"?"active":"")" asp-controller="Products" asp-action="Index"><i class="fas fa-box"></i><span>Products</span></a></li>
-                    <li><a class="nav-link @(currentController=="ProductGroups"?"active":"")" asp-controller="ProductGroups" asp-action="Index"><i class="fas fa-layer-group"></i><span>Product Groups</span></a></li>
-                    <li><a class="nav-link @(currentController=="Brands"?"active":"")" asp-controller="Brands" asp-action="Index"><i class="fas fa-tags"></i><span>Brands</span></a></li>
-                    <li><a class="nav-link @(currentController=="Categories"?"active":"")" asp-controller="Categories" asp-action="Index"><i class="fas fa-folder"></i><span>Categories</span></a></li>
-                    <li><a class="nav-link @(currentController=="Products"&&currentAction=="Inventory"?"active":"")" asp-controller="Products" asp-action="Inventory"><i class="fas fa-warehouse"></i><span>Inventory</span></a></li>
                     <li><a class="nav-link @(currentController=="ProductAttributes"?"active":"")" asp-controller="ProductAttributes" asp-action="Index"><i class="fas fa-sliders-h"></i><span>Attributes</span></a></li>
-                    <li><a class="nav-link @(currentController=="ImageTypes"?"active":"")" asp-controller="ImageTypes" asp-action="Index"><i class="fas fa-images"></i><span>Image Types</span></a></li>
-                    <li><a class="nav-link @(currentController=="UnitOfMeasure"?"active":"")" asp-controller="UnitOfMeasure" asp-action="Index"><i class="fas fa-balance-scale"></i><span>Unit of Measure</span></a></li>
+                    <li><a class="nav-link @(currentController == "Brands" ? "active" : "")" asp-controller="Brands" asp-action="Index"><i class="fas fa-tags"></i><span>Brands</span></a></li>
+                    <li><a class="nav-link @(currentController == "Categories" ? "active" : "")" asp-controller="Categories" asp-action="Index"><i class="fas fa-folder"></i><span>Categories</span></a></li>
+                    <li><a class="nav-link @(currentController == "Countries" ? "active" : "")" asp-controller="Countries" asp-action="Index"><i class="fas fa-earth-asia"></i><span>Country</span></a></li>
+                    <li><a class="nav-link @(currentController == "ImageTypes" ? "active" : "")" asp-controller="ImageTypes" asp-action="Index"><i class="fas fa-images"></i><span>Image Types</span></a></li>
+                    <li><a class="nav-link @(currentController == "Products" && currentAction == "Inventory" ? "active" : "")" asp-controller="Products" asp-action="Inventory"><i class="fas fa-warehouse"></i><span>Inventory</span></a></li>
+                    <li><a class="nav-link @(currentController == "Products" && currentAction == "Index" ? "active" : "")" asp-controller="Products" asp-action="Index"><i class="fas fa-box"></i><span>Products</span></a></li>
+                    <li><a class="nav-link @(currentController == "ProductGroups" ? "active" : "")" asp-controller="ProductGroups" asp-action="Index"><i class="fas fa-layer-group"></i><span>Product Groups</span></a></li>
+                    <li><a class="nav-link @(currentController == "UnitOfMeasure" ? "active" : "")" asp-controller="UnitOfMeasure" asp-action="Index"><i class="fas fa-balance-scale"></i><span>Unit of Measure</span></a></li>
                 </ul>
             </li>
 

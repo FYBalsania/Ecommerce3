@@ -70,6 +70,7 @@ public static class ProductExtensions
         MetaTitle = p.Page.MetaTitle,
         MetaDescription = p.Page.MetaDescription,
         MetaKeywords = p.Page.MetaKeywords,
+        CountryOfOriginId = p.CountryOfOriginId,
         Attributes = p.Attributes
             .AsQueryable()
             .OrderBy(x => x.ProductAttributeSortOrder)

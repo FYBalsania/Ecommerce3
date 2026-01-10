@@ -6,15 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class BankRepository : EntityWithImagesRepository<Bank, BankImage>, IBankRepository
+internal sealed class BankRepository(AppDbContext dbContext) : EntityWithImagesRepository<Bank, BankImage>(dbContext), IBankRepository
 {
-    private readonly AppDbContext _dbContext;
+    private readonly AppDbContext _dbContext = dbContext;
 
-    public BankRepository(AppDbContext dbContext) : base(dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
     private IQueryable<Bank> GetQuery(BankInclude includes, bool trackChanges)
     {
         var query = trackChanges

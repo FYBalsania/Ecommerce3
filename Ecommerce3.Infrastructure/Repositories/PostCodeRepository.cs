@@ -6,15 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Infrastructure.Repositories;
 
-internal sealed class PostCodeRepository : Repository<PostCode>, IPostCodeRepository
+internal sealed class PostCodeRepository(AppDbContext dbContext) : Repository<PostCode>(dbContext), IPostCodeRepository
 {
-    private readonly AppDbContext _dbContext;
+    private readonly AppDbContext _dbContext = dbContext;
 
-    public PostCodeRepository(AppDbContext dbContext) : base(dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
     private IQueryable<PostCode> GetQuery(PostCodeInclude includes, bool trackChanges)
     {
         var query = trackChanges

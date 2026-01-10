@@ -326,6 +326,7 @@ public class EditProductViewModel
             MetaDescription = productDTO.MetaDescription,
             MetaKeywords = productDTO.MetaKeywords,
             H1 = productDTO.H1,
+            CountryOfOriginId =  productDTO.CountryOfOriginId,
         };
     }
 }

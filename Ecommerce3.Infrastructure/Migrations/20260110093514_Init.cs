@@ -316,13 +316,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                     sort_order = table.Column<int>(type: "integer", nullable: false),
                     created_by = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    created_by_ip = table.Column<IPAddress>(type: "inet", maxLength: 128, nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
                     updated_by = table.Column<int>(type: "integer", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_by_ip = table.Column<IPAddress>(type: "inet", maxLength: 128, nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
                     deleted_by = table.Column<int>(type: "integer", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_by_ip = table.Column<IPAddress>(type: "inet", maxLength: 128, nullable: true)
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {

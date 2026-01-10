@@ -1,0 +1,131 @@
+@model Ecommerce3.Admin.ViewModels.Country.CountriesIndexViewModel
+
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <!-- Left side: Heading -->
+        <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"]</h2>
+
+        <!-- Right side: button -->
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary" asp-controller="Countries" asp-action="Add">
+                <i class="fas fa-plus"></i> Add New
+            </a>
+            <!-- Add more button here -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <form method="get" asp-controller="Countries" asp-action="Index">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold" asp-for="Filter.Name">Name:</label>
+                        <input type="text" class="form-control" asp-for="Filter.Name" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold" asp-for="Filter.Iso2Code">ISO2 Code:</label>
+                        <input type="text" class="form-control" asp-for="Filter.Iso2Code" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold" asp-for="Filter.Iso3Code">ISO3 Code:</label>
+                        <input type="text" class="form-control" asp-for="Filter.Iso3Code" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold" asp-for="Filter.NumericCode">Numeric Code:</label>
+                        <input type="text" class="form-control" asp-for="Filter.NumericCode" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Is Active:</label>
+                        <select class="form-select" asp-for="Filter.IsActive">
+                            <option value="" selected="selected">Any</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <a href="@Url.Action("Index", ViewContext.RouteData.Values["controller"]!.ToString())" class="btn btn-outline-danger px-4 me-2">
+                            <i class="fas fa-undo"></i> Reset
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="card mb-4">
+        <div class="card-body">
+            <!-- Country Table -->
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                    <tr>
+                        <th style="width: 50%;">Name</th>
+                        <th style="width: 10%;">ISO2 / ISO3 Code</th>
+                        <th style="width: 10%;">Numeric Code</th>
+                        <th class="text-end" style="width: 10%;">Sort Order</th>
+                        <th class="text-end" style="width: 15%;">Created</th>
+                        <th class="text-center" style="width: 5%;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var country in Model.Countries.Data)
+                    {
+                        <tr>
+                            <td>
+                                @country.Name <span class="badge @(country.IsActive ? "bg-success" : "bg-danger") ms-2"> </span><br/>
+                            </td>
+                            <td>@country.Iso2Code / @country.Iso3Code</td>
+                            <td>@country.NumericCode</td>
+                            <td class="text-end">@country.SortOrder</td>
+                            <td class="text-end">@country.CreatedUserFullName <br/>@country.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Countries"
+                                   asp-action="Edit"
+                                   asp-route-id="@country.Id"
+                                   class="text-decoration-none">
+                                    <i class="fas fa-edit me-2 fs-6 text-success"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination + Page Size -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- Left: Page Size -->
+                <div class="text-muted">
+                    Displaying @Model.Countries.Data.Count of @Model.Countries.TotalItems records
+                </div>
+
+                <!-- Right: Pagination -->
+                <nav>
+                    <cs-pager cs-pager-ul-class="pagination mb-0"
+                              cs-pager-li-current-class="page-item active"
+                              cs-pager-li-other-class="page-item"
+                              cs-pager-link-current-class="page-link"
+                              cs-pager-link-other-class="page-link"
+                              cs-show-first-last="true"
+                              cs-show-disabled-page-items="true"
+                              cs-first-page-text="<i class='fas fa-angles-left'></i>"
+                              cs-last-page-text="<i class='fas fa-angles-right'></i>"
+                              cs-previous-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-left'></i></a></li>"
+                              cs-next-page-html="<li class='page-item'><a href='#' class='page-link'><i class='fas fa-chevron-right'></i></a></li>"
+                              cs-paging-pagesize="@Model.Countries.PageSize"
+                              cs-paging-pagenumber="@Model.Countries.PageNumber"
+                              cs-paging-totalitems="@Model.Countries.TotalItems"
+                              cs-pagenumber-param="pageNumber"
+                              asp-controller="Countries"
+                              asp-action="Index">
+                    </cs-pager>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

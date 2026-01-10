@@ -1,5 +1,6 @@
 using Ecommerce3.Admin.ViewModels.Common;
 using Ecommerce3.Admin.ViewModels.Product;
+using Ecommerce3.Application.Services.Admin.Interfaces;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
 using Ecommerce3.Domain;
@@ -20,7 +21,8 @@ public class ProductsController(
     ICategoryService categoryService,
     IProductGroupService productGroupService,
     IUnitOfMeasureService unitOfMeasureService,
-    IDeliveryWindowService deliveryWindowService) : Controller
+    IDeliveryWindowService deliveryWindowService,
+    ICountryService countryService) : Controller
 {
     private readonly int _pageSize = configuration.GetValue<int>("PagedList:PageSize");
 
@@ -43,14 +45,11 @@ public class ProductsController(
     {
         var sortOrder = await productService.GetMaxSortOrderAsync(cancellationToken);
         var brands = new SelectList(await brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        var categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key",
-            "Value");
-        var productGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
-            "Value");
-        var uoms = new SelectList(
-            await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
-        var deliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken),
-            "Key", "Value");
+        var categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
+        var productGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        var uoms = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        var deliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        var countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
         ViewData["Title"] = "Add Product";
 
@@ -64,7 +63,8 @@ public class ProductsController(
             Categories = categories,
             ProductGroups = productGroups,
             UnitOfMeasures = uoms,
-            DeliveryWindows = deliveryWindows
+            DeliveryWindows = deliveryWindows,
+            Countries = countries,
         });
     }
 
@@ -77,6 +77,7 @@ public class ProductsController(
         ModelState.Remove(nameof(AddProductViewModel.ProductGroups));
         ModelState.Remove(nameof(AddProductViewModel.UnitOfMeasures));
         ModelState.Remove(nameof(AddProductViewModel.DeliveryWindows));
+        ModelState.Remove(nameof(AddProductViewModel.Countries));
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
@@ -113,15 +114,11 @@ public class ProductsController(
 
         var model = EditProductViewModel.FromDTO(product);
         model.Brands = new SelectList(await brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key",
-            "Value");
-        model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
-            "Value");
-        model.UnitOfMeasures =
-            new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken),
-                "Key", "Value");
-        model.DeliveryWindows =
-            new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
+        model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        model.UnitOfMeasures = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        model.DeliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        model.Countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
         if (product.ProductGroupId is not null)
         {
@@ -159,6 +156,7 @@ public class ProductsController(
         ModelState.Remove(nameof(model.UnitOfMeasures));
         ModelState.Remove(nameof(model.DeliveryWindows));
         ModelState.Remove(nameof(model.DeliveryWindows));
+        ModelState.Remove(nameof(model.Countries));
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = DomainErrors.Common.GenericErrorMessage.Message;
@@ -285,30 +283,22 @@ public class ProductsController(
         var sortOrder = await productService.GetMaxSortOrderAsync(cancellationToken);
         model.SortOrder = sortOrder + 1;
         model.Brands = new SelectList(await brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key",
-            "Value");
-        model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
-            "Value");
-        model.UnitOfMeasures =
-            new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken),
-                "Key", "Value");
-        model.DeliveryWindows =
-            new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
+        model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        model.UnitOfMeasures = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        model.DeliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        model.Countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
         model.PageTitle = "Add Product";
     }
 
     private async Task PopulateViewModelForEdit(EditProductViewModel model, CancellationToken cancellationToken)
     {
         model.Brands = new SelectList(await brandService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
-        model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key",
-            "Value");
-        model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key",
-            "Value");
-        model.UnitOfMeasures =
-            new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken),
-                "Key", "Value");
-        model.DeliveryWindows =
-            new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
+        model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
+        model.UnitOfMeasures = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        model.DeliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        model.Countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
         var productDTO = await productService.GetByIdAsync(model.Id, cancellationToken);
         if (productDTO != null)
@@ -362,6 +352,9 @@ public class ProductsController(
                 break;
             case $"{nameof(Product)}.{nameof(Product.AnchorTitle)}":
                 ModelState.AddModelError(nameof(model.AnchorTitle), domainException.Message);
+                break;
+            case $"{nameof(Product)}.{nameof(Product.CountryOfOriginId)}":
+                ModelState.AddModelError(nameof(model.CountryOfOriginId), domainException.Message);
                 break;
 
             // --- Relations ---
