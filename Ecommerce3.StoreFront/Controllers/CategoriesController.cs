@@ -1,3 +1,4 @@
+using Ecommerce3.Contracts.DTO.StoreFront.Product;
 using Ecommerce3.Contracts.QueryRepositories.StoreFront;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.StoreFront.Models;
@@ -53,12 +54,6 @@ public class CategoriesController(
         //Breadcrumb.
         var breadcrumb = new List<BreadcrumbItem>
         {
-            new()
-            {
-                Text = "Home",
-                Url = Url.Action(nameof(HomeController.Index),
-                    nameof(HomeController).Replace("Controller", string.Empty))
-            },
             new() { Text = category.Breadcrumb }
         };
 
@@ -92,4 +87,59 @@ public class CategoriesController(
         await Task.Delay(0, cancellationToken);
         return View();
     }
+    
+    // private static decimal GetStepSize(decimal max)
+    // {
+    //     if (max <= 50) return 10;
+    //     if (max <= 200) return 25;
+    //     if (max <= 500) return 50;
+    //     if (max <= 2000) return 100;
+    //     if (max <= 10000) return 500;
+    //     return 1000;
+    // }
+    //
+    // public static List<PriceRangeDTO> GenerateAutoPriceRanges(decimal minPrice, decimal maxPrice)
+    // {
+    //     var step = GetStepSize(maxPrice);
+    //     var ranges = new List<PriceRangeDTO>();
+    //
+    //     // First upper bound → next step - 0.01 (ex: 9.99, 24.99, 49.99)
+    //     decimal firstUpper = Math.Floor(minPrice / step) * step + (step - 0.01m);
+    //
+    //     if (firstUpper >= maxPrice)
+    //     {
+    //         ranges.Add(new PriceRangeDTO() { From = minPrice, To = maxPrice });
+    //         return ranges;
+    //     }
+    //
+    //     // First bucket
+    //     ranges.Add(new PriceRange
+    //     {
+    //         From = minPrice,
+    //         To = firstUpper
+    //     });
+    //
+    //     decimal currentFrom = firstUpper + 0.01m;
+    //
+    //     // Middle buckets
+    //     while (currentFrom + (step - 0.01m) < maxPrice)
+    //     {
+    //         ranges.Add(new PriceRange
+    //         {
+    //             From = currentFrom,
+    //             To = currentFrom + (step - 0.01m)
+    //         });
+    //
+    //         currentFrom += step;
+    //     }
+    //
+    //     // Final bucket
+    //     ranges.Add(new PriceRange
+    //     {
+    //         From = currentFrom,
+    //         To = maxPrice
+    //     });
+    //
+    //     return ranges;
+    // }
 }

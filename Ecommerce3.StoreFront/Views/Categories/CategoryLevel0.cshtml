@@ -1,15 +1,19 @@
+@using Ecommerce3.Domain.Entities
 @using Ecommerce3.Domain.Enums
 @model Ecommerce3.StoreFront.ViewModels.Category.CategoryLevel0ViewModel
 
 @section Styles{
-    <link rel="stylesheet" href="~/css/spice-listing.css">
-    <link rel="stylesheet" href="~/css/tingle.min.css">
+    <link rel="stylesheet" href="~/css/spice-listing.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/tingle.min.css" asp-append-version="true">
 }
 
 @* Breadcrumb *@
 <partial name="_BreadcrumbPartial" model="@Model.Breadcrumb"/>
 
 @* Category *@
+<input type="hidden" id="category" data-id="@Model.Category.Id" data-slug="@Model.Category.Slug"/>
+@Html.AntiForgeryToken()
+
 <div class="cat-content">
     <div class="container">
         <h1>@Model.Category.Display</h1>
@@ -55,12 +59,12 @@
                         <div class="sortresult-wrapper">
                             <div class="sort_results">
                                 <div class="total_products">
-                                    <span class="block_count">@Model.Products.TotalItems.ToString() Product(s)</span>
+                                    <span class="block_count">@Model.Products.TotalItems.ToString() Products</span>
                                 </div>
-                                <form id="OrderByform" method="post" action="">
+                                <form id="OrderByform">
                                     <div class="sortby-dropdown">
                                         <span class="sort-title">Sort By:</span>
-                                        <select name="" id="ddlOrderBy">
+                                        <select name="" id="sort_order">
                                             <option value="@nameof(SortOrder.NameAsc)">Name (Ascending)</option>
                                             <option value="@nameof(SortOrder.NameDesc)">Name (Descending)</option>
                                             <option value="@nameof(SortOrder.PriceAsc)">Price (Low to High)</option>
@@ -72,143 +76,92 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="products_listing">
-                            @foreach (var product in Model.Products.Data)
-                            {
-                                <partial name="_PLPProductListItemPartial" model="product"/>
-                            }
+                        <div id="product_list" class="products_listing">
+                            <input type="hidden" id="page_number" value="@Model.Products.PageNumber"/>
+                            <input type="hidden" id="products_count" value="@Model.Products.TotalItems"/>
+                            <partial name="_PLPProductListItemsPartial" model="Model.Products.Data"/>
                         </div>
+                        @if (Model.Products.TotalItems > Model.Products.PageSize * Model.Products.PageNumber)
+                        {
+                            <div class="bottom_pagination">
+                                <button id="load_more" data-page="2" class="lmb">Load More</button>
+                            </div>
+                        }
                     </div>
-                    <div class="bottom_pagination">
-                        <button id="load-more" data-page="2" class="lmb">Load More</button>
-                    </div>
-                    <!-- Product Div -->
                 </div>
                 <div class="filters cat_page">
                     <span class="filter-caption">Filters</span>
                     <div id="filters">
                         <form id="filterform" action="">
                             <ul class="accordion side_filters">
+                                @* Brands start *@
                                 <li class="accordion-item">
-                                    <span role="button" class="accordion-title" name="Category"
-                                          aria-controls="Category" aria-expanded="true" tabindex="0">Category</span>
+                                    <span role="button" class="accordion-title" name="Brand" aria-controls="Brand"
+                                          aria-expanded="true" tabindex="0">Brand</span>
                                     <div class="accordion-content filter-div grid" aria-hidden="false"
-                                         aria-labelledby="Category" id="Category">
-
+                                         aria-labelledby="Brand" id="Brand">
                                         <ul>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Almonds"
-                                                       id="Almonds">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Almonds" class="fancy-checkbox" for="Almonds">
-                                                    Almonds
-                                                    <span>(24)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category"
-                                                       value="Category#Brazil-Nuts" id="Brazil-Nuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Brazil Nuts" class="fancy-checkbox" for="Brazil-Nuts">
-                                                    Brazil Nuts
-                                                    <span>(10)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Hazelnuts"
-                                                       id="Hazelnuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Hazelnuts" class="fancy-checkbox" for="Hazelnuts">
-                                                    Hazelnuts
-                                                    <span>(9)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Cashews"
-                                                       id="Cashews">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Cashews" class="fancy-checkbox" for="Cashews">
-                                                    Cashews
-                                                    <span>(29)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category"
-                                                       value="Category#Macadamia-Nuts" id="Macadamia-Nuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Macadamia Nuts" class="fancy-checkbox"
-                                                       for="Macadamia-Nuts">
-                                                    Macadamia Nuts
-                                                    <span>(24)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category"
-                                                       value="Category#Mixed-Nuts" id="Mixed-Nuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Mixed Nuts" class="fancy-checkbox" for="Mixed-Nuts">
-                                                    Mixed Nuts
-                                                    <span>(10)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Peanuts"
-                                                       id="Peanuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Peanuts" class="fancy-checkbox" for="Peanuts">
-                                                    Peanuts
-                                                    <span>(23)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category"
-                                                       value="Category#Pecan-Nuts" id="Pecan-Nuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Pecan Nuts" class="fancy-checkbox" for="Pecan-Nuts">
-                                                    Pecan Nuts
-                                                    <span>(4)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Pine-Nuts"
-                                                       id="Pine-Nuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Pine Nuts" class="fancy-checkbox" for="Pine-Nuts">
-                                                    Pine Nuts
-                                                    <span>(2)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category"
-                                                       value="Category#Pistachios" id="Pistachios">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Pistachios" class="fancy-checkbox" for="Pistachios">
-                                                    Pistachios
-                                                    <span>(5)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Walnuts"
-                                                       id="Walnuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Walnuts" class="fancy-checkbox" for="Walnuts">
-                                                    Walnuts
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" data-id="Category" value="Category#Chestnuts"
-                                                       id="Chestnuts">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label id="l_Chestnuts" class="fancy-checkbox" for="Chestnuts">
-                                                    Chestnuts
-                                                    <span>(2)</span>
-                                                </label>
-                                            </li>
-
+                                            @if (Model.Brands.Count == 1)
+                                            {
+                                                var brand = Model.Brands.First();
+                                                <li class="element-item brand">
+                                                    <input type="checkbox" id="@($"brand_{brand.Id}")" data-entity="@nameof(Brand)"
+                                                           data-brand-id="@brand.Id"
+                                                           checked="checked" disabled>
+                                                    <div class="checkbox__checkmark"></div>
+                                                    <label class="fancy-checkbox" for="@($"brand_{brand.Id}")">
+                                                        @brand.Text
+                                                        @* <span>(99)</span> *@
+                                                    </label>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var brand in Model.Brands)
+                                                {
+                                                    <li class="element-item brand">
+                                                        <input type="checkbox" id="@brand.Id"
+                                                               data-entity="@nameof(Brand)"
+                                                               @(brand.IsSelected ? "checked" : "") disabled>
+                                                        <div class="checkbox__checkmark"></div>
+                                                        <label class="fancy-checkbox" for="@brand.Id">
+                                                            @brand.Text
+                                                            @* <span>(99)</span> *@
+                                                        </label>
+                                                    </li>
+                                                }
+                                            }
                                         </ul>
                                     </div>
                                 </li>
+                                @* Brands end *@
+
+                                @* Weight facet start *@
+                                <li class="accordion-item">
+                                    <span role="button" class="accordion-title" name="Weight" aria-controls="Weight"
+                                          aria-expanded="true" tabindex="0">Weight</span>
+                                    <div class="accordion-content filter-div grid" aria-hidden="false"
+                                         aria-labelledby="Weight" id="Weight">
+                                        <ul>
+                                            @foreach (var weight in Model.Weights)
+                                            {
+                                                <li class="element-item brand">
+                                                    <input type="checkbox" id="@weight.Text"
+                                                           data-entity="Weight"
+                                                           data-qty-per-uom="@weight.Tags[0]"
+                                                           data-uom-name="@weight.Tags[1]"
+                                                           @(weight.IsSelected ? "checked" : "")>
+                                                    <div class="checkbox__checkmark"></div>
+                                                    <label class="fancy-checkbox" for="@weight.Text">
+                                                        @weight.Text
+                                                        @* <span>(29)</span> *@
+                                                    </label>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                @* Weight facet end *@
 
                                 <li class="accordion-item">
                                     <span role="button" class="accordion-title" name="Price" aria-controls="Price"
@@ -237,159 +190,6 @@
                                     </div>
 
                                 </li>
-
-                                <li class="accordion-item">
-                                    <span role="button" class="accordion-title" name="Weight" aria-controls="Weight"
-                                          aria-expanded="true" tabindex="0">Weight</span>
-                                    <div class="accordion-content filter-div grid" aria-hidden="false"
-                                         aria-labelledby="Weight" id="Weight">
-
-                                        <ul>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="1kg">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="1kg">
-                                                    1kg
-                                                    <span>(29)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="500g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="500g">
-                                                    500g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="400g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="400g">
-                                                    400g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="375g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="375g">
-                                                    375g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="300g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="300g">
-                                                    300g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="250g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="250g">
-                                                    250g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="200g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="200g">
-                                                    200g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="100g">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="100g">
-                                                    100g
-                                                    <span>(21)</span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <li class="accordion-item">
-                                    <span role="button" class="accordion-title" name="Brand" aria-controls="Brand"
-                                          aria-expanded="true" tabindex="0">Brand</span>
-                                    <div class="accordion-content filter-div grid" aria-hidden="false"
-                                         aria-labelledby="Brand" id="Brand">
-
-                                        <ul>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="Brand-one">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="Brand-one">
-                                                    Brand One
-                                                    <span>(99)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="Brand-two">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="Brand-two">
-                                                    Brand Two
-                                                    <span>(2)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="Brand-three">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="Brand-three">
-                                                    Brand Three
-                                                    <span>(5)</span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <li class="accordion-item">
-                                    <span role="button" class="accordion-title" name="Diet" aria-controls="Diet"
-                                          aria-expanded="true" tabindex="0">Diet</span>
-                                    <div class="accordion-content filter-div grid" aria-hidden="false"
-                                         aria-labelledby="Diet" id="Diet">
-
-                                        <ul>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="gluten-free">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="gluten-free">
-                                                    Gluten Free
-                                                    <span>(1)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="organic">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="organic">
-                                                    Organic
-                                                    <span>(2)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="vegan">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="vegan">
-                                                    Vegan
-                                                    <span>(20)</span>
-                                                </label>
-                                            </li>
-                                            <li class="element-item brand">
-                                                <input type="checkbox" id="keto">
-                                                <div class="checkbox__checkmark"></div>
-                                                <label class="fancy-checkbox" for="keto">
-                                                    Keto
-                                                    <span>(12)</span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
                             </ul>
                         </form>
                     </div>
@@ -402,20 +202,8 @@
 <section class="cat-bottom-section">
     <div class="container">
         <div class="bottom-content-wrapper">
-            <h3 class="small-heading">Some Title for Bottom Content</h3>
-            <p class="content-para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus maiores,
-                tempore et praesentium, explicabo quae id hic sequi iure sed velit, est voluptatem? Repudiandae
-                voluptates vero ut nobis ab quod? Blanditiis inventore dicta incidunt atque soluta molestias esse
-                enim placeat, temporibus consequuntur tempore adipisci ut numquam nemo laborum ducimus repellendus
-                ipsum tenetur cumque non rerum veritatis eveniet asperiores. Incidunt nobis iste enim ab
-                necessitatibus a ducimus nulla fuga esse commodi sint accusantium accusamus amet aliquid nostrum nam
-                harum eum numquam impedit laborum, consectetur. Earum nihil, odit accusantium eveniet minima ad,
-                facilis at voluptates et dignissimos adipisci beatae, ipsam, alias placeat?</p>
-            <p class="content-para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus maiores,
-                tempore et praesentium, explicabo quae id hic sequi iure sed velit, est voluptatem? Repudiandae
-                voluptates vero ut nobis ab quod? Blanditiis inventore dicta incidunt atque soluta molestias esse
-                enim placeat, temporibus consequuntur tempore adipisci ut numquam nemo laborum ducimus repellendus
-                ipsum tenetur cumque non rerum veritatis eveniet asperiores.</p>
+            <h3 class="small-heading">@Model.Category.Display</h3>
+            @Html.Raw(Model.Category.FullDescription)
         </div>
     </div>
 </section>
@@ -505,6 +293,7 @@
 </button>
 
 @section Scripts {
-    <script src="~/js/tingle.min.js"></script>
-    <script src="~/js/menu.js" defer></script>
+    <script src="~/js/tingle.min.js" asp-append-version="true"></script>
+    <script src="~/js/menu.js" asp-append-version="true" defer></script>
+    <script src="~/js/products.js" asp-append-version="true"></script>
 }

@@ -3,20 +3,16 @@
 <div class="breadcrumb-wrapper">
     <div class="container">
         <nav class="breadcrumb">
-            @for (var i = 1; i <= Model.Count; i++)
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item home"></a>
+            @foreach (var breadcrumbItem in Model)
             {
-                var breadcrumbItem = Model[i - 1];
-                if (i == 1)
+                if (breadcrumbItem.Url is null)
                 {
-                    <a asp-controller="Home" asp-action="Index" class="breadcrumb-item home"></a>
-                }
-                else if (i < Model.Count)
-                {
-                    <a href="@breadcrumbItem.Url" class="breadcrumb-item">@breadcrumbItem.Text</a>
+                    <a class="breadcrumb-item active">@breadcrumbItem.Text</a>
                 }
                 else
                 {
-                    <a href="#" class="breadcrumb-item active">@breadcrumbItem.Text</a>
+                    <a href="@breadcrumbItem.Url" class="breadcrumb-item">@breadcrumbItem.Text</a>
                 }
             }
         </nav>

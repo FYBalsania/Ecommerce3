@@ -1,28 +1,31 @@
-﻿<!DOCTYPE html>
+﻿@model Ecommerce3.StoreFront.ViewModels.Page.PageViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - Ecommerce3.StoreFront</title>
+    <title>@Model.Page.MetaTitle</title>
+    <meta name="description" content="@Model.Page.MetaDescription">
+    <meta name="keywords" content="@Model.Page.MetaKeywords">
     <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="192x192"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/spice.css">
-    <link rel="stylesheet" href="~/css/splide.min.css">
-    <link rel="stylesheet" href="~/css/newmenu.css">
+    <link rel="stylesheet" href="~/css/spice.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/splide.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/newmenu.css" asp-append-version="true">
     @await RenderSectionAsync("Styles", required: false)
-    <script src="~/js/what-input.min.js"></script>
-    <script src="~/js/modernizr-custom.js"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 <body>
     <partial name="_HeaderPartial"/>
     @RenderBody()
     <partial name="_FooterPartial"/>
-    <script src="~/js/splide.min.js"></script>
-    <script src="~/js/spice.js" defer></script>
-    <script src="~/js/newmenu.js" defer></script>
+    <script src="~/js/what-input.min.js" asp-append-version="true"></script>
+    <script src="~/js/modernizr-custom.js" asp-append-version="true"></script>
+    <script src="~/js/splide.min.js" asp-append-version="true"></script>
+    <script src="~/js/spice.js" asp-append-version="true" defer></script>
+    <script src="~/js/newmenu.js" asp-append-version="true" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

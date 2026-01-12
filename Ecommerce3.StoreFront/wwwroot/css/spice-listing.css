@@ -63,7 +63,7 @@
 .listingbg-new .products_main .filters li.element-item.brand .checkbox__checkmark, .option_checkbox .checkbox__checkmark {position: absolute; top: 6px; left: 0; height: 20px; width: 20px; background-color: #fff; transition: background-color 0.25s ease; border-radius: 4px; box-shadow: 0 0 0 1px #d2c9c3 inset;}
 .listingbg-new .products_main .filters li.element-item.brand label, .option_checkbox label {padding-left: 2em; cursor: pointer; z-index: 1;}
 .filter-loadmore {display: flex; padding: 0.5em 1em; justify-content: center; align-items: center; font: 15px "Roboto",Helvetica,sans-serif; color: #000; background: #c7d6d1; cursor: pointer; transition: all 0.3s ease; width: 100%; z-index: 1;}
-.products_main .bottom_pagination {display: flex; justify-content: center; align-items: center;	padding: 1em 0;}
+.products_main .bottom_pagination {display: flex; justify-content: center; align-items: center;	padding: 1em 0; flex:1 0 100%;}
 .products_main .bottom_pagination .lmb {font: 16px "Roboto",Helvetica,sans-serif; color: #fff; background: #055941; padding: 0.5em 1em; text-align: center; border-radius: 0.5em; transition: all 0.3s ease; cursor: pointer;}
 .filter_button {display: flex; position: fixed; bottom: 0; width: 150px;	 justify-content: center; align-items: center; left: 0; gap: 0.5em; background: #055941; border-radius: 0 1em 0 0; cursor: pointer; overflow: hidden; z-index: 1100; color: #fff; transition: all 0.5s ease; padding: 10px; font-size: 16px;}
 .filter_button img {width: 20px;}

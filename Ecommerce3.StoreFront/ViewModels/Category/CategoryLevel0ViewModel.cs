@@ -1,3 +1,4 @@
+using System.Globalization;
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTO.StoreFront.Page;
 using Ecommerce3.Contracts.DTO.StoreFront.Product;
@@ -5,18 +6,24 @@ using Ecommerce3.Contracts.DTO.StoreFront.ProductListPage;
 using Ecommerce3.Contracts.DTO.StoreFront.UOM;
 using Ecommerce3.StoreFront.Models;
 using Ecommerce3.StoreFront.ViewModels.Common;
+using Ecommerce3.StoreFront.ViewModels.Page;
 
 namespace Ecommerce3.StoreFront.ViewModels.Category;
 
-public record CategoryLevel0ViewModel
+public class CategoryLevel0ViewModel : PageViewModel
 {
     public PLPParentCategoryDTO Category { get; private init; }
     public IReadOnlyList<BreadcrumbItem> Breadcrumb { get; private init; }
-    public PageDTO Page { get; private init; }
     public IReadOnlyList<CheckBoxListItemViewModel> Brands { get; private init; }
     public PriceRangeViewModel PriceRange { get; private init; }
     public IReadOnlyList<CheckBoxListItemViewModel> Weights { get; private init; }
-    public IDictionary<KeyValuePair<int, string>, IReadOnlyList<CheckBoxListItemViewModel>> Attributes { get; private init; }
+
+    public IDictionary<KeyValuePair<int, string>, IReadOnlyList<CheckBoxListItemViewModel>> Attributes
+    {
+        get;
+        private init;
+    }
+
     public PagedResult<ProductListItemDTO> Products { get; private init; }
 
     public CategoryLevel0ViewModel(PLPParentCategoryDTO category, IReadOnlyList<BreadcrumbItem> breadcrumb,
@@ -24,11 +31,11 @@ public record CategoryLevel0ViewModel
         PriceRangeDTO priceRange, decimal? selectedMinPrice, decimal? selectedMaxPrice,
         IReadOnlyList<UOMFacetDTO> weights, IDictionary<int, decimal> selectedWeights,
         IReadOnlyList<ProductAttributeFacetDTO> attributes, IDictionary<int, int> selectedAttributes,
-        PagedResult<ProductListItemDTO> products)
+        PagedResult<ProductListItemDTO> products) 
+        : base(page)
     {
         Category = category;
         Breadcrumb = breadcrumb;
-        Page = page;
         Brands = brands.Select(x => new CheckBoxListItemViewModel
         {
             Id = x.Key,
@@ -48,7 +55,8 @@ public record CategoryLevel0ViewModel
             {
                 Id = x.Id,
                 Text = $"{x.QtyPerUOM} {x.Name}",
-                IsSelected = isSelected
+                IsSelected = isSelected,
+                Tags = [x.QtyPerUOM.ToString(CultureInfo.InvariantCulture), x.Name]
             };
         }).ToList();
         Products = products;
