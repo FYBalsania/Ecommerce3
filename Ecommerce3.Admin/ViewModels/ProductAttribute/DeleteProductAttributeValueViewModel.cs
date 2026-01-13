@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductAttribute;
 
 namespace Ecommerce3.Admin.ViewModels.ProductAttribute;
@@ -11,7 +12,7 @@ public record DeleteProductAttributeValueViewModel
     [Required(ErrorMessage = "Product attribute id is required.")]
     public int ProductAttributeId { get; set; }
 
-    public DeleteProductAttributeValueCommand ToCommand(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public DeleteProductAttributeValueCommand ToCommand(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         return new DeleteProductAttributeValueCommand
         {

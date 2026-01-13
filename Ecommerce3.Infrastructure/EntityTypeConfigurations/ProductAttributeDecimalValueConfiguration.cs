@@ -14,6 +14,6 @@ public sealed class ProductAttributeDecimalValueConfiguration : IEntityTypeConfi
         //indexes
         builder.HasIndex(x => new {x.ProductAttributeId, x.SortOrder, x.DecimalValue})
             .HasDatabaseName($"IX_{nameof(ProductAttributeDecimalValue)}_{nameof(ProductAttributeDecimalValue.ProductAttributeId)}_{nameof(ProductAttributeDecimalValue.SortOrder)}_{nameof(ProductAttributeDecimalValue.DecimalValue)}")
-            .HasFilter("(\"DeletedAt\") IS NULL");
+            .HasFilter("(\"deleted_at\") IS NULL");
     }
 }

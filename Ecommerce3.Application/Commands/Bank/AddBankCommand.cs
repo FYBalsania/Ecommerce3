@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.Bank;
 
 public record AddBankCommand
@@ -12,5 +14,5 @@ public record AddBankCommand
     public required string H1 { get; init; }
     public required int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public string CreatedByIp { get; init; }
+    public IPAddress CreatedByIp { get; init; }
 }

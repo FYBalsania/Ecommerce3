@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.PostCode;
 using Ecommerce3.Contracts.DTOs.PostCode;
 
@@ -17,7 +18,7 @@ public class EditPostCodeViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
-    public EditPostCodeCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditPostCodeCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditPostCodeCommand()
         {

@@ -36,15 +36,15 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(x => x.FullDescription).HasColumnType("text").HasColumnOrder(12);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(13);
         builder.Property(x => x.SortOrder).HasColumnType("integer").HasColumnOrder(14);
-        builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedBy).HasColumnType("integer").HasColumnOrder(53);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
-        builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedBy).HasColumnName("updated_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(55);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(56);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(57);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(58);
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
@@ -69,8 +69,8 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasDatabaseName($"IX_{nameof(Category)}_{nameof(Category.Path)}");
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(Category)}_{nameof(Category.IsActive)}");
         builder.HasIndex(x => x.SortOrder).HasDatabaseName($"IX_{nameof(Category)}_{nameof(Category.SortOrder)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Category)}_{nameof(Category.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Category)}_{nameof(Category.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_category_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_category_deleted_at");
 
         //relations.
         builder.HasOne(x => x.Parent)

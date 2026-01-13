@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.UnitOfMeasure;
 using Ecommerce3.Application.Commands.UnitOfMeasure;
 using Ecommerce3.Application.Services.Interfaces;
@@ -56,7 +57,7 @@ public class UnitOfMeasureController(
             return View(model);
         }
 
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         
         try
@@ -118,7 +119,7 @@ public class UnitOfMeasureController(
             return View(model);
         }
 
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
@@ -159,7 +160,7 @@ public class UnitOfMeasureController(
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         const int userId = 1; // int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         var command = new DeleteUnitOfMeasureCommand

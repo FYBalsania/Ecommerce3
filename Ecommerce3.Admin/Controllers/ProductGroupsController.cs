@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.ProductGroup;
 using Ecommerce3.Application.Services.Admin.Interfaces;
 using Ecommerce3.Application.Services.Interfaces;
@@ -55,7 +56,7 @@ public class ProductGroupsController(
             return View(model);
         }
 
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
@@ -135,7 +136,7 @@ public class ProductGroupsController(
             return View(model);
         }
 
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         try
@@ -223,7 +224,7 @@ public class ProductGroupsController(
             return ValidationProblem(ModelState);
         }
 
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         const int userId = 1;
 
         await productGroupService.AddAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
@@ -252,7 +253,7 @@ public class ProductGroupsController(
             return ValidationProblem(ModelState);
         }
         
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         const int userId = 1;
         
         await productGroupService.EditAttributeAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);

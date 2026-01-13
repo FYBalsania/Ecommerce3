@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Page;
 using Ecommerce3.Contracts.DTOs.Image;
 using Ecommerce3.Contracts.DTOs.Page;
@@ -137,7 +138,7 @@ public class EditPageViewModel
     
     public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
     
-    public EditPageCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditPageCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditPageCommand()
         {

@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.Category;
 
 public record AddCategoryCommand
@@ -20,5 +22,5 @@ public record AddCategoryCommand
     public int SortOrder { get; init; }
     public int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public string CreatedByIp { get; init; }
+    public IPAddress CreatedByIp { get; init; }
 }

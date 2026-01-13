@@ -15,6 +15,6 @@ public sealed class ProductAttributeDateOnlyValueConfiguration : IEntityTypeConf
         builder.HasIndex(x => new { x.ProductAttributeId, x.SortOrder, x.DateOnlyValue })
             .HasDatabaseName(
                 $"IX_{nameof(ProductAttributeDateOnlyValue)}_{nameof(ProductAttributeDateOnlyValue.ProductAttributeId)}_{nameof(ProductAttributeDateOnlyValue.SortOrder)}_{nameof(ProductAttributeDateOnlyValue.DateOnlyValue)}")
-            .HasFilter("(\"DeletedAt\") IS NULL");
+            .HasFilter("(\"deleted_at\") IS NULL");
     }
 }

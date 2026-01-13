@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductAttribute;
 
 namespace Ecommerce3.Admin.ViewModels.ProductAttribute;
@@ -33,7 +34,7 @@ public class AddProductAttributeBooleanValueViewModel
     [Required(ErrorMessage = "Boolean value is required.")]
     public bool BooleanValue { get; set; }
     
-    public AddProductAttributeBooleanValueCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddProductAttributeBooleanValueCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddProductAttributeBooleanValueCommand
         {

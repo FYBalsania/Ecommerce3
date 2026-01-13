@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.UnitOfMeasure;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,7 +31,7 @@ public sealed class AddUnitOfMeasureViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
-    public AddUnitOfMeasureCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddUnitOfMeasureCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddUnitOfMeasureCommand()
         {

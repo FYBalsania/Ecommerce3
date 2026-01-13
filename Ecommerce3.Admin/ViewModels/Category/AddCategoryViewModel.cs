@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Category;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -77,7 +78,7 @@ public class AddCategoryViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
-    public AddCategoryCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddCategoryCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddCategoryCommand()
         {

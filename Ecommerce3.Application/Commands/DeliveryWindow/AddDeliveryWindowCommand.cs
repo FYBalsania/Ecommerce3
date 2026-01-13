@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Application.Commands.DeliveryWindow;
@@ -12,5 +13,5 @@ public record AddDeliveryWindowCommand
     public int SortOrder { get; init; }
     public int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public string CreatedByIp { get; init; }
+    public IPAddress CreatedByIp { get; init; }
 }

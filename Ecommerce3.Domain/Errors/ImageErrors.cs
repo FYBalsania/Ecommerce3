@@ -90,30 +90,10 @@ public static partial class DomainErrors
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(Image)}.{nameof(Image.CreatedBy)}", "Created by is invalid.");
 
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(Image)}.{nameof(Image.CreatedByIp)}", "Created by IP address is required.");
-
-        public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(Image)}.{nameof(Image.CreatedByIp)}", $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
-
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(Image)}.{nameof(Image.UpdatedBy)}", "Updated by is invalid.");
-
-        public static readonly DomainError UpdatedByIpRequired =
-            new($"{nameof(Image)}.{nameof(Image.UpdatedByIp)}", "Updated by IP address is required.");
-
-        public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(Image)}.{nameof(Image.UpdatedByIp)}",
-                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
         
         public static readonly DomainError InvalidDeletedBy =
             new($"{nameof(Image)}.{nameof(Image.DeletedBy)}", "Deleted by is invalid.");
-
-        public static readonly DomainError DeletedByIpRequired =
-            new($"{nameof(Image)}.{nameof(Image.DeletedByIp)}", "Deleted by IP address is required.");
-
-        public static readonly DomainError DeletedByIpTooLong =
-            new($"{nameof(Image)}.{nameof(Image.DeletedByIp)}",
-                $"Deleted by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
     }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.ProductAttribute;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.Filters;
@@ -50,7 +51,7 @@ public class ProductAttributesController(
             return View(model);
         }
 
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var createdAt = DateTime.Now;
 

@@ -30,15 +30,15 @@ public class ProductQnAConfiguration : IEntityTypeConfiguration<ProductQnA>
         builder.Property(x => x.Approver).HasColumnType("integer").HasColumnOrder(9);
         builder.Property(x => x.ApprovedOn).HasColumnType("timestamp").HasColumnOrder(10);
         builder.Property(x => x.ApproverIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(11);
-        builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedBy).HasColumnType("integer").HasColumnOrder(53);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
-        builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedBy).HasColumnName("updated_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(55);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(56);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(57);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(58);
 
         //Indexes.
         builder.HasIndex(x => x.Question).HasMethod("gin").HasOperators("gin_trgm_ops")
@@ -48,8 +48,8 @@ public class ProductQnAConfiguration : IEntityTypeConfiguration<ProductQnA>
             .HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.Answer)}");
         builder.HasIndex(x => x.AnsweredOn).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.AnsweredOn)}");
         builder.HasIndex(x => x.ApprovedOn).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.ApprovedOn)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(ProductQnA)}_{nameof(ProductQnA.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_product_qna_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_product_qna_deleted_at");
         
         //Relations.
         builder.HasOne(x => x.Product)

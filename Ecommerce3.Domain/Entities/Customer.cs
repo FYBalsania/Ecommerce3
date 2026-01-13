@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class Customer : Entity
@@ -13,11 +15,11 @@ public sealed class Customer : Entity
     public string? PasswordResetToken { get; private set; }
     public DateTime? PasswordResetTokenExpiry { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     public IReadOnlyList<CustomerAddress> Addresses => _addresses;
     
     private readonly List<CustomerHistory> _history = [];
@@ -28,14 +30,13 @@ public sealed class Customer : Entity
     }
 
     public Customer(string firstName, string? lastName, string? companyName, string emailAddress, string? phoneNumber,
-        string password, string createdByIp)
+        string password, IPAddress createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(firstName, nameof(firstName));
         ArgumentException.ThrowIfNullOrWhiteSpace(lastName, nameof(lastName));
         ArgumentException.ThrowIfNullOrWhiteSpace(companyName, nameof(companyName));
         ArgumentException.ThrowIfNullOrWhiteSpace(emailAddress, nameof(emailAddress));
         ArgumentException.ThrowIfNullOrWhiteSpace(password, nameof(password));
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
 
         FirstName = firstName;
         LastName = lastName;

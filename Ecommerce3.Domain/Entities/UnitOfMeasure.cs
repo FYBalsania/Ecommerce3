@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 
@@ -19,30 +20,28 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private UnitOfMeasure()
     {
     }
 
     public UnitOfMeasure(string code, string name, UnitOfMeasureType type, int? baseId, decimal conversionFactor,
-        bool isActive, int createdBy, DateTime createdAt, string createdByIp)
+        bool isActive, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
             DomainErrors.UnitOfMeasureErrors.CodeTooLong);
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.UnitOfMeasureErrors.NameRequired,
             DomainErrors.UnitOfMeasureErrors.NameTooLong);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.UnitOfMeasureErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.UnitOfMeasureErrors.CreatedByIpRequired,
-            DomainErrors.UnitOfMeasureErrors.CreatedByIpTooLong);
 
         Code = code;
         Name = name;
@@ -56,15 +55,13 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
     }
 
     public void Update(string code, string name, UnitOfMeasureType type, int? baseId, decimal conversionFactor,
-        bool isActive, int updatedBy, DateTime updatedAt, string updatedByIp)
+        bool isActive, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
             DomainErrors.UnitOfMeasureErrors.CodeTooLong);
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.UnitOfMeasureErrors.NameRequired,
             DomainErrors.UnitOfMeasureErrors.NameTooLong);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.UnitOfMeasureErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.UnitOfMeasureErrors.UpdatedByIpRequired,
-            DomainErrors.UnitOfMeasureErrors.UpdatedByIpTooLong);
 
         if (Code == code && Name == name && Type == type && BaseId == baseId && ConversionFactor == conversionFactor &&
             IsActive == isActive) return;
@@ -80,11 +77,9 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedByIp = updatedByIp;
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.UnitOfMeasureErrors.InvalidDeletedBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.UnitOfMeasureErrors.DeletedByIpRequired,
-            DomainErrors.UnitOfMeasureErrors.DeletedByIpTooLong);
 
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;

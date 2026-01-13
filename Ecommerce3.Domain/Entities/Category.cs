@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.DomainEvents.Category;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -5,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpdatable, IDeletable,
-    IKVPListItems<CategoryKVPListItem>
+public sealed class Category : EntityWithImages<CategoryImage>, IKVPListItems<CategoryKVPListItem>, ICreatable, IUpdatable, IDeletable
 {
     private readonly List<CategoryKVPListItem> _kvpListItems = [];
     private readonly List<Category> _children = [];
@@ -28,15 +28,15 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     public IReadOnlyList<CategoryKVPListItem> KVPListItems => _kvpListItems;
     public IReadOnlyList<Category> Children => _children;
 
@@ -51,7 +51,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
 
     public Category(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
         string? googleCategory, Category? parent, string? shortDescription, string? fullDescription, bool isActive,
-        int sortOrder, int createdBy, string createdByIp)
+        int sortOrder, int createdBy, IPAddress createdByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
@@ -61,7 +61,6 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.CategoryErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.CategoryErrors.CreatedByIpRequired, DomainErrors.CategoryErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -83,7 +82,7 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
 
     public void Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, Category? parent, string? googleCategory, string? shortDescription,
-        string? fullDescription, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
+        string? fullDescription, bool isActive, int sortOrder, int updatedBy, IPAddress updatedByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
@@ -93,7 +92,6 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.CategoryErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.CategoryErrors.UpdatedByIpRequired, DomainErrors.CategoryErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ParentId == parent?.Id &&
@@ -130,8 +128,10 @@ public sealed class Category : EntityWithImages<CategoryImage>, ICreatable, IUpd
         UpdatedByIp = updatedByIp;
     }
 
-    public void ChangeParent(Category? parent, int updatedBy, DateTime updatedAt, string updatedByIp)
+    public void ChangeParent(Category? parent, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.CategoryErrors.InvalidUpdatedBy);
+
         if (ParentId == parent?.Id) return;
 
         ValidateParent(parent);

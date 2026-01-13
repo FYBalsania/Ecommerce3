@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.ProductAttribute;
 
 public record EditProductAttributeColourValueCommand
@@ -14,5 +16,5 @@ public record EditProductAttributeColourValueCommand
     public string? ColourFamilyHexCode { get; init; }
     public required int UpdatedBy { get; init; }
     public required DateTime UpdatedAt { get; init; }
-    public required string UpdatedByIp { get; init; }
+    public required IPAddress UpdatedByIp { get; init; }
 }

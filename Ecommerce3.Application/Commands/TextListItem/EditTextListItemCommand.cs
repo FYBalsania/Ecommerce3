@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Application.Commands.TextListItem;
@@ -12,5 +13,5 @@ public record EditTextListItemCommand
     public required decimal SortOrder { get; init; }
     public required int UpdatedBy { get; init; }
     public required DateTime UpdatedAt { get; init; }
-    public required string UpdatedByIp { get; init; }
+    public required IPAddress UpdatedByIp { get; init; }
 }

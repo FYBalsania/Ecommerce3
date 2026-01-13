@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Application.Commands.Image;
@@ -22,5 +23,5 @@ public record AddImageCommand
     public required string ImageFolderPath { get; init; }
     public required int CreatedBy { get; init; }
     public required DateTime CreatedAt { get; init; }
-    public required string CreatedByIp { get; init; }
+    public required IPAddress CreatedByIp { get; init; }
 }

@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class ProductAttributeBooleanValue : ProductAttributeValue
@@ -9,14 +11,14 @@ public sealed class ProductAttributeBooleanValue : ProductAttributeValue
     }
 
     internal ProductAttributeBooleanValue(bool booleanValue, string slug, string display, string breadcrumb,
-        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        int sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
         : base(booleanValue.ToString(), slug, display, breadcrumb, sortOrder, createdBy, createdAt, createdByIp)
     {
         BooleanValue = booleanValue;
     }
 
     public bool Update(string slug, string display, string breadcrumb, int sortOrder, int updatedBy, DateTime updatedAt,
-        string updatedByIp)
+        IPAddress updatedByIp)
     {
         return base.Update(Value, slug, display, breadcrumb, sortOrder, updatedBy, updatedAt, updatedByIp);
     }

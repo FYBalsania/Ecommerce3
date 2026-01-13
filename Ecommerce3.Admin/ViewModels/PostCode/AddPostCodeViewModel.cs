@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.PostCode;
 
 namespace Ecommerce3.Admin.ViewModels.PostCode;
@@ -14,7 +15,7 @@ public class AddPostCodeViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
-    public AddPostCodeCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddPostCodeCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddPostCodeCommand()
         {

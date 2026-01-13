@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Contracts.DTO.Admin.Product;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ public class EditInventoryViewModel
     
     public string? ReturnUrl { get; set; }
 
-    public EditInventoryCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditInventoryCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditInventoryCommand()
         {

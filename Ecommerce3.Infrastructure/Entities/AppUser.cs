@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,8 +11,8 @@ public class AppUser : IdentityUser<int>, IAppUser
     public string FullName { get; init; }
     public int CreatedBy { get; }
     public DateTime CreatedAt { get; }
-    public string CreatedByIp { get; }
+    public IPAddress CreatedByIp { get; }
     public int? UpdatedBy { get; }
     public DateTime? UpdatedAt { get; }
-    public string? UpdatedByIp { get; }
+    public IPAddress? UpdatedByIp { get; }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductGroup;
 using Ecommerce3.Contracts.DTO.Admin.ProductGroupProductAttribute;
 using Ecommerce3.Contracts.DTOs.Image;
@@ -78,7 +79,7 @@ public class EditProductGroupViewModel
     
     //public IReadOnlyList<ImageListItemViewModel> Images { get; private set; } = [];
     
-    public EditProductGroupCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditProductGroupCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditProductGroupCommand()
         {

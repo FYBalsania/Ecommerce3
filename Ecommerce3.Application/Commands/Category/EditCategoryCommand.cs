@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.Category;
 
 public record EditCategoryCommand
@@ -21,5 +23,5 @@ public record EditCategoryCommand
     public int SortOrder { get; init; }
     public int UpdatedBy { get; init; }
     public DateTime UpdatedAt { get; init; }
-    public string UpdatedByIp { get; init; }
+    public IPAddress UpdatedByIp { get; init; }
 }

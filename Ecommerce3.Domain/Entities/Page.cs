@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -42,15 +43,15 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     internal Page()
     {
@@ -61,7 +62,7 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         string? twitterCard, string? contentHtml, string? summary, string? schemaJsonLd, string? breadcrumbsJson,
         string? hreflangMapJson, decimal sitemapPriority, SiteMapFrequency sitemapFrequency, string? redirectFromJson,
         bool isIndexed, string? headerScripts, string? footerScripts, string language, string? region, int? seoScore,
-        bool isActive, int createdBy, DateTime createdAt, string createdByIp)
+        bool isActive, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         if (!string.IsNullOrWhiteSpace(path)) ValidatePath(path);
         ValidateMetaTitle(metaTitle);
@@ -79,7 +80,6 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         ValidateLanguage(language);
         ValidateRegion(region);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.PageErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.PageErrors.CreatedByIpRequired, DomainErrors.PageErrors.CreatedByIpTooLong);
 
         Path = path;
         MetaTitle = metaTitle;
@@ -203,7 +203,7 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         string? schemaJsonLd, string? breadcrumbsJson, string? hreflangMapJson, decimal sitemapPriority,
         SiteMapFrequency sitemapFrequency, string? redirectFromJson, bool isIndexed, string? headerScripts,
         string? footerScripts, string language, string? region, int? seoScore, bool isActive, int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidatePath(path);
         ValidateMetaTitle(metaTitle);
@@ -221,7 +221,6 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
         ValidateLanguage(language);
         ValidateRegion(region);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.PageErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.PageErrors.UpdatedByIpRequired, DomainErrors.PageErrors.UpdatedByIpTooLong);
         
         if (Path == path && MetaTitle == metaTitle && MetaDescription == metaDescription &&
             MetaKeywords == metaKeywords && MetaRobots == metaRobots && H1 == h1 &&
@@ -267,14 +266,13 @@ public class Page : EntityWithImages<PageImage>, ICreatable, IUpdatable, IDeleta
     }
 
     public void Update(string metaTitle, string? metaDescription, string? metaKeywords, string? h1, int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidateMetaTitle(metaTitle);
         ValidateMetaDescription(metaDescription);
         ValidateMetaKeywords(metaKeywords);
         ValidateH1(h1);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.PageErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.PageErrors.UpdatedByIpRequired, DomainErrors.PageErrors.UpdatedByIpTooLong);
 
         if (MetaTitle == metaTitle && MetaDescription == metaDescription && MetaKeywords == metaKeywords && H1 == h1)
             return;

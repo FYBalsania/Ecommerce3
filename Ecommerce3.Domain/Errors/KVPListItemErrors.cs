@@ -27,30 +27,11 @@ public static partial class DomainErrors
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(KVPListItem)}.{nameof(KVPListItem.CreatedBy)}", "Created by is invalid.");
 
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(KVPListItem)}.{nameof(KVPListItem.CreatedByIp)}", "Created by IP address is required.");
-
-        public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(KVPListItem)}.{nameof(KVPListItem.CreatedByIp)}", "Created by IP address cannot exceed 128 characters.");
-
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(KVPListItem)}.{nameof(KVPListItem.UpdatedBy)}", "Updated by is invalid.");
-
-        public static readonly DomainError UpdatedByIpRequired =
-            new($"{nameof(KVPListItem)}.{nameof(KVPListItem.UpdatedByIp)}", "Updated by IP address is required.");
-
-        public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(KVPListItem)}.{nameof(KVPListItem.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
         
         public static readonly DomainError InvalidDeletedBy =
             new($"{nameof(KVPListItem)}.{nameof(KVPListItem.DeletedBy)}", "Deleted by is invalid.");
-
-        public static readonly DomainError DeletedByIpRequired =
-            new($"{nameof(KVPListItem)}.{nameof(KVPListItem.DeletedByIp)}", "Deleted by IP address is required.");
-
-        public static readonly DomainError DeletedByIpTooLong =
-            new($"{nameof(KVPListItem)}.{nameof(KVPListItem.DeletedByIp)}",
-                $"Updated by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
     }
 
     public static class CategoryKVPListItemErrors

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Image;
 
 namespace Ecommerce3.Admin.ViewModels.Image;
@@ -14,7 +15,7 @@ public record DeleteImageViewModel
     [Required(AllowEmptyStrings = false)]
     public string ImageEntityType { get; set; } //BrandImage, CategoryImage, ProductImage etc.
 
-    public DeleteImageCommand ToCommand(int userId, string ipAddress)
+    public DeleteImageCommand ToCommand(int userId, IPAddress ipAddress)
     {
         return new DeleteImageCommand
         {

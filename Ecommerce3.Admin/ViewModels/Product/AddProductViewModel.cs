@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -202,7 +203,7 @@ public class AddProductViewModel
 
     public IDictionary<int, int> Attributes { get; set; } = new Dictionary<int, int>();
 
-    public AddProductCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddProductCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddProductCommand
         {

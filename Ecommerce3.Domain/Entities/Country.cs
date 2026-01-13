@@ -4,7 +4,7 @@ using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
+public sealed class Country : Entity, ICreatable, IUpdatable, IDeletable
 {
     public static readonly int NameMaxLength = 256;
     public static readonly int Iso2CodeMaxLength = 2;
@@ -41,6 +41,7 @@ public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
         ValidateIso2Code(iso2Code);
         ValidateIso3Code(iso3Code);
         ValidateIsoNumericCode(numericCode!);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.CountryErrors.InvalidCreatedBy);
         
         Name = name;
         Iso2Code = iso2Code;
@@ -60,6 +61,7 @@ public sealed class Country : Entity //, ICreatable, IUpdatable, IDeletable
         ValidateIso2Code(iso2Code);
         ValidateIso3Code(iso3Code);
         ValidateIsoNumericCode(numericCode!);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.CountryErrors.InvalidUpdatedBy);
         
         if (Name == name && Iso2Code == iso2Code && Iso3Code == iso3Code && NumericCode == numericCode &&
             IsActive == isActive && SortOrder == sortOrder) return;

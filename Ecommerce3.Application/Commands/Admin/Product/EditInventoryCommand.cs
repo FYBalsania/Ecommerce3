@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.Admin.Product;
 
 public record EditInventoryCommand
@@ -9,6 +11,6 @@ public record EditInventoryCommand
     public required decimal Stock { get; init; }
     public int UpdatedBy { get; init; }
     public DateTime UpdatedAt { get; init; }
-    public string UpdatedByIp { get; init; }
+    public IPAddress UpdatedByIp { get; init; }
     public string? ReturnUrl { get; init; }
 }

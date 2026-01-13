@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.ImageType;
 
 public record AddImageTypeCommand
@@ -9,5 +11,5 @@ public record AddImageTypeCommand
     public bool IsActive { get; init; }
     public int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public string CreatedByIp { get; init; }
+    public IPAddress CreatedByIp { get; init; }
 }

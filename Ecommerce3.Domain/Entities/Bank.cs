@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -13,27 +14,26 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     public BankPage? Page { get; private set; }
     
     private Bank()
     {
     }
 
-    public Bank(string name, string slug, bool isActive, int sortOrder, int createdBy, string createdByIp)
+    public Bank(string name, string slug, bool isActive, int sortOrder, int createdBy, IPAddress createdByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.BankErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.BankErrors.CreatedByIpRequired, DomainErrors.BankErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -44,12 +44,11 @@ public sealed class Bank : EntityWithImages<BankImage>, ICreatable, IUpdatable, 
         CreatedByIp = createdByIp;
     }
 
-    public void Update(string name, string slug, bool isActive, int sortOrder, int updatedBy, string updatedByIp)
+    public void Update(string name, string slug, bool isActive, int sortOrder, int updatedBy, IPAddress updatedByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.BankErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.BankErrors.UpdatedByIpRequired, DomainErrors.BankErrors.UpdatedByIpTooLong);
         
         if (Name == name && Slug == slug && IsActive == isActive && SortOrder == sortOrder)
             return;

@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -21,15 +22,15 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private protected Image()
     {
@@ -37,7 +38,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
 
     internal Image(string ogFileName, string fileName, string fileExtension, int imageTypeId, ImageSize size,
         string? altText, string? title, ImageLoading loading, string? link, string? linkTarget, int sortOrder,
-        int createdBy, DateTime createdAt, string createdByIp)
+        int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         if (string.IsNullOrWhiteSpace(ogFileName))
             throw new DomainException(DomainErrors.ImageErrors.OriginalFileNameRequired);
@@ -68,7 +69,6 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         }
         
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ImageErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ImageErrors.CreatedByIpRequired, DomainErrors.ImageErrors.CreatedByIpTooLong);
         
         OgFileName = ogFileName;
         FileName = fileName;
@@ -88,7 +88,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
 
     public static Image Create(Type imageType, string ogFileName, string fileName, string fileExtension,
         int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading, string? link,
-        string? linkTarget, int parentId, int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        string? linkTarget, int parentId, int sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         if (imageType == typeof(BrandImage))
             return new BrandImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading, link,
@@ -114,12 +114,16 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
             return new PageImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading,
                 link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
         
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ImageErrors.InvalidCreatedBy);
+        
         throw new DomainException(DomainErrors.ImageErrors.InvalidImageType);
     }
     
     public void Update(int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading, 
-        string fileName, string? link, string? linkTarget, int sortOrder, int updatedBy, string updatedByIp)
+        string fileName, string? link, string? linkTarget, int sortOrder, int updatedBy, IPAddress updatedByIp)
     {
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ImageErrors.InvalidUpdatedBy);
+
         if (ImageTypeId == imageTypeId && Size == size && AltText == altText && Title == title && Loading == loading &&
             Link == link && LinkTarget == linkTarget && SortOrder == sortOrder)
             return;
@@ -140,9 +144,6 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
             if (linkTarget != "_self" && linkTarget != "_blank")
                 throw new DomainException(DomainErrors.ImageErrors.InvalidLinkTarget);
         }
-
-        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ImageErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ImageErrors.UpdatedByIpRequired, DomainErrors.ImageErrors.UpdatedByIpTooLong);
         
         FileName = fileName;
         ImageTypeId = imageTypeId;
@@ -158,11 +159,10 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedByIp = updatedByIp;
     }
     
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ImageErrors.InvalidDeletedBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ImageErrors.DeletedByIpRequired, DomainErrors.ImageErrors.DeletedByIpTooLong);
-        
+
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;

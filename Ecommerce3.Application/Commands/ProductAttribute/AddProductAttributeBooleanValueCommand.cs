@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.ProductAttribute;
 
 public record AddProductAttributeBooleanValueCommand
@@ -12,5 +14,5 @@ public record AddProductAttributeBooleanValueCommand
     public bool BooleanValue { get; init; }
     public required int CreatedBy { get; init; }
     public required DateTime CreatedAt { get; init; }
-    public required string CreatedByIp { get; init; }
+    public required IPAddress CreatedByIp { get; init; }
 }

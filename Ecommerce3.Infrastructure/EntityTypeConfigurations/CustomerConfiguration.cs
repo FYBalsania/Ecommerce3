@@ -28,12 +28,12 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.IsEmailVerified).HasColumnType("boolean").HasColumnOrder(8);
         builder.Property(x => x.PasswordResetToken).HasMaxLength(512).HasColumnType("varchar(512)").HasColumnOrder(9);
         builder.Property(x => x.PasswordResetTokenExpiry).HasColumnType("timestamp").HasColumnOrder(10);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(50);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(51);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(53);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(55);
 
         //Owned collections.
         builder.OwnsMany(x => x.History, nb =>
@@ -60,8 +60,8 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasDatabaseName($"UK_{nameof(Customer)}_{nameof(Customer.PhoneNumber)}");
         builder.HasIndex(x => x.PasswordResetToken)
             .HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.PasswordResetToken)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Customer)}_{nameof(Customer.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_customer_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_customer_deleted_at");
 
         //Relations.
         builder.HasMany(x => x.Addresses)

@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class ProductAttributeDateOnlyValue : ProductAttributeValue
@@ -9,7 +11,7 @@ public sealed class ProductAttributeDateOnlyValue : ProductAttributeValue
     }
 
     public ProductAttributeDateOnlyValue(DateOnly dateOnlyValue, string slug, string display, string breadcrumb,
-        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        int sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
         : base(dateOnlyValue.ToString(Common.DateOnlyFormat), slug, display, breadcrumb, sortOrder, createdBy,
             createdAt, createdByIp)
     {
@@ -17,7 +19,7 @@ public sealed class ProductAttributeDateOnlyValue : ProductAttributeValue
     }
 
     internal bool Update(DateOnly dateOnlyValue, string slug, string display, string breadcrumb, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         if (!base.Update(dateOnlyValue.ToString(Common.DateOnlyFormat), slug, display, breadcrumb, sortOrder, updatedBy,
                 updatedAt, updatedByIp) && DateOnlyValue == dateOnlyValue) return false;

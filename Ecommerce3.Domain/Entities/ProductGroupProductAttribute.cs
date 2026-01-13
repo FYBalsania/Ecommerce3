@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 
 namespace Ecommerce3.Domain.Entities;
@@ -15,15 +16,15 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private ProductGroupProductAttribute()
     {
@@ -31,13 +32,11 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
 
     internal ProductGroupProductAttribute(int productAttributeId, decimal productAttributeSortOrder,
         int productAttributeValueId, decimal productAttributeValueSortOrder, int createdBy, DateTime createdAt,
-        string createdByIp)
+        IPAddress createdByIp)
     {
         ValidatePositiveNumber(productAttributeId, DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
         ValidatePositiveNumber(productAttributeValueId, DomainErrors.ProductGroupProductAttributeErrors.InvalidId);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpRequired, 
-            DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpTooLong);
         
         ProductAttributeId = productAttributeId;
         ProductAttributeSortOrder = productAttributeSortOrder;
@@ -49,12 +48,10 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
     }
 
     internal void UpdateProductAttributeValueSortOrder(decimal productAttributeValueSortOrder, int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpRequired, 
-            DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpTooLong);
-        
+
         if (ProductAttributeValueSortOrder == productAttributeValueSortOrder) return;
 
         ProductAttributeValueSortOrder = productAttributeValueSortOrder;
@@ -64,12 +61,10 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
     }
     
     internal void UpdateProductAttributeSortOrder(decimal productAttributeSortOrder, int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpRequired, 
-            DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpTooLong);
-        
+
         if (ProductAttributeSortOrder == productAttributeSortOrder) return;
 
         ProductAttributeSortOrder = productAttributeSortOrder;
@@ -78,11 +73,9 @@ public class ProductGroupProductAttribute : Entity, ICreatable, IUpdatable, IDel
         UpdatedByIp = updatedByIp;
     }
 
-    internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    internal void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
-        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidDeleteddBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductGroupProductAttributeErrors.DeletedByIpRequired, 
-            DomainErrors.ProductGroupProductAttributeErrors.DeletedByIpTooLong);
+        IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidDeletedBy);
         
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;

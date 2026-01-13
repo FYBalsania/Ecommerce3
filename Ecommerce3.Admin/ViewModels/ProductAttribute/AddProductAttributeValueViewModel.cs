@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductAttribute;
 
 namespace Ecommerce3.Admin.ViewModels.ProductAttribute;
@@ -23,7 +24,7 @@ public class AddProductAttributeValueViewModel
     [Required(ErrorMessage = "Sort order is required.")]
     public int SortOrder { get; set; }
     
-    public AddProductAttributeValueCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddProductAttributeValueCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddProductAttributeValueCommand
         {

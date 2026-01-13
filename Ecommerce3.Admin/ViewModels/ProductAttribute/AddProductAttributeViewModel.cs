@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductAttribute;
 using DataType = Ecommerce3.Domain.Enums.DataType;
 
@@ -35,7 +36,7 @@ public class AddProductAttributeViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
     
-    public AddProductAttributeCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddProductAttributeCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddProductAttributeCommand()
         {

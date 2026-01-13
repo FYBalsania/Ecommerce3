@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.ProductAttribute;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Contracts.DTOs;
@@ -21,7 +22,7 @@ public class ProductAttributeBooleanValuesController(
 
         var userId = 1;
         var updatedAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         await productAttributeService.EditBooleanValueAsync(model.ToCommand(userId, updatedAt, ipAddress), cancellationToken);
 

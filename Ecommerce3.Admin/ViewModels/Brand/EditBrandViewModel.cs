@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Brand;
 using Ecommerce3.Contracts.DTOs.Brand;
 using Ecommerce3.Contracts.DTOs.Image;
@@ -74,7 +75,7 @@ public class EditBrandViewModel
 
     public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
 
-    public EditBrandCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditBrandCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditBrandCommand()
         {

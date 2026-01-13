@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Admin.ViewModels.Common;
 using Ecommerce3.Application.Commands.Admin.Product;
 using Ecommerce3.Contracts.DTO.Admin.Product;
@@ -221,7 +222,7 @@ public class EditProductViewModel
     public IReadOnlyList<SelectListViewModel> AttributesSelectList { get; set; } =
         new List<SelectListViewModel>(); //used in get.
 
-    public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditProductCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditProductCommand()
         {

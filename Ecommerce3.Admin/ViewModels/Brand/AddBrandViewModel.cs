@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Brand;
 
 namespace Ecommerce3.Admin.ViewModels.Brand;
@@ -68,7 +69,7 @@ public class AddBrandViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
 
-    public AddBrandCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddBrandCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddBrandCommand()
         {

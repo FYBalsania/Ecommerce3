@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Application.Commands.Page;
@@ -35,5 +36,5 @@ public record EditPageCommand
     public string? FooterScripts { get; init; }
     public int UpdatedBy { get; init; }
     public DateTime UpdatedAt { get; init; }
-    public string UpdatedByIp { get; init; }
+    public IPAddress UpdatedByIp { get; init; }
 }

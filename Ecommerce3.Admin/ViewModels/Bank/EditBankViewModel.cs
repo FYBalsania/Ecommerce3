@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Bank;
 using Ecommerce3.Contracts.DTOs.Bank;
 using Ecommerce3.Contracts.DTOs.Image;
@@ -48,7 +49,7 @@ public class EditBankViewModel
     
     public IReadOnlyList<ImageDTO> Images { get; private set; } = [];
     
-    public EditBankCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditBankCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditBankCommand()
         {

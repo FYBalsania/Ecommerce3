@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductGroup;
 
 namespace Ecommerce3.Admin.ViewModels.ProductGroup;
@@ -68,7 +69,7 @@ public class AddProductGroupViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
     
-    public AddProductGroupCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddProductGroupCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddProductGroupCommand()
         {

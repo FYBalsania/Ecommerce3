@@ -33,12 +33,12 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
         builder.Property(x => x.StateOrProvince).HasMaxLength(256).HasColumnType("citext").HasColumnOrder(10);
         builder.Property(x => x.PostalCode).HasMaxLength(16).HasColumnType("citext").HasColumnOrder(11);
         builder.Property(x => x.Landmark).HasMaxLength(512).HasColumnType("citext").HasColumnOrder(12);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(50);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(51);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(53);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(55);
 
         //Owned collections.
         builder.OwnsMany(x => x.History, nb =>
@@ -77,10 +77,8 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
             .HasDatabaseName($"IX_{nameof(CustomerAddress)}_{nameof(CustomerAddress.PostalCode)}");
         builder.HasIndex(x => x.Landmark).HasMethod("gin").HasOperators("gin_trgm_ops")
             .HasDatabaseName($"IX_{nameof(CustomerAddress)}_{nameof(CustomerAddress.Landmark)}");
-        builder.HasIndex(x => x.CreatedAt)
-            .HasDatabaseName($"IX_{nameof(CustomerAddress)}_{nameof(CustomerAddress.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt)
-            .HasDatabaseName($"IX_{nameof(CustomerAddress)}_{nameof(CustomerAddress.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_customer_address_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_customer_address_deleted_at");
 
         //Relations.
         builder.HasOne(x => x.Customer)

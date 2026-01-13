@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -13,28 +14,27 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private ImageType()
     {
     }
 
     public ImageType(string? entity, string name, string slug, string? description, bool isActive,
-        int createdBy, string createdByIp)
+        int createdBy, IPAddress createdByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
         ValidateDescription(description);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ImageTypeErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ImageTypeErrors.CreatedByIpRequired, DomainErrors.ImageTypeErrors.CreatedByIpTooLong);
 
         Entity = entity;
         Name = name;
@@ -47,13 +47,12 @@ public sealed class ImageType : Entity, ICreatable, IUpdatable, IDeletable
     }
 
     public void Update(string? entity, string name, string slug, string? description, bool isActive,
-        int updatedBy, string updatedByIp)
+        int updatedBy, IPAddress updatedByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
         ValidateDescription(description);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ImageTypeErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ImageTypeErrors.UpdatedByIpRequired, DomainErrors.ImageTypeErrors.UpdatedByIpTooLong);
         
         if (Entity == entity && Name == name && Slug == slug && Description == description && IsActive == isActive)
             return;

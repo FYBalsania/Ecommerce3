@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.DeliveryWindow;
 using Ecommerce3.Domain.Enums;
 
@@ -32,7 +33,7 @@ public class AddDeliveryWindowViewModel
     [Display(Name = "Sort order")]
     public int SortOrder { get; set; }
     
-    public AddDeliveryWindowCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddDeliveryWindowCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddDeliveryWindowCommand()
         {

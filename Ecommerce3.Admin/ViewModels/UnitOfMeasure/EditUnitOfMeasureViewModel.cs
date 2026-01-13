@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.UnitOfMeasure;
 using Ecommerce3.Contracts.DTOs.UnitOfMeasure;
 using Ecommerce3.Domain.Enums;
@@ -33,7 +34,7 @@ public class EditUnitOfMeasureViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
-    public EditUnitOfMeasureCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditUnitOfMeasureCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditUnitOfMeasureCommand()
         {

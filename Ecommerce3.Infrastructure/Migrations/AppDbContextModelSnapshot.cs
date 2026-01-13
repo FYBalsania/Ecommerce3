@@ -38,29 +38,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<bool>("IsActive")
@@ -85,26 +89,28 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Bank_CreatedAt");
+                        .HasDatabaseName("idx_bank_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Bank_DeletedAt");
+                        .HasDatabaseName("idx_bank_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -155,29 +161,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Display")
@@ -217,15 +227,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -249,12 +261,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Brand_CreatedAt");
+                        .HasDatabaseName("idx_brand_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Brand_DeletedAt");
+                        .HasDatabaseName("idx_brand_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -294,16 +306,18 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<int?>("CustomerId")
@@ -312,15 +326,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<decimal>("Discount")
@@ -342,28 +358,30 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Cart_CreatedAt");
+                        .HasDatabaseName("idx_cart_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Cart_DeletedAt");
+                        .HasDatabaseName("idx_cart_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -393,29 +411,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<decimal>("Discount")
@@ -440,15 +462,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -456,12 +480,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("CartId");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_CartLine_CreatedAt");
+                        .HasDatabaseName("idx_cart_line_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_CartLine_DeletedAt");
+                        .HasDatabaseName("idx_cart_line_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -503,29 +527,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Display")
@@ -579,15 +607,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -611,12 +641,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Category_CreatedAt");
+                        .HasDatabaseName("idx_category_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Category_DeletedAt");
+                        .HasDatabaseName("idx_category_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -792,22 +822,24 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(51);
+                        .HasColumnName("created_at")
+                        .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(52);
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
+                        .HasColumnOrder(51);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                        .HasColumnName("deleted_at")
+                        .HasColumnOrder(54);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(58);
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
+                        .HasColumnOrder(55);
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -852,12 +884,13 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(54);
+                        .HasColumnName("updated_at")
+                        .HasColumnOrder(52);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(55);
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
+                        .HasColumnOrder(53);
 
                     b.HasKey("Id");
 
@@ -868,10 +901,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("CompanyName"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Customer_CreatedAt");
+                        .HasDatabaseName("idx_customer_created_at");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Customer_DeletedAt");
+                        .HasDatabaseName("idx_customer_deleted_at");
 
                     b.HasIndex("EmailAddress")
                         .IsUnique()
@@ -934,13 +967,14 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(51);
+                        .HasColumnName("created_at")
+                        .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(52);
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
+                        .HasColumnOrder(51);
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer")
@@ -948,12 +982,13 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                        .HasColumnName("deleted_at")
+                        .HasColumnOrder(54);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(58);
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
+                        .HasColumnOrder(55);
 
                     b.Property<string>("FullName")
                         .HasMaxLength(128)
@@ -989,12 +1024,13 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(54);
+                        .HasColumnName("updated_at")
+                        .HasColumnOrder(52);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(55);
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
+                        .HasColumnOrder(53);
 
                     b.HasKey("Id");
 
@@ -1023,12 +1059,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("CompanyName"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_CustomerAddress_CreatedAt");
+                        .HasDatabaseName("idx_customer_address_created_at");
 
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_CustomerAddress_DeletedAt");
+                        .HasDatabaseName("idx_customer_address_deleted_at");
 
                     b.HasIndex("FullName")
                         .HasDatabaseName("IX_CustomerAddress_FullName");
@@ -1074,29 +1110,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<bool>("IsActive")
@@ -1137,26 +1177,28 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_DeliveryWindow_CreatedAt");
+                        .HasDatabaseName("idx_delivery_window_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_DeliveryWindow_DeletedAt");
+                        .HasDatabaseName("idx_delivery_window_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -1193,29 +1235,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Discriminator")
@@ -1262,15 +1308,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -1280,12 +1328,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("UK_Discount_Code");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Discount_CreatedAt");
+                        .HasDatabaseName("idx_discount_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Discount_DeletedAt");
+                        .HasDatabaseName("idx_discount_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -1325,30 +1373,34 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(57);
+                        .HasColumnName("deleted_at")
+                        .HasColumnOrder(54);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
-                        .HasColumnOrder(56);
+                        .HasColumnName("deleted_by")
+                        .HasColumnOrder(53);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(58);
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
+                        .HasColumnOrder(55);
 
                     b.Property<int>("DiscountId")
                         .HasColumnType("integer")
@@ -1387,29 +1439,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Discriminator")
@@ -1473,15 +1529,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -1493,12 +1551,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("AltText"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Image_CreatedAt");
+                        .HasDatabaseName("idx_image_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Image_DeletedAt");
+                        .HasDatabaseName("idx_image_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -1545,29 +1603,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Description")
@@ -1598,26 +1660,28 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ImageType_CreatedAt");
+                        .HasDatabaseName("idx_image_type_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ImageType_DeletedAt");
+                        .HasDatabaseName("idx_image_type_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -1663,29 +1727,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Discriminator")
@@ -1711,15 +1779,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.Property<string>("Value")
@@ -1729,10 +1799,13 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("idx_kvp_list_item_created_at");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_KVPListItem_DeletedAt");
+                        .HasDatabaseName("idx_kvp_list_item_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -1784,29 +1857,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Discriminator")
@@ -1941,15 +2018,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -1961,12 +2040,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("CanonicalUrl"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Page_CreatedAt");
+                        .HasDatabaseName("idx_page_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Page_DeletedAt");
+                        .HasDatabaseName("idx_page_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2017,29 +2096,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<bool>("IsActive")
@@ -2048,15 +2131,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -2066,12 +2151,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("UK_PostCode_Code");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_PostCode_CreatedAt");
+                        .HasDatabaseName("idx_postcode_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_PostCode_DeletedAt");
+                        .HasDatabaseName("idx_postcode_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2135,29 +2220,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<int>("DeliveryWindowId")
@@ -2311,15 +2400,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -2348,12 +2439,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_Product_CountryOfOriginId");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Product_CreatedAt");
+                        .HasDatabaseName("idx_product_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_Product_DeletedAt");
+                        .HasDatabaseName("idx_product_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2444,16 +2535,18 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<string>("DataType")
@@ -2464,15 +2557,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Display")
@@ -2499,15 +2594,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -2519,12 +2616,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ProductAttribute_CreatedAt");
+                        .HasDatabaseName("idx_product_attribute_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductAttribute_DeletedAt");
+                        .HasDatabaseName("idx_product_attribute_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2567,29 +2664,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Discriminator")
@@ -2620,15 +2721,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.Property<string>("Value")
@@ -2645,7 +2748,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Breadcrumb"), "gin");
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("idx_product_attribute_value_created_at");
+
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("idx_product_attribute_value_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2690,29 +2799,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<bool>("IsPrimary")
@@ -2729,15 +2842,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -2745,12 +2860,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ProductCategory_CreatedAt");
+                        .HasDatabaseName("idx_product_category_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductCategory_DeletedAt");
+                        .HasDatabaseName("idx_product_category_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2794,29 +2909,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Display")
@@ -2856,15 +2975,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -2888,12 +3009,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Breadcrumb"), new[] { "gin_trgm_ops" });
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ProductGroup_CreatedAt");
+                        .HasDatabaseName("idx_product_group_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductGroup_DeletedAt");
+                        .HasDatabaseName("idx_product_group_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -2934,29 +3055,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<int>("ProductAttributeId")
@@ -2981,26 +3106,28 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ProductGroupProductAttribute_CreatedAt");
+                        .HasDatabaseName("idx_product_group_product_attribute_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductGroupProductAttribute_DeletedAt");
+                        .HasDatabaseName("idx_product_group_product_attribute_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3028,29 +3155,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<int>("ProductAttributeId")
@@ -3075,23 +3206,28 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("idx_product_product_attribute_created_at");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductProductAttribute_DeletedAt");
+                        .HasDatabaseName("idx_product_product_attribute_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3149,29 +3285,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<int>("ProductId")
@@ -3190,15 +3330,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -3220,12 +3362,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("Approver");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ProductQnA_CreatedAt");
+                        .HasDatabaseName("idx_product_qna_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductQnA_DeletedAt");
+                        .HasDatabaseName("idx_product_qna_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3269,29 +3411,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<int>("ProductId")
@@ -3313,15 +3459,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -3332,12 +3480,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("Approver");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_ProductReview_CreatedAt");
+                        .HasDatabaseName("idx_product_review_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_ProductReview_DeletedAt");
+                        .HasDatabaseName("idx_product_review_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3379,21 +3527,22 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(52);
+                        .HasColumnName("created_at")
+                        .HasColumnOrder(51);
 
                     b.Property<int?>("CreatedByCustomerId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(51);
+                        .HasColumnName("created_by_customer_id")
+                        .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(53);
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
+                        .HasColumnOrder(52);
 
                     b.Property<int?>("CreatedByUserId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(50);
+                        .HasColumnType("integer");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer")
@@ -3405,16 +3554,18 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(59);
+                        .HasColumnName("deleted_at")
+                        .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
-                        .HasColumnOrder(58);
+                        .HasColumnName("deleted_by")
+                        .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(60);
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
+                        .HasColumnOrder(58);
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)")
@@ -3462,20 +3613,21 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedByCustomerId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(56);
+                        .HasColumnName("updated_by_customer_id")
+                        .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(57);
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
+                        .HasColumnOrder(55);
 
                     b.Property<int?>("UpdatedByUserId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(55);
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -3484,7 +3636,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.HasIndex("CartId");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_SalesOrder_CreatedAt");
+                        .HasDatabaseName("idx_sales_order_created_at");
 
                     b.HasIndex("CreatedByCustomerId");
 
@@ -3497,7 +3649,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("IX_SalesOrder_Dated_D");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_SalesOrder_DeletedAt");
+                        .HasDatabaseName("idx_sales_order_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3541,34 +3693,37 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(52);
+                        .HasColumnName("created_at")
+                        .HasColumnOrder(51);
 
                     b.Property<int>("CreatedByCustomerId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(51);
+                        .HasColumnName("created_by_customer_id")
+                        .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(53);
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
+                        .HasColumnOrder(52);
 
                     b.Property<int>("CreatedByUserId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(50);
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(59);
+                        .HasColumnName("deleted_at")
+                        .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
-                        .HasColumnOrder(58);
+                        .HasColumnName("deleted_by")
+                        .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(60);
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
+                        .HasColumnOrder(58);
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)")
@@ -3592,34 +3747,35 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
-                        .HasColumnOrder(56);
+                        .HasColumnName("updated_at")
+                        .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedByCustomerId")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by_customer_id")
+                        .HasColumnOrder(53);
+
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
-                        .HasColumnOrder(57);
-
                     b.Property<int?>("UpdatedByUserId")
-                        .HasColumnType("integer")
-                        .HasColumnOrder(54);
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CartLineId");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_SalesOrderLine_CreatedAt");
+                        .HasDatabaseName("idx_sales_order_line_created_at");
 
                     b.HasIndex("CreatedByCustomerId");
 
                     b.HasIndex("CreatedByUserId");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_SalesOrderLine_DeletedAt");
+                        .HasDatabaseName("idx_sales_order_line_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3648,29 +3804,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<string>("Discriminator")
@@ -3695,26 +3855,28 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_TextListItem_CreatedAt");
+                        .HasDatabaseName("idx_text_list_item_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_TextListItem_DeletedAt");
+                        .HasDatabaseName("idx_text_list_item_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -3761,29 +3923,33 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("created_at")
                         .HasColumnOrder(51);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("created_by")
                         .HasColumnOrder(50);
 
-                    b.Property<string>("CreatedByIp")
+                    b.Property<IPAddress>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("inet")
+                        .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at")
                         .HasColumnOrder(57);
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("deleted_by")
                         .HasColumnOrder(56);
 
-                    b.Property<string>("DeletedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("DeletedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("deleted_by_ip")
                         .HasColumnOrder(58);
 
                     b.Property<bool>("IsActive")
@@ -3804,15 +3970,17 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
+                        .HasColumnName("updated_at")
                         .HasColumnOrder(54);
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("integer")
+                        .HasColumnName("updated_by")
                         .HasColumnOrder(53);
 
-                    b.Property<string>("UpdatedByIp")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                    b.Property<IPAddress>("UpdatedByIp")
+                        .HasColumnType("inet")
+                        .HasColumnName("updated_by_ip")
                         .HasColumnOrder(55);
 
                     b.HasKey("Id");
@@ -3824,12 +3992,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasDatabaseName("UK_UnitOfMeasure_Code");
 
                     b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_UnitOfMeasure_CreatedAt");
+                        .HasDatabaseName("idx_unit_of_measure_created_at");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("IX_UnitOfMeasure_DeletedAt");
+                        .HasDatabaseName("idx_unit_of_measure_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
@@ -4256,7 +4424,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("ProductAttributeId", "SortOrder", "BooleanValue")
                         .HasDatabaseName("IX_ProductAttributeBooleanValue_ProductAttributeId_SortOrder_BooleanValue")
-                        .HasFilter("(\"DeletedAt\") IS NULL");
+                        .HasFilter("(\"deleted_at\") IS NULL");
 
                     b.HasDiscriminator().HasValue("ProductAttributeBooleanValue");
                 });
@@ -4300,7 +4468,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("ProductAttributeId", "SortOrder", "DateOnlyValue")
                         .HasDatabaseName("IX_ProductAttributeDateOnlyValue_ProductAttributeId_SortOrder_DateOnlyValue")
-                        .HasFilter("(\"DeletedAt\") IS NULL");
+                        .HasFilter("(\"deleted_at\") IS NULL");
 
                     b.HasDiscriminator().HasValue("ProductAttributeDateOnlyValue");
                 });
@@ -4315,7 +4483,7 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasIndex("ProductAttributeId", "SortOrder", "DecimalValue")
                         .HasDatabaseName("IX_ProductAttributeDecimalValue_ProductAttributeId_SortOrder_DecimalValue")
-                        .HasFilter("(\"DeletedAt\") IS NULL");
+                        .HasFilter("(\"deleted_at\") IS NULL");
 
                     b.HasDiscriminator().HasValue("ProductAttributeDecimalValue");
                 });

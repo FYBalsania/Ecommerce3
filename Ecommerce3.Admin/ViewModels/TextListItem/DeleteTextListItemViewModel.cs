@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.TextListItem;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ public class DeleteTextListItemViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Type is required.")]
     public TextListItemType Type { get; set; }
     
-    public DeleteTextListItemCommand ToCommand(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public DeleteTextListItemCommand ToCommand(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         return new DeleteTextListItemCommand
         {

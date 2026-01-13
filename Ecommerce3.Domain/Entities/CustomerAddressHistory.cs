@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed record CustomerAddressHistory
@@ -13,5 +15,5 @@ public sealed record CustomerAddressHistory
     public required string PostalCode { get; init; }
     public string? Landmark { get; init; }
     public DateTime UpdatedAt { get; init; }
-    public required string UpdatedByIp { get; init; }
+    public required IPAddress UpdatedByIp { get; init; }
 }

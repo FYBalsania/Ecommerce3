@@ -111,36 +111,16 @@ public static partial class DomainErrors
             new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.CreatedBy)}",
                 "Created by is invalid.");
 
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.CreatedByIp)}",
-                "Created by IP address is required.");
-
-        public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.CreatedByIp)}",
-                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
-
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.UpdatedBy)}",
                 "Updated by is invalid.");
-
-        public static readonly DomainError UpdatedByIpRequired =
-            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.UpdatedByIp)}",
-                "Updated by IP address is required.");
-
-        public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.UpdatedByIp)}",
-                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
         
         public static readonly DomainError InvalidDeleteddBy =
             new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedBy)}",
                 "Deleted by is invalid.");
-
-        public static readonly DomainError DeletedByIpRequired =
-            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedByIp)}",
-                "Deleted by IP address is required.");
-
-        public static readonly DomainError DeletedByIpTooLong =
-            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedByIp)}",
-                $"Deleted by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
+        
+        public static readonly DomainError InvalidDeletedBy =
+            new($"{nameof(ProductGroupProductAttribute)}.{nameof(ProductGroupProductAttribute.DeletedBy)}",
+                "Deleted by is invalid.");
     }
 }

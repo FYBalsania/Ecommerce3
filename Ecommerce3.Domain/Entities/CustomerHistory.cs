@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed record CustomerHistory()
@@ -7,5 +9,5 @@ public sealed record CustomerHistory()
     public string? CompanyName { get; init; }
     public string? PhoneNumber { get; init; }
     public DateTime UpdatedAt { get; init; }
-    public required string UpdatedByIp { get; init; }
+    public required IPAddress UpdatedByIp { get; init; }
 }

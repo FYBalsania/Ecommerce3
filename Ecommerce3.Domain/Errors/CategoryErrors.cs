@@ -57,21 +57,7 @@ public static partial class DomainErrors
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(Category)}.{nameof(Category.CreatedBy)}", "Created by is invalid.");
 
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(Category)}.{nameof(Category.CreatedByIp)}", "Created by IP address is required.");
-
-        public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(Category)}.{nameof(Category.CreatedByIp)}",
-                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
-
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(Category)}.{nameof(Category.UpdatedBy)}", "Updated by is invalid.");
-
-        public static readonly DomainError UpdatedByIpRequired =
-            new($"{nameof(Category)}.{nameof(Category.UpdatedByIp)}", "Updated by IP address is required.");
-
-        public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(Category)}.{nameof(Category.UpdatedByIp)}",
-                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
     }
 }

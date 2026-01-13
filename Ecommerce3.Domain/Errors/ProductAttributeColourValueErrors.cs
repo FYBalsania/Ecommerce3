@@ -21,5 +21,11 @@ public static partial class DomainErrors
         public static readonly DomainError ColourFamilyHexCodeTooLong =
             new($"{nameof(ProductAttributeColourValue)}.{nameof(ProductAttributeColourValue.ColourFamilyHexCode)}",
                 "Colour family hex code cannot exceed 8 characters.");
+        
+        public static readonly DomainError InvalidCreatedBy =
+            new($"{nameof(ProductAttributeColourValue)}.{nameof(ProductAttributeColourValue.CreatedBy)}", "Created by is invalid.");
+
+        public static readonly DomainError InvalidUpdatedBy =
+            new($"{nameof(ProductAttributeColourValue)}.{nameof(ProductAttributeColourValue.UpdatedBy)}", "Updated by is invalid.");
     }
 }

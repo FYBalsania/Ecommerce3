@@ -15,6 +15,6 @@ public sealed class ProductAttributeBooleanValueConfiguration : IEntityTypeConfi
         builder.HasIndex(x => new { x.ProductAttributeId, x.SortOrder, x.BooleanValue })
             .HasDatabaseName(
                 $"IX_{nameof(ProductAttributeBooleanValue)}_{nameof(ProductAttributeBooleanValue.ProductAttributeId)}_{nameof(ProductAttributeBooleanValue.SortOrder)}_{nameof(ProductAttributeBooleanValue.BooleanValue)}")
-            .HasFilter("(\"DeletedAt\") IS NULL");
+            .HasFilter("(\"deleted_at\") IS NULL");
     }
 }

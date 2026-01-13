@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -10,21 +11,20 @@ public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }   
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     
-    public PostCode(string code, bool isActive, int createdBy, string createdByIp)
+    public PostCode(string code, bool isActive, int createdBy, IPAddress createdByIp)
     {
         ValidateCode(code);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.PostCodeErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.PostCodeErrors.CreatedByIpRequired, DomainErrors.PostCodeErrors.CreatedByIpTooLong);
         
         Code = code;
         IsActive = isActive;
@@ -33,11 +33,10 @@ public sealed class PostCode : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
     
-    public void Update(string code, bool isActive, int updatedBy, string updatedByIp)
+    public void Update(string code, bool isActive, int updatedBy, IPAddress updatedByIp)
     {
         ValidateCode(code);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.PostCodeErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.PostCodeErrors.UpdatedByIpRequired, DomainErrors.PostCodeErrors.UpdatedByIpTooLong);
         
         if (Code == code && IsActive == isActive)
             return;

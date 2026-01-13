@@ -80,21 +80,9 @@ public static partial class DomainErrors
         
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(Page)}.{nameof(Page.CreatedBy)}", "Created by is invalid.");
-
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(Page)}.{nameof(Page.CreatedByIp)}", "Created by IP address is required.");
-
-        public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(Page)}.{nameof(Page.CreatedByIp)}", "Created by IP address cannot exceed 128 characters.");
         
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(Page)}.{nameof(Page.UpdatedBy)}", "Updated by is invalid.");
-        
-        public static readonly DomainError UpdatedByIpRequired =
-            new($"{nameof(Page)}.{nameof(Page.UpdatedByIp)}", "Updated by IP address is required.");
-        
-        public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(Page)}.{nameof(Page.UpdatedByIp)}", "Updated by IP address cannot exceed 128 characters.");
     }
     
     public static class BrandPageErrors

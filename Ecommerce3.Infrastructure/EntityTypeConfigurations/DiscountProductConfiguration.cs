@@ -22,12 +22,12 @@ public class DiscountProductConfiguration : IEntityTypeConfiguration<DiscountPro
         //Properties.
         builder.Property(x => x.DiscountId).HasColumnType("integer").HasColumnOrder(2);
         builder.Property(x => x.ProductId).HasColumnType("integer").HasColumnOrder(3);
-        builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(55);
         
         //Relations.
         builder.HasOne(x => x.Discount)

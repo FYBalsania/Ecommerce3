@@ -26,15 +26,15 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
         builder.Property(x => x.BaseId).HasColumnType("integer").HasColumnOrder(5);
         builder.Property(x => x.ConversionFactor).HasColumnType("decimal(18,3)").HasColumnOrder(6);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(7);
-        builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedBy).HasColumnType("integer").HasColumnOrder(53);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
-        builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedBy).HasColumnName("updated_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(55);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(56);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(57);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(58);
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
@@ -46,10 +46,8 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
             .HasDatabaseName($"UK_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.Name)}");
         builder.HasIndex(x => x.IsActive)
             .HasDatabaseName($"IX_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.IsActive)}");
-        builder.HasIndex(x => x.CreatedAt)
-            .HasDatabaseName($"IX_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt)
-            .HasDatabaseName($"IX_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_unit_of_measure_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_unit_of_measure_deleted_at");
 
         //Relations.
         builder.HasOne(x => x.Base)

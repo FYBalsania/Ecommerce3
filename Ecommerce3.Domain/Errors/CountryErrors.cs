@@ -41,5 +41,11 @@ public static partial class DomainErrors
 
         public static readonly DomainError DuplicateNumericCode =
             new($"{nameof(Country)}.{nameof(Country.NumericCode)}", "Duplicate Numeric code.");
+        
+        public static readonly DomainError InvalidCreatedBy =
+            new($"{nameof(Country)}.{nameof(Country.CreatedBy)}", "Created by is invalid.");
+
+        public static readonly DomainError InvalidUpdatedBy =
+            new($"{nameof(Country)}.{nameof(Country.UpdatedBy)}", "Updated by is invalid.");
     }
 }

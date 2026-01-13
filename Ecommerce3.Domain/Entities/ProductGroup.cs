@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -29,15 +30,15 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     public IReadOnlyList<ProductGroupProductAttribute> Attributes => _attributes;
     public ProductGroupPage? Page { get; private set; }
 
@@ -47,7 +48,7 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
 
     public ProductGroup(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, decimal sortOrder,
-        int createdBy, string createdByIp)
+        int createdBy, IPAddress createdByIp)
     {
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductGroupErrors.NameRequired,
             DomainErrors.ProductGroupErrors.NameTooLong);
@@ -65,8 +66,6 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
             ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
                 DomainErrors.ProductGroupErrors.ShortDescriptionTooLong);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductGroupErrors.CreatedByIpRequired,
-            DomainErrors.ProductGroupErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -85,7 +84,7 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
 
     public void Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, decimal sortOrder,
-        int updatedBy, string updatedByIp)
+        int updatedBy, IPAddress updatedByIp)
     {
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductGroupErrors.NameRequired,
             DomainErrors.ProductGroupErrors.NameTooLong);
@@ -103,8 +102,7 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
             ValidateTooLong(shortDescription, ShortDescriptionMaxLength,
                 DomainErrors.ProductGroupErrors.ShortDescriptionTooLong);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupErrors.UpdatedByIpRequired,
-            DomainErrors.ProductGroupErrors.UpdatedByIpTooLong);
+
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&
@@ -127,11 +125,13 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
     }
 
     public void AddAttribute(int productAttributeId, decimal productAttributeSortOrder,
-        IDictionary<int, decimal> values, int createdBy, DateTime createdAt, string createdByIp)
+        IDictionary<int, decimal> values, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         //Validate inputs.
         ValidatePositiveNumber(productAttributeId,
             DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidCreatedBy);
+
         if (values is null || values.Count == 0)
             throw new DomainException(DomainErrors.ProductGroupErrors.AttributeValueRequired);
         foreach (var keyValuePair in values)
@@ -139,10 +139,6 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
             ValidatePositiveNumber(keyValuePair.Key,
                 DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeValueId);
         }
-
-        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpRequired,
-            DomainErrors.ProductGroupProductAttributeErrors.CreatedByIpTooLong);
 
         //Check if attributeId already exists.
         if (_attributes.Any(x => x.ProductAttributeId == productAttributeId))
@@ -157,11 +153,13 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
     }
 
     public void UpdateAttribute(int productAttributeId, decimal productAttributeSortOrder,
-        IDictionary<int, decimal> values, int updatedBy, DateTime updatedAt, string updatedByIp)
+        IDictionary<int, decimal> values, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         //Validate inputs.
         ValidatePositiveNumber(productAttributeId,
             DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeId);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
+
         if (values is null || values.Count == 0)
             throw new DomainException(DomainErrors.ProductGroupErrors.AttributeValueRequired);
         foreach (var keyValuePair in values)
@@ -169,10 +167,6 @@ public sealed class ProductGroup : EntityWithImages<ProductGroupImage>, ICreatab
             ValidatePositiveNumber(keyValuePair.Key,
                 DomainErrors.ProductGroupProductAttributeErrors.InvalidProductAttributeValueId);
         }
-
-        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductGroupProductAttributeErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpRequired,
-            DomainErrors.ProductGroupProductAttributeErrors.UpdatedByIpTooLong);
 
         //Check if attributeId exists.
         if (_attributes.All(x => x.ProductAttributeId != productAttributeId))

@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.ProductGroup;
 
 public record AddProductGroupCommand
@@ -18,5 +20,5 @@ public record AddProductGroupCommand
     public int SortOrder { get; init; }
     public int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public string CreatedByIp { get; init; }
+    public IPAddress CreatedByIp { get; init; }
 }

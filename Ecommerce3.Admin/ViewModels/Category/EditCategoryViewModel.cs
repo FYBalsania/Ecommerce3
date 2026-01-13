@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Category;
 using Ecommerce3.Contracts.DTOs.Category;
 using Ecommerce3.Contracts.DTOs.Image;
@@ -87,7 +88,7 @@ public class EditCategoryViewModel
     public IReadOnlyList<KVPListItemDTO> KVPListItems { get; private set; } = [];
 
 
-    public EditCategoryCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditCategoryCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditCategoryCommand()
         {

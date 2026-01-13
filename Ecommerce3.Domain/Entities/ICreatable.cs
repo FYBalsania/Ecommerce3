@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -9,17 +10,10 @@ public interface ICreatable
 
     int CreatedBy { get; }
     DateTime CreatedAt { get; }
-    string CreatedByIp { get; }
+    IPAddress CreatedByIp { get; }
 
     public static void ValidateCreatedBy(int createdBy, DomainError domainError)
     {
         if (createdBy <= 0) throw new DomainException(domainError);
-    }
-
-    public static void ValidateCreatedByIp(string createdByIp, DomainError requiredDomainError,
-        DomainError tooLongDomainError)
-    {
-        if (string.IsNullOrWhiteSpace(createdByIp)) throw new DomainException(requiredDomainError);
-        if (createdByIp.Length > CreatedByIpMaxLength) throw new DomainException(tooLongDomainError);
     }
 }

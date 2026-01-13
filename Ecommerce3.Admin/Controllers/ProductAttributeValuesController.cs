@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.ProductAttribute;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Domain.Entities;
@@ -23,7 +24,7 @@ public class ProductAttributeValuesController(
 
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         
         try
         {
@@ -71,7 +72,7 @@ public class ProductAttributeValuesController(
 
         var userId = 1;
         var updatedAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         var editProductAttributeValueCommand = model.ToCommand(userId, updatedAt, ipAddress);
         
@@ -120,7 +121,7 @@ public class ProductAttributeValuesController(
 
         var userId = 1;
         var deletedAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         var deleteProductAttributeValueCommand = model.ToCommand(userId, deletedAt, ipAddress);
         await productAttributeService.DeleteValueAsync(deleteProductAttributeValueCommand, cancellationToken);

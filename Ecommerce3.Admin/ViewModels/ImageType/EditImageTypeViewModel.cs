@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ImageType;
 using Ecommerce3.Contracts.DTOs.ImageType;
 
@@ -30,7 +31,7 @@ public class EditImageTypeViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
-    public EditImageTypeCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditImageTypeCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditImageTypeCommand()
         {

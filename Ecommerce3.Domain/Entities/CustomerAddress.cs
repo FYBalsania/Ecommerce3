@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class CustomerAddress : Entity
@@ -15,11 +17,11 @@ public sealed class CustomerAddress : Entity
     public string PostalCode { get; private set; }
     public string? Landmark { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     
     private readonly List<CustomerAddressHistory> _history = [];
     public IReadOnlyList<CustomerAddressHistory> History => _history;
@@ -29,12 +31,11 @@ public sealed class CustomerAddress : Entity
     }
 
     public CustomerAddress(int customerId, string? type, string addressLine1, string? addressLine2, string? landmark,
-        string postalCode, string city, string createdByIp)
+        string postalCode, string city, IPAddress createdByIp)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(addressLine1, nameof(addressLine1));
         ArgumentException.ThrowIfNullOrWhiteSpace(postalCode, nameof(postalCode));
         ArgumentException.ThrowIfNullOrWhiteSpace(city, nameof(city));
-        ArgumentException.ThrowIfNullOrWhiteSpace(createdByIp, nameof(createdByIp));
 
         CustomerId = customerId;
         Type = type;

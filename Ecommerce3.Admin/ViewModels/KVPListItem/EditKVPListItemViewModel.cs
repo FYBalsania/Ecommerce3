@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.KVPListItem;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ public class EditKVPListItemViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Sort order is required.")]
     public decimal SortOrder { get; set; }
 
-    public EditKVPListItemCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditKVPListItemCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditKVPListItemCommand
         {

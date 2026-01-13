@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.KVPListItem;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Domain.Errors;
@@ -20,7 +21,7 @@ public class KVPListItemsController(
         }
 
         const int userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         await kvpListItemService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
 
         var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,
@@ -44,7 +45,7 @@ public class KVPListItemsController(
         }
 
         const int userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         await kvpListItemService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         
         var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,
@@ -68,7 +69,7 @@ public class KVPListItemsController(
         }
         
         const int userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         await kvpListItemService.DeleteAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         
         var kvpListItemDTOs = await kvpListItemService.GetAllByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,

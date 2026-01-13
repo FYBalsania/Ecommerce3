@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace Ecommerce3.Application.Commands.ProductAttribute;
 
@@ -32,7 +33,7 @@ public record EditProductAttributeColourValueViewModel
 
     public string? ColourFamilyHexCode { get; set; }
 
-    public EditProductAttributeColourValueCommand ToCommand(int updatedBy, DateTime updatedAt, string updatedByIp)
+    public EditProductAttributeColourValueCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         return new EditProductAttributeColourValueCommand
         {

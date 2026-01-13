@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.TextListItem;
 using Ecommerce3.Application.Services.Interfaces;
 using Ecommerce3.Domain.Errors;
@@ -20,7 +21,7 @@ public class TextListItemsController(
         }
         
         var userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         await textListItemService.AddAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         
         var textListItemDTOs = await textListItemService.GetByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId, model.Type, cancellationToken);
@@ -43,7 +44,7 @@ public class TextListItemsController(
         }
 
         var userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         await textListItemService.EditAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         var textListItemDTOs = await textListItemService.GetByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId, model.Type, cancellationToken);
@@ -66,7 +67,7 @@ public class TextListItemsController(
         }
 
         var userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         await textListItemService.DeleteAsync(model.ToCommand(userId, DateTime.Now, ipAddress), cancellationToken);
         var textListItemDTOs = await textListItemService.GetByParamsAsync(Type.GetType(model.ParentEntity)!, model.ParentEntityId,

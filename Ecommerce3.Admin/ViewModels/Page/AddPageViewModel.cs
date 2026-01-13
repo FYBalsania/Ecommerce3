@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Page;
 using Ecommerce3.Domain.Enums;
 
@@ -116,7 +117,7 @@ public class AddPageViewModel
     [Display(Name = "Footer scripts")]
     public string? FooterScripts { get; set; }
     
-    public AddPageCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddPageCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddPageCommand()
         {

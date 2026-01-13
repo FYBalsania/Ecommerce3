@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -17,27 +18,26 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; } 
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private DeliveryWindow()
     {
     }
 
     public DeliveryWindow(string name, DeliveryUnit deliveryUnit, uint minValue, uint? maxValue, int sortOrder,
-        bool isActive, int createdBy, string createdByIp)
+        bool isActive, int createdBy, IPAddress createdByIp)
     {
         ValidateName(name);
         ValidateUnit(deliveryUnit.ToString());
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.DeliveryWindowErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.DeliveryWindowErrors.CreatedByIpRequired, DomainErrors.DeliveryWindowErrors.CreatedByIpTooLong);
         if (maxValue <= minValue) throw new DomainException(DomainErrors.DeliveryWindowErrors.MaxValueGreaterThanMinValue);
         
         Name = name;
@@ -68,12 +68,11 @@ public sealed class DeliveryWindow : Entity, ICreatable, IUpdatable, IDeletable
     }
     
     public void Update(string name, DeliveryUnit deliveryUnit, uint minValue, uint? maxValue, bool isActive, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidateName(name);
         ValidateUnit(deliveryUnit.ToString());
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.DeliveryWindowErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.DeliveryWindowErrors.UpdatedByIpRequired, DomainErrors.DeliveryWindowErrors.UpdatedByIpTooLong);
         
         if (Name == name && Unit == deliveryUnit && MinValue == minValue && MaxValue == maxValue && IsActive == isActive && SortOrder == sortOrder)
             return;

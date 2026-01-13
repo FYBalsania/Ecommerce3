@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ProductGroup;
 
 namespace Ecommerce3.Admin.ViewModels.ProductGroup;
@@ -17,7 +18,7 @@ public record AddProductGroupAttributeViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Value is required.")]
     public required IDictionary<int, decimal> Values { get; init; }
 
-    public AddProductGroupProductAttributeCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddProductGroupProductAttributeCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddProductGroupProductAttributeCommand
         {

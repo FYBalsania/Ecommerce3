@@ -151,32 +151,11 @@ public static partial class DomainErrors
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(Product)}.{nameof(Product.CreatedBy)}", "Created by is invalid.");
 
-        public static readonly DomainError CreatedByIpRequired =
-            new($"{nameof(Product)}.{nameof(Product.CreatedByIp)}", "Created by IP address is required.");
-
-        public static readonly DomainError CreatedByIpTooLong =
-            new($"{nameof(Product)}.{nameof(Product.CreatedByIp)}",
-                $"Created by IP address cannot exceed {ICreatable.CreatedByIpMaxLength} characters.");
-
         public static readonly DomainError InvalidUpdatedBy =
             new($"{nameof(Product)}.{nameof(Product.UpdatedBy)}", "Updated by is invalid.");
 
-        public static readonly DomainError UpdatedByIpRequired =
-            new($"{nameof(Product)}.{nameof(Product.UpdatedByIp)}", "Updated by IP address is required.");
-
-        public static readonly DomainError UpdatedByIpTooLong =
-            new($"{nameof(Product)}.{nameof(Product.UpdatedByIp)}",
-                $"Updated by IP address cannot exceed {IUpdatable.UpdatedByIpMaxLength} characters.");
-
         public static readonly DomainError InvalidDeletedBy =
             new($"{nameof(Product)}.{nameof(Product.DeletedBy)}", "Deleted by is invalid.");
-
-        public static readonly DomainError DeletedByIpRequired =
-            new($"{nameof(Product)}.{nameof(Product.DeletedByIp)}", "Deleted by IP address is required.");
-
-        public static readonly DomainError DeletedByIpTooLong =
-            new($"{nameof(Product)}.{nameof(Product.DeletedByIp)}",
-                $"Updated by IP address cannot exceed {IDeletable.DeletedByIpMaxLength} characters.");
 
         public static readonly DomainError InvalidAttributesCount =
             new($"{nameof(Product)}.{nameof(Product.Attributes)}",

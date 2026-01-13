@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.Brand;
 
 public record AddBrandCommand
@@ -18,5 +20,5 @@ public record AddBrandCommand
     public int SortOrder { get; init; }
     public int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public required string CreatedByIp { get; init; }
+    public required IPAddress CreatedByIp { get; init; }
 }

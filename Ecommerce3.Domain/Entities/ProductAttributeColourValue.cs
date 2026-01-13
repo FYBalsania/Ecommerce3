@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -15,12 +16,13 @@ public sealed class ProductAttributeColourValue : ProductAttributeValue
 
     public ProductAttributeColourValue(string value, string slug, string display, string breadcrumb, string? hexCode,
         string colourFamily, string? colourFamilyHexCode, int sortOrder, int createdBy, DateTime createdAt,
-        string createdByIp)
+        IPAddress createdByIp)
         : base(value, slug, display, breadcrumb, sortOrder, createdBy, createdAt, createdByIp)
     {
         if (hexCode is not null) ValidateHexCode(hexCode);
         ValidateColourFamily(colourFamily);
         if (colourFamilyHexCode is not null) ValidateColourFamilyHexCode(colourFamilyHexCode);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductAttributeColourValueErrors.InvalidCreatedBy);
 
         HexCode = hexCode;
         ColourFamily = colourFamily;
@@ -29,11 +31,12 @@ public sealed class ProductAttributeColourValue : ProductAttributeValue
 
     internal bool Update(string value, string slug, string display, string breadcrumb, int sortOrder,
         string? hexCode, string colourFamily, string? colourFamilyHexCode, int updatedBy, DateTime updatedAt,
-        string updatedByIp)
+        IPAddress updatedByIp)
     {
         if (hexCode is not null) ValidateHexCode(hexCode);
         ValidateColourFamily(colourFamily);
         if (colourFamilyHexCode is not null) ValidateColourFamilyHexCode(colourFamilyHexCode);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductAttributeColourValueErrors.InvalidUpdatedBy);
 
         if (!base.Update(value, slug, display, breadcrumb, sortOrder, updatedBy, updatedAt, updatedByIp) &&
             HexCode == hexCode && ColourFamily == colourFamily && ColourFamilyHexCode == colourFamilyHexCode)

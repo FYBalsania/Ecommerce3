@@ -63,12 +63,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     IsEmailVerified = table.Column<bool>(type: "boolean", nullable: false),
                     PasswordResetToken = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true),
                     PasswordResetTokenExpiry = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
                     History = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
@@ -162,34 +162,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Slug = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bank", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bank_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Bank_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Bank_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Bank_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Bank_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Bank_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -211,34 +211,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     FullDescription = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Brand", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Brand_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Brand_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Brand_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Brand_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Brand_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Brand_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -263,34 +263,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     FullDescription = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Category_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Category_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Category_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Category_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Category_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Category_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -361,34 +361,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     NormalizedMaxDays = table.Column<decimal>(type: "numeric(18,1)", nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeliveryWindow", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DeliveryWindow_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_DeliveryWindow_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DeliveryWindow_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_DeliveryWindow_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DeliveryWindow_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_DeliveryWindow_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -411,34 +411,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     MaxDiscountAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Discount", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Discount_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Discount_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Discount_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Discount_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Discount_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Discount_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -455,34 +455,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Slug = table.Column<string>(type: "citext", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ImageType", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImageType_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ImageType_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ImageType_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ImageType_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ImageType_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ImageType_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -496,34 +496,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Code = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostCode", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostCode_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_PostCode_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PostCode_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_PostCode_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PostCode_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_PostCode_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -541,34 +541,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Breadcrumb = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     DataType = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
                     SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductAttribute", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductAttribute_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductAttribute_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductAttribute_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -590,34 +590,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     FullDescription = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductGroup", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductGroup_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductGroup_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroup_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductGroup_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroup_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductGroup_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -635,34 +635,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     BaseId = table.Column<int>(type: "integer", nullable: true),
                     ConversionFactor = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UnitOfMeasure", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_UnitOfMeasure_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_UnitOfMeasure_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_UnitOfMeasure_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -685,34 +685,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     SubTotal = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cart", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cart_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Cart_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cart_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Cart_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cart_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Cart_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -741,12 +741,12 @@ namespace Ecommerce3.Infrastructure.Migrations
                     StateOrProvince = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
                     PostalCode = table.Column<string>(type: "citext", maxLength: 16, nullable: false),
                     Landmark = table.Column<string>(type: "citext", maxLength: 512, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
                     History = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
@@ -824,34 +824,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     ColourFamily = table.Column<string>(type: "citext", maxLength: 64, nullable: true),
                     ColourFamilyHexCode = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
                     SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductAttributeValue", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductAttributeValue_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductAttributeValue_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttributeValue_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductAttributeValue_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductAttributeValue_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductAttributeValue_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -910,34 +910,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     SortOrder = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
                     CountryOfOriginId = table.Column<int>(type: "integer", nullable: false),
                     facets = table.Column<List<string>>(type: "text[]", nullable: false, defaultValueSql: "'{}'"),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Product_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Product_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Product_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -992,17 +992,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Status = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     PaymentStatus = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     ShippingStatus = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    created_by_customer_id = table.Column<int>(type: "integer", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by_customer_id = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
                     CreatedByUserId = table.Column<int>(type: "integer", nullable: true),
-                    CreatedByCustomerId = table.Column<int>(type: "integer", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     UpdatedByUserId = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedByCustomerId = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     BillingAddressReference = table.Column<string>(type: "jsonb", nullable: false),
                     CustomerReference = table.Column<string>(type: "jsonb", nullable: false),
                     ShippingAddressReference = table.Column<string>(type: "jsonb", nullable: false)
@@ -1017,14 +1017,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_SalesOrder_AppUser_UpdatedByUserId",
+                        column: x => x.UpdatedByUserId,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_AppUser_UpdatedByUserId",
-                        column: x => x.UpdatedByUserId,
+                        name: "FK_SalesOrder_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1047,20 +1047,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_Customer_CreatedByCustomerId",
-                        column: x => x.CreatedByCustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_SalesOrder_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrder_Customer_UpdatedByCustomerId",
-                        column: x => x.UpdatedByCustomerId,
+                        name: "FK_SalesOrder_Customer_created_by_customer_id",
+                        column: x => x.created_by_customer_id,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SalesOrder_Customer_updated_by_customer_id",
+                        column: x => x.updated_by_customer_id,
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1077,34 +1077,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     ProductAttributeSortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     ProductAttributeValueId = table.Column<int>(type: "integer", nullable: false),
                     ProductAttributeValueSortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductGroupProductAttribute", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductGroupProductAttribute_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductGroupProductAttribute_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroupProductAttribute_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductGroupProductAttribute_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductGroupProductAttribute_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductGroupProductAttribute_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1140,34 +1140,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     SubTotal = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CartLine", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartLine_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_CartLine_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CartLine_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_CartLine_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CartLine_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_CartLine_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1193,25 +1193,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DiscountId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DiscountProduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DiscountProduct_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_DiscountProduct_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DiscountProduct_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_DiscountProduct_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1248,34 +1248,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: true),
                     ProductId = table.Column<int>(type: "integer", nullable: true),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_KVPListItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_KVPListItem_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_KVPListItem_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_KVPListItem_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_KVPListItem_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_KVPListItem_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_KVPListItem_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1332,34 +1332,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     ProductGroupId = table.Column<int>(type: "integer", nullable: true),
                     BankId = table.Column<int>(type: "integer", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Page", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Page_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Page_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Page_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Page_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Page_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Page_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1405,34 +1405,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     IsPrimary = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductCategory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductCategory_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductCategory_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductCategory_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductCategory_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductCategory_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductCategory_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1461,34 +1461,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     ProductAttributeSortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     ProductAttributeValueId = table.Column<int>(type: "integer", nullable: false),
                     ProductAttributeValueSortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductProductAttribute", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductProductAttribute_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductProductAttribute_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductProductAttribute_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductProductAttribute_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductProductAttribute_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductProductAttribute_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1528,15 +1528,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Approver = table.Column<int>(type: "integer", nullable: true),
                     ApprovedOn = table.Column<DateTime>(type: "timestamp", nullable: true),
                     ApproverIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1554,20 +1554,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductQnA_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductQnA_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductQnA_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductQnA_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1592,15 +1592,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Approver = table.Column<int>(type: "integer", nullable: true),
                     ApprovedOn = table.Column<DateTime>(type: "timestamp", nullable: true),
                     ApproverIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1612,20 +1612,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_ProductReview_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_ProductReview_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductReview_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_ProductReview_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1648,34 +1648,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Text = table.Column<string>(type: "citext", nullable: false),
                     SortOrder = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: true),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TextListItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TextListItem_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_TextListItem_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TextListItem_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_TextListItem_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TextListItem_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_TextListItem_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1699,17 +1699,17 @@ namespace Ecommerce3.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    created_by_customer_id = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by_customer_id = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
                     CreatedByUserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedByCustomerId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
                     UpdatedByUserId = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedByCustomerId = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     ProductReference = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
@@ -1722,14 +1722,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_SalesOrderLine_AppUser_UpdatedByUserId",
+                        column: x => x.UpdatedByUserId,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_AppUser_UpdatedByUserId",
-                        column: x => x.UpdatedByUserId,
+                        name: "FK_SalesOrderLine_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1740,14 +1740,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_Customer_CreatedByCustomerId",
-                        column: x => x.CreatedByCustomerId,
+                        name: "FK_SalesOrderLine_Customer_created_by_customer_id",
+                        column: x => x.created_by_customer_id,
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_Customer_UpdatedByCustomerId",
-                        column: x => x.UpdatedByCustomerId,
+                        name: "FK_SalesOrderLine_Customer_updated_by_customer_id",
+                        column: x => x.updated_by_customer_id,
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1789,34 +1789,34 @@ namespace Ecommerce3.Infrastructure.Migrations
                     PageId = table.Column<int>(type: "integer", nullable: true),
                     BankId = table.Column<int>(type: "integer", nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    UpdatedBy = table.Column<int>(type: "integer", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UpdatedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedByIp = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                    created_by = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
+                    updated_by = table.Column<int>(type: "integer", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_by_ip = table.Column<IPAddress>(type: "inet", nullable: true),
+                    deleted_by = table.Column<int>(type: "integer", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_by_ip = table.Column<IPAddress>(type: "inet", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Image", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Image_AppUser_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Image_AppUser_created_by",
+                        column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Image_AppUser_DeletedBy",
-                        column: x => x.DeletedBy,
+                        name: "FK_Image_AppUser_deleted_by",
+                        column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Image_AppUser_UpdatedBy",
-                        column: x => x.UpdatedBy,
+                        name: "FK_Image_AppUser_updated_by",
+                        column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1891,24 +1891,24 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bank_CreatedAt",
+                name: "idx_bank_created_at",
                 table: "Bank",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bank_CreatedBy",
+                name: "idx_bank_deleted_at",
                 table: "Bank",
-                column: "CreatedBy");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bank_DeletedAt",
+                name: "IX_Bank_created_by",
                 table: "Bank",
-                column: "DeletedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bank_DeletedBy",
+                name: "IX_Bank_deleted_by",
                 table: "Bank",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bank_IsActive",
@@ -1921,9 +1921,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bank_UpdatedBy",
+                name: "IX_Bank_updated_by",
                 table: "Bank",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_Bank_Name",
@@ -1936,6 +1936,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 table: "Bank",
                 column: "Slug",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_brand_created_at",
+                table: "Brand",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_brand_deleted_at",
+                table: "Brand",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Brand_AnchorText",
@@ -1959,24 +1969,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Brand_CreatedAt",
+                name: "IX_Brand_created_by",
                 table: "Brand",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Brand_CreatedBy",
+                name: "IX_Brand_deleted_by",
                 table: "Brand",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Brand_DeletedAt",
-                table: "Brand",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Brand_DeletedBy",
-                table: "Brand",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Brand_Display",
@@ -1996,9 +1996,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Brand_UpdatedBy",
+                name: "IX_Brand_updated_by",
                 table: "Brand",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_Brand_Name",
@@ -2013,14 +2013,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_CreatedAt",
+                name: "idx_cart_created_at",
                 table: "Cart",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_CreatedBy",
+                name: "idx_cart_deleted_at",
                 table: "Cart",
-                column: "CreatedBy");
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_created_by",
+                table: "Cart",
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cart_CustomerId",
@@ -2028,14 +2033,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_DeletedAt",
+                name: "IX_Cart_deleted_by",
                 table: "Cart",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cart_DeletedBy",
-                table: "Cart",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cart_SessionId",
@@ -2048,9 +2048,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Total");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_UpdatedBy",
+                name: "IX_Cart_updated_by",
                 table: "Cart",
-                column: "UpdatedBy");
+                column: "updated_by");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_cart_line_created_at",
+                table: "CartLine",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_cart_line_deleted_at",
+                table: "CartLine",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartLine_CartId",
@@ -2058,24 +2068,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartLine_CreatedAt",
+                name: "IX_CartLine_created_by",
                 table: "CartLine",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartLine_CreatedBy",
+                name: "IX_CartLine_deleted_by",
                 table: "CartLine",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartLine_DeletedAt",
-                table: "CartLine",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartLine_DeletedBy",
-                table: "CartLine",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartLine_ProductId",
@@ -2088,9 +2088,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Total");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartLine_UpdatedBy",
+                name: "IX_CartLine_updated_by",
                 table: "CartLine",
-                column: "UpdatedBy");
+                column: "updated_by");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_category_created_at",
+                table: "Category",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_category_deleted_at",
+                table: "Category",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Category_AnchorText",
@@ -2114,24 +2124,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_CreatedAt",
+                name: "IX_Category_created_by",
                 table: "Category",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_CreatedBy",
+                name: "IX_Category_deleted_by",
                 table: "Category",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_DeletedAt",
-                table: "Category",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_DeletedBy",
-                table: "Category",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Category_Display",
@@ -2169,9 +2169,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_UpdatedBy",
+                name: "IX_Category_updated_by",
                 table: "Category",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_Category_Name",
@@ -2227,21 +2227,21 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "updated_by");
 
             migrationBuilder.CreateIndex(
+                name: "idx_customer_created_at",
+                table: "Customer",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_customer_deleted_at",
+                table: "Customer",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Customer_CompanyName",
                 table: "Customer",
                 column: "CompanyName")
                 .Annotation("Npgsql:IndexMethod", "gin")
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customer_CreatedAt",
-                table: "Customer",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customer_DeletedAt",
-                table: "Customer",
-                column: "DeletedAt");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_FirstName",
@@ -2276,6 +2276,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
+                name: "idx_customer_address_created_at",
+                table: "CustomerAddress",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_customer_address_deleted_at",
+                table: "CustomerAddress",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_AddressLine1",
                 table: "CustomerAddress",
                 column: "AddressLine1")
@@ -2304,19 +2314,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerAddress_CreatedAt",
-                table: "CustomerAddress",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_CustomerId",
                 table: "CustomerAddress",
                 column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomerAddress_DeletedAt",
-                table: "CustomerAddress",
-                column: "DeletedAt");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerAddress_FullName",
@@ -2354,24 +2354,24 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryWindow_CreatedAt",
+                name: "idx_delivery_window_created_at",
                 table: "DeliveryWindow",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryWindow_CreatedBy",
+                name: "idx_delivery_window_deleted_at",
                 table: "DeliveryWindow",
-                column: "CreatedBy");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryWindow_DeletedAt",
+                name: "IX_DeliveryWindow_created_by",
                 table: "DeliveryWindow",
-                column: "DeletedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryWindow_DeletedBy",
+                name: "IX_DeliveryWindow_deleted_by",
                 table: "DeliveryWindow",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeliveryWindow_Name_SortOrder_IsActive",
@@ -2379,9 +2379,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 columns: new[] { "Name", "SortOrder", "IsActive" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryWindow_UpdatedBy",
+                name: "IX_DeliveryWindow_updated_by",
                 table: "DeliveryWindow",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_DeliveryWindow_Name",
@@ -2390,24 +2390,24 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Discount_CreatedAt",
+                name: "idx_discount_created_at",
                 table: "Discount",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Discount_CreatedBy",
+                name: "idx_discount_deleted_at",
                 table: "Discount",
-                column: "CreatedBy");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Discount_DeletedAt",
+                name: "IX_Discount_created_by",
                 table: "Discount",
-                column: "DeletedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Discount_DeletedBy",
+                name: "IX_Discount_deleted_by",
                 table: "Discount",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Discount_Discriminator",
@@ -2430,9 +2430,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "StartAt");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Discount_UpdatedBy",
+                name: "IX_Discount_updated_by",
                 table: "Discount",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_Discount_Code",
@@ -2447,14 +2447,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiscountProduct_CreatedBy",
+                name: "IX_DiscountProduct_created_by",
                 table: "DiscountProduct",
-                column: "CreatedBy");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiscountProduct_DeletedBy",
+                name: "IX_DiscountProduct_deleted_by",
                 table: "DiscountProduct",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiscountProduct_DiscountId",
@@ -2465,6 +2465,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_DiscountProduct_ProductId",
                 table: "DiscountProduct",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_image_created_at",
+                table: "Image",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_image_deleted_at",
+                table: "Image",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_AltText",
@@ -2489,24 +2499,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_CreatedAt",
+                name: "IX_Image_created_by",
                 table: "Image",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_CreatedBy",
+                name: "IX_Image_deleted_by",
                 table: "Image",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Image_DeletedAt",
-                table: "Image",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Image_DeletedBy",
-                table: "Image",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_FileName",
@@ -2555,29 +2555,29 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_UpdatedBy",
+                name: "IX_Image_updated_by",
                 table: "Image",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_CreatedAt",
+                name: "idx_image_type_created_at",
                 table: "ImageType",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_CreatedBy",
+                name: "idx_image_type_deleted_at",
                 table: "ImageType",
-                column: "CreatedBy");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_DeletedAt",
+                name: "IX_ImageType_created_by",
                 table: "ImageType",
-                column: "DeletedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_DeletedBy",
+                name: "IX_ImageType_deleted_by",
                 table: "ImageType",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImageType_Entity",
@@ -2604,9 +2604,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageType_UpdatedBy",
+                name: "IX_ImageType_updated_by",
                 table: "ImageType",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ImageType_Entity_Name",
@@ -2621,34 +2621,49 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "idx_kvp_list_item_created_at",
+                table: "KVPListItem",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_kvp_list_item_deleted_at",
+                table: "KVPListItem",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoryKVPListItem_CategoryId_Type",
                 table: "KVPListItem",
                 columns: new[] { "CategoryId", "Type" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_KVPListItem_CreatedBy",
+                name: "IX_KVPListItem_created_by",
                 table: "KVPListItem",
-                column: "CreatedBy");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KVPListItem_DeletedAt",
+                name: "IX_KVPListItem_deleted_by",
                 table: "KVPListItem",
-                column: "DeletedAt");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KVPListItem_DeletedBy",
+                name: "IX_KVPListItem_updated_by",
                 table: "KVPListItem",
-                column: "DeletedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_KVPListItem_UpdatedBy",
-                table: "KVPListItem",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductKVPListItem_ProductId_Type",
                 table: "KVPListItem",
                 columns: new[] { "ProductId", "Type" });
+
+            migrationBuilder.CreateIndex(
+                name: "idx_page_created_at",
+                table: "Page",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_page_deleted_at",
+                table: "Page",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Page_BankId",
@@ -2676,24 +2691,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Page_CreatedAt",
+                name: "IX_Page_created_by",
                 table: "Page",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Page_CreatedBy",
+                name: "IX_Page_deleted_by",
                 table: "Page",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Page_DeletedAt",
-                table: "Page",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Page_DeletedBy",
-                table: "Page",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Page_H1",
@@ -2737,41 +2742,41 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Page_UpdatedBy",
+                name: "IX_Page_updated_by",
                 table: "Page",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductGroupPage_ProductGroupId_DeletedAt",
                 table: "Page",
-                columns: new[] { "ProductGroupId", "DeletedAt" },
+                columns: new[] { "ProductGroupId", "deleted_at" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductPage_ProductId_DeletedAt",
                 table: "Page",
-                columns: new[] { "ProductId", "DeletedAt" },
+                columns: new[] { "ProductId", "deleted_at" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCode_CreatedAt",
+                name: "idx_postcode_created_at",
                 table: "PostCode",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCode_CreatedBy",
+                name: "idx_postcode_deleted_at",
                 table: "PostCode",
-                column: "CreatedBy");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCode_DeletedAt",
+                name: "IX_PostCode_created_by",
                 table: "PostCode",
-                column: "DeletedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCode_DeletedBy",
+                name: "IX_PostCode_deleted_by",
                 table: "PostCode",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostCode_IsActive",
@@ -2779,15 +2784,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "IsActive");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostCode_UpdatedBy",
+                name: "IX_PostCode_updated_by",
                 table: "PostCode",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_PostCode_Code",
                 table: "PostCode",
                 column: "Code",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_created_at",
+                table: "Product",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_deleted_at",
+                table: "Product",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_AnchorText",
@@ -2821,24 +2836,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "CountryOfOriginId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_CreatedAt",
+                name: "IX_Product_created_by",
                 table: "Product",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_CreatedBy",
+                name: "IX_Product_deleted_by",
                 table: "Product",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_DeletedAt",
-                table: "Product",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_DeletedBy",
-                table: "Product",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_DeliveryWindowId",
@@ -2926,9 +2931,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UPC");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_UpdatedBy",
+                name: "IX_Product_updated_by",
                 table: "Product",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_Product_Name",
@@ -2949,6 +2954,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "idx_product_attribute_created_at",
+                table: "ProductAttribute",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_attribute_deleted_at",
+                table: "ProductAttribute",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttribute_Breadcrumb",
                 table: "ProductAttribute",
                 column: "Breadcrumb")
@@ -2956,24 +2971,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttribute_CreatedAt",
+                name: "IX_ProductAttribute_created_by",
                 table: "ProductAttribute",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttribute_CreatedBy",
+                name: "IX_ProductAttribute_deleted_by",
                 table: "ProductAttribute",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductAttribute_DeletedAt",
-                table: "ProductAttribute",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductAttribute_DeletedBy",
-                table: "ProductAttribute",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttribute_Display",
@@ -2988,9 +2993,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttribute_UpdatedBy",
+                name: "IX_ProductAttribute_updated_by",
                 table: "ProductAttribute",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductAttribute_Name",
@@ -3005,10 +3010,20 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "idx_product_attribute_value_created_at",
+                table: "ProductAttributeValue",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_attribute_value_deleted_at",
+                table: "ProductAttributeValue",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeBooleanValue_ProductAttributeId_SortOrder_BooleanValue",
                 table: "ProductAttributeValue",
                 columns: new[] { "ProductAttributeId", "SortOrder", "BooleanValue" },
-                filter: "(\"DeletedAt\") IS NULL");
+                filter: "(\"deleted_at\") IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeColourValue_ColourFamily",
@@ -3021,13 +3036,13 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "IX_ProductAttributeDateOnlyValue_ProductAttributeId_SortOrder_DateOnlyValue",
                 table: "ProductAttributeValue",
                 columns: new[] { "ProductAttributeId", "SortOrder", "DateOnlyValue" },
-                filter: "(\"DeletedAt\") IS NULL");
+                filter: "(\"deleted_at\") IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeDecimalValue_ProductAttributeId_SortOrder_DecimalValue",
                 table: "ProductAttributeValue",
                 columns: new[] { "ProductAttributeId", "SortOrder", "DecimalValue" },
-                filter: "(\"DeletedAt\") IS NULL");
+                filter: "(\"deleted_at\") IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_Breadcrumb",
@@ -3037,14 +3052,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttributeValue_CreatedBy",
+                name: "IX_ProductAttributeValue_created_by",
                 table: "ProductAttributeValue",
-                column: "CreatedBy");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttributeValue_DeletedBy",
+                name: "IX_ProductAttributeValue_deleted_by",
                 table: "ProductAttributeValue",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_Display",
@@ -3059,9 +3074,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 columns: new[] { "ProductAttributeId", "SortOrder", "Value" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttributeValue_UpdatedBy",
+                name: "IX_ProductAttributeValue_updated_by",
                 table: "ProductAttributeValue",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductAttributeValue_ProductAttributeId_Slug",
@@ -3076,29 +3091,29 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "idx_product_category_created_at",
+                table: "ProductCategory",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_category_deleted_at",
+                table: "ProductCategory",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductCategory_CategoryId",
                 table: "ProductCategory",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_CreatedAt",
+                name: "IX_ProductCategory_created_by",
                 table: "ProductCategory",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_CreatedBy",
+                name: "IX_ProductCategory_deleted_by",
                 table: "ProductCategory",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_DeletedAt",
-                table: "ProductCategory",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_DeletedBy",
-                table: "ProductCategory",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductCategory_IsPrimary",
@@ -3106,15 +3121,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "IsPrimary");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_UpdatedBy",
+                name: "IX_ProductCategory_updated_by",
                 table: "ProductCategory",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductCategory_ProductId_CategoryId_DeletedAt",
                 table: "ProductCategory",
-                columns: new[] { "ProductId", "CategoryId", "DeletedAt" },
+                columns: new[] { "ProductId", "CategoryId", "deleted_at" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_group_created_at",
+                table: "ProductGroup",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_group_deleted_at",
+                table: "ProductGroup",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductGroup_AnchorText",
@@ -3138,24 +3163,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroup_CreatedAt",
+                name: "IX_ProductGroup_created_by",
                 table: "ProductGroup",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroup_CreatedBy",
+                name: "IX_ProductGroup_deleted_by",
                 table: "ProductGroup",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductGroup_DeletedAt",
-                table: "ProductGroup",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductGroup_DeletedBy",
-                table: "ProductGroup",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductGroup_Display",
@@ -3176,9 +3191,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroup_UpdatedBy",
+                name: "IX_ProductGroup_updated_by",
                 table: "ProductGroup",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductGroup_Name",
@@ -3193,24 +3208,24 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroupProductAttribute_CreatedAt",
+                name: "idx_product_group_product_attribute_created_at",
                 table: "ProductGroupProductAttribute",
-                column: "CreatedAt");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroupProductAttribute_CreatedBy",
+                name: "idx_product_group_product_attribute_deleted_at",
                 table: "ProductGroupProductAttribute",
-                column: "CreatedBy");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroupProductAttribute_DeletedAt",
+                name: "IX_ProductGroupProductAttribute_created_by",
                 table: "ProductGroupProductAttribute",
-                column: "DeletedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroupProductAttribute_DeletedBy",
+                name: "IX_ProductGroupProductAttribute_deleted_by",
                 table: "ProductGroupProductAttribute",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductGroupProductAttribute_ProductAttributeId",
@@ -3223,9 +3238,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "ProductAttributeValueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductGroupProductAttribute_UpdatedBy",
+                name: "IX_ProductGroupProductAttribute_updated_by",
                 table: "ProductGroupProductAttribute",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductGroupProductAttribute_ProductGroupId_ProductAttributeId_ProductAttributeValueId",
@@ -3234,19 +3249,24 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductProductAttribute_CreatedBy",
+                name: "idx_product_product_attribute_created_at",
                 table: "ProductProductAttribute",
-                column: "CreatedBy");
+                column: "created_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductProductAttribute_DeletedAt",
+                name: "idx_product_product_attribute_deleted_at",
                 table: "ProductProductAttribute",
-                column: "DeletedAt");
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductProductAttribute_DeletedBy",
+                name: "IX_ProductProductAttribute_created_by",
                 table: "ProductProductAttribute",
-                column: "DeletedBy");
+                column: "created_by");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductProductAttribute_deleted_by",
+                table: "ProductProductAttribute",
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductProductAttribute_ProductAttributeId",
@@ -3259,15 +3279,25 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "ProductAttributeValueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductProductAttribute_UpdatedBy",
+                name: "IX_ProductProductAttribute_updated_by",
                 table: "ProductProductAttribute",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductProductAttribute_ProductId_ProductAttributeId_ProductAttributeValueId_DeletedAt",
                 table: "ProductProductAttribute",
-                columns: new[] { "ProductId", "ProductAttributeId", "ProductAttributeValueId", "DeletedAt" },
+                columns: new[] { "ProductId", "ProductAttributeId", "ProductAttributeValueId", "deleted_at" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_qna_created_at",
+                table: "ProductQnA",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_qna_deleted_at",
+                table: "ProductQnA",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductQnA_Answer",
@@ -3297,24 +3327,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Approver");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductQnA_CreatedAt",
+                name: "IX_ProductQnA_created_by",
                 table: "ProductQnA",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductQnA_CreatedBy",
+                name: "IX_ProductQnA_deleted_by",
                 table: "ProductQnA",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductQnA_DeletedAt",
-                table: "ProductQnA",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductQnA_DeletedBy",
-                table: "ProductQnA",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductQnA_ProductId",
@@ -3327,9 +3347,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductQnA_UpdatedBy",
+                name: "IX_ProductQnA_updated_by",
                 table: "ProductQnA",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_ProductQnA_Question",
@@ -3337,6 +3357,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Question")
                 .Annotation("Npgsql:IndexMethod", "gin")
                 .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_review_created_at",
+                table: "ProductReview",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_product_review_deleted_at",
+                table: "ProductReview",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductReview_ApprovedOn",
@@ -3349,24 +3379,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Approver");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductReview_CreatedAt",
+                name: "IX_ProductReview_created_by",
                 table: "ProductReview",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductReview_CreatedBy",
+                name: "IX_ProductReview_deleted_by",
                 table: "ProductReview",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductReview_DeletedAt",
-                table: "ProductReview",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductReview_DeletedBy",
-                table: "ProductReview",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductReview_ProductId",
@@ -3391,9 +3411,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductReview_UpdatedBy",
+                name: "IX_ProductReview_updated_by",
                 table: "ProductReview",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -3407,6 +3427,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "idx_sales_order_created_at",
+                table: "SalesOrder",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_sales_order_deleted_at",
+                table: "SalesOrder",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SalesOrder_BillingCustomerAddressId",
                 table: "SalesOrder",
                 column: "BillingCustomerAddressId");
@@ -3417,14 +3447,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrder_CreatedAt",
+                name: "IX_SalesOrder_created_by_customer_id",
                 table: "SalesOrder",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SalesOrder_CreatedByCustomerId",
-                table: "SalesOrder",
-                column: "CreatedByCustomerId");
+                column: "created_by_customer_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesOrder_CreatedByUserId",
@@ -3443,14 +3468,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 descending: new bool[0]);
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrder_DeletedAt",
+                name: "IX_SalesOrder_deleted_by",
                 table: "SalesOrder",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SalesOrder_DeletedBy",
-                table: "SalesOrder",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesOrder_ShippingCustomerAddressId",
@@ -3458,9 +3478,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "ShippingCustomerAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrder_UpdatedByCustomerId",
+                name: "IX_SalesOrder_updated_by_customer_id",
                 table: "SalesOrder",
-                column: "UpdatedByCustomerId");
+                column: "updated_by_customer_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesOrder_UpdatedByUserId",
@@ -3494,19 +3514,24 @@ namespace Ecommerce3.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "idx_sales_order_line_created_at",
+                table: "SalesOrderLine",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_sales_order_line_deleted_at",
+                table: "SalesOrderLine",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SalesOrderLine_CartLineId",
                 table: "SalesOrderLine",
                 column: "CartLineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrderLine_CreatedAt",
+                name: "IX_SalesOrderLine_created_by_customer_id",
                 table: "SalesOrderLine",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SalesOrderLine_CreatedByCustomerId",
-                table: "SalesOrderLine",
-                column: "CreatedByCustomerId");
+                column: "created_by_customer_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesOrderLine_CreatedByUserId",
@@ -3514,14 +3539,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "CreatedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrderLine_DeletedAt",
+                name: "IX_SalesOrderLine_deleted_by",
                 table: "SalesOrderLine",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SalesOrderLine_DeletedBy",
-                table: "SalesOrderLine",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesOrderLine_ProductId",
@@ -3539,9 +3559,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Total");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrderLine_UpdatedByCustomerId",
+                name: "IX_SalesOrderLine_updated_by_customer_id",
                 table: "SalesOrderLine",
-                column: "UpdatedByCustomerId");
+                column: "updated_by_customer_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesOrderLine_UpdatedByUserId",
@@ -3549,29 +3569,29 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "UpdatedByUserId");
 
             migrationBuilder.CreateIndex(
+                name: "idx_text_list_item_created_at",
+                table: "TextListItem",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_text_list_item_deleted_at",
+                table: "TextListItem",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductId_Type_SortOrder",
                 table: "TextListItem",
                 columns: new[] { "ProductId", "Type", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TextListItem_CreatedAt",
+                name: "IX_TextListItem_created_by",
                 table: "TextListItem",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TextListItem_CreatedBy",
+                name: "IX_TextListItem_deleted_by",
                 table: "TextListItem",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TextListItem_DeletedAt",
-                table: "TextListItem",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TextListItem_DeletedBy",
-                table: "TextListItem",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TextListItem_Text",
@@ -3586,9 +3606,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "Type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TextListItem_UpdatedBy",
+                name: "IX_TextListItem_updated_by",
                 table: "TextListItem",
-                column: "UpdatedBy");
+                column: "updated_by");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_unit_of_measure_created_at",
+                table: "UnitOfMeasure",
+                column: "created_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_unit_of_measure_deleted_at",
+                table: "UnitOfMeasure",
+                column: "deleted_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UnitOfMeasure_BaseId",
@@ -3596,24 +3626,14 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "BaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_CreatedAt",
+                name: "IX_UnitOfMeasure_created_by",
                 table: "UnitOfMeasure",
-                column: "CreatedAt");
+                column: "created_by");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_CreatedBy",
+                name: "IX_UnitOfMeasure_deleted_by",
                 table: "UnitOfMeasure",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_DeletedAt",
-                table: "UnitOfMeasure",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_DeletedBy",
-                table: "UnitOfMeasure",
-                column: "DeletedBy");
+                column: "deleted_by");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UnitOfMeasure_IsActive",
@@ -3621,9 +3641,9 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "IsActive");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_UpdatedBy",
+                name: "IX_UnitOfMeasure_updated_by",
                 table: "UnitOfMeasure",
-                column: "UpdatedBy");
+                column: "updated_by");
 
             migrationBuilder.CreateIndex(
                 name: "UK_UnitOfMeasure_Code",

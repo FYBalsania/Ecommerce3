@@ -52,7 +52,7 @@ public class CountriesController(
             return View(model);
         }
 
-        //var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        //var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
         const int userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
@@ -109,7 +109,7 @@ public class CountriesController(
             return View(model);
         }
 
-        //var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        //var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
         var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 

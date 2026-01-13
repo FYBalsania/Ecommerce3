@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Bank;
 
 namespace Ecommerce3.Admin.ViewModels.Bank;
@@ -42,7 +43,7 @@ public class AddBankViewModel
     [Display(Name = nameof(H1))]
     public string H1 { get; set; }
     
-    public AddBankCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddBankCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddBankCommand()
         {

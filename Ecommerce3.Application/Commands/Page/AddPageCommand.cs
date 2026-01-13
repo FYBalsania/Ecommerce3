@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Application.Commands.Page;
@@ -34,5 +35,5 @@ public record AddPageCommand
     public string? FooterScripts { get; init; }
     public int CreatedBy { get; init; }
     public DateTime CreatedAt { get; init; }
-    public required string CreatedByIp { get; init; }
+    public required IPAddress CreatedByIp { get; init; }
 }

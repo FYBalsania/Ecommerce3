@@ -1,11 +1,11 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdatable, IDeletable,
-    IKVPListItems<ProductKVPListItem>
+public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<ProductKVPListItem>, ICreatable, IUpdatable, IDeletable
 {
     public static readonly int SKUMaxLength = 16;
     public static readonly int GTINMaxLength = 16;
@@ -79,15 +79,15 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     public int CreatedBy { get; }
     public IAppUser? CreatedByUser { get; }
     public DateTime CreatedAt { get; }
-    public string CreatedByIp { get; }
+    public IPAddress CreatedByIp { get; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; set; }
     public IAppUser? DeletedByUser { get; }
     public DateTime? DeletedAt { get; set; }
-    public string? DeletedByIp { get; set; }
+    public IPAddress? DeletedByIp { get; set; }
 
     public IReadOnlyList<ProductCategory> Categories => _categories;
     public IReadOnlyList<ProductTextListItem> TextListItems => _textListItems;
@@ -113,7 +113,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew, bool isBestSeller,
         bool isReturnable, ProductStatus status, string? redirectUrl, int countryOfOriginId, decimal sortOrder,
         string? h1, string metaTitle,
-        string? metaDescription, string? metaKeywords, int createdBy, DateTime createdAt, string createdByIp)
+        string? metaDescription, string? metaKeywords, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         //SKU.
         ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
@@ -192,11 +192,6 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         ValidatePositiveNumber(countryOfOriginId, DomainErrors.ProductErrors.InvalidCountryOfOriginId);
         //Status & RedirectUrl.
         ValidateProductStatusAndRedirectUrl(status, redirectUrl);
-        //CreatedBy.
-        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductErrors.InvalidCreatedBy);
-        //CreatedByIp.
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductErrors.CreatedByIpRequired,
-            DomainErrors.ProductErrors.CreatedByIpTooLong);
         //Validate H1.
         if (h1 is not null) ValidateTooLong(h1, 256, DomainErrors.PageErrors.H1TooLong);
         //Validate MetaTitle.
@@ -205,6 +200,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         if (metaDescription is not null)
             ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
         if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
+        ICreatable.ValidateCreatedBy(createdBy, DomainErrors.PageErrors.InvalidCreatedBy);
 
         SKU = sku;
         GTIN = gtin;
@@ -283,7 +279,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         }
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
@@ -339,7 +335,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
         bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, int countryOfOriginId,
         decimal sortOrder, string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         //SKU.
         ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
@@ -408,11 +404,6 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         ValidateProductStatusAndRedirectUrl(status, redirectUrl);
         //CountryOfOriginId.
         ValidatePositiveNumber(countryOfOriginId, DomainErrors.ProductErrors.InvalidCountryOfOriginId);
-        //CreatedBy.
-        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidCreatedBy);
-        //CreatedByIp.
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductErrors.CreatedByIpRequired,
-            DomainErrors.ProductErrors.CreatedByIpTooLong);
         //Validate H1.
         if (h1 is not null) ValidateTooLong(h1, 256, DomainErrors.PageErrors.H1TooLong);
         //Validate MetaTitle.
@@ -421,6 +412,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         if (metaDescription is not null)
             ValidateTooLong(metaDescription, 2048, DomainErrors.PageErrors.MetaDescriptionTooLong);
         if (metaKeywords is not null) ValidateTooLong(metaKeywords, 1024, DomainErrors.PageErrors.MetaKeywordsTooLong);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.PageErrors.InvalidUpdatedBy);
 
         if (SKU == sku && GTIN == gtin && MPN == mpn && MFC == mfc && EAN == ean && UPC == upc && Name == name &&
             Slug == slug && Display == display && Breadcrumb == breadcrumb && AnchorText == anchorText &&
@@ -524,7 +516,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         SetFacets(true, categories, productGroup, attributes);
     }
 
-    private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, string updatedByIp)
+    private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         var desired = categoryIds
             .Select((categoryId, index) => new
@@ -588,7 +580,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
     }
 
     private void AddAttributes(IReadOnlyCollection<ValueObjects.ProductAttribute> attributes, int createdBy,
-        DateTime createdAt, string createdByIp)
+        DateTime createdAt, IPAddress createdByIp)
     {
         foreach (var attribute in attributes)
         {
@@ -599,7 +591,7 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         }
     }
 
-    private void DeleteAttributes(int deletedBy, DateTime deletedAt, string deletedByIp)
+    private void DeleteAttributes(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         foreach (var attribute in _attributes.ToList())
         {
@@ -608,15 +600,12 @@ public sealed class Product : EntityWithImages<ProductImage>, ICreatable, IUpdat
         }
     }
 
-    public void Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt,
-        string updatedByIp)
+    public void Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
         if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);
         ValidatePositiveNumber(stock, DomainErrors.ProductErrors.InvalidStock);
-        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidCreatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductErrors.CreatedByIpRequired,
-            DomainErrors.ProductErrors.CreatedByIpTooLong);
+        IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductErrors.InvalidUpdatedBy);
 
         if (Price == price && OldPrice == oldPrice && Stock == stock)
             return;

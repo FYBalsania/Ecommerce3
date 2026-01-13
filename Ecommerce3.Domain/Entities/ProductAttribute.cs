@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -22,15 +23,15 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     public IReadOnlyList<ProductAttributeValue> Values => _values;
 
@@ -39,7 +40,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     }
 
     public ProductAttribute(string name, string slug, string display, string breadcrumb, DataType dataType,
-        decimal sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        decimal sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductAttributeErrors.NameRequired,
             DomainErrors.ProductAttributeErrors.NameTooLong);
@@ -51,8 +52,6 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             DomainErrors.ProductAttributeErrors.BreadcrumbRequired,
             DomainErrors.ProductAttributeErrors.BreadcrumbTooLong);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductAttributeErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductAttributeErrors.CreatedByIpRequired,
-            DomainErrors.ProductAttributeErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -73,7 +72,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     }
 
     public void Update(string name, string slug, string display, string breadcrumb, decimal sortOrder, int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidateRequiredAndTooLong(name, NameMaxLength, DomainErrors.ProductAttributeErrors.NameRequired,
             DomainErrors.ProductAttributeErrors.NameTooLong);
@@ -85,8 +84,6 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             DomainErrors.ProductAttributeErrors.BreadcrumbRequired,
             DomainErrors.ProductAttributeErrors.BreadcrumbTooLong);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductAttributeErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductAttributeErrors.UpdatedByIpRequired,
-            DomainErrors.ProductAttributeErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             SortOrder == sortOrder) return;
@@ -144,7 +141,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     }
 
     public bool UpdateValue(int id, string value, string slug, string display, string breadcrunb, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         var stringComparer = StringComparer.OrdinalIgnoreCase;
 
@@ -162,7 +159,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
 
     //Update decimal value.
     public bool UpdateValue(int id, decimal decimalValue, string slug, string display, string breadcrunb, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         var stringComparer = StringComparer.OrdinalIgnoreCase;
 
@@ -182,7 +179,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
 
     //Update date-only value.
     public bool UpdateValue(int id, DateOnly dateOnlyValue, string slug, string display, string breadcrunb,
-        int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
+        int sortOrder, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         var stringComparer = StringComparer.OrdinalIgnoreCase;
 
@@ -202,7 +199,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
 
     //Update boolean value.
     public bool UpdateValue(int id, string slug, string display, string breadcrunb, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         var stringComparer = StringComparer.OrdinalIgnoreCase;
 
@@ -219,7 +216,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
     //Update colour value.
     public bool UpdateValue(int id, string value, string slug, string display, string breadcrunb, string? hexCode,
         string colourFamily, string? colourFamilyHexCode, int sortOrder, int updatedBy, DateTime updatedAt,
-        string updatedByIp)
+        IPAddress updatedByIp)
     {
         var stringComparer = StringComparer.OrdinalIgnoreCase;
 
@@ -236,7 +233,7 @@ public sealed class ProductAttribute : Entity, ICreatable, IUpdatable, IDeletabl
             hexCode, colourFamily, colourFamilyHexCode, updatedBy, updatedAt, updatedByIp);
     }
 
-    public void DeleteValue(int id, int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void DeleteValue(int id, int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         var valueToDelete = _values.FirstOrDefault(x => x.Id == id);
         if (valueToDelete is null) throw new DomainException(DomainErrors.ProductAttributeValueErrors.InvalidId);

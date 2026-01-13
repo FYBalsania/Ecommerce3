@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Application.Commands.ProductAttribute;
 
 public record AddProductAttributeDateOnlyValueCommand
@@ -10,5 +12,5 @@ public record AddProductAttributeDateOnlyValueCommand
     public required int SortOrder { get; init; }
     public required int CreatedBy { get; init; }
     public required DateTime CreatedAt { get; init; }
-    public required string CreatedByIp { get; init; }
+    public required IPAddress CreatedByIp { get; init; }
 }

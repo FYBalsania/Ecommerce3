@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.KVPListItem;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ public class DeleteKVPListItemViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Type is required.")]
     public KVPListItemType Type { get; set; }
 
-    public DeleteKVPListItemCommand ToCommand(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public DeleteKVPListItemCommand ToCommand(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         return new DeleteKVPListItemCommand
         {

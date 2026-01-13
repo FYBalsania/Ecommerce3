@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net;
 
 namespace Ecommerce3.Domain.Entities;
 
@@ -11,7 +12,7 @@ public sealed class ProductAttributeDecimalValue : ProductAttributeValue
     }
 
     public ProductAttributeDecimalValue(decimal decimalValue, string slug, string display, string breadcrumb,
-        int sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        int sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
         : base(decimalValue.ToString(CultureInfo.InvariantCulture), slug, display, breadcrumb, sortOrder, createdBy,
             createdAt, createdByIp)
     {
@@ -19,7 +20,7 @@ public sealed class ProductAttributeDecimalValue : ProductAttributeValue
     }
 
     internal bool Update(decimal decimalValue, string slug, string display, string breadcrumb, int sortOrder,
-        int updatedBy, DateTime updatedAt, string updatedByIp)
+        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         if (!base.Update(decimalValue.ToString(CultureInfo.InvariantCulture), slug, display, breadcrumb, sortOrder,
                 updatedBy, updatedAt, updatedByIp) && DecimalValue == decimalValue) return false;

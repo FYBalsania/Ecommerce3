@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.ImageType;
 
 namespace Ecommerce3.Admin.ViewModels.ImageType;
@@ -27,7 +28,7 @@ public class AddImageTypeViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
-    public AddImageTypeCommand ToCommand(int createdBy, DateTime createdAt, string createdByIp)
+    public AddImageTypeCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddImageTypeCommand()
         {

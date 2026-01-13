@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewModels.Common;
 using Ecommerce3.Admin.ViewModels.Product;
 using Ecommerce3.Application.Services.Admin.Interfaces;
@@ -87,7 +88,7 @@ public class ProductsController(
 
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         var command = model.ToCommand(userId, createdAt, ipAddress);
         try
@@ -166,7 +167,7 @@ public class ProductsController(
 
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         var command = model.ToCommand(userId, createdAt, ipAddress);
         try
@@ -238,7 +239,7 @@ public class ProductsController(
 
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         var command = model.ToCommand(userId, createdAt, ipAddress);
         try

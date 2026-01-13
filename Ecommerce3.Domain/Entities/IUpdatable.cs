@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -9,17 +10,10 @@ public interface IUpdatable
 
     int? UpdatedBy { get; }
     DateTime? UpdatedAt { get; }
-    string? UpdatedByIp { get; }
+    IPAddress? UpdatedByIp { get; }
 
     public static void ValidateUpdatedBy(int updatedBy, DomainError domainError)
     {
         if (updatedBy <= 0) throw new DomainException(domainError);
-    }
-
-    public static void ValidateUpdatedByIp(string updatedByIp, DomainError requiredDomainError,
-        DomainError tooLongDomainError)
-    {
-        if (string.IsNullOrWhiteSpace(updatedByIp)) throw new DomainException(requiredDomainError);
-        if (updatedByIp.Length > UpdatedByIpMaxLength) throw new DomainException(tooLongDomainError);
     }
 }

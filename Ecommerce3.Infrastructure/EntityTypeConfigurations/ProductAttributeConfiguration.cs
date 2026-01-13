@@ -28,18 +28,15 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
         builder.Property(x => x.DataType).HasConversion<string>().HasMaxLength(16).HasColumnType("varchar(16)")
             .HasColumnOrder(6);
         builder.Property(x => x.SortOrder).HasColumnType("decimal(18,2)").HasColumnOrder(7);
-        builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(ICreatable.CreatedByIpMaxLength)
-            .HasColumnType($"varchar({ICreatable.CreatedByIpMaxLength})").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedBy).HasColumnType("integer").HasColumnOrder(53);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(IUpdatable.UpdatedByIpMaxLength)
-            .HasColumnType($"varchar({IUpdatable.UpdatedByIpMaxLength})").HasColumnOrder(55);
-        builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(IDeletable.DeletedByIpMaxLength)
-            .HasColumnType($"varchar({IDeletable.DeletedByIpMaxLength})").HasColumnOrder(58);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedBy).HasColumnName("updated_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(55);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(56);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(57);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(58);
 
         //Filters.
         builder.HasQueryFilter(x => x.DeletedAt == null);
@@ -58,10 +55,8 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
             .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.Breadcrumb)}");
         builder.HasIndex(x => x.SortOrder)
             .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.SortOrder)}");
-        builder.HasIndex(x => x.CreatedAt)
-            .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt)
-            .HasDatabaseName($"IX_{nameof(ProductAttribute)}_{nameof(ProductAttribute.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_product_attribute_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_product_attribute_deleted_at");
 
         //Relations.
         builder.HasMany(x => x.Values)

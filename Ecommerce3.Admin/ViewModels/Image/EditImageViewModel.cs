@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Image;
 using Ecommerce3.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -42,7 +43,7 @@ public record EditImageViewModel()
     [Required(ErrorMessage = "Sort order is required.")]
     public int SortOrder { get; set; }
     
-    public EditImageCommand ToCommand(string parentEntityType, string parentEntityId, string imageEntityType, string path, int updatedBy, string updatedByIp)
+    public EditImageCommand ToCommand(string parentEntityType, string parentEntityId, string imageEntityType, string path, int updatedBy, IPAddress updatedByIp)
     {
         return new EditImageCommand
         {

@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -19,15 +20,15 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     public BrandPage? Page { get; private set; }
 
     private Brand()
@@ -36,7 +37,7 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
 
     public Brand(string name, string slug, string display, string breadcrumb, string anchorText, string? anchorTitle,
         string? shortDescription, string? fullDescription, bool isActive, int sortOrder, int createdBy,
-        string createdByIp)
+        IPAddress createdByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
@@ -46,7 +47,6 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.BrandErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.BrandErrors.CreatedByIpRequired, DomainErrors.BrandErrors.CreatedByIpTooLong);
 
         Name = name;
         Slug = slug;
@@ -109,7 +109,7 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
 
     public void Update(string name, string slug, string display, string breadcrumb, string anchorText,
         string? anchorTitle, string? shortDescription, string? fullDescription, bool isActive, int sortOrder,
-        int updatedBy, string updatedByIp)
+        int updatedBy, IPAddress updatedByIp)
     {
         ValidateName(name);
         ValidateSlug(slug);
@@ -119,7 +119,6 @@ public sealed class Brand : EntityWithImages<BrandImage>, ICreatable, IUpdatable
         ValidateAnchorTitle(anchorTitle);
         ValidateShortDescription(shortDescription);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.BrandErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.BrandErrors.UpdatedByIpRequired, DomainErrors.BrandErrors.UpdatedByIpTooLong);
 
         if (Name == name && Slug == slug && Display == display && Breadcrumb == breadcrumb &&
             AnchorText == anchorText && AnchorTitle == anchorTitle && ShortDescription == shortDescription &&

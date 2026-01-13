@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Models;
 
 namespace Ecommerce3.Domain.Entities;
@@ -19,21 +20,21 @@ public sealed class SalesOrderLine : Entity, IDeletable
     public int CreatedByCustomerId { get; private set; }
     public Customer? CreatedByCustomer { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedByUserId { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public int? UpdatedByCustomerId { get; private set; }
     public Customer? UpdatedByCustomer { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
     
     private SalesOrderLine(){}
     
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;

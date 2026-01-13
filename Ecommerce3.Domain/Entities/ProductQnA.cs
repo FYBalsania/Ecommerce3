@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Ecommerce3.Domain.Entities;
 
 public sealed class ProductQnA : Entity, ICreatable, IUpdatable, IDeletable
@@ -18,21 +20,21 @@ public sealed class ProductQnA : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private ProductQnA()
     {
     }
 
-    public ProductQnA(string question, int createdBy, string createdByIp, int sortOrder)
+    public ProductQnA(string question, int createdBy, IPAddress createdByIp, int sortOrder)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(question, nameof(question));
 
@@ -43,7 +45,7 @@ public sealed class ProductQnA : Entity, ICreatable, IUpdatable, IDeletable
         SortOrder = sortOrder;
     }
     
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;

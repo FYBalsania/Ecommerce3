@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -14,7 +15,7 @@ public sealed class CategoryKVPListItem : KVPListItem
     }
 
     public CategoryKVPListItem(KVPListItemType type, string key, string value, decimal sortOrder, int categoryId,
-        int createdBy, DateTime createdAt, string createdByIp)
+        int createdBy, DateTime createdAt, IPAddress createdByIp)
         : base(type, key, value, sortOrder, createdBy, createdAt, createdByIp)
     {
         ValidateCategoryId(categoryId);

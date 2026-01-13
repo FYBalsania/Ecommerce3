@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Admin.ViewComponents;
 using Ecommerce3.Admin.ViewModels.Image;
 using Ecommerce3.Application.Services.Interfaces;
@@ -30,7 +31,7 @@ public class ImagesController(
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
         var createdAt = DateTime.Now;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
 
         //File
         using var memoryStream = new MemoryStream();
@@ -63,7 +64,7 @@ public class ImagesController(
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         
         var imageFolderPath = configuration.GetValue<string>("Images:Path");
         var editImageCommand = model.ToCommand(parentEntityType, parentEntityId, imageEntityType, imageFolderPath!, userId, ipAddress);
@@ -87,7 +88,7 @@ public class ImagesController(
         var parentEntityId = _dataProtector.Unprotect(model.ParentEntityId);
         var imageEntityType = _dataProtector.Unprotect(model.ImageEntityType);
         var userId = 1;
-        var ipAddress = ipAddressService.GetClientIpAddress(HttpContext);
+        var ipAddress = IPAddress.Parse(ipAddressService.GetClientIpAddress(HttpContext));
         
         var deleteImageCommand = model.ToCommand(userId, ipAddress);
         

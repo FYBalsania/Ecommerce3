@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -14,7 +15,7 @@ public sealed class ProductTextListItem : TextListItem
     }
 
     internal ProductTextListItem(int productId, TextListItemType type, string text, decimal sortOrder, int createdBy,
-        DateTime createdAt, string createdByIp)
+        DateTime createdAt, IPAddress createdByIp)
         : base(type, text, sortOrder, createdBy, createdAt, createdByIp)
     {
         ValidateProductId(productId);

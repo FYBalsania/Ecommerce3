@@ -37,15 +37,15 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
         builder.Property(x => x.MaxDiscountAmount).HasColumnType("decimal(18,2)").HasColumnOrder(10);
         builder.Property(x => x.Amount).HasColumnType("decimal(18,2)").HasColumnOrder(11);
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(12);
-        builder.Property(x => x.CreatedBy).HasColumnType("integer").HasColumnOrder(50);
-        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasColumnOrder(51);
-        builder.Property(x => x.CreatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(52);
-        builder.Property(x => x.UpdatedBy).HasColumnType("integer").HasColumnOrder(53);
-        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasColumnOrder(54);
-        builder.Property(x => x.UpdatedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(55);
-        builder.Property(x => x.DeletedBy).HasColumnType("integer").HasColumnOrder(56);
-        builder.Property(x => x.DeletedAt).HasColumnType("timestamp").HasColumnOrder(57);
-        builder.Property(x => x.DeletedByIp).HasMaxLength(128).HasColumnType("varchar(128)").HasColumnOrder(58);
+        builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
+        builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
+        builder.Property(x => x.UpdatedBy).HasColumnName("updated_by").HasColumnType("integer").HasColumnOrder(53);
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").HasColumnType("timestamp").HasColumnOrder(54);
+        builder.Property(x => x.UpdatedByIp).HasColumnName("updated_by_ip").HasColumnType("inet").HasColumnOrder(55);
+        builder.Property(x => x.DeletedBy).HasColumnName("deleted_by").HasColumnType("integer").HasColumnOrder(56);
+        builder.Property(x => x.DeletedAt).HasColumnName("deleted_at").HasColumnType("timestamp").HasColumnOrder(57);
+        builder.Property(x => x.DeletedByIp).HasColumnName("deleted_by_ip").HasColumnType("inet").HasColumnOrder(58);
 
         //Indexes.
         builder.HasIndex("Discriminator").HasDatabaseName($"IX_{nameof(Discount)}_Discriminator");
@@ -58,8 +58,8 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
         builder.HasIndex(x => x.EndAt)
             .HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.EndAt)}");
         builder.HasIndex(x => x.IsActive).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.IsActive)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.CreatedAt)}");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"IX_{nameof(Discount)}_{nameof(Discount.DeletedAt)}");
+        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_discount_created_at");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_discount_deleted_at");
 
         //Relations.
         builder.HasOne(x => (AppUser?)x.CreatedByUser)

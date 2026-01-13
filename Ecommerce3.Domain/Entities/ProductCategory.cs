@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 
 namespace Ecommerce3.Domain.Entities;
@@ -13,27 +14,24 @@ public sealed class ProductCategory : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private ProductCategory()
     {
     }
 
-    internal ProductCategory(int categoryId, bool isPrimary, int sortOrder, int createdBy, DateTime createdAt,
-        string createdByIp)
+    internal ProductCategory(int categoryId, bool isPrimary, int sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductCategoryErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductCategoryErrors.CreatedByIpRequired, 
-            DomainErrors.PageErrors.CreatedByIpTooLong);
-        
+
         CategoryId = categoryId;
         IsPrimary = isPrimary;
         SortOrder = sortOrder;
@@ -43,23 +41,19 @@ public sealed class ProductCategory : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    internal void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductCategoryErrors.InvalidDeletedBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductCategoryErrors.DeletedByIpRequired, 
-            DomainErrors.ProductCategoryErrors.DeletedByIpTooLong);
-        
+
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
 
-    internal void Update(bool isPrimary, int sortOrder, int updatedBy, DateTime updatedAt, string updatedByIp)
+    internal void Update(bool isPrimary, int sortOrder, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductCategoryErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductCategoryErrors.UpdatedByIpRequired, 
-            DomainErrors.KVPListItemErrors.UpdatedByIpTooLong);
-        
+
         if (IsPrimary == isPrimary && SortOrder == sortOrder) return;
         
         IsPrimary = isPrimary;

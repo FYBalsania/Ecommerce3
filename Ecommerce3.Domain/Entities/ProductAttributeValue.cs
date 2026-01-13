@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
 
@@ -15,30 +16,29 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; protected set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; protected set; }
-    public string? UpdatedByIp { get; protected set; }
+    public IPAddress? UpdatedByIp { get; protected set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private protected ProductAttributeValue()
     {
     }
 
     public ProductAttributeValue(string value, string slug, string display, string breadcrumb, decimal sortOrder,
-        int createdBy, DateTime createdAt, string createdByIp)
+        int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         ValidateValue(value);
         ValidateSlug(slug);
         ValidateDisplay(display);
         ValidateBreadcrumb(breadcrumb);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ProductAttributeValueErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.ProductAttributeValueErrors.CreatedByIpRequired, DomainErrors.ProductAttributeValueErrors.CreatedByIpTooLong);
-
+        
         Value = value;
         Slug = slug;
         Display = display;
@@ -49,26 +49,24 @@ public class ProductAttributeValue : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    internal void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    internal void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ProductAttributeValueErrors.InvalidDeletedBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.ProductAttributeValueErrors.DeletedByIpRequired, DomainErrors.ProductAttributeValueErrors.DeletedByIpTooLong);
-
+        
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
         DeletedByIp = deletedByIp;
     }
 
     internal bool Update(string value, string slug, string display, string breadcrumb, decimal sortOrder, int updatedBy,
-        DateTime updatedAt, string updatedByIp)
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidateValue(value);
         ValidateSlug(slug);
         ValidateDisplay(display);
         ValidateBreadcrumb(breadcrumb);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ProductAttributeValueErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.ProductAttributeValueErrors.UpdatedByIpRequired, DomainErrors.ProductAttributeValueErrors.UpdatedByIpTooLong);
-
+        
         if (Value == value && Slug == slug && Display == display && Breadcrumb == breadcrumb && SortOrder == sortOrder)
             return false;
 

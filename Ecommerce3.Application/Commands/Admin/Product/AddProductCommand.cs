@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Application.Commands.Admin.Product;
@@ -50,5 +51,5 @@ public record AddProductCommand
     public required string? MetaKeywords { get; init; }
     public required int CreatedBy { get; init; }
     public required DateTime CreatedAt { get; init; }
-    public required string CreatedByIp { get; init; }
+    public required IPAddress CreatedByIp { get; init; }
 }

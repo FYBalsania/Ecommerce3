@@ -1,3 +1,4 @@
+using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
 using Ecommerce3.Domain.Exceptions;
@@ -13,28 +14,26 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public IPAddress CreatedByIp { get; private set; }
     public int? UpdatedBy { get; private set; }
     public IAppUser? UpdatedByUser { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedByIp { get; private set; }
+    public IPAddress? UpdatedByIp { get; private set; }
     public int? DeletedBy { get; private set; }
     public IAppUser? DeletedByUser { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-    public string? DeletedByIp { get; private set; }
+    public IPAddress? DeletedByIp { get; private set; }
 
     private protected KVPListItem()
     {
     }
 
     private protected KVPListItem(KVPListItemType type, string key, string value, decimal sortOrder, int createdBy,
-        DateTime createdAt, string createdByIp)
+        DateTime createdAt, IPAddress createdByIp)
     {
         ValidateKey(key);
         ValidateValue(value);
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.KVPListItemErrors.InvalidCreatedBy);
-        ICreatable.ValidateCreatedByIp(createdByIp, DomainErrors.KVPListItemErrors.CreatedByIpRequired, 
-            DomainErrors.KVPListItemErrors.CreatedByIpTooLong);
 
         Type = type;
         Key = key;
@@ -45,14 +44,11 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
         CreatedByIp = createdByIp;
     }
 
-    public void Update(string key, string value, decimal sortOrder, int updatedBy, DateTime updatedAt,
-        string updatedByIp)
+    public void Update(string key, string value, decimal sortOrder, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         ValidateKey(key);
         ValidateValue(value);
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.KVPListItemErrors.InvalidUpdatedBy);
-        IUpdatable.ValidateUpdatedByIp(updatedByIp, DomainErrors.KVPListItemErrors.UpdatedByIpRequired, 
-            DomainErrors.KVPListItemErrors.UpdatedByIpTooLong);
 
         if (Key == key && Value == value && SortOrder == sortOrder)
             return;
@@ -65,11 +61,9 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedByIp = updatedByIp;
     }
 
-    public void Delete(int deletedBy, DateTime deletedAt, string deletedByIp)
+    public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.KVPListItemErrors.InvalidDeletedBy);
-        IDeletable.ValidateDeletedByIp(deletedByIp, DomainErrors.KVPListItemErrors.DeletedByIpRequired, 
-            DomainErrors.KVPListItemErrors.DeletedByIpTooLong);
 
         DeletedBy = deletedBy;
         DeletedAt = deletedAt;
@@ -77,7 +71,7 @@ public abstract class KVPListItem : Entity, ICreatable, IUpdatable, IDeletable
     }
 
     public static KVPListItem Create(Type parentEntityType, int parentEntityId, KVPListItemType type, string key,
-        string value, decimal sortOrder, int createdBy, DateTime createdAt, string createdByIp)
+        string value, decimal sortOrder, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         if (parentEntityType == typeof(Product))
             return new ProductKVPListItem(type, key, value, sortOrder, parentEntityId, createdBy, createdAt,

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Ecommerce3.Application.Commands.Image;
 using Ecommerce3.Domain.Enums;
 
@@ -42,7 +43,7 @@ public class AddImageViewModel
 
     public AddImageCommand ToCommand(string parentEntityType, string parentEntityId, string imageEntityType,
         byte[] file, int maxFileSizeKb, string fileName, string tempPath, string path, int createdBy,
-        DateTime createdAt, string createdByIp)
+        DateTime createdAt, IPAddress createdByIp)
     {
         return new AddImageCommand
         {
