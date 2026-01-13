@@ -1,0 +1,8 @@
+@model cloudscribe.Pagination.Models.PagedResult<Ecommerce3.Contracts.DTO.StoreFront.Product.ProductListItemDTO>
+
+<div id="product_list" class="products_listing">
+    <input type="hidden" id="page_number" value="@Model.PageNumber"/>
+    <input type="hidden" id="page_size" value="@Model.PageSize"/>
+    <input type="hidden" id="products_count" value="@Model.TotalItems"/>
+    <partial name="_PLPProductListItemsPartial" model="Model.Data"/>
+</div>

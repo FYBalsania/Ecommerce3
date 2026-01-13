@@ -64,7 +64,7 @@
                                 <form id="OrderByform">
                                     <div class="sortby-dropdown">
                                         <span class="sort-title">Sort By:</span>
-                                        <select name="" id="sort_order">
+                                        <select id="sort_order">
                                             <option value="@nameof(SortOrder.NameAsc)">Name (Ascending)</option>
                                             <option value="@nameof(SortOrder.NameDesc)">Name (Descending)</option>
                                             <option value="@nameof(SortOrder.PriceAsc)">Price (Low to High)</option>
@@ -76,14 +76,10 @@
                                 </form>
                             </div>
                         </div>
-                        <div id="product_list" class="products_listing">
-                            <input type="hidden" id="page_number" value="@Model.Products.PageNumber"/>
-                            <input type="hidden" id="products_count" value="@Model.Products.TotalItems"/>
-                            <partial name="_PLPProductListItemsPartial" model="Model.Products.Data"/>
-                        </div>
+                        <partial name="_PLPProductListPartial" model="@Model.Products"/>
                         @if (Model.Products.TotalItems > Model.Products.PageSize * Model.Products.PageNumber)
                         {
-                            <div class="bottom_pagination">
+                            <div id="load_more_container" class="bottom_pagination">
                                 <button id="load_more" data-page="2" class="lmb">Load More</button>
                             </div>
                         }
