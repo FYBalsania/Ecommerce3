@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using Ecommerce3.Application.Services.StoreFront.Interfaces;
-using Ecommerce3.StoreFront.Models;
 using Ecommerce3.StoreFront.Options;
 using Ecommerce3.StoreFront.ViewModels.Home;
 using Ecommerce3.StoreFront.ViewModels.Product;

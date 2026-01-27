@@ -10,6 +10,11 @@ function document_ready() {
     document.getElementById("sort_order").addEventListener("change", sort_order_changed);
 }
 
+async function load_more_clicked() {
+    const pageNumber = Number(document.getElementById("page_number").value);
+    await get_products_by_params(pageNumber + 1);
+}
+
 async function sort_order_changed(event) {
     await get_products_by_params(1);
 }
@@ -20,7 +25,7 @@ async function get_products_by_params(pageNumber) {
     const selectedBrandIds = Array.from(
         document.querySelectorAll('input[type="checkbox"][data-brand-id]:checked')
     ).map(cb => Number(cb.dataset.brandId));
-    const totalProducts = Number(document.getElementById("products_count").value);
+    let totalProducts = Number(document.getElementById("products_count").value);
     const pageSize = Number(document.getElementById("page_size").value);
     const sortOrder = document.getElementById("sort_order").value;
     const requestVerificationToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
@@ -54,22 +59,25 @@ async function get_products_by_params(pageNumber) {
     } else {
         const html = await response.text();
         if (pageNumber === 1) {
+            //Replace product list.
             document.getElementById("product_list").outerHTML = html;
-        } else {
+            //fetch total products count from the element because the element is replaced above.
+            totalProducts = Number(document.getElementById("products_count").value);
+            //Toggle load more button.
+            if (totalProducts > pageSize) 
+                document.getElementById("load_more").style.display = "block";
+            else 
+                document.getElementById("load_more").style.display = "none";
+
+        } else {   //load more handling...
+            //Append products to a product list.
             document.getElementById("product_list").innerHTML += html;
             //Update page number.
             document.getElementById("page_number").value = (pageNumber + 1).toString();
+            //Hide the load more button if all products are loaded.
+            if (totalProducts <= (pageNumber + 1) * pageSize)
+                document.getElementById("load_more").style.display = "none";
         }
-
-        //Toggle load more button's visibility.
-        if (totalProducts <= (pageNumber + 1) * pageSize)
-            document.getElementById("load_more_container").style.display = "none";
-        else
-            document.getElementById("load_more_container").style.display = "block";
     }
 }
 
-async function load_more_clicked() {
-    const pageNumber = Number(document.getElementById("page_number").value);
-    await get_products_by_params(pageNumber + 1);
-}

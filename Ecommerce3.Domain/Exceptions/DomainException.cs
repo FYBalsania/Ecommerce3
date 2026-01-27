@@ -3,12 +3,7 @@ using Ecommerce3.Domain.Errors;
 namespace Ecommerce3.Domain.Exceptions;
 
 [Serializable]
-public class DomainException : Exception
+public class DomainException(DomainError error) : Exception(error.Message)
 {
-    public DomainError Error { get; }
-
-    public DomainException(DomainError error) : base(error.Message)
-    {
-        Error = error;
-    }
+    public DomainError Error { get; } = error;
 }

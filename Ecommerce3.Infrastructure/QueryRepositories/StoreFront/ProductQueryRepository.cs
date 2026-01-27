@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using cloudscribe.Pagination.Models;
 using Ecommerce3.Contracts.DTO.StoreFront.Product;
 using Ecommerce3.Contracts.DTO.StoreFront.UOM;

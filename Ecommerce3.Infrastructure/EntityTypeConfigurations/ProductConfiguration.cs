@@ -1,4 +1,3 @@
-using System.Net.NetworkInformation;
 using Ecommerce3.Domain.Entities;
 using Ecommerce3.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;

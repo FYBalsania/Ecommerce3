@@ -1,4 +1,3 @@
-using Ecommerce3.Contracts.DTO.StoreFront.Product;
 using Ecommerce3.Contracts.QueryRepositories.StoreFront;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.StoreFront.Models;

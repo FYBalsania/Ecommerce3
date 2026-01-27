@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Ecommerce3.Domain.Enums;
 
 namespace Ecommerce3.Contracts.Filters;

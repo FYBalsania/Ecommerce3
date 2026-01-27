@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Ecommerce3.Application.Commands.Admin.Product;
-using Ecommerce3.Contracts.DTO.Admin.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce3.Admin.ViewModels.Product;

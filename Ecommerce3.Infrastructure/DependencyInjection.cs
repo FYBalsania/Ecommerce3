@@ -12,7 +12,6 @@ using Ecommerce3.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
 
 namespace Ecommerce3.Infrastructure;
 
