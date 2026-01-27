@@ -67,8 +67,7 @@ internal sealed class ImageService(
 
         //Generate image name.
         var fileNameExtension = Path.GetExtension(command.FileName);
-        var imageFileName =
-            $"{GetEntitySlug(parent)}-{imageType.Slug}-{command.ImageSize.ToString().ToLower()}-{Path.GetRandomFileName().Replace(".", "")}{fileNameExtension}";
+        var imageFileName = $"{Guid.NewGuid().ToString()}{fileNameExtension}";
 
         //Create an image instance.
         var image = Image.Create(imageEntityRepository.ImageType, command.FileName, imageFileName, fileNameExtension,
@@ -100,7 +99,7 @@ internal sealed class ImageService(
             throw new DomainException(DomainErrors.ImageErrors.ImageEntityTypeRequired);
         if (imageEntityType.BaseType != typeof(Image))
             throw new DomainException(DomainErrors.ImageErrors.InvalidImageEntityType);
-        
+
         //ParentEntityId.
         if (string.IsNullOrWhiteSpace(command.ParentEntityId))
             throw new DomainException(DomainErrors.ImageErrors.ParentEntityIdRequired);
@@ -114,32 +113,19 @@ internal sealed class ImageService(
             throw new DomainException(new DomainError("ImageEntityRepository", "ImageEntityRepository not found."));
         var parent = await imageEntityRepository.GetByIdAsync(parentEntityId, cancellationToken);
         if (parent is null) throw new DomainException(DomainErrors.ImageErrors.InvalidParentEntityId);
-        
+
         //ImageTypeId.
         var imageType = await imageTypeRepository.GetByIdAsync(command.ImageTypeId, false, cancellationToken);
         if (imageType is null)
             throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
-        
+
         //Get Image
         var image = await imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
         if (image is null) throw new DomainException(DomainErrors.ImageErrors.InvalidId);
-        
-        // Detect whether rename is required and rename it
-        var oldFileName = image.FileName;
-        string? newFileName = null;
-        if (image.ImageTypeId != command.ImageTypeId || image.Size != command.ImageSize)
-        {
-            var fileNameExtension = Path.GetExtension(oldFileName);
-            newFileName = $"{GetEntitySlug(parent)}-{imageType.Slug}-{command.ImageSize.ToString().ToLower()}-{Path.GetRandomFileName().Replace(".", "")}{fileNameExtension}";
-            var oldPath = Path.Combine(command.ImageFolderPath, oldFileName);
-            var newPath = Path.Combine(command.ImageFolderPath, newFileName);
-            File.Move(oldPath, newPath);
-        }
-        
+
         //Create an image instance.
-        image.Update(command.ImageTypeId, command.ImageSize, command.AltText, command.Title, 
-            command.Loading, newFileName ?? oldFileName, command.Link, command.LinkTarget, command.SortOrder, 
-            command.UpdatedBy, command.UpdatedByIp);
+        image.Update(command.ImageTypeId, command.ImageSize, command.AltText, command.Title, command.Loading,
+            command.Link, command.LinkTarget, command.SortOrder, command.UpdatedBy, command.UpdatedByIp);
 
         //Save the image to a database.
         await unitOfWork.CompleteAsync(cancellationToken);
@@ -149,7 +135,7 @@ internal sealed class ImageService(
     {
         var image = await imageRepository.GetByIdAsync(command.Id, true, cancellationToken);
         if (image is null) throw new DomainException(DomainErrors.ImageErrors.InvalidId);
-        
+
         image.Delete(command.DeletedBy, command.DeletedAt, command.DeletedByIp);
         imageRepository.Remove(image);
         await unitOfWork.CompleteAsync(cancellationToken);
@@ -175,7 +161,7 @@ internal sealed class ImageService(
         Page pg => pg.Path, // Path used for Page
         _ => throw new ArgumentException("Entity is not of type EntityWithImages<>.", nameof(entity))
     };
-    
+
     public async Task<ImageDTO?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await imageQueryRepository.GetByIdAsync(id, cancellationToken);
 }

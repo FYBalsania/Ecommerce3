@@ -53,7 +53,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
 
         if (imageTypeId <= 0)
             throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
-        
+
         //link & linkTarget.
         if (!string.IsNullOrWhiteSpace(link))
         {
@@ -67,9 +67,9 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
             if (linkTarget != "_self" && linkTarget != "_blank")
                 throw new DomainException(DomainErrors.ImageErrors.InvalidLinkTarget);
         }
-        
+
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ImageErrors.InvalidCreatedBy);
-        
+
         OgFileName = ogFileName;
         FileName = fileName;
         FileExtension = fileExtension;
@@ -113,14 +113,14 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         if (imageType == typeof(PageImage))
             return new PageImage(ogFileName, fileName, fileExtension, imageTypeId, size, altText, title, loading,
                 link, linkTarget, parentId, sortOrder, createdBy, createdAt, createdByIp);
-        
+
         ICreatable.ValidateCreatedBy(createdBy, DomainErrors.ImageErrors.InvalidCreatedBy);
-        
+
         throw new DomainException(DomainErrors.ImageErrors.InvalidImageType);
     }
-    
-    public void Update(int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading, 
-        string fileName, string? link, string? linkTarget, int sortOrder, int updatedBy, IPAddress updatedByIp)
+
+    public void Update(int imageTypeId, ImageSize size, string? altText, string? title, ImageLoading loading,
+        string? link, string? linkTarget, int sortOrder, int updatedBy, IPAddress updatedByIp)
     {
         IUpdatable.ValidateUpdatedBy(updatedBy, DomainErrors.ImageErrors.InvalidUpdatedBy);
 
@@ -130,7 +130,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
 
         if (imageTypeId <= 0)
             throw new DomainException(DomainErrors.ImageErrors.InvalidImageTypeId);
-        
+
         //link & linkTarget.
         if (!string.IsNullOrWhiteSpace(link))
         {
@@ -144,8 +144,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
             if (linkTarget != "_self" && linkTarget != "_blank")
                 throw new DomainException(DomainErrors.ImageErrors.InvalidLinkTarget);
         }
-        
-        FileName = fileName;
+
         ImageTypeId = imageTypeId;
         Size = size;
         AltText = altText;
@@ -158,7 +157,7 @@ public class Image : Entity, ICreatable, IUpdatable, IDeletable
         UpdatedAt = DateTime.Now;
         UpdatedByIp = updatedByIp;
     }
-    
+
     public void Delete(int deletedBy, DateTime deletedAt, IPAddress deletedByIp)
     {
         IDeletable.ValidateDeletedBy(deletedBy, DomainErrors.ImageErrors.InvalidDeletedBy);

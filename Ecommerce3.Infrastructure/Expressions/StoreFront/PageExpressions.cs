@@ -38,7 +38,7 @@ public static class PageExpressions
         SeoScore = x.SeoScore,
         IsActive = x.IsActive,
         Images = x.Images
-            .Where(y => y.ImageTypeId == 2)
+            .Where(y => y.ImageTypeId == 3)
             .OrderBy(y => y.SortOrder)
             .Select(y => new ImageDTO
             {
