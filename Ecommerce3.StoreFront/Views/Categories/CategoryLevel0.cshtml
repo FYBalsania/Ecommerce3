@@ -77,12 +77,16 @@
                             </div>
                         </div>
                         <partial name="_PLPProductListPartial" model="@Model.Products"/>
-                        @if (Model.Products.TotalItems > Model.Products.PageSize * Model.Products.PageNumber)
-                        {
-                            <div id="load_more_container" class="bottom_pagination">
-                                <button id="load_more" data-page="2" class="lmb">Load More</button>
-                            </div>
-                        }
+                        @* @if (Model.Products.TotalItems > Model.Products.PageSize * Model.Products.PageNumber) *@
+                        @* { *@
+                        @*     <div id="load_more_container" class="bottom_pagination"> *@
+                        @*         <button id="load_more" data-page="2" class="lmb">Load More</button> *@
+                        @*     </div> *@
+                        @* } *@
+                        <div id="load_more_container"
+                             class="bottom_pagination @(Model.Products.TotalItems <= Model.Products.PageSize * Model.Products.PageNumber ? "d-none" : "")">
+                            <button id="load_more" data-page="2" class="lmb">Load More</button>
+                        </div>
                     </div>
                 </div>
                 <div class="filters cat_page">

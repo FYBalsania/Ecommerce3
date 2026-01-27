@@ -29,8 +29,8 @@ async function show_AddImageView(event) {
             option.attr('value', imageTypeIdAndName.key);
             option.text(imageTypeIdAndName.value);
             imageTypesElement.append(option);
-        })
-
+        }) 
+        
         //attach event handlers.
         $('#add_Link').on('change', add_LinkChanged);
     } catch (err) {
