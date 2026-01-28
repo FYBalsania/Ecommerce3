@@ -10,22 +10,34 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
     public void Configure(EntityTypeBuilder<UnitOfMeasure> builder)
     {
         //Table.
-        builder.ToTable(nameof(UnitOfMeasure));
+        builder.ToTable("unit_of_measures");
 
         //PK.
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnOrder(1);
+        builder.Property(x => x.Id).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnName("id").HasColumnOrder(1);
 
         //Properties.
         builder.Property(x => x.Code).HasMaxLength(UnitOfMeasure.CodeMaxLength)
-            .HasColumnType($"varchar({UnitOfMeasure.CodeMaxLength})").HasColumnOrder(2);
-        builder.Property(x => x.Name).HasMaxLength(UnitOfMeasure.NameMaxLength)
-            .HasColumnType($"varchar({UnitOfMeasure.NameMaxLength})").HasColumnOrder(3);
+            .HasColumnType($"varchar({UnitOfMeasure.CodeMaxLength})").HasColumnName("code").HasColumnOrder(2);
+
+        builder.Property(x => x.SingularName).HasMaxLength(UnitOfMeasure.NameMaxLength)
+            .HasColumnType($"varchar({UnitOfMeasure.NameMaxLength})").HasColumnName("singular_name").HasColumnOrder(3);
+
+        builder.Property(x => x.PluralName).HasMaxLength(UnitOfMeasure.NameMaxLength)
+            .HasColumnType($"varchar({UnitOfMeasure.NameMaxLength})").HasColumnName("plural_name").HasColumnOrder(4);
+
         builder.Property(x => x.Type).HasConversion<string>().HasMaxLength(UnitOfMeasure.TypeMaxLength)
-            .HasColumnType($"varchar({UnitOfMeasure.TypeMaxLength})").HasColumnOrder(4);
-        builder.Property(x => x.BaseId).HasColumnType("integer").HasColumnOrder(5);
-        builder.Property(x => x.ConversionFactor).HasColumnType("decimal(18,3)").HasColumnOrder(6);
-        builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnOrder(7);
+            .HasColumnType($"varchar({UnitOfMeasure.TypeMaxLength})").HasColumnName("type").HasColumnOrder(5);
+
+        builder.Property(x => x.BaseId).HasColumnType("integer").HasColumnName("base_id").HasColumnOrder(6);
+
+        builder.Property(x => x.ConversionFactor).HasColumnType("decimal(20,8)").HasColumnName("conversion_factor")
+            .HasColumnOrder(7);
+
+        builder.Property(x => x.DecimalPlaces).HasColumnType("smallint").HasColumnName("decimal_places")
+            .HasColumnOrder(8);
+
+        builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnName("is_active").HasColumnOrder(9);
         builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);
@@ -41,18 +53,19 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
 
         //Indexes.
         builder.HasIndex(x => x.Code).IsUnique()
-            .HasDatabaseName($"UK_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.Code)}");
-        builder.HasIndex(x => x.Name).IsUnique()
-            .HasDatabaseName($"UK_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.Name)}");
+            .HasDatabaseName("uk_unit_of_measures_code");
+        builder.HasIndex(x => x.SingularName).IsUnique()
+            .HasDatabaseName("uk_unit_of_measures_singular_name");
+        builder.HasIndex(x => x.PluralName).IsUnique()
+            .HasDatabaseName("uk_unit_of_measures_plural_name");
         builder.HasIndex(x => x.IsActive)
-            .HasDatabaseName($"IX_{nameof(UnitOfMeasure)}_{nameof(UnitOfMeasure.IsActive)}");
-        builder.HasIndex(x => x.CreatedAt).HasDatabaseName($"idx_unit_of_measure_created_at");
-        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"idx_unit_of_measure_deleted_at");
+            .HasDatabaseName("ix_unit_of_measures_is_active");
+        builder.HasIndex(x => x.DeletedAt).HasDatabaseName($"ix_unit_of_measure_deleted_at");
 
         //Relations.
         builder.HasOne(x => x.Base)
-            .WithMany()
-            .HasForeignKey(x => x.BaseId)
+            .WithOne()
+            .HasForeignKey<UnitOfMeasure>(x => x.BaseId)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => (AppUser?)x.CreatedByUser)
             .WithMany()

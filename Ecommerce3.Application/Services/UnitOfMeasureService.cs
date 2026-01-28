@@ -18,21 +18,23 @@ internal class UnitOfMeasureService(
     IUnitOfWork unitOfWork)
     : IUnitOfMeasureService
 {
-    public async Task<PagedResult<UnitOfMeasureListItemDTO>> GetListItemsAsync(UnitOfMeasureFilter filter, int pageNumber,
+    public async Task<PagedResult<UnitOfMeasureListItemDTO>> GetListItemsAsync(UnitOfMeasureFilter filter,
+        int pageNumber,
         int pageSize, CancellationToken cancellationToken)
         => await queryRepository.GetListItemsAsync(filter, pageNumber, pageSize, cancellationToken);
-    
+
     public async Task AddAsync(AddUnitOfMeasureCommand command, CancellationToken cancellationToken)
     {
         var exists = await queryRepository.ExistsByCodeAsync(command.Code, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateCode);
 
-        exists = await queryRepository.ExistsByNameAsync(command.Name, null, cancellationToken);
+        exists = await queryRepository.ExistsByNameAsync(command.SingularName, null, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateName);
 
-        var uom = new UnitOfMeasure(command.Code, command.Name, command.Type, command.BaseId, command.ConversionFactor,
-            command.IsActive, command.CreatedBy, command.CreatedAt, command.CreatedByIp);
-        
+        var uom = new UnitOfMeasure(command.Code, command.SingularName, command.PluralName, command.Type,
+            command.BaseId, command.ConversionFactor, command.DecimalPlaces, command.IsActive, command.CreatedBy,
+            command.CreatedAt, command.CreatedByIp);
+
         await repository.AddAsync(uom, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
@@ -41,7 +43,7 @@ internal class UnitOfMeasureService(
     {
         return await queryRepository.GetByUnitOfMeasureIdAsync(id, cancellationToken);
     }
-    
+
     public async Task EditAsync(EditUnitOfMeasureCommand command, CancellationToken cancellationToken)
     {
         var uom = await repository.GetByIdAsync(command.Id, UnitOfMeasureInclude.None, true, cancellationToken);
@@ -50,11 +52,12 @@ internal class UnitOfMeasureService(
         var exists = await queryRepository.ExistsByCodeAsync(command.Code, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateCode);
 
-        exists = await queryRepository.ExistsByNameAsync(command.Name, command.Id, cancellationToken);
+        exists = await queryRepository.ExistsByNameAsync(command.SingularName, command.Id, cancellationToken);
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateName);
 
-        uom.Update(command.Code, command.Name, command.Type, command.BaseId, command.ConversionFactor,
-            command.IsActive, command.UpdatedBy, command.UpdatedAt, command.UpdatedByIp);
+        uom.Update(command.Code, command.SingularName, command.PluralName, command.Type, command.BaseId,
+            command.ConversionFactor, command.DecimalPlaces, command.IsActive, command.UpdatedBy, command.UpdatedAt,
+            command.UpdatedByIp);
 
         await unitOfWork.CompleteAsync(cancellationToken);
     }
@@ -63,12 +66,13 @@ internal class UnitOfMeasureService(
     {
         var uom = await repository.GetByIdAsync(command.Id, UnitOfMeasureInclude.None, true, cancellationToken);
         if (uom is null) throw new DomainException(DomainErrors.UnitOfMeasureErrors.InvalidUnitOfMeasureId);
-        
+
         uom.Delete(command.DeletedBy, command.DeletedAt, command.DeletedByIp);
         await unitOfWork.CompleteAsync(cancellationToken);
     }
 
-    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, bool excludeNonBases = false, CancellationToken cancellationToken = default)
+    public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null,
+        bool excludeNonBases = false, CancellationToken cancellationToken = default)
     {
         return await queryRepository.GetIdAndNameDictionaryAsync(excludeId, excludeNonBases, cancellationToken);
     }

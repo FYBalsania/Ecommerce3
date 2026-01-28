@@ -12,34 +12,46 @@ public sealed class AddUnitOfMeasureViewModel
     [StringLength(16, MinimumLength = 1, ErrorMessage = "Code must be between 1 and 16 characters.")]
     public string Code { get; set; }
     
-    [Required(ErrorMessage = "Name is required.")]
-    [StringLength(256, MinimumLength = 1, ErrorMessage = "Name must be between 1 and 256 characters.")]
-    public string Name { get; set; }
+    [Required(ErrorMessage = "Singular name is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Singular name must be between 1 and 256 characters.")]
+    [Display(Name = "Singular name")]
+    public string SingularName { get; set; }
+    
+    [Required(ErrorMessage = "Plural name is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Plural name must be between 1 and 256 characters.")]
+    [Display(Name = "Plural name")]
+    public string PluralName { get; set; }
     
     [Required(ErrorMessage = "Type is required.")]
-    public UnitOfMeasureType Type { get; set; }
+    public UnitOfMeasureType? Type { get; set; }
     
     [Display(Name = "Base Unit")]
     public int? BaseId { get; set; }
     public SelectList Bases { get; set; }
     
     [Required(ErrorMessage = "Conversion factor is required.")]
-    [Display(Name = "Conversion Factor")]
+    [Display(Name = "Conversion factor")]
     public decimal ConversionFactor { get; set; }
+    
+    [Required(ErrorMessage = "Decimal places is required.")]
+    [Display(Name = "Decimal places")]
+    public byte? DecimalPlaces { get; set; }
     
     [Required(ErrorMessage = "Is active is required.")]
     [Display(Name = "Is active")]
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
     
     public AddUnitOfMeasureCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
-        return new AddUnitOfMeasureCommand()
+        return new AddUnitOfMeasureCommand
         {
-            Name = Name,
             Code = Code,
-            Type = Type,
+            SingularName = SingularName,
+            PluralName = PluralName,
+            Type = (UnitOfMeasureType)Type!,
             BaseId = BaseId,
             ConversionFactor =  ConversionFactor,
+            DecimalPlaces = (byte)DecimalPlaces!,
             IsActive = IsActive,
             CreatedBy = createdBy,
             CreatedAt = createdAt,

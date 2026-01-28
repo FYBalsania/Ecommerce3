@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260113122635_SeedData")]
-    partial class SeedData
+    [Migration("20260128144037_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3906,23 +3906,27 @@ namespace Ecommerce3.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
+                        .HasColumnName("id")
                         .HasColumnOrder(1);
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("BaseId")
                         .HasColumnType("integer")
-                        .HasColumnOrder(5);
+                        .HasColumnName("base_id")
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)")
+                        .HasColumnName("code")
                         .HasColumnOrder(2);
 
                     b.Property<decimal>("ConversionFactor")
-                        .HasColumnType("decimal(18,3)")
-                        .HasColumnOrder(6);
+                        .HasColumnType("decimal(20,8)")
+                        .HasColumnName("conversion_factor")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3939,6 +3943,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("inet")
                         .HasColumnName("created_by_ip")
                         .HasColumnOrder(52);
+
+                    b.Property<byte>("DecimalPlaces")
+                        .HasColumnType("smallint")
+                        .HasColumnName("decimal_places")
+                        .HasColumnOrder(8);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
@@ -3957,19 +3966,29 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnOrder(7);
+                        .HasColumnName("is_active")
+                        .HasColumnOrder(9);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("PluralName")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)")
+                        .HasColumnName("plural_name")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("SingularName")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("singular_name")
                         .HasColumnOrder(3);
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnOrder(4);
+                        .HasColumnName("type")
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -3988,32 +4007,34 @@ namespace Ecommerce3.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BaseId");
+                    b.HasIndex("BaseId")
+                        .IsUnique();
 
                     b.HasIndex("Code")
                         .IsUnique()
-                        .HasDatabaseName("UK_UnitOfMeasure_Code");
-
-                    b.HasIndex("CreatedAt")
-                        .HasDatabaseName("idx_unit_of_measure_created_at");
+                        .HasDatabaseName("uk_unit_of_measures_code");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("idx_unit_of_measure_deleted_at");
+                        .HasDatabaseName("ix_unit_of_measure_deleted_at");
 
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("IsActive")
-                        .HasDatabaseName("IX_UnitOfMeasure_IsActive");
+                        .HasDatabaseName("ix_unit_of_measures_is_active");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("PluralName")
                         .IsUnique()
-                        .HasDatabaseName("UK_UnitOfMeasure_Name");
+                        .HasDatabaseName("uk_unit_of_measures_plural_name");
+
+                    b.HasIndex("SingularName")
+                        .IsUnique()
+                        .HasDatabaseName("uk_unit_of_measures_singular_name");
 
                     b.HasIndex("UpdatedBy");
 
-                    b.ToTable("UnitOfMeasure", (string)null);
+                    b.ToTable("unit_of_measures", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce3.Infrastructure.Entities.AppUser", b =>
@@ -5904,8 +5925,8 @@ namespace Ecommerce3.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce3.Domain.Entities.UnitOfMeasure", b =>
                 {
                     b.HasOne("Ecommerce3.Domain.Entities.UnitOfMeasure", "Base")
-                        .WithMany()
-                        .HasForeignKey("BaseId")
+                        .WithOne()
+                        .HasForeignKey("Ecommerce3.Domain.Entities.UnitOfMeasure", "BaseId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Ecommerce3.Infrastructure.Entities.AppUser", "CreatedByUser")

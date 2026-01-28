@@ -16,4 +16,14 @@ public interface IUpdatable
     {
         if (updatedBy <= 0) throw new DomainException(domainError);
     }
+    
+    public static void ValidateUpdatedByIp(IPAddress updatedByIp, DomainError domainError)
+    {
+        if (updatedByIp == null) throw new DomainException(domainError);
+    }
+    
+    public static void ValidateUpdatedAt(DateTime updatedAt, DomainError domainError)
+    {
+        if (updatedAt == default) throw new DomainException(domainError);
+    }
 }

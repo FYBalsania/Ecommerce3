@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -624,17 +624,19 @@ namespace Ecommerce3.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UnitOfMeasure",
+                name: "unit_of_measures",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                    Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
-                    Type = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
-                    BaseId = table.Column<int>(type: "integer", nullable: true),
-                    ConversionFactor = table.Column<decimal>(type: "numeric(18,3)", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    code = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    singular_name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    plural_name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    type = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false),
+                    base_id = table.Column<int>(type: "integer", nullable: true),
+                    conversion_factor = table.Column<decimal>(type: "numeric(20,8)", nullable: false),
+                    decimal_places = table.Column<byte>(type: "smallint", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
                     created_by = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),
@@ -647,30 +649,30 @@ namespace Ecommerce3.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnitOfMeasure", x => x.Id);
+                    table.PrimaryKey("PK_unit_of_measures", x => x.id);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_AppUser_created_by",
+                        name: "FK_unit_of_measures_AppUser_created_by",
                         column: x => x.created_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_AppUser_deleted_by",
+                        name: "FK_unit_of_measures_AppUser_deleted_by",
                         column: x => x.deleted_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_AppUser_updated_by",
+                        name: "FK_unit_of_measures_AppUser_updated_by",
                         column: x => x.updated_by,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UnitOfMeasure_UnitOfMeasure_BaseId",
-                        column: x => x.BaseId,
-                        principalTable: "UnitOfMeasure",
-                        principalColumn: "Id",
+                        name: "FK_unit_of_measures_unit_of_measures_base_id",
+                        column: x => x.base_id,
+                        principalTable: "unit_of_measures",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -960,15 +962,15 @@ namespace Ecommerce3.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_UnitOfMeasure_UnitOfMeasureId",
-                        column: x => x.UnitOfMeasureId,
-                        principalTable: "UnitOfMeasure",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Product_countries_CountryOfOriginId",
                         column: x => x.CountryOfOriginId,
                         principalTable: "countries",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_unit_of_measures_UnitOfMeasureId",
+                        column: x => x.UnitOfMeasureId,
+                        principalTable: "unit_of_measures",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -3611,50 +3613,52 @@ namespace Ecommerce3.Infrastructure.Migrations
                 column: "updated_by");
 
             migrationBuilder.CreateIndex(
-                name: "idx_unit_of_measure_created_at",
-                table: "UnitOfMeasure",
-                column: "created_at");
-
-            migrationBuilder.CreateIndex(
-                name: "idx_unit_of_measure_deleted_at",
-                table: "UnitOfMeasure",
+                name: "ix_unit_of_measure_deleted_at",
+                table: "unit_of_measures",
                 column: "deleted_at");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_BaseId",
-                table: "UnitOfMeasure",
-                column: "BaseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_created_by",
-                table: "UnitOfMeasure",
-                column: "created_by");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_deleted_by",
-                table: "UnitOfMeasure",
-                column: "deleted_by");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_IsActive",
-                table: "UnitOfMeasure",
-                column: "IsActive");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitOfMeasure_updated_by",
-                table: "UnitOfMeasure",
-                column: "updated_by");
-
-            migrationBuilder.CreateIndex(
-                name: "UK_UnitOfMeasure_Code",
-                table: "UnitOfMeasure",
-                column: "Code",
+                name: "IX_unit_of_measures_base_id",
+                table: "unit_of_measures",
+                column: "base_id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "UK_UnitOfMeasure_Name",
-                table: "UnitOfMeasure",
-                column: "Name",
+                name: "IX_unit_of_measures_created_by",
+                table: "unit_of_measures",
+                column: "created_by");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_unit_of_measures_deleted_by",
+                table: "unit_of_measures",
+                column: "deleted_by");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_unit_of_measures_is_active",
+                table: "unit_of_measures",
+                column: "is_active");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_unit_of_measures_updated_by",
+                table: "unit_of_measures",
+                column: "updated_by");
+
+            migrationBuilder.CreateIndex(
+                name: "uk_unit_of_measures_code",
+                table: "unit_of_measures",
+                column: "code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "uk_unit_of_measures_plural_name",
+                table: "unit_of_measures",
+                column: "plural_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "uk_unit_of_measures_singular_name",
+                table: "unit_of_measures",
+                column: "singular_name",
                 unique: true);
         }
 
@@ -3758,10 +3762,10 @@ namespace Ecommerce3.Infrastructure.Migrations
                 name: "ProductGroup");
 
             migrationBuilder.DropTable(
-                name: "UnitOfMeasure");
+                name: "countries");
 
             migrationBuilder.DropTable(
-                name: "countries");
+                name: "unit_of_measures");
 
             migrationBuilder.DropTable(
                 name: "Customer");

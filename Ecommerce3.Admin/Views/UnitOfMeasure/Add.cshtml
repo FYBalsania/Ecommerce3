@@ -25,17 +25,29 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="Name"></label>
-                            <input class="form-control" asp-for="Name"/>
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <label class="form-label fw-bold required" asp-for="SingularName"></label>
+                            <input class="form-control" asp-for="SingularName"/>
+                            <span asp-validation-for="SingularName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="PluralName"></label>
+                            <input class="form-control" asp-for="PluralName"/>
+                            <span asp-validation-for="PluralName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold" asp-for="Type">Type:</label>
+                            <label class="form-label fw-bold required" asp-for="Type"></label>
                             <select class="form-select" asp-for="Type">
                                 <option value="">Select...</option>
                                 <option value="@UnitOfMeasureType.Area">Area</option>
@@ -49,19 +61,6 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="IsActive"></label>
-                            <select class="form-select" asp-for="IsActive">
-                                <option value="">Select</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                            <span asp-validation-for="IsActive" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
                             <div class="mb-3">
                                 <label class="form-label fw-bold" asp-for="BaseId"></label>
                                 <select class="form-select" asp-for="BaseId" asp-items="Model.Bases">
@@ -71,6 +70,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label fw-bold required" asp-for="ConversionFactor"></label>
@@ -78,6 +79,33 @@
                             <span asp-validation-for="ConversionFactor" class="text-danger"></span>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="DecimalPlaces"></label>
+                            <select class="form-select" asp-for="DecimalPlaces">
+                                <option value="">Select...</option>
+                                <option value="0">Zero</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                                <option value="4">Four</option>
+                            </select>
+                            <span class="text-danger" asp-for="DecimalPlaces"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="IsActive"></label>
+                            <select class="form-select" asp-for="IsActive">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6"></div>
                 </div>
             </div>
         </div>

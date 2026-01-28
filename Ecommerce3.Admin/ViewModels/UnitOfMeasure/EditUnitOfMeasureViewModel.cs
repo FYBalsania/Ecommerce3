@@ -15,9 +15,13 @@ public class EditUnitOfMeasureViewModel
     [StringLength(16, MinimumLength = 1, ErrorMessage = "Code must be between 1 and 16 characters.")]
     public string Code { get; set; }
     
-    [Required(ErrorMessage = "Name is required.")]
-    [StringLength(256, MinimumLength = 1, ErrorMessage = "Name must be between 1 and 256 characters.")]
-    public string Name { get; set; }
+    [Required(ErrorMessage = "Singular name is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Singular name must be between 1 and 256 characters.")]
+    public string SingularName { get; set; }
+    
+    [Required(ErrorMessage = "Plural name is required.")]
+    [StringLength(256, MinimumLength = 1, ErrorMessage = "Plural name must be between 1 and 256 characters.")]
+    public string PluralName { get; set; }
     
     [Required(ErrorMessage = "Type is required.")]
     public UnitOfMeasureType Type { get; set; }
@@ -30,6 +34,10 @@ public class EditUnitOfMeasureViewModel
     [Display(Name = "Conversion Factor")]
     public decimal ConversionFactor { get; set; }
     
+    [Required(ErrorMessage = "Decimal places is required.")]
+    [Display(Name = "Decimal places")]
+    public byte DecimalPlaces { get; set; }
+    
     [Required(ErrorMessage = "Is active is required.")]
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
@@ -40,10 +48,12 @@ public class EditUnitOfMeasureViewModel
         {
             Id = Id,
             Code = Code,
-            Name = Name,
+            SingularName = SingularName,
+            PluralName = PluralName,
             Type = Type,
             BaseId = BaseId,
             ConversionFactor = ConversionFactor,
+            DecimalPlaces = DecimalPlaces,
             IsActive = IsActive,
             UpdatedBy = updatedBy,
             UpdatedAt = updatedAt,
@@ -57,7 +67,7 @@ public class EditUnitOfMeasureViewModel
         {
             Id = dto.Id,
             Code = dto.Code,
-            Name = dto.Name,
+            SingularName = dto.Name,
             Type = dto.Type,
             BaseId = dto.BaseId,
             ConversionFactor = dto.ConversionFactor,

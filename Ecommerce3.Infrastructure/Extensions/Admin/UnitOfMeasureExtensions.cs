@@ -10,9 +10,9 @@ public static class UnitOfMeasureExtensions
     {
         Id = uom.Id,
         Code = uom.Code,
-        Name = uom.Name,
+        Name = uom.SingularName,
         Type = uom.Type,
-        BaseName = uom.Base!.Name,
+        BaseName = uom.Base!.SingularName,
         ConversionFactor = uom.ConversionFactor,
         IsActive = uom.IsActive,
         CreatedUserFullName = uom.CreatedByUser!.FullName,
@@ -23,7 +23,7 @@ public static class UnitOfMeasureExtensions
     {
         Id = uom.Id,
         Code = uom.Code,
-        Name = uom.Name,
+        Name = uom.SingularName,
         Type = uom.Type,
         BaseId = uom.BaseId,
         ConversionFactor = uom.ConversionFactor,

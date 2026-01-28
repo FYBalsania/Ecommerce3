@@ -73,8 +73,8 @@ public class UnitOfMeasureController(
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Code)}":
                     ModelState.AddModelError(nameof(model.Code), domainException.Message);
                     return View(model);
-                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Name)}":
-                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.SingularName)}":
+                    ModelState.AddModelError(nameof(model.SingularName), domainException.Message);
                     return View(model);
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Type)}":
                     ModelState.AddModelError(nameof(model.Type), domainException.Message);
@@ -91,7 +91,7 @@ public class UnitOfMeasureController(
             }
         }
 
-        TempData["SuccessMessage"] = Common.AddedSuccessfully(model.Name);
+        TempData["SuccessMessage"] = Common.AddedSuccessfully(model.SingularName);
         return LocalRedirect("/UnitOfMeasure/Index");
     }
     
@@ -135,8 +135,8 @@ public class UnitOfMeasureController(
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Code)}":
                     ModelState.AddModelError(nameof(model.Code), domainException.Message);
                     return View(model);
-                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Name)}":
-                    ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.SingularName)}":
+                    ModelState.AddModelError(nameof(model.SingularName), domainException.Message);
                     return View(model);
                 case $"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Type)}":
                     ModelState.AddModelError(nameof(model.Type), domainException.Message);
@@ -153,7 +153,7 @@ public class UnitOfMeasureController(
             }
         }
 
-        TempData["SuccessMessage"] = Common.EditedSuccessfully(model.Name);
+        TempData["SuccessMessage"] = Common.EditedSuccessfully(model.SingularName);
         return LocalRedirect("/UnitOfMeasure/Index");
     }
     

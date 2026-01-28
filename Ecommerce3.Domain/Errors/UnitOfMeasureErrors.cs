@@ -20,14 +20,14 @@ public static partial class DomainErrors
             new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Code)}", "Duplicate code.");
 
         public static readonly DomainError NameRequired =
-            new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Name)}", "Name is required.");
+            new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.SingularName)}", "Name is required.");
 
         public static readonly DomainError NameTooLong =
-            new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Name)}",
+            new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.SingularName)}",
                 $"Name cannot exceed {UnitOfMeasure.NameMaxLength} characters.");
 
         public static readonly DomainError DuplicateName =
-            new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.Name)}", "Duplicate name.");
+            new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.SingularName)}", "Duplicate name.");
 
         public static readonly DomainError InvalidCreatedBy =
             new($"{nameof(UnitOfMeasure)}.{nameof(UnitOfMeasure.CreatedBy)}", "Created by is invalid.");

@@ -337,7 +337,7 @@ public class ProductsController(
 
             // --- Core product ---
             case $"{nameof(Product)}.{nameof(Product.Name)}":
-                ModelState.AddModelError(nameof(model.Name), domainException.Message);
+                ModelState.AddModelError(nameof(UnitOfMeasure.SingularName), domainException.Message);
                 break;
             case $"{nameof(Product)}.{nameof(Product.Slug)}":
                 ModelState.AddModelError(nameof(model.Slug), domainException.Message);

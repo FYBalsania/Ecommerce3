@@ -16,4 +16,14 @@ public interface ICreatable
     {
         if (createdBy <= 0) throw new DomainException(domainError);
     }
+    
+    public static void ValidateCreatedByIp(IPAddress createdByIp, DomainError domainError)
+    {
+        if (createdByIp == null) throw new DomainException(domainError);
+    }
+    
+    public static void ValidateCreatedAt(DateTime createdAt, DomainError domainError)
+    {
+        if (createdAt == default) throw new DomainException(domainError);
+    }
 }

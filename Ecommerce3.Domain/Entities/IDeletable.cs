@@ -16,4 +16,14 @@ public interface IDeletable
     {
         if (deletedBy <= 0) throw new DomainException(domainError);
     }
+    
+    public static void ValidateDeletedByIp(IPAddress deletedByIp, DomainError domainError)
+    {
+        if (deletedByIp == null) throw new DomainException(domainError);
+    }
+    
+    public static void ValidateDeletedAt(DateTime deletedAt, DomainError domainError)
+    {
+        if (deletedAt == default) throw new DomainException(domainError);
+    }
 }

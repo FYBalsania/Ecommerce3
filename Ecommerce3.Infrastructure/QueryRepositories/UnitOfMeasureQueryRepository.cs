@@ -18,12 +18,12 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
         if (!string.IsNullOrWhiteSpace(filter.Code))
             query = query.Where(x => x.Code.ToLower().Contains(filter.Code.ToLower()));
         if (!string.IsNullOrWhiteSpace(filter.Name))
-            query = query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));
+            query = query.Where(x => x.SingularName.ToLower().Contains(filter.Name.ToLower()));
         if (filter.IsActive.HasValue)
             query = query.Where(x => x.IsActive == filter.IsActive);
 
         var total = await query.CountAsync(cancellationToken);
-        query = query.OrderBy(x => x.Name);
+        query = query.OrderBy(x => x.SingularName);
         var unitOfMeasures = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
@@ -54,9 +54,9 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
         var query = dbContext.UnitOfMeasures.AsQueryable();
 
         if (excludeId is not null)
-            return await query.AnyAsync(x => x.Id != excludeId && x.Name == name, cancellationToken);
+            return await query.AnyAsync(x => x.Id != excludeId && x.SingularName == name, cancellationToken);
 
-        return await query.AnyAsync(x => x.Name == name, cancellationToken);
+        return await query.AnyAsync(x => x.SingularName == name, cancellationToken);
     }
 
     public async Task<IDictionary<int, string>> GetIdAndNameDictionaryAsync(int? excludeId = null, bool excludeNonBases = false, CancellationToken cancellationToken = default)
@@ -65,7 +65,7 @@ internal class UnitOfMeasureQueryRepository(AppDbContext dbContext) : IUnitOfMea
         
         if (excludeId is not null) query = query.Where(x => x.Id != excludeId.Value);
         if(excludeNonBases) query = query.Where(x => x.BaseId == null);
-        return await query.OrderBy(x => x.Name).ToDictionaryAsync(x => x.Id, x => x.Name, cancellationToken);
+        return await query.OrderBy(x => x.SingularName).ToDictionaryAsync(x => x.Id, x => x.SingularName, cancellationToken);
     }
 
     public async Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)

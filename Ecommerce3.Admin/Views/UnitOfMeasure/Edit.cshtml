@@ -4,7 +4,7 @@
 <div class="content-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <!-- Left side: Heading -->
-        <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"] - @Model.Name</h2>
+        <h2 class="text-danger fw-bold fs-3 mb-0">@ViewData["Title"] - @Model.SingularName</h2>
     </div>
 
     <form method="post" asp-action="Edit">
@@ -25,9 +25,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label fw-bold required" asp-for="Name"></label>
-                            <input class="form-control" asp-for="Name"/>
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <label class="form-label fw-bold required" asp-for="SingularName"></label>
+                            <input class="form-control" asp-for="SingularName"/>
+                            <span asp-validation-for="SingularName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

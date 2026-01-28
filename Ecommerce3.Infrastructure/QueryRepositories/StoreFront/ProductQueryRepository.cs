@@ -126,7 +126,7 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
             .GroupBy(p => new
             {
                 p.Product!.UnitOfMeasureId,
-                p.Product.UnitOfMeasure!.Name,
+                Name = p.Product.UnitOfMeasure!.SingularName,
                 p.Product.QuantityPerUnitOfMeasure
             })
             .Select(g => new UOMFacetDTO
