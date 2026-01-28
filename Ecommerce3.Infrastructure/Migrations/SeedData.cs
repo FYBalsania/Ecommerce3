@@ -64,20 +64,20 @@ public partial class SeedData : Migration
         //Unit of Measures.
           migrationBuilder.Sql("""
                                INSERT INTO public.unit_of_measures(
-                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, created_by, created_at, created_by_ip)
-                               VALUES (1, 'g', 'Gram', 'Grams', 'Weight', NULL, 1, 0, TRUE, 1, NOW(), '127.0.0.1'::inet);
+                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, sort_order,created_by, created_at, created_by_ip)
+                               VALUES (1, 'g', 'Gram', 'Grams', 'Weight', NULL, 1, 0, TRUE,1, 1, NOW(), '127.0.0.1'::inet);
 
                                INSERT INTO public.unit_of_measures(
-                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, created_by, created_at, created_by_ip)
-                               VALUES (2, 'kg', 'Kilogram', 'Kilograms', 'Weight', NULL, 1, 0, TRUE, 1, NOW(), '127.0.0.1'::inet);
+                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, sort_order, created_by, created_at, created_by_ip)
+                               VALUES (2, 'kg', 'Kilogram', 'Kilograms', 'Weight', NULL, 1, 0, TRUE,2, 1, NOW(), '127.0.0.1'::inet);
 
                                INSERT INTO public.unit_of_measures(
-                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, created_by, created_at, created_by_ip)
-                               VALUES (3, 'pc', 'Piece', 'Pieces', 'Count', NULL, 1, 0, TRUE, 1, NOW(), '127.0.0.1'::inet);
+                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, sort_order, created_by, created_at, created_by_ip)
+                               VALUES (3, 'pc', 'Piece', 'Pieces', 'Count', NULL, 1, 0, TRUE, 1, 1, NOW(), '127.0.0.1'::inet);
 
                                INSERT INTO public.unit_of_measures(
-                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, created_by, created_at, created_by_ip)
-                               VALUES (4, 'pack3', 'Pack of 3', 'Pack of 3', 'Count', NULL, 1, 0, TRUE, 1, NOW(), '127.0.0.1'::inet);
+                               id, code, singular_name, plural_name, type, base_id, conversion_factor, decimal_places, is_active, sort_order, created_by, created_at, created_by_ip)
+                               VALUES (4, 'pack3', 'Pack of 3', 'Pack of 3', 'Count', NULL, 1, 0, TRUE, 1, 1, NOW(), '127.0.0.1'::inet);
                                """);
 
         //Country.

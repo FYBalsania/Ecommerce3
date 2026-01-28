@@ -32,8 +32,8 @@ internal class UnitOfMeasureService(
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateName);
 
         var uom = new UnitOfMeasure(command.Code, command.SingularName, command.PluralName, command.Type,
-            command.BaseId, command.ConversionFactor, command.DecimalPlaces, command.IsActive, command.CreatedBy,
-            command.CreatedAt, command.CreatedByIp);
+            command.BaseId, command.ConversionFactor, command.DecimalPlaces, command.IsActive, command.SortOrder,
+            command.CreatedBy, command.CreatedAt, command.CreatedByIp);
 
         await repository.AddAsync(uom, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
@@ -56,8 +56,8 @@ internal class UnitOfMeasureService(
         if (exists) throw new DomainException(DomainErrors.UnitOfMeasureErrors.DuplicateName);
 
         uom.Update(command.Code, command.SingularName, command.PluralName, command.Type, command.BaseId,
-            command.ConversionFactor, command.DecimalPlaces, command.IsActive, command.UpdatedBy, command.UpdatedAt,
-            command.UpdatedByIp);
+            command.ConversionFactor, command.DecimalPlaces, command.IsActive, command.SortOrder, command.UpdatedBy,
+            command.UpdatedAt, command.UpdatedByIp);
 
         await unitOfWork.CompleteAsync(cancellationToken);
     }

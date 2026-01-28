@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -637,6 +637,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                     conversion_factor = table.Column<decimal>(type: "numeric(20,8)", nullable: false),
                     decimal_places = table.Column<byte>(type: "smallint", nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false),
+                    sort_order = table.Column<decimal>(type: "numeric(10,3)", nullable: false),
                     created_by = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     created_by_ip = table.Column<IPAddress>(type: "inet", nullable: false),

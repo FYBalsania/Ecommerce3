@@ -105,7 +105,13 @@
                             <span asp-validation-for="IsActive" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold required" asp-for="SortOrder"></label>
+                            <input type="number" class="form-control" asp-for="SortOrder">
+                            <span asp-validation-for="SortOrder" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -11,36 +11,39 @@ public sealed class AddUnitOfMeasureViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Code is required.")]
     [StringLength(16, MinimumLength = 1, ErrorMessage = "Code must be between 1 and 16 characters.")]
     public string Code { get; set; }
-    
+
     [Required(ErrorMessage = "Singular name is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = "Singular name must be between 1 and 256 characters.")]
     [Display(Name = "Singular name")]
     public string SingularName { get; set; }
-    
+
     [Required(ErrorMessage = "Plural name is required.")]
     [StringLength(256, MinimumLength = 1, ErrorMessage = "Plural name must be between 1 and 256 characters.")]
     [Display(Name = "Plural name")]
     public string PluralName { get; set; }
-    
+
     [Required(ErrorMessage = "Type is required.")]
     public UnitOfMeasureType? Type { get; set; }
-    
-    [Display(Name = "Base Unit")]
-    public int? BaseId { get; set; }
+
+    [Display(Name = "Base Unit")] public int? BaseId { get; set; }
     public SelectList Bases { get; set; }
-    
+
     [Required(ErrorMessage = "Conversion factor is required.")]
     [Display(Name = "Conversion factor")]
     public decimal ConversionFactor { get; set; }
-    
+
     [Required(ErrorMessage = "Decimal places is required.")]
     [Display(Name = "Decimal places")]
     public byte? DecimalPlaces { get; set; }
-    
+
     [Required(ErrorMessage = "Is active is required.")]
     [Display(Name = "Is active")]
     public bool IsActive { get; set; } = true;
-    
+
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Sort order is required.")]
+    [Display(Name = "Sort order")]
+    public decimal SortOrder { get; set; }
+
     public AddUnitOfMeasureCommand ToCommand(int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         return new AddUnitOfMeasureCommand
@@ -50,9 +53,10 @@ public sealed class AddUnitOfMeasureViewModel
             PluralName = PluralName,
             Type = (UnitOfMeasureType)Type!,
             BaseId = BaseId,
-            ConversionFactor =  ConversionFactor,
+            ConversionFactor = ConversionFactor,
             DecimalPlaces = (byte)DecimalPlaces!,
             IsActive = IsActive,
+            SortOrder = SortOrder,
             CreatedBy = createdBy,
             CreatedAt = createdAt,
             CreatedByIp = createdByIp,

@@ -38,6 +38,7 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
             .HasColumnOrder(8);
 
         builder.Property(x => x.IsActive).HasColumnType("boolean").HasColumnName("is_active").HasColumnOrder(9);
+        builder.Property(x => x.SortOrder).HasColumnType("decimal(10,3)").HasColumnName("sort_order").HasColumnOrder(10);
         builder.Property(x => x.CreatedBy).HasColumnName("created_by").HasColumnType("integer").HasColumnOrder(50);
         builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp").HasColumnOrder(51);
         builder.Property(x => x.CreatedByIp).HasColumnName("created_by_ip").HasColumnType("inet").HasColumnOrder(52);

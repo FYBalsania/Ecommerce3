@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260128144037_init")]
-    partial class init
+    [Migration("20260128181517_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3982,6 +3982,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(128)")
                         .HasColumnName("singular_name")
                         .HasColumnOrder(3);
+
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(10,3)")
+                        .HasColumnName("sort_order")
+                        .HasColumnOrder(10);
 
                     b.Property<string>("Type")
                         .IsRequired()

@@ -13,6 +13,7 @@ public record AddUnitOfMeasureCommand
     public required decimal ConversionFactor { get; init; }
     public required byte DecimalPlaces { get; init; }
     public required bool IsActive { get; init; }
+    public required decimal SortOrder { get; init; }
     public required int CreatedBy { get; init; }
     public required DateTime CreatedAt { get; init; }
     public required IPAddress CreatedByIp { get; init; }

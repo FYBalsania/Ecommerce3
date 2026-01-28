@@ -42,9 +42,13 @@ public class EditUnitOfMeasureViewModel
     [Display(Name = "Is active")]
     public bool IsActive { get; set; }
     
+    [Required(ErrorMessage = "Sort order is required.")]
+    [Display(Name = "Sort order")]
+    public int SortOrder { get; set; }
+    
     public EditUnitOfMeasureCommand ToCommand(int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
-        return new EditUnitOfMeasureCommand()
+        return new EditUnitOfMeasureCommand
         {
             Id = Id,
             Code = Code,
@@ -55,6 +59,7 @@ public class EditUnitOfMeasureViewModel
             ConversionFactor = ConversionFactor,
             DecimalPlaces = DecimalPlaces,
             IsActive = IsActive,
+            SortOrder = SortOrder,
             UpdatedBy = updatedBy,
             UpdatedAt = updatedAt,
             UpdatedByIp = updatedByIp,

@@ -3980,6 +3980,11 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnName("singular_name")
                         .HasColumnOrder(3);
 
+                    b.Property<decimal>("SortOrder")
+                        .HasColumnType("decimal(10,3)")
+                        .HasColumnName("sort_order")
+                        .HasColumnOrder(10);
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(16)

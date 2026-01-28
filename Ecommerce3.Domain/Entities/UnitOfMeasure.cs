@@ -20,6 +20,7 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
     public decimal ConversionFactor { get; private set; }
     public byte DecimalPlaces { get; private set; }
     public bool IsActive { get; private set; }
+    public decimal SortOrder { get; private set; }
     public int CreatedBy { get; private set; }
     public IAppUser? CreatedByUser { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -38,8 +39,8 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
     }
 
     public UnitOfMeasure(string code, string singularName, string pluralName, UnitOfMeasureType type, int? baseId,
-        decimal conversionFactor, byte decimalPlaces, bool isActive, int createdBy, DateTime createdAt,
-        IPAddress createdByIp)
+        decimal conversionFactor, byte decimalPlaces, bool isActive, decimal sortOrder, int createdBy,
+        DateTime createdAt, IPAddress createdByIp)
     {
         //Code.
         ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
@@ -84,14 +85,15 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
         ConversionFactor = conversionFactor;
         DecimalPlaces = decimalPlaces;
         IsActive = isActive;
+        SortOrder = sortOrder;
         CreatedBy = createdBy;
         CreatedAt = createdAt;
         CreatedByIp = createdByIp;
     }
 
     public void Update(string code, string singularName, string pluralName, UnitOfMeasureType type,
-        int? baseId, decimal conversionFactor, byte decimalPlaces, bool isActive, int updatedBy, DateTime updatedAt,
-        IPAddress updatedByIp)
+        int? baseId, decimal conversionFactor, byte decimalPlaces, bool isActive, decimal sortOrder, int updatedBy,
+        DateTime updatedAt, IPAddress updatedByIp)
     {
         //Code.
         ValidateRequiredAndTooLong(code, CodeMaxLength, DomainErrors.UnitOfMeasureErrors.CodeRequired,
@@ -130,7 +132,7 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
 
         if (Code == code && SingularName == singularName && PluralName == pluralName && Type == type &&
             BaseId == baseId && ConversionFactor == conversionFactor && DecimalPlaces == decimalPlaces &&
-            IsActive == isActive) return;
+            IsActive == isActive && SortOrder == sortOrder) return;
 
         Code = code;
         SingularName = singularName;
@@ -140,6 +142,7 @@ public sealed class UnitOfMeasure : Entity, ICreatable, IUpdatable, IDeletable
         ConversionFactor = conversionFactor;
         DecimalPlaces = decimalPlaces;
         IsActive = isActive;
+        SortOrder = sortOrder;
         UpdatedBy = updatedBy;
         UpdatedAt = updatedAt;
         UpdatedByIp = updatedByIp;
