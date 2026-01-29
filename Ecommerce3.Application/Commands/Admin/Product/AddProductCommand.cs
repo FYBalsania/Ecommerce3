@@ -27,16 +27,16 @@ public record AddProductCommand
     public required decimal Price { get; init; }
     public required decimal? OldPrice { get; init; }
     public required decimal? CostPrice { get; init; }
-    public required decimal Stock { get; init; }
-    public required decimal? MinStock { get; init; }
+    public required int Stock { get; init; }
+    public required int? MinStock { get; init; }
     public required bool ShowAvailability { get; init; }
     public required bool FreeShipping { get; init; }
     public required decimal AdditionalShippingCharge { get; init; }
     public required int UnitOfMeasureId { get; init; }
     public required decimal QuantityPerUnitOfMeasure { get; init; }
     public required int DeliveryWindowId { get; init; }
-    public required decimal MinOrderQuantity { get; init; }
-    public required decimal? MaxOrderQuantity { get; init; }
+    public required int MinOrderQuantity { get; init; }
+    public required int? MaxOrderQuantity { get; init; }
     public required bool IsFeatured { get; init; }
     public required bool IsNew { get; init; }
     public required bool IsBestSeller { get; init; }

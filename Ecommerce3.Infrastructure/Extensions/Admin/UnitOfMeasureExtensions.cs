@@ -23,11 +23,14 @@ public static class UnitOfMeasureExtensions
     {
         Id = uom.Id,
         Code = uom.Code,
-        Name = uom.SingularName,
+        SingularName = uom.SingularName,
+        PluralName = uom.PluralName,
         Type = uom.Type,
         BaseId = uom.BaseId,
         ConversionFactor = uom.ConversionFactor,
-        IsActive = uom.IsActive
+        DecimalPlaces = uom.DecimalPlaces,
+        IsActive = uom.IsActive, 
+        SortOrder = uom.SortOrder
     };
     
     public static IQueryable<UnitOfMeasureDTO> ProjectToDTO(this IQueryable<UnitOfMeasure> query) =>

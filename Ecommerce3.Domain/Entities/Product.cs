@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Net;
 using Ecommerce3.Domain.Enums;
 using Ecommerce3.Domain.Errors;
@@ -5,7 +6,8 @@ using Ecommerce3.Domain.Exceptions;
 
 namespace Ecommerce3.Domain.Entities;
 
-public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<ProductKVPListItem>, ICreatable, IUpdatable, IDeletable
+public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<ProductKVPListItem>, ICreatable, IUpdatable,
+    IDeletable
 {
     public static readonly int SKUMaxLength = 16;
     public static readonly int GTINMaxLength = 16;
@@ -54,8 +56,8 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
     public decimal Price { get; private set; }
     public decimal? OldPrice { get; private set; }
     public decimal? CostPrice { get; private set; }
-    public decimal Stock { get; private set; }
-    public decimal? MinStock { get; private set; }
+    public int Stock { get; private set; }
+    public int? MinStock { get; private set; }
     public bool ShowAvailability { get; private set; }
     public bool FreeShipping { get; private set; }
     public decimal AdditionalShippingCharge { get; private set; }
@@ -64,8 +66,8 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
     public decimal QuantityPerUnitOfMeasure { get; private set; }
     public int DeliveryWindowId { get; private set; }
     public DeliveryWindow? DeliveryWindow { get; private set; }
-    public decimal MinOrderQuantity { get; private set; }
-    public decimal? MaxOrderQuantity { get; private set; }
+    public int MinOrderQuantity { get; private set; }
+    public int? MaxOrderQuantity { get; private set; }
     public bool IsFeatured { get; private set; }
     public bool IsNew { get; private set; }
     public bool IsBestSeller { get; private set; }
@@ -108,12 +110,12 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         KeyValuePair<int, string>? productGroup,
         IReadOnlyCollection<ValueObjects.ProductAttribute> attributes,
         string? shortDescription, string? fullDescription, bool allowReviews, decimal price, decimal? oldPrice,
-        decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability, bool freeShipping,
-        decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure, int deliveryWindowId,
-        decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew, bool isBestSeller,
-        bool isReturnable, ProductStatus status, string? redirectUrl, int countryOfOriginId, decimal sortOrder,
-        string? h1, string metaTitle,
-        string? metaDescription, string? metaKeywords, int createdBy, DateTime createdAt, IPAddress createdByIp)
+        decimal? costPrice, int stock, int? minStock, bool showAvailability, bool freeShipping,
+        decimal additionalShippingCharge, int unitOfMeasureId, byte unitOfMeasureDecimalPlaces,
+        decimal quantityPerUnitOfMeasure, int deliveryWindowId, int minOrderQuantity, int? maxOrderQuantity,
+        bool isFeatured, bool isNew, bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl,
+        int countryOfOriginId, decimal sortOrder, string? h1, string metaTitle, string? metaDescription,
+        string? metaKeywords, int createdBy, DateTime createdAt, IPAddress createdByIp)
     {
         //SKU.
         ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
@@ -258,17 +260,22 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
             true, createdBy, createdAt, createdByIp);
 
         //Facets.
-        SetFacets(false, categories, productGroup, attributes);
+        SetFacets(false, categories, productGroup, attributes, unitOfMeasureDecimalPlaces);
     }
 
     private void SetFacets(bool clear, IDictionary<int, string> categories, KeyValuePair<int, string>? productGroup
-        , IReadOnlyCollection<ValueObjects.ProductAttribute> attributes)
+        , IReadOnlyCollection<ValueObjects.ProductAttribute> attributes, byte unitOfMeasureDecimalPlaces)
     {
         if (clear) Facets.Clear();
         foreach (var category in categories)
         {
             Facets.Add($"category:{category.Key}");
         }
+
+        //quantity:{uomId}:{roundedQuantity}
+        var roundedQty = Math.Round(QuantityPerUnitOfMeasure, unitOfMeasureDecimalPlaces,
+            MidpointRounding.AwayFromZero);
+        Facets.Add($"quantity:{UnitOfMeasureId}:{roundedQty.ToString(CultureInfo.InvariantCulture)}");
 
         if (productGroup is not null)
         {
@@ -286,7 +293,7 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         DeletedByIp = deletedByIp;
     }
 
-    private static void ValidateMinMaxOrderQuantity(decimal minOrderQuantity, decimal? maxOrderQuantity)
+    private static void ValidateMinMaxOrderQuantity(int minOrderQuantity, int? maxOrderQuantity)
     {
         ValidatePositiveNumber(minOrderQuantity, DomainErrors.ProductErrors.InvalidMinOrderQuantity);
         if (maxOrderQuantity is null) return;
@@ -330,12 +337,12 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         KeyValuePair<int, string>? productGroup,
         IReadOnlyCollection<ValueObjects.ProductAttribute> attributes,
         string? shortDescription, string? fullDescription, bool allowReviews,
-        decimal price, decimal? oldPrice, decimal? costPrice, decimal stock, decimal? minStock, bool showAvailability,
-        bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, decimal quantityPerUnitOfMeasure,
-        int deliveryWindowId, decimal minOrderQuantity, decimal? maxOrderQuantity, bool isFeatured, bool isNew,
-        bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl, int countryOfOriginId,
-        decimal sortOrder, string? h1, string metaTitle, string? metaDescription, string? metaKeywords,
-        int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
+        decimal price, decimal? oldPrice, decimal? costPrice, int stock, int? minStock, bool showAvailability,
+        bool freeShipping, decimal additionalShippingCharge, int unitOfMeasureId, byte unitOfMeasureDecimalPlaces,
+        decimal quantityPerUnitOfMeasure, int deliveryWindowId, int minOrderQuantity, int? maxOrderQuantity,
+        bool isFeatured, bool isNew, bool isBestSeller, bool isReturnable, ProductStatus status, string? redirectUrl,
+        int countryOfOriginId, decimal sortOrder, string? h1, string metaTitle, string? metaDescription,
+        string? metaKeywords, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
     {
         //SKU.
         ValidateRequiredAndTooLong(sku, SKUMaxLength, DomainErrors.ProductErrors.SKURequired,
@@ -513,7 +520,7 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         UpdatedByIp = updatedByIp;
 
         //Facets
-        SetFacets(true, categories, productGroup, attributes);
+        SetFacets(true, categories, productGroup, attributes, unitOfMeasureDecimalPlaces);
     }
 
     private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
@@ -600,7 +607,8 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         }
     }
 
-    public void Update(decimal price, decimal? oldPrice, decimal stock, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)
+    public void Update(decimal price, decimal? oldPrice, int stock, int updatedBy, DateTime updatedAt,
+        IPAddress updatedByIp)
     {
         ValidatePositiveNumber(price, DomainErrors.ProductErrors.InvalidPrice);
         if (oldPrice is not null) ValidatePositiveNumber(oldPrice.Value, DomainErrors.ProductErrors.InvalidOldPrice);

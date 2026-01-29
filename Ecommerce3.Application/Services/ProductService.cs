@@ -103,8 +103,9 @@ internal sealed class ProductService(
         }
 
         //Unit of measure exists check.
-        exists = await unitOfMeasureQueryRepository.ExistsByIdAsync(command.UnitOfMeasureId, cancellationToken);
-        if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidUnitOfMeasureId);
+        var uom = await unitOfMeasureQueryRepository.GetByUnitOfMeasureIdAsync(command.UnitOfMeasureId,
+            cancellationToken);
+        if (uom is null) throw new DomainException(DomainErrors.ProductErrors.InvalidUnitOfMeasureId);
 
         //Delivery window exists check.
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
@@ -120,7 +121,8 @@ internal sealed class ProductService(
             productAttributes, command.ShortDescription,
             command.FullDescription, command.AllowReviews, command.Price, command.OldPrice, command.CostPrice,
             command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
-            command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
+            command.AdditionalShippingCharge, command.UnitOfMeasureId, uom.DecimalPlaces,
+            command.QuantityPerUnitOfMeasure,
             command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
             command.CountryOfOriginId, command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription,
@@ -210,13 +212,14 @@ internal sealed class ProductService(
         }
 
         //Unit of measure exists check.
-        exists = await unitOfMeasureQueryRepository.ExistsByIdAsync(command.UnitOfMeasureId, cancellationToken);
-        if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidUnitOfMeasureId);
+        var uom = await unitOfMeasureQueryRepository.GetByUnitOfMeasureIdAsync(command.UnitOfMeasureId,
+            cancellationToken);
+        if (uom is null) throw new DomainException(DomainErrors.ProductErrors.InvalidUnitOfMeasureId);
 
         //Delivery window exists check.
         exists = await deliveryWindowQueryRepository.ExistsByIdAsync(command.DeliveryWindowId, cancellationToken);
         if (!exists) throw new DomainException(DomainErrors.ProductErrors.InvalidDeliveryWindowId);
-        
+
         //Country of origin exists check.
 
         var page = await pageRepository.GetByProductIdAsync(command.Id, ProductPageInclude.None, true,
@@ -232,7 +235,8 @@ internal sealed class ProductService(
             productAttributes,
             command.ShortDescription, command.FullDescription, command.AllowReviews, command.Price, command.OldPrice,
             command.CostPrice, command.Stock, command.MinStock, command.ShowAvailability, command.FreeShipping,
-            command.AdditionalShippingCharge, command.UnitOfMeasureId, command.QuantityPerUnitOfMeasure,
+            command.AdditionalShippingCharge, command.UnitOfMeasureId, uom.DecimalPlaces,
+            command.QuantityPerUnitOfMeasure,
             command.DeliveryWindowId, command.MinOrderQuantity, command.MaxOrderQuantity, command.IsFeatured,
             command.IsNew, command.IsBestSeller, command.IsReturnable, command.Status, command.RedirectUrl,
             command.CountryOfOriginId, command.SortOrder, command.H1, command.MetaTitle, command.MetaDescription,

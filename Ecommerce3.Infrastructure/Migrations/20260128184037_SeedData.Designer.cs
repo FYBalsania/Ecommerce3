@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce3.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260128181517_SeedData")]
+    [Migration("20260128184037_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />
@@ -2200,7 +2200,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(13);
 
                     b.Property<decimal>("AverageRating")
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal(3,2)")
                         .HasColumnOrder(19);
 
                     b.Property<int>("BrandId")
@@ -2314,16 +2314,16 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(64)")
                         .HasColumnOrder(4);
 
-                    b.Property<decimal?>("MaxOrderQuantity")
-                        .HasColumnType("decimal(18,3)")
+                    b.Property<int?>("MaxOrderQuantity")
+                        .HasColumnType("int")
                         .HasColumnOrder(33);
 
-                    b.Property<decimal>("MinOrderQuantity")
-                        .HasColumnType("decimal(18,3)")
+                    b.Property<int>("MinOrderQuantity")
+                        .HasColumnType("int")
                         .HasColumnOrder(32);
 
-                    b.Property<decimal?>("MinStock")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<int?>("MinStock")
+                        .HasColumnType("int")
                         .HasColumnOrder(25);
 
                     b.Property<string>("Name")
@@ -2345,7 +2345,7 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnOrder(15);
 
                     b.Property<decimal>("QuantityPerUnitOfMeasure")
-                        .HasColumnType("decimal(18,3)")
+                        .HasColumnType("decimal(18,4)")
                         .HasColumnOrder(30);
 
                     b.Property<string>("RedirectUrl")
@@ -2384,8 +2384,8 @@ namespace Ecommerce3.Infrastructure.Migrations
                         .HasColumnType("varchar(32)")
                         .HasColumnOrder(38);
 
-                    b.Property<decimal>("Stock")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<int>("Stock")
+                        .HasColumnType("int")
                         .HasColumnOrder(24);
 
                     b.Property<int>("TotalReviews")

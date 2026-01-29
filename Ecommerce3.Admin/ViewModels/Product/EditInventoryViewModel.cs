@@ -29,7 +29,7 @@ public class EditInventoryViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Stock is required.")]
     [Display(Name = "Stock")]
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
-    public decimal Stock { get; set; }
+    public int Stock { get; set; }
     
     public string? ReturnUrl { get; set; }
 

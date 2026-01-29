@@ -114,11 +114,11 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Stock is required.")]
     [Display(Name = "Stock")]
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
-    public decimal Stock { get; set; }
+    public int Stock { get; set; }
 
     [Display(Name = "Minimum Stock")]
     [Range(1, int.MaxValue, ErrorMessage = "Minimum stock must be greater than or equal to 1.")]
-    public decimal? MinStock { get; set; }
+    public int? MinStock { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Show Availability is required.")]
     [Display(Name = "Show Availability?")]
@@ -136,8 +136,10 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Unit Of Measure is required.")]
     [Display(Name = "Unit Of Measure")]
     public int UnitOfMeasureId { get; set; }
-
     public SelectList UnitOfMeasures { get; set; }
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Unit of measure decimal places is required.")]
+    [Range(0, 4, ErrorMessage = "Unit of measure decimal places must be between 1 and 4.")]
+    public int UnitOfMeasureDecimalPlaces { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Quantity Per Unit Of Measure is required.")]
     [Display(Name = "Quantity Per Unit Of Measure")]
@@ -153,11 +155,11 @@ public class EditProductViewModel
     [Required(AllowEmptyStrings = false, ErrorMessage = "Minimum Order Quantity is required.")]
     [Display(Name = "Minimum Order Quantity")]
     [Range(1, int.MaxValue, ErrorMessage = "Minimum order quantity must be greater than or equal to 1.")]
-    public decimal MinOrderQuantity { get; set; } = 1;
+    public int MinOrderQuantity { get; set; } = 1;
 
     [Range(1, int.MaxValue, ErrorMessage = "Maximum Order Quantity must be greater than or equal to 1.")]
     [Display(Name = "Maximum Order Quantity")]
-    public decimal? MaxOrderQuantity { get; set; }
+    public int? MaxOrderQuantity { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "Is Featured is required.")]
     [Display(Name = "Is Featured?")]

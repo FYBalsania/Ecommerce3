@@ -243,4 +243,8 @@ function validateSlug(inputEl, errorEl) {
     return true;
 }
 
+function roundTo(num, decimals) {
+    return Math.round(num * 10 ** decimals) / 10 ** decimals;
+}
+
 

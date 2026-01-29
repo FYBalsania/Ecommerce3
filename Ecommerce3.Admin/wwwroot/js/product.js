@@ -6,10 +6,10 @@ $(document).ready(function () {
 
     $('.select-category').select2({
         placeholder: 'Select...',
-        sorter: function(data) {
+        sorter: function (data) {
             return data;
         }
-    }).on('select2:select', function(e) {
+    }).on('select2:select', function (e) {
         var element = e.params.data.element;
         $(element).detach().appendTo($(this));
         $(this).trigger('change');
@@ -19,14 +19,39 @@ $(document).ready(function () {
     $('#Status').on('change', function () {
         toggleRedirectUrl();
     });
-    
+
     $('#Name').on('change', nameChanged);
 
     $(document).on('change', '#productGroup', function () {
         const productGroupId = $(this).val();
         getAttribute(productGroupId);
     });
+
+    $('#UnitOfMeasureId').on('change', unit_of_measure_changed);
+    $('#QuantityPerUnitOfMeasure').on('change', qty_per_unit_of_measure_changed)
 })
+
+async function unit_of_measure_changed(event) {
+    const response = await fetch('/api/UnitOfMeasures/' + $(event.target).val());
+    
+    if (response.ok) {
+        const uom = await response.json();
+        $('#unit_of_measure_decimal_places').val(uom.decimalPlaces);
+    }
+    else {
+        $('#unit_of_measure_decimal_places').val('');
+        alert('Error loading unit of measure.');
+    }
+
+    $('#QuantityPerUnitOfMeasure').val('');
+}
+
+function qty_per_unit_of_measure_changed(event) {
+    const qty = $(event.target).val();
+    const decimalPlaces = $('#unit_of_measure_decimal_places').val();
+
+    $(event.target).val(roundTo(qty, decimalPlaces));
+}
 
 function nameChanged(event) {
     const name = $(event.target).val();
@@ -45,7 +70,7 @@ async function getAttribute(productGroupId) {
     try {
         const response = await fetch(
             `/Products/GetAttributes?productGroupId=${productGroupId}`,
-            { method: 'GET', credentials: 'same-origin'});
+            {method: 'GET', credentials: 'same-origin'});
 
         const html = await response.text();
         container.html(html);

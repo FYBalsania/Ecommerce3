@@ -7,7 +7,7 @@
 
         <!-- Right side: button -->
         <div class="d-flex gap-2">
-            <a class="btn btn-primary" asp-controller="UnitOfMeasure" asp-action="Add">
+            <a class="btn btn-primary" asp-controller="UnitOfMeasures" asp-action="Add">
                 <i class="fas fa-plus"></i> Add New
             </a>
             <!-- Add more button here -->
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Main Content -->
-    <form method="get" asp-controller="UnitOfMeasure" asp-action="Index">
+    <form method="get" asp-controller="UnitOfMeasures" asp-action="Index">
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row mb-2">
@@ -78,7 +78,7 @@
                             <td class="text-end">@unitOfMeasure.CreatedUserFullName <br/>@unitOfMeasure.CreatedAt.ToString("dd-MMM-yyyy HH:mm tt")
                             </td>
                             <td class="text-center">
-                                <a asp-controller="UnitOfMeasure"
+                                <a asp-controller="UnitOfMeasures"
                                    asp-action="Edit"
                                    asp-route-id="@unitOfMeasure.Id"
                                    class="text-decoration-none">
@@ -149,7 +149,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form method="post" asp-controller="UnitOfMeasure" asp-action="Delete" class="d-inline">
+                <form method="post" asp-controller="UnitOfMeasures" asp-action="Delete" class="d-inline">
                     <input type="hidden" id="deleteUnitOfMeasureId" name="id" />
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>

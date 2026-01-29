@@ -72,7 +72,7 @@ public class EditUnitOfMeasureViewModel
         {
             Id = dto.Id,
             Code = dto.Code,
-            SingularName = dto.Name,
+            SingularName = dto.SingularName,
             Type = dto.Type,
             BaseId = dto.BaseId,
             ConversionFactor = dto.ConversionFactor,

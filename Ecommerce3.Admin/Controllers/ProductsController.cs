@@ -118,6 +118,8 @@ public class ProductsController(
         model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
         model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
         model.UnitOfMeasures = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        var uom = await unitOfMeasureService.GetByUnitOfMeasureIdAsync(product.UnitOfMeasureId, cancellationToken);
+        model.UnitOfMeasureDecimalPlaces = uom!.DecimalPlaces;
         model.DeliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
         model.Countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 
@@ -289,6 +291,11 @@ public class ProductsController(
         model.UnitOfMeasures = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
         model.DeliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
         model.Countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
+        if (model.UnitOfMeasureId > 0)
+        {
+            var unitOfMeasure = await unitOfMeasureService.GetByUnitOfMeasureIdAsync(model.UnitOfMeasureId, cancellationToken);
+            model.UnitOfMeasureDecimalPlaces = unitOfMeasure!.DecimalPlaces;
+        }
         model.PageTitle = "Add Product";
     }
 
@@ -298,6 +305,11 @@ public class ProductsController(
         model.Categories = new SelectList(await categoryService.GetIdAndNameListAsync(null, cancellationToken), "Key", "Value");
         model.ProductGroups = new SelectList(await productGroupService.GetIdAndNameListAsync(cancellationToken), "Key", "Value");
         model.UnitOfMeasures = new SelectList(await unitOfMeasureService.GetIdAndNameDictionaryAsync(null, false, cancellationToken), "Key", "Value");
+        if (model.UnitOfMeasureId > 0)
+        {
+            var unitOfMeasure = await unitOfMeasureService.GetByUnitOfMeasureIdAsync(model.UnitOfMeasureId, cancellationToken);
+            model.UnitOfMeasureDecimalPlaces = unitOfMeasure!.DecimalPlaces;
+        }
         model.DeliveryWindows = new SelectList(await deliveryWindowService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
         model.Countries = new SelectList(await countryService.GetIdAndNameDictionaryAsync(cancellationToken), "Key", "Value");
 

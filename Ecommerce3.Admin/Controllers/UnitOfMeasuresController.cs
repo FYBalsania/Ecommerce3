@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce3.Admin.Controllers;
 
-public class UnitOfMeasureController(
+public class UnitOfMeasuresController(
     IUnitOfMeasureService unitOfMeasureService,
     IIPAddressService ipAddressService,
     IDataProtectionProvider dataProtectionProvider,
@@ -104,7 +104,7 @@ public class UnitOfMeasureController(
         var model = EditUnitOfMeasureViewModel.FromDTO(unitOfMeasure);
         model.Bases = await GetIdAndNameDictionaryAsync(id, cancellationToken);
         
-        ViewData["Title"] = $"Edit Unit of Measure - {unitOfMeasure.Name}";
+        ViewData["Title"] = $"Edit Unit of Measure - {unitOfMeasure.SingularName}";
         return View(model);
     }
     
