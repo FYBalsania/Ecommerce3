@@ -29,7 +29,7 @@ public class CategoryLevel0ViewModel : PageViewModel
     public CategoryLevel0ViewModel(PLPParentCategoryDTO category, IReadOnlyList<BreadcrumbItem> breadcrumb,
         PageDTO page, IReadOnlyDictionary<int, string> brands, int[] selectedBrands,
         PriceRangeDTO priceRange, decimal? selectedMinPrice, decimal? selectedMaxPrice,
-        IReadOnlyList<UOMFacetDTO> weights, IDictionary<int, decimal> selectedWeights,
+        IReadOnlyList<UOMFacetDTO> weights, List<KeyValuePair<int, decimal>> selectedWeights,
         IReadOnlyList<ProductAttributeFacetDTO> attributes, IDictionary<int, int> selectedAttributes,
         PagedResult<ProductListItemDTO> products) 
         : base(page)
@@ -48,17 +48,33 @@ public class CategoryLevel0ViewModel : PageViewModel
             SelectedMinPrice = selectedMinPrice,
             SelectedMaxPrice = selectedMaxPrice
         };
+        
         Weights = weights.Select(x =>
         {
-            var isSelected = selectedWeights.TryGetValue(x.Id, out var qty) && qty == x.QtyPerUOM;
+            var roundedQty = Math.Round(
+                x.QtyPerUOM,
+                x.DecimalPlaces,
+                MidpointRounding.AwayFromZero
+            );
+
+            var isSelected = selectedWeights.Any(sw =>
+                sw.Key == x.Id &&
+                sw.Value == x.QtyPerUOM
+            );
+
             return new CheckBoxListItemViewModel
             {
                 Id = x.Id,
-                Text = $"{x.QtyPerUOM} {x.Name}",
+                Text = $"{roundedQty} {(x.QtyPerUOM == 1 ? x.SingularName : x.PluralName)}",
                 IsSelected = isSelected,
-                Tags = [x.QtyPerUOM.ToString(CultureInfo.InvariantCulture), x.Name]
+                Tags =
+                [
+                    roundedQty.ToString(CultureInfo.InvariantCulture),
+                    x.Id.ToString(CultureInfo.InvariantCulture)
+                ]
             };
         }).ToList();
+        
         Products = products;
         Attributes = attributes
             .GroupBy(a => new KeyValuePair<int, string>(a.AttributeId, a.AttributeDisplay))

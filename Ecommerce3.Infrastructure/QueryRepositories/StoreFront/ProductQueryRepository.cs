@@ -27,7 +27,7 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
     }
 
     public async Task<PagedResult<ProductListItemDTO>> GetListItemsAsync(int[] categories, int[] brands,
-        decimal? minPrice, decimal? maxPrice, IDictionary<int, decimal> weights, IDictionary<int, int> attributes,
+        decimal? minPrice, decimal? maxPrice, List<KeyValuePair<int, decimal>> weights, IDictionary<int, int> attributes,
         SortOrder sortOrder, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         var query = Products;
@@ -49,11 +49,14 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
         //Filter by weights.
         if (weights.Count > 0)
         {
+            // Build expected facet strings
+            var weightFacets = weights
+                .Select(w => $"quantity:{w.Key}:{w.Value}")
+                .ToArray();
+
             query = query.Where(p =>
-                weights.Any(w =>
-                    p.UnitOfMeasureId == w.Key &&
-                    p.QuantityPerUnitOfMeasure == w.Value
-                ));
+                p.Facets.Any(f => ((IEnumerable<string>)weightFacets).Contains(f))
+            );
         }
 
         //Filter by attributes.
@@ -126,14 +129,18 @@ internal class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRep
             .GroupBy(p => new
             {
                 p.Product!.UnitOfMeasureId,
-                Name = p.Product.UnitOfMeasure!.SingularName,
-                p.Product.QuantityPerUnitOfMeasure
+                p.Product.UnitOfMeasure!.SingularName,
+                p.Product.UnitOfMeasure.PluralName,
+                p.Product.QuantityPerUnitOfMeasure,
+                p.Product.UnitOfMeasure.DecimalPlaces
             })
             .Select(g => new UOMFacetDTO
             {
                 Id = g.Key.UnitOfMeasureId,
-                Name = g.Key.Name,
-                QtyPerUOM = g.Key.QuantityPerUnitOfMeasure
+                SingularName = g.Key.SingularName,
+                PluralName = g.Key.PluralName,
+                QtyPerUOM = g.Key.QuantityPerUnitOfMeasure,
+                DecimalPlaces = g.Key.DecimalPlaces
             })
             .ToListAsync(cancellationToken);
     }

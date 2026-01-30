@@ -9,7 +9,7 @@ public interface IProductQueryRepository
     Task<IReadOnlyList<ProductListItemDTO>> GetListItemsAsync(string[] sku, CancellationToken cancellationToken);
 
     Task<PagedResult<ProductListItemDTO>> GetListItemsAsync(int[] categories, int[] brands, decimal? minPrice,
-        decimal? maxPrice, IDictionary<int, decimal> weights, IDictionary<int, int> attributes,
+        decimal? maxPrice, List<KeyValuePair<int, decimal>> weights, IDictionary<int, int> attributes,
         Domain.Enums.SortOrder sortOrder, int pageNumber, int pageSize, CancellationToken cancellationToken);
 
     Task<PriceRangeDTO> GetPriceRangeAsync(int[] categories, CancellationToken cancellationToken);

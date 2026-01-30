@@ -11,10 +11,10 @@ public class ProductsController(
 {
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> GetByParams(int category, int[] brands, decimal? minPrice, decimal? maxPrice,
-        IDictionary<int, decimal>? weights, IDictionary<int, int>? attributes, int pageNumber, SortOrder sortOrder,
+        List<KeyValuePair<int, decimal>>? weights, IDictionary<int, int>? attributes, int pageNumber, SortOrder sortOrder,
         CancellationToken cancellationToken)
     {
-        weights ??= new Dictionary<int, decimal>();
+        weights ??= [];
         attributes ??= new Dictionary<int, int>();
 
         var pageSize = configuration.GetValue<int>("PLPSize");

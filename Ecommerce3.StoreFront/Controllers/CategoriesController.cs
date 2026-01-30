@@ -16,10 +16,10 @@ public class CategoriesController(
 {
     [HttpGet("c")]
     public async Task<IActionResult> CategoryLevel0(string category0Slug, int[] brands, decimal? minPrice,
-        decimal? maxPrice, IDictionary<int, decimal>? weights, IDictionary<int, int>? attributes,
+        decimal? maxPrice, List<KeyValuePair<int, decimal>> weights, IDictionary<int, int>? attributes,
         SortOrder sortOrder = SortOrder.NameAsc, CancellationToken cancellationToken = default)
     {
-        weights ??= new Dictionary<int, decimal>();
+        weights ??= [];
         attributes ??= new Dictionary<int, int>();
         var pageSize = configuration.GetValue<int>("PLPSize");
 
