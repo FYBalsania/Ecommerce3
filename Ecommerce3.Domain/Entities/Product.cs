@@ -232,7 +232,7 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         FreeShipping = freeShipping;
         AdditionalShippingCharge = additionalShippingCharge;
         UnitOfMeasureId = unitOfMeasureId;
-        QuantityPerUnitOfMeasure = quantityPerUnitOfMeasure;
+        QuantityPerUnitOfMeasure = Math.Round(quantityPerUnitOfMeasure, unitOfMeasureDecimalPlaces, MidpointRounding.AwayFromZero);
         DeliveryWindowId = deliveryWindowId;
         MinOrderQuantity = minOrderQuantity;
         MaxOrderQuantity = maxOrderQuantity;
@@ -260,11 +260,11 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
             true, createdBy, createdAt, createdByIp);
 
         //Facets.
-        SetFacets(false, categories, productGroup, attributes, unitOfMeasureDecimalPlaces);
+        SetFacets(false, categories, productGroup, attributes);
     }
 
     private void SetFacets(bool clear, IDictionary<int, string> categories, KeyValuePair<int, string>? productGroup
-        , IReadOnlyCollection<ValueObjects.ProductAttribute> attributes, byte unitOfMeasureDecimalPlaces)
+        , IReadOnlyCollection<ValueObjects.ProductAttribute> attributes)
     {
         if (clear) Facets.Clear();
         foreach (var category in categories)
@@ -273,9 +273,7 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         }
 
         //quantity:{uomId}:{roundedQuantity}
-        var roundedQty = Math.Round(QuantityPerUnitOfMeasure, unitOfMeasureDecimalPlaces,
-            MidpointRounding.AwayFromZero);
-        Facets.Add($"quantity:{UnitOfMeasureId}:{roundedQty.ToString(CultureInfo.InvariantCulture)}");
+        Facets.Add($"quantity:{UnitOfMeasureId}:{QuantityPerUnitOfMeasure.ToString(CultureInfo.InvariantCulture)}");
 
         if (productGroup is not null)
         {
@@ -503,7 +501,7 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         FreeShipping = freeShipping;
         AdditionalShippingCharge = additionalShippingCharge;
         UnitOfMeasureId = unitOfMeasureId;
-        QuantityPerUnitOfMeasure = quantityPerUnitOfMeasure;
+        QuantityPerUnitOfMeasure = Math.Round(quantityPerUnitOfMeasure, unitOfMeasureDecimalPlaces, MidpointRounding.AwayFromZero);
         DeliveryWindowId = deliveryWindowId;
         MinOrderQuantity = minOrderQuantity;
         MaxOrderQuantity = maxOrderQuantity;
@@ -520,7 +518,7 @@ public sealed class Product : EntityWithImages<ProductImage>, IKVPListItems<Prod
         UpdatedByIp = updatedByIp;
 
         //Facets
-        SetFacets(true, categories, productGroup, attributes, unitOfMeasureDecimalPlaces);
+        SetFacets(true, categories, productGroup, attributes);
     }
 
     private void UpdateCategories(int[] categoryIds, int updatedBy, DateTime updatedAt, IPAddress updatedByIp)

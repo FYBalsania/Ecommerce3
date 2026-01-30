@@ -36,10 +36,10 @@ async function unit_of_measure_changed(event) {
     
     if (response.ok) {
         const uom = await response.json();
-        $('#unit_of_measure_decimal_places').val(uom.decimalPlaces);
+        $('#UnitOfMeasureDecimalPlaces').val(uom.decimalPlaces);
     }
     else {
-        $('#unit_of_measure_decimal_places').val('');
+        $('#UnitOfMeasureDecimalPlaces').val('');
         alert('Error loading unit of measure.');
     }
 
@@ -48,7 +48,7 @@ async function unit_of_measure_changed(event) {
 
 function qty_per_unit_of_measure_changed(event) {
     const qty = $(event.target).val();
-    const decimalPlaces = $('#unit_of_measure_decimal_places').val();
+    const decimalPlaces = $('#UnitOfMeasureDecimalPlaces').val();
 
     $(event.target).val(roundTo(qty, decimalPlaces));
 }

@@ -570,7 +570,7 @@ public partial class SeedData : Migration
                     true, true, true, true,
                     "Active", null, 1,
                     1m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:50" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1"),
                 },
                 {
@@ -590,7 +590,7 @@ public partial class SeedData : Migration
                     false, false, true, true,
                     "Active", null, 1,
                     2m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:90" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1"),
                 },
                 {
@@ -610,7 +610,7 @@ public partial class SeedData : Migration
                     false, false, true, true,
                     "Active", null, 1,
                     3m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:200" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1"),
                 },
                 {
@@ -630,7 +630,7 @@ public partial class SeedData : Migration
                     false, false, true, true,
                     "Active", null, 1,
                     4m,
-                    new[] { "category:2" },
+                    new[] { "category:2","quantity:1:450" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1"),
                 },
                 {
@@ -650,7 +650,7 @@ public partial class SeedData : Migration
                     false, false, true, true,
                     "Active", null, 1,
                     5m,
-                    new[] { "category:2" },
+                    new[] { "category:2","quantity:1:950" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1"),
                 },
                 {
@@ -670,7 +670,7 @@ public partial class SeedData : Migration
                     false, false, true, true,
                     "Active", null, 1,
                     6m,
-                    new[] { "category:2" },
+                    new[] { "category:2","quantity:2:1.9" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1"),
                 },
                 {
@@ -680,7 +680,7 @@ public partial class SeedData : Migration
                     fiveMixedHtml,
                     true, 4m, 0, 2.75m, null, null, 10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true,
                     true, "Active", null, 1, 1m,
-                    new[] { "category:2" }, 1, DateTime.Now, IPAddress.Parse("127.0.0.1")
+                    new[] { "category:2","quantity:1:50" }, 1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     8, "5MP90G", "5 Mixed Peppercorns 90g", "5-mixed-peppercorns-90g", "5 Mixed Peppercorns 90g",
@@ -689,7 +689,7 @@ public partial class SeedData : Migration
                     fiveMixedHtml,
                     true, 4m, 0, 4.99m, null, null, 8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 2m,
-                    new[] { "category:2" }, 1, DateTime.Now, IPAddress.Parse("127.0.0.1")
+                    new[] { "category:2","quantity:1:90" }, 1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     9, "5MP200G", "5 Mixed Peppercorns 200g", "5-mixed-peppercorns-200g", "5 Mixed Peppercorns 200g",
@@ -698,7 +698,7 @@ public partial class SeedData : Migration
                     fiveMixedHtml,
                     true, 2.5m, 0, 8.49m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 3m,
-                    new[] { "category:2" }, 1, DateTime.Now, IPAddress.Parse("127.0.0.1")
+                    new[] { "category:2", "quantity:1:200" }, 1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     10, "5MP450G", "5 Mixed Peppercorns 450g", "5-mixed-peppercorns-450g", "5 Mixed Peppercorns 450g",
@@ -707,7 +707,7 @@ public partial class SeedData : Migration
                     fiveMixedHtml,
                     true, 4.5m, 0, 15.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 4m,
-                    new[] { "category:2" },
+                    new[] { "category:2","quantity:1:450" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -717,7 +717,7 @@ public partial class SeedData : Migration
                     fiveMixedHtml,
                     true, 2.5m, 0, 26.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 5m,
-                    new[] { "category:2" },
+                    new[] { "category:2","quantity:1:950" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -728,21 +728,21 @@ public partial class SeedData : Migration
                     fiveMixedHtml,
                     true, 1.5m, 0, 46.99m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 6m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:2:1.9" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     13, "ANN50G", "Annatto Seeds 50g", "annatto-seeds-50g", "Annatto Seeds 50g", "Annatto Seeds 50g",
                     "Annatto Seeds 50g", "Annatto Seeds 50g", 1, 3, null, annatoHTML, true, 2.5m, 0, 3.25m, null, null,
                     10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1, 1m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:50" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     14, "ANN90G", "Annatto Seeds 90g", "annatto-seeds-90g", "Annatto Seeds 90g", "Annatto Seeds 90g",
                     "Annatto Seeds 90g", "Annatto Seeds 90g", 1, 3, null, annatoHTML, true, 4.5m, 0, 5.99m, null, null,
                     8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null, 1, 2m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:90" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -751,7 +751,7 @@ public partial class SeedData : Migration
                     3.5m,
                     0, 9.49m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true,
                     "Active", null, 1, 3m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:200" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -759,7 +759,7 @@ public partial class SeedData : Migration
                     "Annatto Seeds 450g", "Annatto Seeds 450g", "Annatto Seeds 450g", 1, 3, null, annatoHTML, true, 4m,
                     0, 16.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true,
                     "Active", null, 1, 4m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:450" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -768,7 +768,7 @@ public partial class SeedData : Migration
                     3.5m,
                     0, 24.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true,
                     "Active", null, 1, 5m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:950" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -776,35 +776,35 @@ public partial class SeedData : Migration
                     "Annatto Seeds 1.9Kg", "Annatto Seeds 1.9Kg", "Annatto Seeds 1.9Kg", 1, 3, null, annatoHTML, true,
                     4.5m, 0, 28.99m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true,
                     true, "Active", null, 1, 6m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:2:1.9" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     19, "BAS50G", "Basil Seeds 50g", "basil-seeds-50g", "Basil Seeds 50g", "Basil Seeds 50g",
                     "Basil Seeds 50g", "Basil Seeds 50g", 1, 4, null, basilHTML, true, 5m, 0, 2.49m, null, null, 10m,
                     null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1, 1m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:50" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     20, "BAS90G", "Basil Seeds 90g", "basil-seeds-90g", "Basil Seeds 90g", "Basil Seeds 90g",
                     "Basil Seeds 90g", "Basil Seeds 90g", 1, 4, null, basilHTML, true, 4m, 0, 4.49m, null, null, 8m,
                     null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null, 1, 2m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:90" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     21, "BAS200G", "Basil Seeds 200g", "basil-seeds-200g", "Basil Seeds 200g", "Basil Seeds 200g",
                     "Basil Seeds 200g", "Basil Seeds 200g", 1, 4, null, basilHTML, true, 2m, 0, 7.99m, null, null, 6m,
                     null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true, "Active", null, 1, 3m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:200" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     22, "BAS450G", "Basil Seeds 450g", "basil-seeds-450g", "Basil Seeds 450g", "Basil Seeds 450g",
                     "Basil Seeds 450g", "Basil Seeds 450g", 1, 4, null, basilHTML, true, 1m, 0, 12.99m, null, null, 4m,
                     null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true, "Active", null, 1, 4m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:450" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -812,28 +812,28 @@ public partial class SeedData : Migration
                     "Basil Seeds 950g", "Basil Seeds 950g", 1, 4, null, basilHTML, true, 1.5m, 0, 17.99m, null, null,
                     3m,
                     null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true, "Active", null, 1, 5m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:1:950" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     24, "BAS19KG", "Basil Seeds 1.9Kg", "basil-seeds-1-9kg", "Basil Seeds 1.9Kg", "Basil Seeds 1.9Kg",
                     "Basil Seeds 1.9Kg", "Basil Seeds 1.9Kg", 1, 4, null, basilHTML, true, 2.5m, 0, 20.75m, null, null,
                     2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true, true, "Active", null, 1, 6m,
-                    new[] { "category:2" },
+                    new[] { "category:2", "quantity:2:1.9" },
                     1, DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     25, "ALM50G", "Almond Powder 50g", "almond-powder-50g", "Almond Powder 50g", "Almond Powder 50g",
                     "Almond Powder 50g", "Almond Powder 50g", 1, 5, null, almondHTML, true, 3m, 0, 2.99m, null, null,
                     10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true, true, "Active", null, 1, 1m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:50" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
                     26, "ALM90G", "Almond Powder 90g", "almond-powder-90g", "Almond Powder 90g", "Almond Powder 90g",
                     "Almond Powder 90g", "Almond Powder 90g", 1, 5, null, almondHTML, true, 4.5m, 0, 4.99m, null, null,
                     8m, null, true, true, 2.75m, 1, 90m, 3, 1m, null, false, false, true, true, "Active", null, 1, 2m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:90" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -842,7 +842,7 @@ public partial class SeedData : Migration
                     2.5m,
                     0, 8.99m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false, true, true,
                     "Active", null, 1, 3m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:200" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -851,7 +851,7 @@ public partial class SeedData : Migration
                     1.5m,
                     0, 14.99m, null, null, 4m, null, true, true, 2.75m, 1, 450m, 3, 1m, null, false, false, true, true,
                     "Active", null, 1, 4m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:450" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -859,7 +859,7 @@ public partial class SeedData : Migration
                     "Almond Powder 950g", "Almond Powder 950g", "Almond Powder 950g", 1, 5, null, almondHTML, true, 2m,
                     0, 22.99m, null, null, 3m, null, true, true, 2.75m, 1, 950m, 3, 1m, null, false, false, true, true,
                     "Active", null, 1, 5m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:950" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -867,7 +867,7 @@ public partial class SeedData : Migration
                     "Almond Powder 1.9Kg", "Almond Powder 1.9Kg", "Almond Powder 1.9Kg", 1, 5, null, almondHTML, true,
                     4m, 0, 28.75m, null, null, 2m, null, true, true, 2.75m, 2, 1.9m, 3, 1m, null, false, false, true,
                     true, "Active", null, 1, 6m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:2:1.9" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -875,7 +875,7 @@ public partial class SeedData : Migration
                     "Edible Gum Powder 50g", "Edible Gum Powder 50g", "Edible Gum Powder 50g", 1, 6, null, gumHTML,
                     true, 4m, 0, 3.45m, null, null, 10m, null, true, true, 2.75m, 1, 50m, 3, 1m, null, true, true, true,
                     true, "Active", null, 1, 1m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:50" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -883,7 +883,7 @@ public partial class SeedData : Migration
                     "Edible Gum Powder 100g", "Edible Gum Powder 100g", "Edible Gum Powder 100g", 1, 6, null, gumHTML,
                     true, 4m, 0, 6.49m, null, null, 8m, null, true, true, 2.75m, 1, 100m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 2m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:100" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -891,7 +891,7 @@ public partial class SeedData : Migration
                     "Edible Gum Powder 200g", "Edible Gum Powder 200g", "Edible Gum Powder 200g", 1, 6, null, gumHTML,
                     true, 4m, 0, 11.99m, null, null, 6m, null, true, true, 2.75m, 1, 200m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 3m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8" , "quantity:1:200"}, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -899,7 +899,7 @@ public partial class SeedData : Migration
                     "Edible Gum Powder 500g", "Edible Gum Powder 500g", "Edible Gum Powder 500g", 1, 6, null, gumHTML,
                     true, 5m, 0, 24.99m, null, null, 4m, null, true, true, 2.75m, 1, 500m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 4m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:1:500" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -907,7 +907,7 @@ public partial class SeedData : Migration
                     "Edible Gum Powder 1Kg", "Edible Gum Powder 1Kg", "Edible Gum Powder 1Kg", 1, 6, null, gumHTML,
                     true, 4.5m, 0, 39.99m, null, null, 3m, null, true, true, 2.75m, 2, 1m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 5m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8", "quantity:2:1" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 },
                 {
@@ -915,7 +915,7 @@ public partial class SeedData : Migration
                     "Edible Gum Powder 2Kg", "Edible Gum Powder 2Kg", "Edible Gum Powder 2Kg", 1, 6, null, gumHTML,
                     true, 3.5m, 0, 57.99m, null, null, 2m, null, true, true, 2.75m, 2, 2m, 3, 1m, null, false, false,
                     true, true, "Active", null, 1, 6m,
-                    new[] { "category:8" }, 1,
+                    new[] { "category:8","quantity:2:2" }, 1,
                     DateTime.Now, IPAddress.Parse("127.0.0.1")
                 }
             }
